@@ -6,11 +6,16 @@ import {
 
   login,
   registration,
-  getuser
+  getuser,
+  databaseUserVerification
 
 } from "../controllers/user.js";
 
 const router = express.Router();
+
+router.post('/verify',[
+  body('email', 'Enter a valid email').isEmail()
+],databaseUserVerification)
 
 router.post('/registration', [
     body('name', 'Enter a valid name').isLength({ min: 3 }),
@@ -18,7 +23,7 @@ router.post('/registration', [
     body('password', 'Password at least 5 character').isLength({ min: 5 })
   ],registration);
 
-router.post('/rogin', [
+router.post('/login', [
     body('email', 'Enter a valid email').isEmail(),
     body('password', 'Password can not be blank').exists()
   ],login);
