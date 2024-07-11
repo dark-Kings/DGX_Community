@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { images } from '../constant/index.js';
+import React, { useState } from "react";
+import { images } from "../constant/index.js";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { validateEmail, validatePassword } from "../utils/formValidation.js";
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    username: '',
-    collegeName: '',
-    contactNumber: '',
-    designation: '',
-    email: '',
-    category: '',
-    newPassword: '',
-    confirmPassword: '',
+    username: "",
+    collegeName: "",
+    contactNumber: "",
+    designation: "",
+    email: "",
+    category: "",
+    newPassword: "",
+    confirmPassword: "",
   });
 
   const [messages, setMessages] = useState({
@@ -24,28 +25,20 @@ const Register = () => {
   });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { id, name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
 
-    if (name === 'newPassword') {
+    if (name === "newPassword") {
       const inputValue = value;
-
-      const containsNumber = /\d/.test(inputValue);
-      const containsSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(inputValue);
-      const containsUppercase = /[A-Z]/.test(inputValue);
-      const containsLowercase = /[a-z]/.test(inputValue);
-      const containsLength = inputValue.length >= 8;
-
-      setMessages({
-        number: !containsNumber,
-        specialChar: !containsSpecialChar,
-        uppercase: !containsUppercase,
-        lowercase: !containsLowercase,
-        length: !containsLength,
-      });
+      const passwordInput = document.getElementById(id);
+      validatePassword(passwordInput, inputValue);
+    }
+    if (name === "email") {
+      const emailInput = document.getElementById(id);
+      validateEmail(emailInput, value);
     }
   };
 
@@ -55,17 +48,17 @@ const Register = () => {
     const { newPassword, confirmPassword } = formData;
 
     if (Object.values(messages).some((message) => message)) {
-      toast.error('Password does not meet the required criteria.');
+      toast.error("Password does not meet the required criteria.");
       return;
     }
 
     if (newPassword !== confirmPassword) {
-      toast.error('Passwords do not match.');
+      toast.error("Passwords do not match.");
       return;
     }
 
     // Add further form submission logic here (e.g., API call)
-    toast.success('Registration successful!');
+    toast.success("Registration successful!");
   };
 
   return (
@@ -79,7 +72,10 @@ const Register = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-4 sm:grid-cols-2">
             <div className="">
               <div>
-                <label className="text-white dark:text-gray-200" htmlFor="username">
+                <label
+                  className="text-white dark:text-gray-200"
+                  htmlFor="username"
+                >
                   Username
                 </label>
                 <input
@@ -92,7 +88,10 @@ const Register = () => {
                 />
               </div>
               <div>
-                <label className="text-white dark:text-gray-200" htmlFor="collegeName">
+                <label
+                  className="text-white dark:text-gray-200"
+                  htmlFor="collegeName"
+                >
                   College Name
                 </label>
                 <input
@@ -112,7 +111,10 @@ const Register = () => {
 
             <div>
               <div>
-                <label className="text-white dark:text-gray-200" htmlFor="contactNumber">
+                <label
+                  className="text-white dark:text-gray-200"
+                  htmlFor="contactNumber"
+                >
                   Contact Number
                 </label>
                 <input
@@ -126,7 +128,10 @@ const Register = () => {
               </div>
 
               <div>
-                <label className="text-white dark:text-gray-200" htmlFor="designation">
+                <label
+                  className="text-white dark:text-gray-200"
+                  htmlFor="designation"
+                >
                   Designation
                 </label>
                 <input
@@ -139,7 +144,10 @@ const Register = () => {
                 />
               </div>
               <div>
-                <label className="text-white dark:text-gray-200" htmlFor="newPassword">
+                <label
+                  className="text-white dark:text-gray-200"
+                  htmlFor="newPassword"
+                >
                   Create Password
                 </label>
                 <input
@@ -150,29 +158,16 @@ const Register = () => {
                   value={formData.newPassword}
                   onChange={handleChange}
                 />
-                <ul className="text-white mt-2">
-                  <li className={messages.number ? 'text-red-500' : 'text-green-500'}>
-                    Must contain a number
-                  </li>
-                  <li className={messages.specialChar ? 'text-red-500' : 'text-green-500'}>
-                    Must contain a special character
-                  </li>
-                  <li className={messages.uppercase ? 'text-red-500' : 'text-green-500'}>
-                    Must contain an uppercase letter
-                  </li>
-                  <li className={messages.lowercase ? 'text-red-500' : 'text-green-500'}>
-                    Must contain a lowercase letter
-                  </li>
-                  <li className={messages.length ? 'text-red-500' : 'text-green-500'}>
-                    Must be at least 8 characters long
-                  </li>
-                </ul>
+                <div id="passwordVerify"></div>
               </div>
             </div>
 
             <div>
               <div>
-                <label className="text-white dark:text-gray-200" htmlFor="email">
+                <label
+                  className="text-white dark:text-gray-200"
+                  htmlFor="email"
+                >
                   Email Id
                 </label>
                 <input
@@ -183,9 +178,13 @@ const Register = () => {
                   value={formData.email}
                   onChange={handleChange}
                 />
+                <div id="emailVerify"></div>
               </div>
               <div>
-                <label className="text-white dark:text-gray-200" htmlFor="category">
+                <label
+                  className="text-white dark:text-gray-200"
+                  htmlFor="category"
+                >
                   Category
                 </label>
                 <input
@@ -198,7 +197,10 @@ const Register = () => {
                 />
               </div>
               <div>
-                <label className="text-white dark:text-gray-200" htmlFor="confirmPassword">
+                <label
+                  className="text-white dark:text-gray-200"
+                  htmlFor="confirmPassword"
+                >
                   Confirm Password
                 </label>
                 <input
