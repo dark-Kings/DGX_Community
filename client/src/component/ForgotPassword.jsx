@@ -3,18 +3,37 @@ import BGImage from '../assets/Secure login-rafiki 1.png'; // Adjust the path re
 
 const ForgotPassword = () => {
   const [emailOrUsername, setEmailOrUsername] = useState('');
+  const [otp, setOtp] = useState('');
+  const [generatedOtp, setGeneratedOtp] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordsMatch, setPasswordsMatch] = useState(true);
   const [emailVerified, setEmailVerified] = useState(false);
+  const [otpVerified, setOtpVerified] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  // Generate a 6-digit OTP
+  const generateOtp = () => {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+  };
 
   const handleVerifyEmail = (event) => {
     event.preventDefault();
-    // Handle email verification logic here
-    console.log('Email verification logic goes here:', emailOrUsername);
-    // If email is verified, proceed to the next step
+    // Generate OTP and "send" to user
+    const otp = generateOtp();
+    setGeneratedOtp(otp);
+    console.log('Generated OTP:', otp);
+    alert(`OTP sent to email: ${otp}`); // Simulating email sending with an alert
     setEmailVerified(true);
+  };
+
+  const handleVerifyOtp = (event) => {
+    event.preventDefault();
+    if (otp === generatedOtp) {
+      setOtpVerified(true);
+    } else {
+      alert('Invalid OTP');
+    }
   };
 
   const handleSubmit = (event) => {
@@ -28,10 +47,12 @@ const ForgotPassword = () => {
     console.log('Password reset logic goes here:', emailOrUsername, newPassword);
     // Reset form fields
     setEmailOrUsername('');
+    setOtp('');
     setNewPassword('');
     setConfirmPassword('');
     setPasswordsMatch(true);
     setEmailVerified(false);
+    setOtpVerified(false);
   };
 
   return (
@@ -55,6 +76,22 @@ const ForgotPassword = () => {
                 </div>
                 <div>
                   <button type="submit" className="w-full text-lg bg-DGXgreen rounded-full py-3 text-center font-medium text-DGXwhite">Verify Email</button>
+                </div>
+              </form>
+            ) : !otpVerified ? (
+              <form onSubmit={handleVerifyOtp} className="w-full">
+                <div className="mb-4">
+                  <input
+                    type="text"
+                    placeholder="Enter OTP"
+                    className="border border-DGXgreen py-2 px-3 w-full rounded"
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
+                    required
+                  />
+                </div>
+                <div>
+                  <button type="submit" className="w-full text-lg bg-DGXgreen rounded-full py-3 text-center font-medium text-DGXwhite">Verify OTP</button>
                 </div>
               </form>
             ) : (
