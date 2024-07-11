@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { images } from '../constant/index.js';
 import { IoRefreshCircleSharp } from "react-icons/io5";
-import axios from 'axios';
+// import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const VerifyEmail = () => {
+  const BaseUrl = import.meta.env.VITE_API_BASEURL
+  console.log(BaseUrl)
   async function generateCaptcha(length = 6) {
     const lowercase = 'abcdefghijklmnopqrstuvwxyz';
     const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
