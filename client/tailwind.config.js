@@ -2,7 +2,19 @@
 export default {
   content: ['./index.html', './src/**/*.{js,jsx,ts,tsx}'],
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        'custom-lg': { 'max': '1400px' }, // Custom breakpoint for max width of 1400px
+        'xs': {'max': '450px'},
+      },
+    },
+
+    colors: {
+      'DGXgreen': '#76B900',
+      'DGXblue': '#013D54',
+      'DGXwhite': '#FFFFFF'
+      
+    },
   },
   plugins: [],
 }
