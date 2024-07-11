@@ -23,7 +23,6 @@ app.use(cors())
 
 
 
-
 app.use('/user', userRoutes);
 
 

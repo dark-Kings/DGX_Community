@@ -1,0 +1,37 @@
+import dotenv from 'dotenv'
+import nodemailer from 'nodemailer'
+
+
+dotenv.config()
+const pass = process.env.GMAIL_PASSWORD_KEY
+
+export async function mailSender(receiver, message) {
+
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'anshulpant14@gmail.com',
+            pass: pass
+        }
+    });
+
+    var mailOptions = {
+        from: 'anshulpant14@gmail.com',
+        to: receiver,
+        subject: 'Yours DGX Community',
+        text: message
+    };
+
+    return new Promise((resolve, reject) => {
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log(error);
+                reject({ success: false, error: error.message });
+            } else {
+                // console.log('Email sent: ' + info.response);
+                resolve({ success: true, response: info.response });
+            }
+        });
+    });
+
+}

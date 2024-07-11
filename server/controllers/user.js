@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv'
 
 import { generatePassword, getCurrentDateTime, referCodeGenerator } from '../utility/index.js';
-import { queryAsync } from '../helper/index.js';
+import { queryAsync, mailSender } from '../helper/index.js';
 
 dotenv.config()
 const JWT_SECRET = process.env.JWTSECRET;
@@ -70,10 +70,19 @@ export const databaseUserVerification = async (req, res) => {
 
                   // Close connection after query execution
                   closeConnection();
+                  const message = `Welcome to DGX Community, Your credentials to Login given bellow.
+                                   User Name: ${userEmail}
+                                   Password: ${password}`
+                  const mailsent = await mailSender(userEmail, message)
 
+                  // console.log(mailsent.success)
                   // Respond with success message
-                  success = true;
-                  return res.json({ success: true, data: { username: userEmail, password } });
+                  if (mailsent.success) {
+                    success = true;
+                    return res.json({ success: true, data: { username: userEmail } });
+                  } else {
+                    return res.json({ success: false, data: { username: userEmail } });
+                  }
                 }
               }
             } catch (error) {

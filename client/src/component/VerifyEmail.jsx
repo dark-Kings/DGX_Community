@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { images } from '../constant/index.js';
 import { IoRefreshCircleSharp } from "react-icons/io5";
-import axios from 'axios';
+// import axios from 'axios';
+import { Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const VerifyEmail = () => {
+  const BaseUrl = import.meta.env.VITE_API_BASEURL
+  console.log(BaseUrl)
   async function generateCaptcha(length = 6) {
     const lowercase = 'abcdefghijklmnopqrstuvwxyz';
     const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -29,6 +32,8 @@ const VerifyEmail = () => {
   const [captcha, setCaptcha] = useState('');
   const [userCaptcha, setUserCaptcha] = useState('');
   const [email, setEmail] = useState('');
+  // const BaseUrl = import.meta.env.VITE_API_BASEURL
+  // console.log(BaseUrl)
 
   const refreshCaptcha = async () => {
     const newCaptcha = await generateCaptcha(6);
@@ -42,7 +47,10 @@ const VerifyEmail = () => {
   const handleChangeEmail = (e) => {
     setEmail(e.target.value);
   };
-
+  function isValidEmail(email) {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+  }
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -74,31 +82,15 @@ const VerifyEmail = () => {
       return;
     }
 
-    const base_url = "http://127.0.0.1:8000/user/verifyemail";
-    const data = { email };
 
-    axios.post(base_url, data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(response => {
-        console.log('Response:', response.data.message.success);
-        if (response.data.message.success) {
-          toast.success('Check your email for credentials to login');
-        } else {
-          toast.error('Email verification failed');
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error.response);
-      });
+    const endPoint = "user/verify"
+    const headers = { 'Content-Type': 'application/json' }
+    const data = { "email": email };
+
+
   };
 
-  function isValidEmail(email) {
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailPattern.test(email);
-  }
+
 
   return (
     <div>
@@ -171,7 +163,7 @@ const VerifyEmail = () => {
                   <div className="relative mb-4 data-twe-input-wrapper-init flex justify-center">
                     <button
                       type="button"
-                      className="text-blue hover:text-blue-700 border border-DGXblue border-double bg-DGXgreen border-4 border-indigo-600 data-twe-input-wrapper-init mt-3"
+                      className="text-blue hover:text-blue-700 border border-DGXblue border-double bg-DGXgreen  border-indigo-600 data-twe-input-wrapper-init mt-3"
                       onClick={refreshCaptcha}
                     >
                       <IoRefreshCircleSharp className="text-3xl" />
@@ -190,12 +182,12 @@ const VerifyEmail = () => {
                     </button>
                     <p className="mb-0 mt-2 pt-1 text-sm font-semibold">
                       Don't have an account?
-                      <a
-                        href="#!"
+                      <Link
+                        to="/Register"
                         className="text-danger transition duration-150 ease-in-out hover:text-danger-600 focus:text-danger-600 active:text-danger-700 text-DGXgreen"
                       >
                         Register
-                      </a>
+                      </Link>
                     </p>
                   </div>
                 </form>
