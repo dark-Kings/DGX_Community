@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { images } from '../constant/index.js';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { images } from '../constant/index.js';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -226,4 +226,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Register
