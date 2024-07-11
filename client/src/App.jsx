@@ -7,6 +7,7 @@ import VerifyEmail from './component/VerifyEmail.jsx';
 import Register from './component/Register.jsx';
 import SignInn from './component/SignInn';
 import ForgotPassword from './component/ForgotPassword';
+import ChangePassword from './component/ChangePassword.jsx';
 
 
 function App() {
@@ -22,6 +23,8 @@ function App() {
             <Route exact path="/Register" element={<Register />} />
             <Route path="/SignInn" element={<SignInn />} />
             <Route path="/ForgotPassword" element={<ForgotPassword />} />
+            <Route path="/ChangePassword" element={<ChangePassword />} />
+
             
 
 
