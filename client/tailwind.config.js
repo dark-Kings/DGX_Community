@@ -12,9 +12,12 @@ export default {
     colors: {
       'DGXgreen': '#76B900',
       'DGXblue': '#013D54',
-      'DGXwhite': '#FFFFFF'
+      'DGXwhite': '#FFFFFF',
       
+     
+      'DGXblack': '#000000'
     },
   },
+  
   plugins: [],
 }

@@ -5,6 +5,8 @@ import Navbar from './component/Navbar.jsx';
 // import Login from './component/Login.jsx';
 import VerifyEmail from './component/VerifyEmail.jsx';
 import Register from './component/Register.jsx';
+import SignInn from './component/SignInn';
+import ForgotPassword from './component/ForgotPassword';
 
 
 function App() {
@@ -18,6 +20,9 @@ function App() {
             {/* <Route path="/Login" element={<Login />} /> */}
             <Route exact path="/VerifyEmail" element={<VerifyEmail />} />
             <Route exact path="/Register" element={<Register />} />
+            <Route path="/SignInn" element={<SignInn />} />
+            <Route path="/ForgotPassword" element={<ForgotPassword />} />
+            
 
 
           </Routes>
