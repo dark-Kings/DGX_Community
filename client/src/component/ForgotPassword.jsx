@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import BGImage from '../assets/Secure login-rafiki 1.png'; // Adjust the path relative to the component file
+import { images } from '../constant/index.js'; // Adjust the path relative to the component file
 
 const ForgotPassword = () => {
   const [emailOrUsername, setEmailOrUsername] = useState('');
@@ -147,7 +147,7 @@ const ForgotPassword = () => {
       {/* Right side with background image */}
       <div className="lg:w-1/2 hidden lg:flex justify-center items-center lg:pl-1">
         <img
-          src={BGImage}
+          src={images.secure}
           alt="Background"
           className="max-w-full max-h-full object-contain"
         />

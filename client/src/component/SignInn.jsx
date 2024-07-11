@@ -1,9 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import logoImage from '../assets/4.png'; // Adjust the path relative to the SignIn component file
-import BGImage from '../assets/Secure login-rafiki 1.png';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { images } from '../constant/index.js';
 
 const SignIn = () => {
   const [usernameFocus, setUsernameFocus] = useState(false);
@@ -31,7 +28,7 @@ const SignIn = () => {
       {/* Background image for large screens */}
       <div className="lg:w-3/4 hidden lg:flex justify-start items-center p-4 lg:pl-40">
         <img
-          src={BGImage}
+          src={images.secure}
           alt="Background"
           className="max-w-full max-h-full object-contain"
         />
@@ -42,7 +39,7 @@ const SignIn = () => {
           <div className="w-full max-w-100 p-4 rounded-lg shadow-md bg-DGXwhite border-2 border-DGXgreen drop-shadow-2xl">
             <div className='text-center text-6xl mb-2 text-DGXgreen font-black p-4 pb-10'>Sign In</div>
             <div className="flex justify-center items-center mb-4">
-              <img src={logoImage} alt="Logo" className="logo-image" />
+              <img src={images.robot} alt="Logo" className="logo-image" />
             </div>
             <h1 className="text-center text-2xl mb-2 pb-10">Welcome to <span className="text-DGXgreen font-black">DGX Community</span></h1>
             <form className="space-y-4">
