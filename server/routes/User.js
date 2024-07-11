@@ -34,7 +34,7 @@ router.post('/changePassword', [
   body('newPassword', 'New Password can not be blank').exists()
 ], fetchUser, changePassword)
 
-router.post('/getuser', fetchUser, getuser)
+router.get('/getuser', fetchUser, getuser)
 
 
 
