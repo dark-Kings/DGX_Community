@@ -13,7 +13,7 @@ const Register = () => {
     collegeName: "",
     contactNumber: "",
     designation: "",
-    refralCode:"",
+    refralCode: "",
     email: "",
     category: "",
     newPassword: "",
@@ -55,7 +55,9 @@ const Register = () => {
       designation,
       email,
       category,
+      refralCode
     } = formData;
+
 
     if (Object.values(messages).some((message) => message)) {
       toast.error("Password does not meet the required criteria.");
@@ -69,9 +71,20 @@ const Register = () => {
 
     // Add further form submission logic here (e.g., API call)
     const BaseUrl = import.meta.env.VITE_API_BASEURL
-    const endPoint = "user/verify";
+    const endPoint = "user/registration";
+
     // const headers = { "Content-Type": "application/json" };
-    const postdata = { email: email };
+    const postdata = {
+      "inviteCode": refralCode,
+      "name": username,
+      "email": email,
+      "collegeName": collegeName,
+      "password": newPassword,
+      "phoneNumber": contactNumber,
+      "category": category,
+      "designation": designation
+    }
+
     setLoading(true)
     const response = await fetch(`${BaseUrl}/${endPoint}`, {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -85,7 +98,7 @@ const Register = () => {
     });
     const data = await response.json()
     if (!data.success) {
-      toast.error("Error verifying email", {
+      toast.error("Error in Registration", {
         position: "bottom-left",
         autoClose: 1000,
         hideProgressBar: false,
@@ -97,7 +110,7 @@ const Register = () => {
       });
     } else if (data.success) {
       setLoading(false)
-      toast.success("Email verified successfully check your mail for credentials", {
+      toast.success("Registration done successfully go login", {
         position: "bottom-left",
         autoClose: 1000,
         hideProgressBar: false,
@@ -250,7 +263,7 @@ const Register = () => {
                       <option value="category1">Select a category</option>
                       <option value="S">Student</option>
                       <option value="F">Faculty</option>
-                   =
+                      =
                     </select>
                   </div>
                   <div className="w-1/2">

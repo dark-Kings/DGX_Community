@@ -237,7 +237,7 @@ export const login = async (req, res) => {
       }
 
       try {
-        const query = "SELECT EmailId, Password FROM Community_User WHERE isnull(delStatus,0) = 0 AND EmailId = ?";
+        const query = "SELECT EmailId, Password, FlagPasswordChange FROM Community_User WHERE isnull(delStatus,0) = 0 AND EmailId = ?";
         const result = await queryAsync(conn, query, [email]);
 
         if (result.length === 0) {
@@ -259,7 +259,7 @@ export const login = async (req, res) => {
         success = true;
 
         closeConnection();
-        return res.status(200).json({ success, authtoken });
+        return res.status(200).json({ success, authtoken, flag: result[0].FlagPasswordChange });
 
       } catch (queryErr) {
         console.error(queryErr);
@@ -313,7 +313,7 @@ export const changePassword = async (req, res) => {
             const salt = await bcrypt.genSalt(10);
             const secPass = await bcrypt.hash(newPassword, salt);
             // console.log(secPass)
-            const updateQuery = `UPDATE Community_User SET Password = ?, AuthLstEdit = ?, editOnDt = GETDATE() WHERE isnull(delStatus,0) = 0 AND EmailId = ?`
+            const updateQuery = `UPDATE Community_User SET Password = ?, FlagPasswordChange = 1, AuthLstEdit = ?, editOnDt = GETDATE() WHERE isnull(delStatus,0) = 0 AND EmailId = ?`
             const updatePassword = await queryAsync(conn, updateQuery, [secPass, rows[0].Name, userId])
 
             success = true;
