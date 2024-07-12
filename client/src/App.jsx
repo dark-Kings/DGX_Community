@@ -22,8 +22,6 @@ function App() {
             <Route exact path="/Register" element={<Register />} />
             <Route path="/SignInn" element={<SignInn />} />
             <Route path="/ForgotPassword" element={<ForgotPassword />} />
-            
-
 
           </Routes>
         </div>
