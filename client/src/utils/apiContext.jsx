@@ -1,5 +1,6 @@
-import React, { createContext, useState, useContext, useCallback } from 'react';
+import { createContext, useState, useContext, useCallback } from 'react';
 import api from './api';
+import PropTypes from 'prop-types';
 
 
 const ApiContext = createContext();
@@ -13,7 +14,7 @@ export const ApiProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
 
-  const makeApiCall = useCallback(async (endpoint, method , requestData = null, headers = {}) => {
+  const makeApiCall = useCallback(async (endpoint, method, requestData = null, headers = {}) => {
     setLoading(true);
     setError(null);
     try {
@@ -36,4 +37,8 @@ export const ApiProvider = ({ children }) => {
       {children}
     </ApiContext.Provider>
   );
+};
+
+ApiProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };

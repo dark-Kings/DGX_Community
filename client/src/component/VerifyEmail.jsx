@@ -1,50 +1,18 @@
 import { useState, useEffect } from "react";
 import { images } from "../constant/index.js";
 import { IoRefreshCircleSharp } from "react-icons/io5";
-<<<<<<< HEAD
-import axios from "axios";
+// import axios from "axios";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import generateCaptcha from "../utils/generateCaptcha.js";
+import { useApi } from "../utils/apiContext";
 
 const VerifyEmail = () => {
+  const { loading, data, error, makeApiCall } = useApi();
   const [captcha, setCaptcha] = useState("");
   const [userCaptcha, setUserCaptcha] = useState("");
   const [email, setEmail] = useState("");
-=======
-// import axios from 'axios';
-import { Link } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
-const VerifyEmail = () => {
-  const BaseUrl = import.meta.env.VITE_API_BASEURL
-  console.log(BaseUrl)
-  async function generateCaptcha(length = 6) {
-    const lowercase = 'abcdefghijklmnopqrstuvwxyz';
-    const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const numbers = '0123456789';
-    const allCharacters = lowercase + uppercase + numbers;
-
-    let captcha = '';
-
-    captcha += lowercase[Math.floor(Math.random() * lowercase.length)];
-    captcha += uppercase[Math.floor(Math.random() * uppercase.length)];
-    captcha += numbers[Math.floor(Math.random() * numbers.length)];
-
-    for (let i = 0; i < length - 3; i++) {
-      captcha += allCharacters[Math.floor(Math.random() * allCharacters.length)];
-    }
-
-    captcha = captcha.split('').sort(() => Math.random() - 0.5).join('');
-    return captcha;
-  }
-
-  const [captcha, setCaptcha] = useState('');
-  const [userCaptcha, setUserCaptcha] = useState('');
-  const [email, setEmail] = useState('');
->>>>>>> da4b7a9b34c3ff095721dbba8c3e5e97b89811d3
   // const BaseUrl = import.meta.env.VITE_API_BASEURL
   // console.log(BaseUrl)
 
@@ -64,10 +32,11 @@ const VerifyEmail = () => {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailPattern.test(email);
   }
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (userCaptcha !== captcha) {
+      refreshCaptcha()
       toast.error("Invalid captcha", {
         position: "bottom-left",
         autoClose: 5000,
@@ -97,7 +66,12 @@ const VerifyEmail = () => {
 
     const endPoint = "user/verify";
     const headers = { "Content-Type": "application/json" };
-    const data = { email: email };
+    const postdata = { email: email };
+    const a = await makeApiCall(endPoint, postdata, headers)
+    // const b = data
+    if (a) {
+      console.log(a.data)
+    }
   };
 
   return (
