@@ -83,6 +83,7 @@ const VerifyEmail = () => {
     });
     const data = await response.json()
     if (!data.success) {
+      setLoading(false)
       toast.error("Error verifying email", {
         position: "bottom-left",
         autoClose: 1000,
