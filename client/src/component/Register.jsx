@@ -110,6 +110,7 @@ const Register = () => {
     });
     const data = await response.json()
     if (!data.success) {
+      setLoading(false)
       toast.error("Error in Registration", {
         position: "bottom-left",
         autoClose: 1000,
