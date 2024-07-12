@@ -7,7 +7,11 @@ import VerifyEmail from './component/VerifyEmail.jsx';
 import Register from './component/Register.jsx';
 import SignInn from './component/SignInn';
 import ForgotPassword from './component/ForgotPassword';
+<<<<<<< HEAD
 import Login from './component/Login.jsx';
+=======
+import ChangePassword from './component/ChangePassword.jsx';
+>>>>>>> da4b7a9b34c3ff095721dbba8c3e5e97b89811d3
 
 
 function App() {
@@ -24,6 +28,14 @@ function App() {
             <Route path="/SignInn" element={<SignInn />} />
             <Route path="/login" element={<Login />} />
             <Route path="/ForgotPassword" element={<ForgotPassword />} />
+<<<<<<< HEAD
+=======
+            <Route path="/ChangePassword" element={<ChangePassword />} />
+
+            
+
+
+>>>>>>> da4b7a9b34c3ff095721dbba8c3e5e97b89811d3
           </Routes>
         </div>
         <footer className="footer bg-DGXgreen text-DGXwhite text-center">

@@ -22,14 +22,16 @@ export async function mailSender(receiver, message) {
         text: message
     };
 
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent: ' + info.response);
-            const response = { mailSent: true }
-            return response
-        }
+    return new Promise((resolve, reject) => {
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log(error);
+                reject({ success: false, error: error.message });
+            } else {
+                // console.log('Email sent: ' + info.response);
+                resolve({ success: true, response: info.response });
+            }
+        });
     });
 
 }

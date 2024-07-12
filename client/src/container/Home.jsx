@@ -7,7 +7,8 @@ import { IoRefreshCircleSharp } from "react-icons/io5";
 const Home = () => {
     return (
         <div>
-                   </div>
+            
+        </div>
     )
 }
 
