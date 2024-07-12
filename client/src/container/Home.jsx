@@ -1,15 +1,12 @@
-// import React from 'react'
-
-import React from 'react'
+import { Link } from 'react-router-dom';
 import { images } from '../constant/index.js';
-import { IoRefreshCircleSharp } from "react-icons/io5";
 
 const Home = () => {
     return (
         <div>
-            
+            <h1> Hello </h1>
         </div>
     )
 }
 
-export default Home
+export default Home;

@@ -1,11 +1,15 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { images } from '../constant/index.js';
 
 const SignIn = () => {
   const [usernameFocus, setUsernameFocus] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [userID, setUserID] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleFocus = (event) => {
     const { id } = event.target;
@@ -17,6 +21,25 @@ const SignIn = () => {
     const { id, value } = event.target;
     if (id === 'username' && !value) setUsernameFocus(false);
     if (id === 'password' && !value) setPasswordFocus(false);
+  };
+
+  const handleInputChange = (event) => {
+    const { id, value } = event.target;
+    if (id === 'username') setUserID(value);
+    if (id === 'password') setPassword(value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // Simulate authentication
+    if (userID === 'akkitacker@gmail.com' && password === 'aa') {
+      console.log('User ID:', userID);
+      console.log('Password:', password);
+      setError('');
+      navigate('/dashboard'); // Navigate to the dashboard or any protected route after successful sign-in
+    } else {
+      setError('Invalid email or password');
+    }
   };
 
   const togglePasswordVisibility = () => {
@@ -34,15 +57,16 @@ const SignIn = () => {
         />
       </div>
       {/* Sign in form container */}
-      <div className="w-full lg:w-1/4 h-screen flex justify-center items-center bg-DGXblue">
-        <div className="w-full max-w-sm lg:max-w-lg  lg:static pb-16 top-16 lg:top-auto left-1/2 transform -translate-x-1/2">
+      <div className="w-full lg:w-1/2 h-screen flex lg:rounded-l-full justify-center items-center bg-DGXblue">
+        <div className="w-full max-w-sm lg:max-w-lg lg:flex pb-16 top-16 lg:top-auto left-1/2 transform -translate-x">
           <div className="w-full max-w-100 p-4 rounded-lg shadow-md bg-DGXwhite border-2 border-DGXgreen drop-shadow-2xl">
             <div className='text-center text-6xl mb-2 text-DGXgreen font-black p-4 pb-10'>Sign In</div>
             <div className="flex justify-center items-center mb-4">
               <img src={images.robot} alt="Logo" className="logo-image" />
             </div>
             <h1 className="text-center text-2xl mb-2 pb-10">Welcome to <span className="text-DGXgreen font-black">DGX Community</span></h1>
-            <form className="space-y-4">
+            {error && <div className="text-red-500 text-center mb-4">{error}</div>}
+            <form className="space-y-4" onSubmit={handleSubmit}>
               <div className="relative">
                 <label
                   htmlFor="username"
@@ -56,6 +80,8 @@ const SignIn = () => {
                   className="w-full px-4 py-2 border border-DGXgreen rounded-md focus:outline-none focus:border-DGXgreen"
                   onFocus={handleFocus}
                   onBlur={handleBlur}
+                  onChange={handleInputChange}
+                  value={userID}
                 />
               </div>
               <div className="relative">
@@ -68,16 +94,18 @@ const SignIn = () => {
                 <input
                   id="password"
                   type={passwordVisible ? "text" : "password"}
-                  className="w-full px-4 py-2 border border-DGXgreen rounded-md focus:outline-none focus:border-DGXgreen" // Adjusted padding to avoid overlap
+                  className="w-full px-4 py-2 border border-DGXgreen rounded-md focus:outline-none focus:border-DGXgreen"
                   onFocus={handleFocus}
                   onBlur={handleBlur}
+                  onChange={handleInputChange}
+                  value={password}
                 />
                 <button
                   type="button"
                   onClick={togglePasswordVisibility}
                   className="absolute inset-y-0 right-0 flex items-center px-4 text-DGXgreen focus:outline-none"
                 >
-                  {/* <FontAwesomeIcon icon={passwordVisible ? faEyeSlash : faEye} /> */}
+                  {/* Add your eye icon here */}
                 </button>
               </div>
               <div className="text-right mb-4">
