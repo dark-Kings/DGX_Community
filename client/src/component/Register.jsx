@@ -8,12 +8,9 @@ import { FaEye } from "react-icons/fa";
 import { FaEyeLowVision } from "react-icons/fa6";
 
 const Register = () => {
-<<<<<<< HEAD
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
-=======
-  
->>>>>>> 876d91ab9279cee0cedd4d9a665afbd0d0d4af1c
+
   const [formData, setFormData] = useState({
     username: "",
     collegeName: "",
@@ -38,7 +35,7 @@ const Register = () => {
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
-  const toggleConfirmPasswordVisibility = () => { 
+  const toggleConfirmPasswordVisibility = () => {
     setConfirmPasswordVisible(!confirmPasswordVisible);
 
   }
@@ -241,7 +238,7 @@ const Register = () => {
                   onChange={handleChange}
                   type={passwordVisible ? "text" : "password"}
                 />
-                
+
                 <button
                   type="button"
                   onClick={togglePasswordVisibility}
@@ -250,8 +247,8 @@ const Register = () => {
                     : <FaEyeLowVision />}
 
                 </button>
-                
-                
+
+
               </div>
               <div id="passwordVerify"></div>
             </div>
@@ -324,7 +321,7 @@ const Register = () => {
                   value={formData.confirmPassword}
                   onChange={handleChange}
                 />
-                 <button
+                <button
                   type="button"
                   onClick={toggleConfirmPasswordVisibility}
                   className="absolute inset-y-0 right-0 flex items-center px-4 text-DGXgreen focus:outline-none mt-8">
