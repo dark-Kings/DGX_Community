@@ -35,7 +35,7 @@ const SignIn = () => {
       </div>
       {/* Sign in form container */}
       <div className="w-full lg:w-1/4 h-screen flex justify-center items-center bg-DGXblue">
-        <div className="w-full max-w-sm lg:max-w-lg absolute lg:static pb-16 top-16 lg:top-auto left-1/2 transform -translate-x-1/2">
+        <div className="w-full max-w-sm lg:max-w-lg  lg:static pb-16 top-16 lg:top-auto left-1/2 transform -translate-x-1/2">
           <div className="w-full max-w-100 p-4 rounded-lg shadow-md bg-DGXwhite border-2 border-DGXgreen drop-shadow-2xl">
             <div className='text-center text-6xl mb-2 text-DGXgreen font-black p-4 pb-10'>Sign In</div>
             <div className="flex justify-center items-center mb-4">
