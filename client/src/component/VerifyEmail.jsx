@@ -1,35 +1,16 @@
-import { useState, useEffect } from 'react';
-import { images } from '../constant/index.js';
+import { useState, useEffect } from "react";
+import { images } from "../constant/index.js";
 import { IoRefreshCircleSharp } from "react-icons/io5";
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import axios from "axios";
+import { Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import generateCaptcha from "../utils/generateCaptcha.js";
 
 const VerifyEmail = () => {
-  async function generateCaptcha(length = 6) {
-    const lowercase = 'abcdefghijklmnopqrstuvwxyz';
-    const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const numbers = '0123456789';
-    const allCharacters = lowercase + uppercase + numbers;
-
-    let captcha = '';
-
-    captcha += lowercase[Math.floor(Math.random() * lowercase.length)];
-    captcha += uppercase[Math.floor(Math.random() * uppercase.length)];
-    captcha += numbers[Math.floor(Math.random() * numbers.length)];
-
-    for (let i = 0; i < length - 3; i++) {
-      captcha += allCharacters[Math.floor(Math.random() * allCharacters.length)];
-    }
-
-    captcha = captcha.split('').sort(() => Math.random() - 0.5).join('');
-    return captcha;
-  }
-
-  const [captcha, setCaptcha] = useState('');
-  const [userCaptcha, setUserCaptcha] = useState('');
-  const [email, setEmail] = useState('');
+  const [captcha, setCaptcha] = useState("");
+  const [userCaptcha, setUserCaptcha] = useState("");
+  const [email, setEmail] = useState("");
   // const BaseUrl = import.meta.env.VITE_API_BASEURL
   // console.log(BaseUrl)
 
@@ -53,7 +34,7 @@ const VerifyEmail = () => {
     e.preventDefault();
 
     if (userCaptcha !== captcha) {
-      toast.error('Invalid captcha', {
+      toast.error("Invalid captcha", {
         position: "bottom-left",
         autoClose: 5000,
         hideProgressBar: false,
@@ -67,7 +48,7 @@ const VerifyEmail = () => {
     }
 
     if (!isValidEmail(email)) {
-      toast.error('Invalid Email', {
+      toast.error("Invalid Email", {
         position: "bottom-left",
         autoClose: 5000,
         hideProgressBar: false,
@@ -80,15 +61,10 @@ const VerifyEmail = () => {
       return;
     }
 
-
-    const endPoint = "user/verify"
-    const headers = { 'Content-Type': 'application/json' }
-    const data = { "email": email };
-
-
+    const endPoint = "user/verify";
+    const headers = { "Content-Type": "application/json" };
+    const data = { email: email };
   };
-
-
 
   return (
     <div>
@@ -107,7 +83,9 @@ const VerifyEmail = () => {
               <div className="mb-12 md:mb-0 w-full md:w-8/12 lg:w-5/12 xl:w-5/12 border border-DGXgreen rounded-lg bg-DGXwhite">
                 <form className="mb-12 w:50 pr-5 pl-5" onSubmit={handleSubmit}>
                   <div className="flex flex-row items-center justify-center xl:justify-start mt-5 align-item-center">
-                    <p className="mb-5 me-4 text-xl md:font-bold">Verify Email</p>
+                    <p className="mb-5 me-4 text-xl md:font-bold">
+                      Verify Email
+                    </p>
                   </div>
 
                   <div className="relative mb-6 data-twe-input-wrapper-init">
@@ -149,13 +127,12 @@ const VerifyEmail = () => {
                   </div>
 
                   <div className="relative mb-2 data-twe-input-wrapper-init items-center justify-center">
-                    <input
-                      type="text"
-                      className="peer block min-h-[auto] w-full rounded border  border-DGXgreen bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[twe-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-white dark:placeholder:text-neutral-300 dark:autofill:shadow-autofill dark:peer-focus:text-primary [&:not([data-twe-input-placeholder-active])]:placeholder:opacity-0"
+                    <div
+                      className="peer block min-h-[auto] w-full rounded border  border-DGXgreen bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[twe-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-white dark:placeholder:text-neutral-300 dark:autofill:shadow-autofill dark:peer-focus:text-primary [&:not([data-twe-input-placeholder-active])]:placeholder:opacity-0 select-none font-extrabold tracking-widest"
                       id="captchaDisplay"
-                      value={captcha}
-                      readOnly
-                    />
+                    >
+                      {captcha}
+                    </div>
                   </div>
 
                   <div className="relative mb-4 data-twe-input-wrapper-init flex justify-center">

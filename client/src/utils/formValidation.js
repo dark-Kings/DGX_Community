@@ -48,17 +48,6 @@ export const validateEmail = (emailInput, emailValue) => {
         emailVerify.textContent = "Good to Go!";
     }
 }
-// export const validatePassword = (passwordInput, passwordValue) => {
-//     const passwordVerify = document.getElementById('passwordVerify');
-//     if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+={}\[\]:;<>,.?/~]).{6,}$/
-//     .test(passwordValue)) {
-//         passwordInput.classList.add('is-invalid');
-//         passwordVerify.textContent = 'Password must be at least 6 characters long and contain at least one digit, one special character, one lowercase letter, and one uppercase letter';
-//     } else {
-//         passwordInput.classList.remove('is-invalid');
-//         passwordVerify.textContent = null;
-//     }
-// }
 
 export const validatePassword = (passwordInput, passwordValue) => {
     const passwordVerify = document.getElementById('passwordVerify');

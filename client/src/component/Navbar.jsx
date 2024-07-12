@@ -21,7 +21,7 @@ const Navbar = () => {
     const navLinks = [
         {
             label: 'Home',
-            href: '#'
+            href: '/'
         },
         {
             label: 'Discussions',

@@ -7,6 +7,7 @@ import VerifyEmail from './component/VerifyEmail.jsx';
 import Register from './component/Register.jsx';
 import SignInn from './component/SignInn';
 import ForgotPassword from './component/ForgotPassword';
+import Login from './component/Login.jsx';
 
 
 function App() {
@@ -21,10 +22,8 @@ function App() {
             <Route exact path="/VerifyEmail" element={<VerifyEmail />} />
             <Route exact path="/Register" element={<Register />} />
             <Route path="/SignInn" element={<SignInn />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/ForgotPassword" element={<ForgotPassword />} />
-            
-
-
           </Routes>
         </div>
         <footer className="footer bg-DGXgreen text-DGXwhite text-center">
