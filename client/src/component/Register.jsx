@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { images } from "../constant/index.js";
 import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { validateEmail, validatePassword } from "../utils/formValidation.js";
 import { FaEye } from "react-icons/fa";
 import { FaEyeLowVision } from "react-icons/fa6";
 
 const Register = () => {
-  
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     username: "",
     collegeName: "",
@@ -32,7 +35,7 @@ const Register = () => {
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
-  const toggleConfirmPasswordVisibility = () => { 
+  const toggleConfirmPasswordVisibility = () => {
     setConfirmPasswordVisible(!confirmPasswordVisible);
 
   }
@@ -55,10 +58,18 @@ const Register = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { newPassword, confirmPassword } = formData;
+    const { newPassword, confirmPassword, username,
+      collegeName,
+      contactNumber,
+      designation,
+      email,
+      category,
+      refralCode
+    } = formData;
+
 
     if (Object.values(messages).some((message) => message)) {
       toast.error("Password does not meet the required criteria.");
@@ -71,11 +82,64 @@ const Register = () => {
     }
 
     // Add further form submission logic here (e.g., API call)
-    toast.success("Registration successful!");
+    const BaseUrl = import.meta.env.VITE_API_BASEURL
+    const endPoint = "user/registration";
+
+    // const headers = { "Content-Type": "application/json" };
+    const postdata = {
+      "inviteCode": refralCode,
+      "name": username,
+      "email": email,
+      "collegeName": collegeName,
+      "password": newPassword,
+      "phoneNumber": contactNumber,
+      "category": category,
+      "designation": designation
+    }
+
+    setLoading(true)
+    const response = await fetch(`${BaseUrl}/${endPoint}`, {
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+
+      headers: {
+        'Content-Type': 'application/json'
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+
+      body: JSON.stringify(postdata) // body data type must match "Content-Type" header
+    });
+    const data = await response.json()
+    if (!data.success) {
+      toast.error("Error in Registration", {
+        position: "bottom-left",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } else if (data.success) {
+      setLoading(false)
+      toast.success("Registration done successfully go login", {
+        position: "bottom-left",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      setTimeout(() => {
+        navigate('/SignInn');
+      }, 1500);
+    }
   };
 
   return (
-    <div className="my-8">
+    loading ? <h1>loading ....</h1> : <div className="my-8">
       <ToastContainer />
       <section className="max-w-4xl p-6 mx-auto bg-indigo-600 rounded-md shadow-2xl border border-DGXgreen dark:bg-gray-800">
         <h1 className="text-xl font-bold text-white capitalize text-center dark:text-white">
@@ -174,7 +238,7 @@ const Register = () => {
                   onChange={handleChange}
                   type={passwordVisible ? "text" : "password"}
                 />
-                
+
                 <button
                   type="button"
                   onClick={togglePasswordVisibility}
@@ -183,8 +247,8 @@ const Register = () => {
                     : <FaEyeLowVision />}
 
                 </button>
-                
-                
+
+
               </div>
               <div id="passwordVerify"></div>
             </div>
@@ -257,7 +321,7 @@ const Register = () => {
                   value={formData.confirmPassword}
                   onChange={handleChange}
                 />
-                 <button
+                <button
                   type="button"
                   onClick={toggleConfirmPasswordVisibility}
                   className="absolute inset-y-0 right-0 flex items-center px-4 text-DGXgreen focus:outline-none mt-8">

@@ -1,9 +1,9 @@
 // passwordGenerator.js
-export async function  generatePassword(length = 12) {
+export async function generatePassword(length = 12) {
     const lowercase = 'abcdefghijklmnopqrstuvwxyz';
     const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const numbers = '0123456789';
-    const symbols = '!@#$%^&*()_+~`|}{[]:;?><,./-=';
+    const symbols = '!@#$%&';
 
     const allCharacters = lowercase + uppercase + numbers + symbols;
 
