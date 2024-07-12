@@ -10,6 +10,7 @@ const Register = () => {
     collegeName: "",
     contactNumber: "",
     designation: "",
+    refralCode:"",
     email: "",
     category: "",
     newPassword: "",
@@ -87,6 +88,7 @@ const Register = () => {
                   onChange={handleChange}
                 />
               </div>
+
               <div>
                 <label
                   className="text-white dark:text-gray-200"
@@ -103,6 +105,7 @@ const Register = () => {
                   onChange={handleChange}
                 />
               </div>
+
             </div>
 
             <div className="flex justify-center items-center order-first md:order-none">
@@ -143,7 +146,7 @@ const Register = () => {
                   onChange={handleChange}
                 />
               </div>
-              <div>
+              <div className="mt-4">
                 <label
                   className="text-white dark:text-gray-200"
                   htmlFor="newPassword"
@@ -180,22 +183,41 @@ const Register = () => {
                 />
                 <div id="emailVerify"></div>
               </div>
-              <div>
-                <label
-                  className="text-white dark:text-gray-200"
-                  htmlFor="category"
-                >
-                  Category
-                </label>
-                <input
-                  id="category"
-                  name="category"
-                  type="text"
-                  className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
-                  value={formData.category}
-                  onChange={handleChange}
-                />
+              <div className="flex flex-col">
+                <div className="flex flex-row mb-4 space-x-2">
+                  <div className="w-1/2">
+                    <label className="text-white dark:text-gray-200" htmlFor="category">
+                      Category
+                    </label>
+                    <select
+                      id="category"
+                      name="category"
+                      className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                      value={formData.category}
+                      onChange={handleChange}
+                    >
+                      <option value="category1">Select a category</option>
+                      <option value="S">Student</option>
+                      <option value="F">Faculty</option>
+                   =
+                    </select>
+                  </div>
+                  <div className="w-1/2">
+                    <label className="text-white dark:text-gray-200" htmlFor="refralCode">
+                      Refral Code
+                    </label>
+                    <input
+                      id="refralCode"
+                      name="refralCode"
+                      type="text"
+                      className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                      value={formData.refralCode}
+                      onChange={handleChange}
+                    />
+                  </div>
+                </div>
               </div>
+
               <div>
                 <label
                   className="text-white dark:text-gray-200"
@@ -214,6 +236,7 @@ const Register = () => {
               </div>
             </div>
           </div>
+
           <div className="flex justify-end mt-6">
             <button
               type="submit"
