@@ -2,14 +2,17 @@ import { useState, useEffect } from "react";
 import { images } from "../constant/index.js";
 import { IoRefreshCircleSharp } from "react-icons/io5";
 // import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import generateCaptcha from "../utils/generateCaptcha.js";
-import { useApi } from "../utils/apiContext";
+// import { useApi } from "../utils/apiContext";
 
 const VerifyEmail = () => {
-  const { loading, data, error, makeApiCall } = useApi();
+  // const { loading, data, error, makeApiCall } = useApi();
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate();
+
   const [captcha, setCaptcha] = useState("");
   const [userCaptcha, setUserCaptcha] = useState("");
   const [email, setEmail] = useState("");
@@ -63,21 +66,62 @@ const VerifyEmail = () => {
       });
       return;
     }
-
+    const BaseUrl = import.meta.env.VITE_API_BASEURL
     const endPoint = "user/verify";
-    const headers = { "Content-Type": "application/json" };
+    // const headers = { "Content-Type": "application/json" };
     const postdata = { email: email };
-    const a = await makeApiCall(endPoint, postdata, headers)
-    // const b = data
-    if (a) {
-      console.log(a.data)
+    setLoading(true)
+    const response = await fetch(`${BaseUrl}/${endPoint}`, {
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+
+      headers: {
+        'Content-Type': 'application/json'
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+
+      body: JSON.stringify(postdata) // body data type must match "Content-Type" header
+    });
+    const data = await response.json()
+    if (!data.success) {
+      toast.error("Error verifying email", {
+        position: "bottom-left",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } else if (data.success) {
+      setLoading(false)
+      toast.success("Email verified successfully check your mail for credentials", {
+        position: "bottom-left",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      setTimeout(() => {
+        navigate('/SignInn');
+      }, 1500);
     }
+
+    // console.log(data)
+    // await makeApiCall(endPoint, "POST", postdata, headers);
+
+
+
   };
 
   return (
-    <div>
+    loading ? <h1>Loading...</h1> : <div>
       <ToastContainer />
       <section className="h-screen">
+
         <div className="h-full">
           <div className="flex h-full flex-wrap md:w-250 items-center justify-center lg:justify-between">
             <div className="shrink-1 hidden lg:block ml:10 mb-12 grow-0 basis-auto md:mb-0 md:w-5/12 sm:w-6/12 md:shrink-0 lg:w-4/12 xl:w-4/12">

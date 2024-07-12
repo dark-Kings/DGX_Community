@@ -4,10 +4,10 @@ import { useApi } from "../utils/apiContext";
 
 const Login = () => {
   const { loading, data, error, makeApiCall } = useApi();
-  // const postData = {
-  //   "email": "anshulpant14@gmail.com",
-  //   "password": "Akshay@1234",
-  // }
+  const postData = {
+    "email": "anshulpant14@gmail.com",
+    "password": "Anshul1234",
+  }
   // const postData = {
   //     "email":"10maitrirautela@gmail.com"
   // }
@@ -21,18 +21,19 @@ const Login = () => {
   //    "category":"F",
   //    "designation":"Teacher"
   //   }
-  const postData = {
-    "currentPassword":"Akshay@1234",
-    "newPassword":"Anshul1234"
-    }
+  // const postData = {
+  //   "currentPassword":"Akshay@1234",
+  //   "newPassword":"Anshul1234"
+  //   }
   useEffect(() => {
     makeApiCall(
-      "user/changePassword",
+      "user/login",
       "POST",
       postData,
-      { "Content-Type": "application/json",
-        "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiYW5zaHVscGFudDE0QGdtYWlsLmNvbSJ9LCJpYXQiOjE3MjA3MjAzODh9.VUVs1W-X1TEM6GQ2PzQ4Usjlc_CQgHHHvg5ciIN351g"
-       }
+      {
+        "Content-Type": "application/json",
+        // "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiYW5zaHVscGFudDE0QGdtYWlsLmNvbSJ9LCJpYXQiOjE3MjA3MjAzODh9.VUVs1W-X1TEM6GQ2PzQ4Usjlc_CQgHHHvg5ciIN351g"
+      }
     );
     // makeApiCall(
     //   "user/getuser",
