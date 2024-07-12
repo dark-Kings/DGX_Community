@@ -13,10 +13,11 @@ export default {
       'DGXgreen': '#76B900',
       'DGXblue': '#013D54',
       'DGXwhite': '#FFFFFF',
-      
-     
       'DGXblack': '#000000'
     },
+    backgroundImage: theme => ({
+      'dgx-gradient': `linear-gradient(135deg, ${theme('colors.DGXblue')}, ${theme('colors.DGXgreen')})`,
+    }),
   },
   
   plugins: [],
