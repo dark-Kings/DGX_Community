@@ -25,7 +25,7 @@ const Navbar = () => {
         },
         {
             label: 'Discussions',
-            href: '#'
+            href: '/Discussion'
         },
         {
             label: 'Event and Workshop',
