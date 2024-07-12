@@ -4,10 +4,16 @@ import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { validateEmail, validatePassword } from "../utils/formValidation.js";
+import { FaEye } from "react-icons/fa";
+import { FaEyeLowVision } from "react-icons/fa6";
 
 const Register = () => {
+<<<<<<< HEAD
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
+=======
+  
+>>>>>>> 876d91ab9279cee0cedd4d9a665afbd0d0d4af1c
   const [formData, setFormData] = useState({
     username: "",
     collegeName: "",
@@ -27,6 +33,15 @@ const Register = () => {
     lowercase: false,
     length: false,
   });
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
+  const toggleConfirmPasswordVisibility = () => { 
+    setConfirmPasswordVisible(!confirmPasswordVisible);
+
+  }
 
   const handleChange = (e) => {
     const { id, name, value } = e.target;
@@ -210,7 +225,7 @@ const Register = () => {
                   onChange={handleChange}
                 />
               </div>
-              <div className="mt-4">
+              <div className="mt-4 relative">
                 <label
                   className="text-white dark:text-gray-200"
                   htmlFor="newPassword"
@@ -220,13 +235,25 @@ const Register = () => {
                 <input
                   id="newPassword"
                   name="newPassword"
-                  type="password"
+
                   className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
                   value={formData.newPassword}
                   onChange={handleChange}
+                  type={passwordVisible ? "text" : "password"}
                 />
-                <div id="passwordVerify"></div>
+                
+                <button
+                  type="button"
+                  onClick={togglePasswordVisibility}
+                  className="absolute inset-y-0 right-0 flex items-center px-4 text-DGXgreen focus:outline-none mt-8">
+                  {passwordVisible ? <FaEye />
+                    : <FaEyeLowVision />}
+
+                </button>
+                
+                
               </div>
+              <div id="passwordVerify"></div>
             </div>
 
             <div>
@@ -282,7 +309,7 @@ const Register = () => {
                 </div>
               </div>
 
-              <div>
+              <div className="relative">
                 <label
                   className="text-white dark:text-gray-200"
                   htmlFor="confirmPassword"
@@ -292,11 +319,19 @@ const Register = () => {
                 <input
                   id="confirmPassword"
                   name="confirmPassword"
-                  type="password"
+                  type={confirmPasswordVisible ? "text" : "password"}
                   className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
                   value={formData.confirmPassword}
                   onChange={handleChange}
                 />
+                 <button
+                  type="button"
+                  onClick={toggleConfirmPasswordVisibility}
+                  className="absolute inset-y-0 right-0 flex items-center px-4 text-DGXgreen focus:outline-none mt-8">
+                  {confirmPasswordVisible ? <FaEye />
+                    : <FaEyeLowVision />}
+
+                </button>
               </div>
             </div>
           </div>
