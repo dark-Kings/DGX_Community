@@ -10,6 +10,8 @@ import ForgotPassword from './component/ForgotPassword';
 import Login from './component/Login.jsx';
 import ChangePassword from './component/ChangePassword.jsx';
 import Discussion from './container/Discussion.jsx';
+import LoadPage from './component/LoadPage.jsx';
+
 
 
 function App() {
@@ -20,6 +22,7 @@ function App() {
         <div className="flex-grow">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/LoadPage" element={<LoadPage/>} />
             {/* <Route path="/Login" element={<Login />} /> */}
             <Route exact path="/VerifyEmail" element={<VerifyEmail />} />
             <Route exact path="/Register" element={<Register />} />
