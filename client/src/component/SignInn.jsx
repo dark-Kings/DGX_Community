@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { images } from '../constant/index.js';
 import { FaEye } from "react-icons/fa";
@@ -6,10 +6,13 @@ import { FaEyeLowVision } from "react-icons/fa6";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from 'js-cookie';
+import ApiContext from '../context/ApiContext.jsx';
+
 
 
 
 const SignIn = () => {
+  const { fetchData } = useContext(ApiContext);
   const [loading, setLoading] = useState(false)
   const [usernameFocus, setUsernameFocus] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
@@ -37,34 +40,71 @@ const SignIn = () => {
   };
 
   const handleSubmit = async (event) => {
+
     event.preventDefault();
     // Simulate authentication
-    const BaseUrl = import.meta.env.VITE_API_BASEURL
-    const endPoint = "user/login";
 
-    // const headers = { "Content-Type": "application/json" };
-    const postdata = {
+    const endpoint = "user/login";
+    const method = "POST"
+    const body = {
       "email": userID,
       "password": password
     }
 
     setLoading(true)
-    const response = await fetch(`${BaseUrl}/${endPoint}`, {
-      method: 'POST', // *GET, POST, PUT, DELETE, etc.
 
-      headers: {
-        'Content-Type': 'application/json'
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-      },
-
-      body: JSON.stringify(postdata) // body data type must match "Content-Type" header
-    });
-    const data = await response.json()
-    if (!data.success) {
+    try {
+      const data = await fetchData(endpoint, method, body);
+      if (!data.success) {
+        setLoading(false)
+        toast.error(`Error in Login: ${data.message}`, {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      } else if (data.success) {
+        Cookies.set('userToken', JSON.stringify(data.data.authtoken), { expires: 7 });
+        setLoading(false)
+        if (!data.data.flag) {
+          toast.success("Welcome for first time Please change your password", {
+            position: "top-center",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+          setTimeout(() => {
+            navigate('/ChangePassword');
+          }, 1500);
+        } else {
+          toast.success("Welcome to DGX Community", {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+          setTimeout(() => {
+            navigate('/');
+          }, 3500);
+        }
+      }
+    } catch (error) {
       setLoading(false)
-      toast.error("Error in Registration", {
-        position: "bottom-left",
-        autoClose: 1000,
+      toast.error(`Something went wrong try again`, {
+        position: "top-center",
+        autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -72,40 +112,7 @@ const SignIn = () => {
         progress: undefined,
         theme: "light",
       });
-    } else if (data.success) {
-      Cookies.set('userToken', JSON.stringify(data.authtoken), { expires: 7 });
-      setLoading(false)
-      if (!data.flag) {
-        toast.success("Welcome for first time Please change your password", {
-          position: "bottom-left",
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-        setTimeout(() => {
-          navigate('/ChangePassword');
-        }, 1500);
-      } else {
-        toast.success("Welcome to DGX Community", {
-          position: "bottom-left",
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-        setTimeout(() => {
-          navigate('/');
-        }, 2000);
-      }
     }
-
   };
 
   const togglePasswordVisibility = () => {

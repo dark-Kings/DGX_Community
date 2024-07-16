@@ -2,12 +2,10 @@
 import { Routes, Route } from 'react-router-dom';
 import Home from './container/Home.jsx';
 import Navbar from './component/Navbar.jsx';
-// import Login from './component/Login.jsx';
 import VerifyEmail from './component/VerifyEmail.jsx';
 import Register from './component/Register.jsx';
 import SignInn from './component/SignInn';
 import ForgotPassword from './component/ForgotPassword';
-import Login from './component/Login.jsx';
 import ChangePassword from './component/ChangePassword.jsx';
 
 
@@ -19,11 +17,9 @@ function App() {
         <div className="flex-grow">
           <Routes>
             <Route path="/" element={<Home />} />
-            {/* <Route path="/Login" element={<Login />} /> */}
             <Route exact path="/VerifyEmail" element={<VerifyEmail />} />
             <Route exact path="/Register" element={<Register />} />
             <Route path="/SignInn" element={<SignInn />} />
-            <Route path="/login" element={<Login />} />
             <Route path="/ForgotPassword" element={<ForgotPassword />} />
             <Route path="/ChangePassword" element={<ChangePassword />} />
 
