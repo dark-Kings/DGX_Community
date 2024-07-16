@@ -6,6 +6,7 @@ import robo from '../assets/robo.png'
 import robot from '../assets/robot.png'
 import secure from '../assets/secure.png'
 import nvbackground from '../assets/nvbackground.jpg'
+import green from '../assets/green.jpg'
 
 export default {
     nvidiaPartner,
@@ -14,6 +15,7 @@ export default {
     robo,
     robot,
     secure,
-    nvbackground
+    nvbackground,
+    green
 
 }

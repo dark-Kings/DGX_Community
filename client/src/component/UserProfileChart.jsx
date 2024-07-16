@@ -13,15 +13,15 @@ const UserProfileChart = () => {
         label: 'Views',
         data: [65, 59, 80, 81, 56, 55, 40],
         fill: false,
-        backgroundColor: 'rgba(75,192,192,0.4)',
-        borderColor: 'rgba(75,192,192,1)',
+        backgroundColor: 'rgba(1, 61, 84, 0.4)', // DGXblue background color with opacity
+        borderColor: '#013D54', // DGXblue border color
       },
       {
         label: 'Connections',
         data: [28, 48, 40, 19, 86, 27, 90],
         fill: false,
-        backgroundColor: 'rgba(153,102,255,0.4)',
-        borderColor: 'rgba(153,102,255,1)',
+        backgroundColor: 'rgba(118, 185, 0, 0.4)', // DGXgreen background color with opacity
+        borderColor: '#76B900', // DGXgreen border color
       },
     ],
   };
@@ -40,7 +40,7 @@ const UserProfileChart = () => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 my-4">
+    <div className="bg-white rounded-lg shadow-md p-6 my-4 border border-DGXgreen">
       <Line data={data} options={options} />
     </div>
   );
