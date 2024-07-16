@@ -1,4 +1,5 @@
-import { useState } from "react";
+/* eslint-disable no-unused-vars */
+import { useState, useContext } from "react";
 import { images } from "../constant/index.js";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -6,9 +7,11 @@ import "react-toastify/dist/ReactToastify.css";
 import { validateEmail, validatePassword } from "../utils/formValidation.js";
 import { FaEye } from "react-icons/fa";
 import { FaEyeLowVision } from "react-icons/fa6";
+import ApiContext from '../context/ApiContext.jsx';
 
 const Register = () => {
   const [loading, setLoading] = useState(false)
+  const { fetchData } = useContext(ApiContext);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -82,11 +85,10 @@ const Register = () => {
     }
 
     // Add further form submission logic here (e.g., API call)
-    const BaseUrl = import.meta.env.VITE_API_BASEURL
-    const endPoint = "user/registration";
 
-    // const headers = { "Content-Type": "application/json" };
-    const postdata = {
+    const endpoint = "user/registration";
+    const method = "POST"
+    const body = {
       "inviteCode": refralCode,
       "name": username,
       "email": email,
@@ -98,22 +100,44 @@ const Register = () => {
     }
 
     setLoading(true)
-    const response = await fetch(`${BaseUrl}/${endPoint}`, {
-      method: 'POST', // *GET, POST, PUT, DELETE, etc.
 
-      headers: {
-        'Content-Type': 'application/json'
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-      },
+    try {
 
-      body: JSON.stringify(postdata) // body data type must match "Content-Type" header
-    });
-    const data = await response.json()
-    if (!data.success) {
+      const data = await fetchData(endpoint, method, body);
+
+      if (!data.success) {
+        setLoading(false)
+        toast.error("Error in Registration", {
+          position: "bottom-left",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      } else if (data.success) {
+        setLoading(false)
+        toast.success("Registration done successfully go login", {
+          position: "bottom-left",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        setTimeout(() => {
+          navigate('/SignInn');
+        }, 3500);
+      }
+    } catch (error) {
       setLoading(false)
-      toast.error("Error in Registration", {
-        position: "bottom-left",
-        autoClose: 1000,
+      toast.error(`Something went wrong try again`, {
+        position: "top-center",
+        autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -121,22 +145,8 @@ const Register = () => {
         progress: undefined,
         theme: "light",
       });
-    } else if (data.success) {
-      setLoading(false)
-      toast.success("Registration done successfully go login", {
-        position: "bottom-left",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      setTimeout(() => {
-        navigate('/SignInn');
-      }, 1500);
     }
+
   };
 
   return (

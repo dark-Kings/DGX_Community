@@ -22,14 +22,16 @@ export const databaseUserVerification = async (req, res) => {
   // Validate request body
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ success, errors: errors.array() });
+    res.status(400).json({ success, data: errors.array(), message: "Data is not in right formate" });
+    return
   }
 
   try {
     // Connect to the database
     connectToDatabase(async (err, conn) => {
       if (err) {
-        return res.status(500).send('Failed to connect to database');
+        res.status(500).json({ success: false, data: err, message: "Failed to connect to database" });
+        return
       }
 
       try {
@@ -79,37 +81,37 @@ export const databaseUserVerification = async (req, res) => {
                   // Respond with success message
                   if (mailsent.success) {
                     success = true;
-                    return res.json({ success: true, data: { username: userEmail } });
+                    return res.status(200).json({ success: true, data: { username: userEmail }, message: "Mail send successfully" });
                   } else {
-                    return res.json({ success: false, data: { username: userEmail } });
+                    return res.status(200).json({ success: false, data: { username: userEmail }, message: "Mail isn;t send successfully" });
                   }
                 }
               }
             } catch (error) {
               console.error('Error generating password or date:', error);
               closeConnection();
-              return res.status(500).json({ message: 'Error generating password or date' });
+              return res.status(500).json({ success: false, data: error, message: 'Error generating password ' });
             }
           } else {
             // User's password change flag is not 0
             closeConnection();
-            return res.json({ success: true, data: {} });
+            return res.status(200).json({ success: false, data: {}, message: "Credentials already generated go to login" });
           }
         } else {
           // User not found
           closeConnection();
-          return res.json({ success: false, data: userEmail });
+          return res.status(200).json({ success: false, data: {}, message: "You are not a part of this community get refer from any existing member to join" });
         }
       } catch (error) {
         console.error('Database query error:', error);
         closeConnection();
-        return res.status(500).json({ message: 'Database query error' });
+        return res.status(500).json({ success: false, data: {}, message: 'something went wrong please try again' });
       }
     });
   } catch (error) {
     console.error('Failed to connect to database:', error);
     closeConnection();
-    return res.status(500).json({ message: 'Failed to connect to database' });
+    return res.status(500).json({ success: false, data: {}, message: 'Something went wrong please try again' });
   }
 };
 
@@ -123,21 +125,22 @@ export const registration = async (req, res) => {
   // Validate request body
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ success, errors: errors.array() });
+    res.status(400).json({ success, data: errors.array(), message: "Data is not in right formate" });
+    return
   }
 
   const { inviteCode, name, email, password, collegeName, phoneNumber, category, designation } = req.body;
   const referalNumberCount = category === 'F' ? 10 : 2;
   const FlagPasswordChange = 1
 
-  const date = await getCurrentDateTime();
+  // const date = await getCurrentDateTime();
 
   try {
     // Connect to the SQL Server using the provided function
     connectToDatabase(async (err, conn) => {
       if (err) {
-        console.error('Failed to connect to database:', err);
-        return res.status(500).send('Failed to connect to database');
+        res.status(500).json({ success: false, data: err, message: "Failed to connect to database" });
+        return
       }
 
       try {
@@ -147,7 +150,8 @@ export const registration = async (req, res) => {
 
         if (existingUsers[0].userEmailCount > 0) {
           // User with this email already exists
-          return res.status(400).json({ success, error: 'A user with this email already exists' });
+          closeConnection();
+          return res.status(200).json({ success: false, data: {}, message: 'A user with this email already exists' });
         }
 
         // If user does not exist, hash the password
@@ -195,24 +199,26 @@ export const registration = async (req, res) => {
                   user: {
                     EmailID: email
                   }
-                }
+                },
+                message: "User created successfully"
               });
             }
           } while (!success);
 
         } else {
           closeConnection();
-          return res.status(200).json({ success: success, data: "This Refer Number not have refer credit left try with different refer code" });
+          return res.status(200).json({ success: success, data: {}, message: "This Refer Number not have refer credit left try with different refer code" });
         }
       } catch (error) {
         console.error('Error generating password or referral code:', error);
         closeConnection();
-        return res.status(500).send('Error generating password or referral code');
+        return res.status(500).json({ success: false, data: error, message: 'Error generating password ' });
       }
     });
   } catch (error) {
+    closeConnection();
     console.error('Internal server error:', error);
-    return res.status(500).send('Internal server error');
+    return res.status(500).json({ success: false, data: {}, message: 'Something went wrong please try again' });
   }
 };
 
@@ -225,7 +231,8 @@ export const login = async (req, res) => {
   // if there are errors, return bad request and the errors
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+    res.status(400).json({ success, data: errors.array(), message: "Data is not in right formate" });
+    return
   }
 
   const { email, password } = req.body;
@@ -233,7 +240,8 @@ export const login = async (req, res) => {
   try {
     connectToDatabase(async (err, conn) => {
       if (err) {
-        return res.status(500).send('Failed to connect to database');
+        res.status(500).json({ success: false, data: err, message: "Failed to connect to database" });
+        return
       }
 
       try {
@@ -242,12 +250,12 @@ export const login = async (req, res) => {
 
         if (result.length === 0) {
           closeConnection();
-          return res.status(401).json({ success, error: "Please try to login with correct credentials" });
+          return res.status(200).json({ success: false, data: {}, message: "Please try to login with correct credentials" });
         }
         const passwordCompare = await bcrypt.compare(password, result[0].Password);
         if (!passwordCompare) {
           closeConnection();
-          return res.status(401).json({ success, error: "Please try to login with correct credentials" });
+          return res.status(200).json({ success: false, data: {}, message: "Please try to login with correct credentials" });
         }
 
         const data = {
@@ -259,18 +267,18 @@ export const login = async (req, res) => {
         success = true;
 
         closeConnection();
-        return res.status(200).json({ success, authtoken, flag: result[0].FlagPasswordChange });
+        return res.status(200).json({ success: true, data: { authtoken, flag: result[0].FlagPasswordChange }, message: "You login successfully" });
 
       } catch (queryErr) {
         console.error(queryErr);
         closeConnection();
-        return res.status(500).send('Query error');
+        return res.status(500).json({ success: false, data: queryErr, message: 'Something went wrong please try again' });
       }
     });
   } catch (error) {
     console.error(error.message);
     closeConnection();
-    return res.status(500).send("Internal server error");
+    return res.status(500).json({ success: false, data: {}, message: 'Something went wrong please try again' });
   }
 };
 
@@ -283,7 +291,8 @@ export const changePassword = async (req, res) => {
 
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ success, errors: errors.array() });
+    res.status(400).json({ success, data: errors.array(), message: "Data is not in right formate" });
+    return
   }
 
   try {
@@ -294,7 +303,7 @@ export const changePassword = async (req, res) => {
 
     connectToDatabase(async (err, conn) => {
       if (err) {
-        res.status(500).send('Failed to connect to database');
+        res.status(500).json({ success: false, data: err, message: "Failed to connect to database" });
         return;
       }
 
@@ -307,7 +316,7 @@ export const changePassword = async (req, res) => {
             const passwordCompare = await bcrypt.compare(currentPassword, rows[0].Password);
             if (!passwordCompare) {
               closeConnection();
-              return res.status(401).json({ success, error: "Please try  with correct credentials" });
+              return res.status(200).json({ success: false, data: {}, message: "Please try  with correct credentials" });
             }
 
             const salt = await bcrypt.genSalt(10);
@@ -315,42 +324,47 @@ export const changePassword = async (req, res) => {
             // console.log(secPass)
             const updateQuery = `UPDATE Community_User SET Password = ?, FlagPasswordChange = 1, AuthLstEdit = ?, editOnDt = GETDATE() WHERE isnull(delStatus,0) = 0 AND EmailId = ?`
             const updatePassword = await queryAsync(conn, updateQuery, [secPass, rows[0].Name, userId])
-
+            closeConnection();
             success = true;
-            res.status(200).json({ success, data: "Password Change Successfully " });
+            res.status(200).json({ success: true, data: {}, message: "Password Change Successfully " });
           } catch (queryErr) {
+            closeConnection();
             console.error('Query error:', queryErr);
-            res.status(500).send('Query error: ' + queryErr.message);
+            return res.status(401).json({ success: false, data: queryErr, message: "Something went wrong please try again" });
           }
         } else {
-          res.status(404).send('User not found');
+          closeConnection();
+          res.status(200).json({ success: false, data: {}, message: "User not found" });
         }
       } catch (queryErr) {
         console.error('Query error:', queryErr);
-        res.status(500).send('Query error: ' + queryErr.message);
+        closeConnection();
+        res.status(500).json({ success: false, data: queryErr, message: 'Something went wrong please try again' });
       } finally {
         closeConnection();
       }
     });
   } catch (error) {
     console.error('Internal server error:', error);
-    res.status(500).send('Internal server error');
+    closeConnection();
+    return res.status(500).json({ success: false, data: {}, message: 'Something went wrong please try again' });
   }
 };
 
 
 
-//Route 4) Get loggedin user detail using POST "/api/auth/getuser"  - Login required
+//Route 4) Get loggedin user detail using POST "/getuser"  - Login required
 
 export const getuser = async (req, res) => {
   let success = false;
+
   try {
     const userId = req.user.id;
     // console.log(userId);
 
     connectToDatabase(async (err, conn) => {
       if (err) {
-        res.status(500).send('Failed to connect to database');
+        res.status(500).json({ success: false, data: err, message: "Failed to connect to database" });
         return;
       }
 
@@ -366,19 +380,19 @@ export const getuser = async (req, res) => {
             return acc;
           }, {});
           success = true;
-          res.status(200).json({ success, data });
+          res.status(200).json({ success, data: data, message: "User data" });
         } else {
-          res.status(404).send('User not found');
+          res.status(200).json({ success: false, data: {}, message: "User not found" });
         }
       } catch (queryErr) {
         console.error('Query error:', queryErr);
-        res.status(500).send('Query error: ' + queryErr.message);
+        res.status(500).json({ success: false, data: queryErr, message: 'Something went wrong please try again' });
       } finally {
         closeConnection();
       }
     });
   } catch (error) {
     console.error('Internal server error:', error);
-    res.status(500).send('Internal server error');
+    return res.status(500).json({ success: false, data: {}, message: 'Something went wrong please try again' });
   }
 };

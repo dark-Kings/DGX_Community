@@ -1,23 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { images } from "../constant/index.js";
 import { IoRefreshCircleSharp } from "react-icons/io5";
-// import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import generateCaptcha from "../utils/generateCaptcha.js";
-// import { useApi } from "../utils/apiContext";
+import ApiContext from '../context/ApiContext.jsx';
 
 const VerifyEmail = () => {
-  // const { loading, data, error, makeApiCall } = useApi();
+  const { fetchData } = useContext(ApiContext);
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
 
   const [captcha, setCaptcha] = useState("");
   const [userCaptcha, setUserCaptcha] = useState("");
   const [email, setEmail] = useState("");
-  // const BaseUrl = import.meta.env.VITE_API_BASEURL
-  // console.log(BaseUrl)
+
 
   const refreshCaptcha = async () => {
     const newCaptcha = await generateCaptcha(6);
@@ -54,6 +52,7 @@ const VerifyEmail = () => {
     }
 
     if (!isValidEmail(email)) {
+      refreshCaptcha();
       toast.error("Invalid Email", {
         position: "bottom-left",
         autoClose: 5000,
@@ -66,27 +65,49 @@ const VerifyEmail = () => {
       });
       return;
     }
-    const BaseUrl = import.meta.env.VITE_API_BASEURL
-    const endPoint = "user/verify";
-    // const headers = { "Content-Type": "application/json" };
-    const postdata = { email: email };
+    const endpoint = "user/verify";
+    const method = "POST"
+    const body = { email: email };
     setLoading(true)
-    const response = await fetch(`${BaseUrl}/${endPoint}`, {
-      method: 'POST', // *GET, POST, PUT, DELETE, etc.
 
-      headers: {
-        'Content-Type': 'application/json'
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-      },
-
-      body: JSON.stringify(postdata) // body data type must match "Content-Type" header
-    });
-    const data = await response.json()
-    if (!data.success) {
+    try {
+      const data = await fetchData(endpoint, method, body);
+      if (!data.success) {
+        refreshCaptcha();
+        setLoading(false)
+        toast.error(`Error verifying email: ${data.message}`, {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      } else if (data.success) {
+        refreshCaptcha();
+        setLoading(false)
+        toast.success(`Email verified successfully check your mail: ${data.data.username} for credentials`, {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        setTimeout(() => {
+          navigate('/SignInn');
+        }, 3500);
+      }
+    } catch (error) {
       setLoading(false)
-      toast.error("Error verifying email", {
-        position: "bottom-left",
-        autoClose: 1000,
+      refreshCaptcha();
+      toast.error(`Something went wrong try again`, {
+        position: "top-center",
+        autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -94,27 +115,7 @@ const VerifyEmail = () => {
         progress: undefined,
         theme: "light",
       });
-    } else if (data.success) {
-      setLoading(false)
-      toast.success("Email verified successfully check your mail for credentials", {
-        position: "bottom-left",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      setTimeout(() => {
-        navigate('/SignInn');
-      }, 1500);
     }
-
-    // console.log(data)
-    // await makeApiCall(endPoint, "POST", postdata, headers);
-
-
 
   };
 
@@ -209,7 +210,7 @@ const VerifyEmail = () => {
                       Verify
                     </button>
                     <p className="mb-0 mt-2 pt-1 text-sm font-semibold">
-                      Don't have an account?
+                      {`Don't have an account?`}
                       <Link
                         to="/Register"
                         className="text-danger transition duration-150 ease-in-out hover:text-danger-600 focus:text-danger-600 active:text-danger-700 text-DGXgreen"
