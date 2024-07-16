@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import UserProfileChart from './UserProfileChart'; // Import the chart component
 
 const UserProfile = () => {
@@ -85,7 +85,7 @@ const UserProfile = () => {
                 </div>
             </div>
         </div>
-	  <div className="my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
+ <div className="my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
             <div className="w-full flex flex-col 2xl:w-1/3">
                 <div className="flex-1 bg-DGXwhite rounded-lg shadow-xl p-8">
                     <h4 className="text-xl text-DGXgray font-bold">Personal Info</h4>
