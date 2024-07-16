@@ -250,7 +250,7 @@ const UserProfile = () => {
 
         <div className="px-6 py-6 bg-DGXwhite border border-DGXgreen rounded-lg shadow-xl">
             <div className="flex items-center justify-between">
-                <span className="font-bold text-sm text-DGXblue">New Connections</span>
+                <span className="font-bold text-sm text-DGXblue">Connections</span>
                 <span className="text-xs bg-[#e5e7eb] hover:bg-[#6b7280] text-[#6b7280] hover:text-[#e5e7eb] px-2 py-1 rounded-lg transition duration-200 cursor-default">7 days</span>
             </div>
             <div className="flex items-center justify-between mt-6">
