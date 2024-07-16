@@ -4,7 +4,6 @@ import { FaFacebook, FaTwitter, FaLinkedin, FaGithub, FaUsers, FaPoll } from 're
 import { GoCommentDiscussion } from "react-icons/go";
 import { FaArrowTrendDown, FaArrowTrendUp, FaEllipsisVertical  } from "react-icons/fa6";
 import { MdOutlineReportProblem, MdShare, MdMessage, MdBlock, MdPersonAddAlt1, MdOutlineSettings } from "react-icons/md";
-import { images } from '../constant/index.js';
 
 const UserProfile = () => {
 	// Define colors
