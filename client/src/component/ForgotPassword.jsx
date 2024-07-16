@@ -58,7 +58,7 @@ const ForgotPassword = () => {
   return (
     <div className="min-h-screen flex flex-col lg:flex-row items-center justify-center relative">
       {/* Left side with form */}
-      <div className="w-full lg:w-1/2 min-h-screen py-20 px-8 lg:rounded-r-3xl bg-DGXblue flex items-center justify-center">
+      <div className="w-full lg:w-1/2 min-h-screen py-20 px-8 lg:rounded-r-3xl bg-[#0ea5e9] flex items-center justify-center">
         <div className="w-full max-w-md">
           <div className="bg-white rounded-xl mx-auto shadow-lg overflow-hidden bg-DGXwhite shadow-DGXgreen p-8">
             <h1 className="text-DGXblue text-3xl mb-6 font-bold text-center">Forgot Password</h1>

@@ -9,6 +9,7 @@ import SignInn from './component/SignInn';
 import ForgotPassword from './component/ForgotPassword';
 import Login from './component/Login.jsx';
 import ChangePassword from './component/ChangePassword.jsx';
+import UserProfile from './component/UserProfile.jsx';
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/ForgotPassword" element={<ForgotPassword />} />
             <Route path="/ChangePassword" element={<ChangePassword />} />
+            <Route path="/UserProfile" element={<UserProfile />} />
 
 
 
