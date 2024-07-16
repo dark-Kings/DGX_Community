@@ -1,15 +1,20 @@
 import { images } from '../constant/index.js';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { validatePassword } from "../utils/formValidation.js";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie';
+import ApiContext from '../context/ApiContext.jsx';
+
 
 const ChangePassword = () => {
+    const { fetchData } = useContext(ApiContext);
     const [loading, setLoading] = useState(false)
     const [userToken, setUserToken] = useState(null);
     const navigate = useNavigate();
+
+    // eslint-disable-next-line no-unused-vars
     const [messages, setMessages] = useState({
         number: false,
         specialChar: false,
@@ -29,7 +34,6 @@ const ChangePassword = () => {
         if (token) {
             try {
                 const parseToken = JSON.parse(token);
-                // console.log(parseToken);
                 setUserToken(parseToken);
 
             } catch (e) {
@@ -53,59 +57,66 @@ const ChangePassword = () => {
             return;
         }
         // Add further form submission logic here (e.g., API call)
-        const BaseUrl = import.meta.env.VITE_API_BASEURL
-        const endPoint = "user/changePassword";
 
-        // console.log(userToken)
-        // const headers = { "Content-Type": "application/json" };
+        const endpoint = "user/changePassword";
 
-        // console.log(oldPassword, newPassword, confirmPassword)
 
-        const postdata = {
+        const method = "POST"
+        const body = {
             "currentPassword": oldPassword,
             "newPassword": newPassword
         }
-
-        setLoading(true)
-        const response = await fetch(`${BaseUrl}/${endPoint}`, {
-            method: 'POST', // *GET, POST, PUT, DELETE, etc.
-
-            headers: {
-                'Content-Type': 'application/json',
-                'auth-token': userToken
-            },
-
-            body: JSON.stringify(postdata) // body data type must match "Content-Type" header
-        });
-        const data = await response.json()
-        if (!data.success) {
-            toast.error("Error in password change", {
-                position: "bottom-left",
-                autoClose: 1000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            });
-        } else if (data.success) {
-            setLoading(false)
-            toast.success("Password change successfully login again with new credentials", {
-                position: "bottom-left",
-                autoClose: 1000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            });
-            setTimeout(() => {
-                Cookies.remove('userToken');
-                navigate('/SignInn');
-            }, 1500);
+        const headers = {
+            'Content-Type': 'application/json',
+            'auth-token': userToken
         }
+        setLoading(true)
+
+        try {
+            const data = await fetchData(endpoint, method, body, headers);
+            if (!data.success) {
+                setLoading(false)
+                toast.error(`Error in password change: ${data.message}`, {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            } else if (data.success) {
+                setLoading(false)
+                toast.success("Password change successfully login again with new credentials", {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+                setTimeout(() => {
+                    Cookies.remove('userToken');
+                    navigate('/SignInn');
+                }, 3500);
+            }
+        } catch (error) {
+            setLoading(false)
+            toast.error(`Something went wrong try again`, {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
+
     };
 
     const handleChange = (e) => {
