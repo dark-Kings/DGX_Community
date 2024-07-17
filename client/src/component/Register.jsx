@@ -170,7 +170,7 @@ const Register = () => {
                   id="username"
                   name="username"
                   type="text"
-                  className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                  className="block w-full px-4 py-2 mt-2 text-DGXgray bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
                   value={formData.username}
                   onChange={handleChange}
                 />
@@ -187,7 +187,7 @@ const Register = () => {
                   id="collegeName"
                   name="collegeName"
                   type="text"
-                  className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                  className="block w-full px-4 py-2 mt-2 text-DGXgray bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
                   value={formData.collegeName}
                   onChange={handleChange}
                 />
@@ -211,7 +211,7 @@ const Register = () => {
                   id="contactNumber"
                   name="contactNumber"
                   type="text"
-                  className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                  className="block w-full px-4 py-2 mt-2 text-DGXgray bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
                   value={formData.contactNumber}
                   onChange={handleChange}
                 />
@@ -228,7 +228,7 @@ const Register = () => {
                   id="designation"
                   name="designation"
                   type="text"
-                  className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                  className="block w-full px-4 py-2 mt-2 text-DGXgray bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
                   value={formData.designation}
                   onChange={handleChange}
                 />
@@ -244,7 +244,7 @@ const Register = () => {
                   id="newPassword"
                   name="newPassword"
 
-                  className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                  className="block w-full px-4 py-2 mt-2 text-DGXgray bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
                   value={formData.newPassword}
                   onChange={handleChange}
                   type={passwordVisible ? "text" : "password"}
@@ -276,7 +276,7 @@ const Register = () => {
                   id="email"
                   name="email"
                   type="email"
-                  className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                  className="block w-full px-4 py-2 mt-2 text-DGXgray bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
                   value={formData.email}
                   onChange={handleChange}
                 />
@@ -291,7 +291,7 @@ const Register = () => {
                     <select
                       id="category"
                       name="category"
-                      className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                      className="block w-full px-4 py-2 mt-2 text-DGXgray bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
                       value={formData.category}
                       onChange={handleChange}
                     >
@@ -309,7 +309,7 @@ const Register = () => {
                       id="refralCode"
                       name="refralCode"
                       type="text"
-                      className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                      className="block w-full px-4 py-2 mt-2 text-DGXgray bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
                       value={formData.refralCode}
                       onChange={handleChange}
                     />
@@ -328,7 +328,7 @@ const Register = () => {
                   id="confirmPassword"
                   name="confirmPassword"
                   type={confirmPasswordVisible ? "text" : "password"}
-                  className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                  className="block w-full px-4 py-2 mt-2 text-DGXgray bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
                   value={formData.confirmPassword}
                   onChange={handleChange}
                 />

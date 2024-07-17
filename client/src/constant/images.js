@@ -7,6 +7,7 @@ import robot from '../assets/robot.png'
 import secure from '../assets/secure.png'
 import nvbackground from '../assets/nvbackground.jpg'
 
+
 export default {
     nvidiaPartner,
     verifyImg,
@@ -15,5 +16,4 @@ export default {
     robot,
     secure,
     nvbackground
-
 }
