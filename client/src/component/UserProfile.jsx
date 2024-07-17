@@ -19,8 +19,10 @@ const UserProfile = () => {
 
   return (
     <div className="h-full bg-DGXwhite p-8">
-      <div className="bg-DGXwhite rounded-lg shadow-xl pb-8 border border-DGXgreen">
-            <div className="absolute right-12 mt-4 rounded ">
+		<div className="my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
+		<div className="w-full flex flex-col 2xl:w-1/3">
+		    <div className="bg-DGXwhite w-full rounded-lg shadow-xl  pb-6 border border-DGXgreen">
+            <div className="absolute left-[800px] lg:left-[580px] mt-4 rounded ">
                 <button onClick={() => setOpenSettings(!openSettings)} className="border border-DGXgray p-2 rounded text-DGXblack hover:text-DGXgray bg-DGXwhite  hover:bg-opacity-20" title="Settings">
 				<FaEllipsisVertical />
                 </button>
@@ -66,7 +68,7 @@ const UserProfile = () => {
                 <p className="text-DGXgray">Senior Software Engineer at Tailwind CSS</p>
                 <p className="text-sm text-[#6b7280]">New York, USA</p>
             </div>
-            <div className="flex-1 flex flex-col items-center lg:items-end justify-end px-8 mt-2">
+            {/* <div className="flex-1 flex flex-col items-center lg:items-end justify-end px-8 mt-2">
                 <div className="flex items-center space-x-4 mt-2">
                     <button className="flex items-center bg-[#1d4ed8] hover:bg-[#1d4ed8] text-DGXwhite px-4 py-2 rounded text-sm space-x-2 transition duration-100">
 					<MdPersonAddAlt1 />
@@ -77,8 +79,18 @@ const UserProfile = () => {
                         <span>Message</span>
                     </button>
                 </div>
+            </div> */}
             </div>
+            
+		</div>
+        
+        <div className="w-full flex flex-col 2xl:w-2/3 bg-DGXwhite rounded-lg shadow-xl pb-6 border border-DGXgreen">
+            
         </div>
+        </div>
+	
+		
+      
  <div className="my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
             <div className="w-full flex flex-col 2xl:w-1/3">
                 <div className="flex-1 bg-DGXwhite rounded-lg shadow-xl p-8 border border-DGXgreen">
@@ -195,10 +207,10 @@ const UserProfile = () => {
             </div>
 			
             <div className="flex flex-col w-full 2xl:w-2/3 ">
-            <div className="flex-1 bg-DGXwhite rounded-lg shadow-xl p-8 border border-DGXgreen">
-                <h4 className="text-xl text-[#111827] font-bold">About</h4>
-                <p className="mt-2 text-DGXgray">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt voluptates obcaecati numquam error et ut fugiat asperiores. Sunt nulla ad incidunt laboriosam, laudantium est unde natus cum numquam, neque facere. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, magni odio magnam commodi sunt ipsum eum! Voluptas eveniet aperiam at maxime, iste id dicta autem odio laudantium eligendi commodi distinctio!</p>
-            </div>
+                <div className="flex-1 bg-DGXwhite rounded-lg shadow-xl p-8 border border-DGXgreen">
+                    <h4 className="text-xl text-[#111827] font-bold">About</h4>
+                    <p className="mt-2 text-DGXgray">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt voluptates obcaecati numquam error et ut fugiat asperiores. Sunt nulla ad incidunt laboriosam, laudantium est unde natus cum numquam, neque facere. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, magni odio magnam commodi sunt ipsum eum! Voluptas eveniet aperiam at maxime, iste id dicta autem odio laudantium eligendi commodi distinctio!</p>
+                </div>
             <div className="flex-1 bg-DGXwhite rounded-lg shadow-xl mt-4 p-8 border border-DGXgreen">
     <h4 className="text-xl text-[#111827] font-bold">Statistics</h4>
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-4">
