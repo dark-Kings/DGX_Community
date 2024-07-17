@@ -7,6 +7,7 @@ import Register from './component/Register.jsx';
 import SignInn from './component/SignInn';
 import ForgotPassword from './component/ForgotPassword';
 import ChangePassword from './component/ChangePassword.jsx';
+import UserProfile from './component/UserProfile.jsx';
 import Discussion from './container/Discussion.jsx';
 // import LoadPage from './component/LoadPage.jsx';
 
@@ -27,6 +28,7 @@ function App() {
             <Route path="/SignInn" element={<SignInn />} />
             <Route path="/ForgotPassword" element={<ForgotPassword />} />
             <Route path="/ChangePassword" element={<ChangePassword />} />
+            <Route path="/UserProfile" element={<UserProfile />} />
             <Route path="/Discussion" element={<Discussion />} />
 
 
