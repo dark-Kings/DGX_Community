@@ -29,7 +29,7 @@ function App() {
             <Route path="/ForgotPassword" element={<ForgotPassword />} />
             <Route path="/ChangePassword" element={<ChangePassword />} />
             <Route path="/UserProfile" element={<UserProfile />} />
-            <Route path="/Discussion" element={<Discussion />} />
+            <Route path='/Discussion' element={<Discussion/>}/>
           </Routes>
         </div>
         <footer className="footer bg-DGXgreen text-DGXwhite text-center">

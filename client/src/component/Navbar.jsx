@@ -5,45 +5,33 @@ import { AiOutlineMenu } from "react-icons/ai";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import clsx from 'clsx';
 
-
 const Navbar = () => {
     const [isSideMenuOpen, setMenu] = useState(false);
-
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-    // const handleLogin = () => {
-    //     // Perform login logic here
-    //     // After successful login, set isLoggedIn to true
-    //     setIsLoggedIn(true);
-    // };
-
 
     const navLinks = [
         {
             label: 'Home',
-            href: '/'
+            to: "/"
         },
         {
             label: 'Discussions',
-            href: '/Discussion'
+            to: '/Discussion'
         },
         {
             label: 'Event and Workshop',
-            href: '#'
+            to: '#'
         },
         {
             label: 'Contact Us',
-            href: '#'
+            to: '#'
         },
         {
             label: 'Community Guidelines',
-            href: '#'
+            to: '#'
         }
-    ]
+    ];
 
-    // const toggleDropdown = () => {
-    //     setIsOpen(!isOpen);
-    // };
     return (
         <main className=''>
             <nav className='flex justify-between px-8 item-center py-6 lg:px-24 xs:px-0 xs:mx-0'>
@@ -55,13 +43,12 @@ const Navbar = () => {
                         </Link>
                     </section>
                     {navLinks.map((d, i) => (
-                        <Link key={i} className='hidden lg:block text-DGXblue hover:text-black' href={d.link}>
+                        <Link key={i} className='hidden lg:block text-DGXblue hover:text-black' to={d.to}>
                             {d.label}
                         </Link>
                     ))}
                 </div>
 
-                {/*----------sidebarMenu-------------- */}
                 <div className={clsx('fixed h-full w-screen lg:hidden bg-DGXblack/50 backdrop-blur-sm top-0 right-0 -translate-x-full transition-all z-10',
                     isSideMenuOpen && 'translate-x-0'
                 )}>
@@ -71,7 +58,7 @@ const Navbar = () => {
                             className='mt-0 mb-8 text-3xl cursor-pointer' />
 
                         {navLinks.map((d, i) => (
-                            <Link key={i} className='font-bold' href={d.link}>
+                            <Link key={i} className='font-bold' to={d.to}>
                                 {d.label}
                             </Link>
                         ))}
@@ -81,13 +68,14 @@ const Navbar = () => {
 
                 <section className='flex items-center gap-6 xs:gap-1'>
                     {!isLoggedIn ? (
-                        <Link to="/SignInn"><button
-                            type="button"
-                            // onClick={handleLogin}
-                            className="text-white bg-DGXgreen hover:bg-DGXgreenfocus:ring-4 focus:outline-none focus:ring-DGXgreen font-medium rounded-lg text-xl px-4 py-2 text-center dark:bg-DGXgreen dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                        >
-                            Login
-                        </button></Link>
+                        <Link to="/SignIn">
+                            <button
+                                type="button"
+                                className="text-white bg-DGXgreen hover:bg-DGXgreen focus:ring-4 focus:outline-none focus:ring-DGXgreen font-medium rounded-lg text-xl px-4 py-2 text-center dark:bg-DGXgreen dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            >
+                                Login
+                            </button>
+                        </Link>
                     ) : (
                         <img
                             src=''  // Add the user's image URL here
@@ -99,7 +87,6 @@ const Navbar = () => {
             </nav>
             <hr className='lg:mx-22 border-b-4 border-DGXblue' />
         </main>
-
     );
 };
 
