@@ -1,11 +1,10 @@
 import React from 'react'
+import { images } from '../constant'
 
 const Discussion = () => {
     return (
         <div>
-            <div className="grow h-14  bg-DGXgreen">
-                02
-            </div>
+            
         </div>
     )
 }
