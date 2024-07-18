@@ -58,7 +58,7 @@ const ForgotPassword = () => {
   return (
     <div className="min-h-screen flex flex-col lg:flex-row items-center justify-center relative">
       {/* Left side with form */}
-      <div className="w-full lg:w-1/2 min-h-screen py-20 px-8 lg:rounded-r-3xl bg-[#0ea5e9] flex items-center justify-center">
+      <div className="w-full lg:w-1/2 min-h-screen py-20 px-8 lg:rounded-r-3xl bg-DGXblue flex items-center justify-center">
         <div className="w-full max-w-md">
           <div className="bg-white rounded-xl mx-auto shadow-lg overflow-hidden bg-DGXwhite shadow-DGXgreen p-8">
             <h1 className="text-DGXblue text-3xl mb-6 font-bold text-center">Forgot Password</h1>
@@ -75,7 +75,7 @@ const ForgotPassword = () => {
                   />
                 </div>
                 <div>
-                  <button type="submit" className="w-full text-lg bg-DGXgreen rounded-full py-3 text-center font-medium text-DGXwhite">Verify Email</button>
+                  <button type="submit" className="w-full text-lg bg-DGXgreen hover:bg-[#1d4ed8] rounded-full py-3 text-center font-medium text-DGXwhite">Verify Email</button>
                 </div>
               </form>
             ) : !otpVerified ? (
@@ -91,7 +91,7 @@ const ForgotPassword = () => {
                   />
                 </div>
                 <div>
-                  <button type="submit" className="w-full text-lg bg-DGXgreen rounded-full py-3 text-center font-medium text-DGXwhite">Verify OTP</button>
+                  <button type="submit" className="w-full text-lg bg-DGXgreen hover:bg-[#1d4ed8] rounded-full py-3 text-center font-medium text-DGXwhite">Verify OTP</button>
                 </div>
               </form>
             ) : (
@@ -107,7 +107,7 @@ const ForgotPassword = () => {
                   />
                   <button
                     type="button"
-                    className="absolute right-3 top-2.5 text-gray-600"
+                    className="absolute right-3 top-2.5 text-[#4b5563]"
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     {/* {showPassword ? 'Hide' : 'Show'} */}
@@ -117,7 +117,7 @@ const ForgotPassword = () => {
                   <input
                     type={showPassword ? 'text' : 'password'}
                     placeholder="Confirm Password"
-                    className={`border border-DGXgreen py-2 px-3 w-full rounded ${passwordsMatch ? '' : 'border-red-500'}`}
+                    className={`border border-DGXgreen py-2 px-3 w-full rounded ${passwordsMatch ? '' : 'border-[#ef4444]'}`}
                     value={confirmPassword}
                     onChange={(e) => {
                       setConfirmPassword(e.target.value);
@@ -127,14 +127,14 @@ const ForgotPassword = () => {
                   />
                   <button
                     type="button"
-                    className="absolute right-3 top-2.5 text-gray-600"
+                    className="absolute right-3 top-2.5 text-[#4b5563]"
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     {/* {showPassword ? 'Hide' : 'Show'} */}
                   </button>
                 </div>
                 {!passwordsMatch && (
-                  <p className="text-red-500 mb-4 text-sm">Passwords do not match</p>
+                  <p className="text-[#ef4444] mb-4 text-sm">Passwords do not match</p>
                 )}
                 <div>
                   <button type="submit" className="w-full text-lg bg-DGXgreen rounded-full py-3 text-center font-medium text-DGXwhite">Reset Password</button>
