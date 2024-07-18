@@ -175,7 +175,7 @@ const UserProfile = () => {
                                     </div>
                                 )}
                                 {emailError && <p className="text-red-500 mt-2">{emailError}</p>}
-                                {emailSubmitted && !emailError && <p className="text-green-500 mt-2">Email submitted successfully!</p>}
+                                {emailSubmitted && !emailError && <p className="text-green-500 mt-2">Refered successfully!</p>}
                             </div>
                             <div className="flex-1 bg-DGXwhite rounded-lg shadow-xl mt-4 p-8 border border-DGXgreen">
                                 <ul>
