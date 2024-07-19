@@ -1,26 +1,55 @@
 /* eslint-disable no-unused-vars */
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { images } from "../constant/index.js";
 import { ToastContainer, toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { validateEmail, validatePassword } from "../utils/formValidation.js";
 import { FaEye } from "react-icons/fa";
 import { FaEyeLowVision } from "react-icons/fa6";
 import ApiContext from '../context/ApiContext.jsx';
+import { decrypt } from "../utils/decrypt.js";
 
 const Register = () => {
   const [loading, setLoading] = useState(false)
   const { fetchData } = useContext(ApiContext);
   const navigate = useNavigate();
+  const location = useLocation();
+  const [email, setEmail] = useState('');
+  const [referCode, setReferCode] = useState('');
+
+
+
+  const urlExtract = async () => {
+    const params = new URLSearchParams(location.search);
+    const encryptedEmail = params.get('email');
+    const encryptedReferCode = params.get('refercode');
+
+    if (encryptedEmail && encryptedReferCode) {
+      const decryptedEmail = await decrypt(encryptedEmail);
+      const decryptedReferCode = await decrypt(encryptedReferCode);
+
+      if (decryptedEmail && decryptedReferCode) {
+        setEmail(decryptedEmail);
+        // console.log(email)
+        // console.log(decryptedEmail)
+        setReferCode(decryptedReferCode);
+        // console.log(referCode)
+        // console.log(decryptedReferCode)
+      } else {
+        navigate('/404');
+      }
+    } else {
+      navigate('/404');
+    }
+  }
+  urlExtract()
 
   const [formData, setFormData] = useState({
     username: "",
     collegeName: "",
     contactNumber: "",
     designation: "",
-    refralCode: "",
-    email: "",
     category: "",
     newPassword: "",
     confirmPassword: "",
@@ -55,22 +84,22 @@ const Register = () => {
       const passwordInput = document.getElementById(id);
       validatePassword(passwordInput, inputValue);
     }
-    if (name === "email") {
-      const emailInput = document.getElementById(id);
-      validateEmail(emailInput, value);
-    }
+    // if (name === "email") {
+    //   const emailInput = document.getElementById(id);
+    //   validateEmail(emailInput, value);
+    // }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { newPassword, confirmPassword, username,
+    const { newPassword,
+      confirmPassword,
+      username,
       collegeName,
       contactNumber,
       designation,
-      email,
       category,
-      refralCode
     } = formData;
 
 
@@ -89,7 +118,7 @@ const Register = () => {
     const endpoint = "user/registration";
     const method = "POST"
     const body = {
-      "inviteCode": refralCode,
+      "inviteCode": referCode,
       "name": username,
       "email": email,
       "collegeName": collegeName,
@@ -277,8 +306,9 @@ const Register = () => {
                   name="email"
                   type="email"
                   className="block w-full px-4 py-2 mt-2 text-DGXgray bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
-                  value={formData.email}
-                  onChange={handleChange}
+                  value={email}
+                  readOnly
+                // onChange={handleChange}
                 />
                 <div id="emailVerify"></div>
               </div>
@@ -310,8 +340,9 @@ const Register = () => {
                       name="refralCode"
                       type="text"
                       className="block w-full px-4 py-2 mt-2 text-DGXgray bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
-                      value={formData.refralCode}
-                      onChange={handleChange}
+                      value={referCode}
+                      // onChange={handleChange}
+                      readOnly
                     />
                   </div>
                 </div>

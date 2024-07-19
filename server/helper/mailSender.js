@@ -5,7 +5,7 @@ import nodemailer from 'nodemailer'
 dotenv.config()
 const pass = process.env.GMAIL_PASSWORD_KEY
 
-export async function mailSender(receiver, message) {
+export async function mailSender(receiver, message, htmlContent = "thank You") {
 
     var transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -19,7 +19,8 @@ export async function mailSender(receiver, message) {
         from: 'anshulpant14@gmail.com',
         to: receiver,
         subject: 'Yours DGX Community',
-        text: message
+        text: message,
+        html: htmlContent
     };
 
     return new Promise((resolve, reject) => {
