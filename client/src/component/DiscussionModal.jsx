@@ -4,8 +4,7 @@ import Modal from "react-modal";
 const DiscussionModal = ({ isOpen, onRequestClose }) => {
   return (
 
-    <>
-      <div
+     <div
         id="modal"
         className="fixed bottom-0 left-0 right-0 w-4/5 rounded mx-auto h-4/5 bg-black bg-DGXgreen z-30"
       >
@@ -32,8 +31,6 @@ const DiscussionModal = ({ isOpen, onRequestClose }) => {
           </div>
         </div>
       </div>
-
-    </>
   );
 };
 
