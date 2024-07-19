@@ -13,6 +13,7 @@ import ContactUs from './container/ContactUs.jsx';
 import DiscussionModal from './component/DiscussionModal.jsx';
 import Notfound from './component/Notfound.jsx';
 import ResetPassword from './component/ResetPassword.jsx';
+// import LoadPage from './component/LoadPage.jsx';
 
 
 

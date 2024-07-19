@@ -624,7 +624,7 @@ export const resetPassword = async (req, res) => {
         const query = `SELECT Name, FlagPasswordChange FROM Community_User WHERE isnull(delStatus,0) = 0 AND EmailId = ?`;
         const rows = await queryAsync(conn, query, [email]);
 
-        if (rows.length > 0 && rows[0].FlagPasswordChange == 2) {
+        if (rows.length > 0 && rows[0].FlagPasswordChange == 1) {
 
           try {
 
