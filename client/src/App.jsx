@@ -12,6 +12,7 @@ import Discussion from './container/Discussion.jsx';
 import ContactUs from './container/ContactUs.jsx';
 import DiscussionModal from './component/DiscussionModal.jsx';
 import Notfound from './component/Notfound.jsx';
+import ResetPassword from './component/ResetPassword.jsx';
 import CommunityGuidelines from './component/CommunityGuidelines.jsx';
 // import LoadPage from './component/LoadPage.jsx';
 
@@ -25,8 +26,6 @@ function App() {
         <div className="flex-grow">
           <Routes>
             <Route path="/" element={<Home />} />
-            {/* <Route path="/LoadPage" element={<LoadPage/>} /> */}
-            {/* <Route path="/Login" element={<Login />} /> */}
             <Route exact path="/VerifyEmail" element={<VerifyEmail />} />
             <Route exact path="/Register" element={<Register />} />
             <Route path="/SignInn" element={<SignInn />} />
@@ -37,7 +36,8 @@ function App() {
             <Route path='/ContactUs' element={<ContactUs/>}/>
             <Route path='/DiscussionModal' element={<DiscussionModal/>}/>
             <Route path='/404' element={<Notfound />} />
-            <Route path='/CommunityGuidelines' element={<CommunityGuidelines/>} />
+            <Route path='/ResetPassword' element={<ResetPassword/>} />
+            <Route path='/CommunityGuidelines' element={<CommunityGuidelines />} />
           </Routes>
         </div>
         <footer className="footer bg-DGXgreen text-DGXwhite text-center">

@@ -70,7 +70,7 @@ const SignIn = () => {
       } else if (data.success) {
         Cookies.set('userToken', JSON.stringify(data.data.authtoken), { expires: 7 });
         setLoading(false)
-        if (!data.data.flag) {
+        if (data.data.flag == 0) {
           toast.success("Welcome for first time Please change your password", {
             position: "top-center",
             autoClose: 1000,
@@ -140,7 +140,7 @@ const SignIn = () => {
                 <img src={images.robot} alt="Logo" className="logo-image" />
               </div>
               <h1 className="text-center text-2xl mb-2 pb-10">Welcome to <span className="text-DGXgreen font-black">DGX Community</span></h1>
-  
+
               <form className="space-y-4" onSubmit={handleSubmit}>
                 <div className="relative">
                   <label
@@ -197,7 +197,7 @@ const SignIn = () => {
         </div>
       </div>
   );
-  
+
 };
 
 export default SignIn;

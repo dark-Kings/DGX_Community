@@ -54,6 +54,49 @@ const Discussion = () => {
     const openModal = () => setModalIsOpen(true);
     const closeModal = () => setModalIsOpen(false);
 
+    const [tags, setTags] = useState([]);
+    const [tagInput, setTagInput] = useState('');
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [isImageUploaded, setIsImageUploaded] = useState(false);
+
+    const handleTagInputChange = (e) => {
+        setTagInput(e.target.value);
+    };
+
+    const handleTagInputKeyPress = (e) => {
+        if (e.key === 'Enter' && tagInput.trim() !== '') {
+            e.preventDefault();
+            setTags([...tags, tagInput.trim()]);
+            setTagInput('');
+        }
+    };
+
+    const removeTag = (tagToRemove) => {
+        setTags(tags.filter(tag => tag !== tagToRemove));
+    };
+
+    const handleImageChange = (e) => {
+        if (e.target.files && e.target.files[0]) {
+            setSelectedImage(URL.createObjectURL(e.target.files[0]));
+            setIsImageUploaded(false); // Reset the flag when a new image is selected
+        }
+    };
+
+    const handleImageUpload = (e) => {
+        e.preventDefault();
+        // Simulate image upload
+        setTimeout(() => {
+            setIsImageUploaded(true); // Set the flag to true after image is "uploaded"
+            alert('Image uploaded successfully!');
+        }, 500); // Simulate upload time
+    };
+
+    const handleSubmit = (e) => {
+        if (selectedImage && !isImageUploaded) {
+            e.preventDefault();
+            alert('Please upload the selected image first.');
+        }
+    };
 
     return (
         <div>
@@ -114,7 +157,7 @@ const Discussion = () => {
                     {isFormOpen ? (
                         <section>
                             <h2 className="text-2xl font-bold text-DGXblue mb-4">Start a New Topic</h2>
-                            <form className="bg-gray-100 p-4 rounded-lg shadow-lg">
+                            <form className="bg-gray-100 p-4 rounded-lg shadow-lg" onSubmit={handleSubmit}>
                                 <div className="mb-4">
                                     <label htmlFor="title" className="block text-gray-700 dark:text-gray-300">Title</label>
                                     <input
@@ -128,18 +171,65 @@ const Discussion = () => {
                                     <label htmlFor="content" className="block text-gray-700 dark:text-gray-300">Content</label>
                                     <textarea
                                         id="content"
-                                        className="w-full px-3 py-2 border   rounded-md dark:bg-neutral-700 dark:border-neutral-600 dark:text-white"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-neutral-700 dark:border-neutral-600 dark:text-white"
                                         placeholder="Enter topic content"
                                         rows="4"
                                     ></textarea>
                                 </div>
+                                <div className="mb-4">
+                                    <label htmlFor="image" className="block text-gray-700 dark:text-gray-300">Upload Image</label>
+                                    <input
+                                        type="file"
+                                        id="image"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-neutral-700 dark:border-neutral-600 dark:text-white"
+                                        accept="image/*"
+                                        onChange={handleImageChange}
+                                    />
+                                    {selectedImage && <img src={selectedImage} alt="Selected" className="mt-4 max-h-48" />}
+                                    {selectedImage && (
+                                        <button
+                                            onClick={handleImageUpload}
+                                            className="mt-2 px-4 py-2 bg-DGXgreen text-DGXwhite rounded-md shadow-sm hover:bg-DGXgreen-dark"
+                                        >
+                                            Upload Image
+                                        </button>
+                                    )}
+                                </div>
+                                <div className="mb-4">
+                                    <label htmlFor="tags" className="block text-gray-700 dark:text-gray-300">Tags</label>
+                                    <input
+                                        type="text"
+                                        id="tags"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-neutral-700 dark:border-neutral-600 dark:text-white"
+                                        placeholder="Enter tags and press enter"
+                                        value={tagInput}
+                                        onChange={handleTagInputChange}
+                                        onKeyPress={handleTagInputKeyPress}
+                                    />
+                                    <div className="mt-2 flex flex-wrap">
+                                        {tags.map((tag, index) => (
+                                            <span key={index} className="bg-DGXgreen text-DGXwhite rounded-full px-3 py-1 mr-2 mb-2 flex items-center">
+                                                {tag}
+                                                <button
+                                                    type="button"
+                                                    className="ml-2 text-sm text-red-600"
+                                                    onClick={() => removeTag(tag)}
+                                                >
+                                                    &times;
+                                                </button>
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
                                 <button
                                     type="submit"
-                                    className="px-4 py-2 bg-DGXgreen text-DGXwhite rounded-md shadow-sm hover:bg-DGXgreen-dark"
+                                    className={`px-4 py-2 rounded-md shadow-sm ${selectedImage && !isImageUploaded ? 'bg-gray-400 text-gray-700 cursor-not-allowed' : 'bg-DGXgreen text-DGXwhite hover:bg-DGXgreen-dark'
+                                        }`}
+                                    disabled={selectedImage && !isImageUploaded}
                                 >
                                     Submit
                                 </button>
-                            </form> 
+                            </form>
                         </section>
                     ) : (
                         <>
