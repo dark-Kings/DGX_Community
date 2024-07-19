@@ -8,7 +8,8 @@ import {
   registration,
   getuser,
   databaseUserVerification,
-  changePassword
+  changePassword,
+  sendInvite
 
 } from "../controllers/user.js";
 
@@ -35,6 +36,10 @@ router.post('/changePassword', [
 ], fetchUser, changePassword)
 
 router.get('/getuser', fetchUser, getuser)
+
+router.post('/sendinvite', [
+  body('email', 'Enter a valid email').isEmail()
+], fetchUser, sendInvite)
 
 
 

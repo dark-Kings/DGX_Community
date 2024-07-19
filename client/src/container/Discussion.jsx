@@ -139,7 +139,7 @@ const Discussion = () => {
                                 >
                                     Submit
                                 </button>
-                            </form>
+                            </form> 
                         </section>
                     ) : (
                         <>

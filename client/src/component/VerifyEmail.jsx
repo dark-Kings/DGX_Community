@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { images } from "../constant/index.js";
 import { IoRefreshCircleSharp } from "react-icons/io5";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import generateCaptcha from "../utils/generateCaptcha.js";
@@ -209,15 +209,7 @@ const VerifyEmail = () => {
                     >
                       Verify
                     </button>
-                    <p className="mb-0 mt-2 pt-1 text-sm font-semibold">
-                      {`Don't have an account?`}
-                      <Link
-                        to="/Register"
-                        className="text-danger transition duration-150 ease-in-out hover:text-danger-600 focus:text-danger-600 active:text-danger-700 text-DGXgreen"
-                      >
-                        Register
-                      </Link>
-                    </p>
+
                   </div>
                 </form>
               </div>

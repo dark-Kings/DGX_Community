@@ -7,6 +7,8 @@ import clsx from 'clsx';
 
 const Navbar = () => {
     const [isSideMenuOpen, setMenu] = useState(false);
+
+    // eslint-disable-next-line no-unused-vars
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const navLinks = [
