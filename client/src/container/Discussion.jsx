@@ -189,8 +189,7 @@ const Discussion = () => {
                                                 Be a part of the discussion
                                             </div>
                                         </div>
-                                    </div>
-                                </section>
+                                    </div>                                </section>
 
                             )}
                             {selectedSection === 'top' && (
