@@ -11,6 +11,7 @@ import { queryAsync, mailSender, logError, logInfo, logWarning } from '../helper
 
 dotenv.config()
 const JWT_SECRET = process.env.JWTSECRET;
+const SIGNATURE = process.env.SIGNATURE;
 
 
 
@@ -513,5 +514,159 @@ export const sendInvite = async (req, res) => {
   } catch (queryErr) {
     logError(queryErr)
     res.status(500).json({ success: false, data: queryErr, message: 'Something went wrong please try again' });
+  }
+}
+
+//Route 6) Sending password recovery mail "/passwordrecovery"
+
+
+export const passwordRecovery = async (req, res) => {
+  let success = false;
+
+  // Validate request body
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const warningMessage = "Data is not in the right format";
+    logWarning(warningMessage); // Log the warning
+    return res.status(400).json({ success, data: errors.array(), message: warningMessage });
+  }
+
+  try {
+
+    connectToDatabase(async (err, conn) => {
+      if (err) {
+        logError(err)
+        res.status(500).json({ success: false, data: err, message: "Failed to connect to database" });
+        return;
+      }
+
+      try {
+        const baseLink = process.env.RegistrationLink
+        const query = `SELECT EmailId, Name FROM Community_User WHERE isnull(delStatus,0) = 0 AND EmailId = ?`;
+        const rows = await queryAsync(conn, query, [req.body.email]);
+
+        if (rows.length > 0) {
+          const email = await encrypt(req.body.email)
+          const signature = await encrypt(SIGNATURE)
+
+          try {
+
+            const updateQuery = `UPDATE Community_User SET FlagPasswordChange = 2, AuthLstEdit= ?, editOnDt = GETDATE() WHERE isnull(delStatus,0) = 0 AND EmailId= ?`
+            const update = await queryAsync(conn, updateQuery, ['Server', req.body.email])
+
+            const registrationLink = `${baseLink}Resetpassword/?email=${email}&signature=${signature}`
+
+            const message = `Welcome to DGX Community, Your Password Reset link is given bellow:
+                              ${registrationLink}`
+            const htmlContent = `Welcome to DGX Community, Your Password Reset link is given bellow:<br/>
+                                <a href=${registrationLink}>${registrationLink}</a>`
+            closeConnection();
+            const mailsent = await mailSender(req.body.email, message, htmlContent)
+            if (mailsent.success) {
+              success = true;
+              const infoMessage = "Password Reset Link send successfuly to ${req.body.email}"
+              logInfo(infoMessage); // Log the success
+              return res.status(200).json({ success: true, data: { registrationLink }, message: "Mail send successfully" });
+            } else {
+              const errorMessage = "Mail isn't sent successfully";
+              logError(new Error(errorMessage)); // Log the error
+              return res.status(200).json({ success: false, data: { username: req.body.email }, message: errorMessage });
+            }
+          } catch (Err) {
+            closeConnection();
+            logError(Err)
+            res.status(500).json({ success: false, data: Err, message: 'Something went wrong please try again' });
+          }
+
+        } else {
+          closeConnection();
+          const warningMessage = "User not found"
+          logWarning(warningMessage)
+          res.status(200).json({ success: false, data: {}, message: warningMessage });
+        }
+      } catch (queryErr) {
+        closeConnection();
+        logError(queryErr)
+        res.status(500).json({ success: false, data: queryErr, message: 'Something went wrong please try again' });
+      }
+
+    })
+  } catch (Err) {
+    closeConnection();
+    logError(Err)
+    res.status(500).json({ success: false, data: Err, message: 'Something went wrong please try again' });
+  }
+}
+
+//Route 7) Reset Password from password recovery mail "/resetpassword"
+export const resetPassword = async (req, res) => {
+  let success = false;
+
+  // Validate request body
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const warningMessage = "Data is not in the right format";
+    logWarning(warningMessage); // Log the warning
+    return res.status(400).json({ success, data: errors.array(), message: warningMessage });
+  }
+
+  try {
+
+    connectToDatabase(async (err, conn) => {
+      if (err) {
+        logError(err)
+        res.status(500).json({ success: false, data: err, message: "Failed to connect to database" });
+        return;
+      }
+
+      try {
+        const { email, signature, password } = req.body;
+        const query = `SELECT Name, FlagPasswordChange FROM Community_User WHERE isnull(delStatus,0) = 0 AND EmailId = ?`;
+        const rows = await queryAsync(conn, query, [email]);
+
+        if (rows.length > 0 && rows[0].FlagPasswordChange == 2) {
+
+          try {
+
+            if (signature == SIGNATURE) {
+              const salt = await bcrypt.genSalt(10);
+              const secPass = await bcrypt.hash(password, salt);
+              const updateQuery = `UPDATE Community_User SET Password = ?, AuthLstEdit= ?, editOnDt = GETDATE(), FlagPasswordChange = 1 WHERE isnull(delStatus,0) = 0 AND EmailId= ?`
+              const update = await queryAsync(conn, updateQuery, [secPass, rows[0].Name, email])
+              closeConnection();
+              success = true;
+              const infoMessage = "Password Reset successfully"
+              logInfo(infoMessage); // Log the success
+              return res.status(200).json({ success: true, data: {}, message: infoMessage });
+            } else {
+              closeConnection();
+              const warningMessage = 'This link is not valid'
+              logWarning(warningMessage)
+              return res.status(200).json({ success: false, data: {}, message: warningMessage })
+            }
+
+          } catch (Err) {
+            closeConnection();
+            logError(Err)
+            res.status(500).json({ success: false, data: Err, message: 'Something went wrong please try again' });
+          }
+
+        } else {
+          closeConnection();
+          const warningMessage = "User not found"
+          logWarning(warningMessage)
+          res.status(200).json({ success: false, data: {}, message: warningMessage });
+        }
+      } catch (queryErr) {
+        closeConnection();
+        logError(queryErr)
+        res.status(500).json({ success: false, data: queryErr, message: 'Something went wrong please try again' });
+      }
+
+    })
+  } catch (Err) {
+    closeConnection();
+    logError(Err)
+    res.status(500).json({ success: false, data: Err, message: 'Something went wrong please try again' });
   }
 }
