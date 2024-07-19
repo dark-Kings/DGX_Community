@@ -6,11 +6,12 @@ import { connectToDatabase, closeConnection } from '../database/mySql.js';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv'
 
-import { generatePassword, referCodeGenerator } from '../utility/index.js';
+import { generatePassword, referCodeGenerator, encrypt } from '../utility/index.js';
 import { queryAsync, mailSender, logError, logInfo, logWarning } from '../helper/index.js';
 
 dotenv.config()
 const JWT_SECRET = process.env.JWTSECRET;
+
 
 
 //Route 0) To verify if User already exists
@@ -79,7 +80,10 @@ export const databaseUserVerification = async (req, res) => {
                   const message = `Welcome to DGX Community, Your credentials to Login given bellow.
                                    User Name: ${userEmail}
                                    Password: ${password}`
-                  const mailsent = await mailSender(userEmail, message)
+                  const htmlContent = `Welcome to DGX Community, Your credentials to Login given bellow.<br/>
+                                   <b>User Name: ${userEmail}</b><br/>
+                                   <b>Password: ${password}</b>`
+                  const mailsent = await mailSender(userEmail, message, htmlContent)
 
                   // console.log(mailsent.success)
                   // Respond with success message
@@ -456,7 +460,7 @@ export const sendInvite = async (req, res) => {
 
   try {
     const userId = req.user.id;
-    // console.log(userId);
+
 
     connectToDatabase(async (err, conn) => {
       if (err) {
@@ -466,17 +470,32 @@ export const sendInvite = async (req, res) => {
       }
 
       try {
-        const BaseLink = process.env.RegistrationLink
+        const baseLink = process.env.RegistrationLink
         const query = `SELECT ReferalNumber FROM Community_User WHERE isnull(delStatus,0) = 0 AND EmailId = ?`;
         const rows = await queryAsync(conn, query, [userId]);
 
         if (rows.length > 0) {
+          const email = await encrypt(req.body.email)
+          const refercode = await encrypt(rows[0].ReferalNumber)
 
+          const registrationLink = `${baseLink}Register/?email=${email}&refercode=${refercode}`
 
+          const message = `Welcome to DGX Community, Your Registration link is given bellow:
+                            ${registrationLink}`
+          const htmlContent = `Welcome to DGX Community, Your Registration link is given bellow:<br/>
+                              <a href=${registrationLink}>${registrationLink}</a>`
           closeConnection();
-          const infoMessage = "Invite Link send successfuly"
-          logInfo(infoMessage)
-          res.status(200).json({ success: true, data: {}, message: infoMessage });
+          const mailsent = await mailSender(req.body.email, message, htmlContent)
+          if (mailsent.success) {
+            success = true;
+            const infoMessage = "Invite Link send successfuly to ${req.body.email}"
+            logInfo(infoMessage); // Log the success
+            return res.status(200).json({ success: true, data: { registrationLink }, message: "Mail send successfully" });
+          } else {
+            const errorMessage = "Mail isn't sent successfully";
+            logError(new Error(errorMessage)); // Log the error
+            return res.status(200).json({ success: false, data: { username: userEmail }, message: errorMessage });
+          }
         } else {
           closeConnection();
           const warningMessage = "User not found"

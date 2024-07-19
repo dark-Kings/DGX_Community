@@ -2,18 +2,18 @@ export const validateRequired = (field) => {
     const inputField = document.getElementById(field);
     const errorElement = document.getElementById(`${field}Verify`);
     if (inputField.value === '') {
-            inputField.classList.remove('is-valid');
-            inputField.classList.add('is-invalid');
-            errorElement.classList.remove('valid-feedback');
-            errorElement.classList.add('invalid-feedback');
-            errorElement.textContent = 'This field is required';
-        } else {
-            inputField.classList.remove('is-invalid');
-            inputField.classList.add('is-valid');
-            errorElement.classList.remove('invalid-feedback');
-            errorElement.classList.add('valid-feedback');
-            errorElement.textContent = 'Looks Great!';
-        }
+        inputField.classList.remove('is-valid');
+        inputField.classList.add('is-invalid');
+        errorElement.classList.remove('valid-feedback');
+        errorElement.classList.add('invalid-feedback');
+        errorElement.textContent = 'This field is required';
+    } else {
+        inputField.classList.remove('is-invalid');
+        inputField.classList.add('is-valid');
+        errorElement.classList.remove('invalid-feedback');
+        errorElement.classList.add('valid-feedback');
+        errorElement.textContent = 'Looks Great!';
+    }
 }
 
 export const validatePhone = (phoneInput, phoneValue) => {
@@ -53,11 +53,12 @@ export const validatePassword = (passwordInput, passwordValue) => {
     const passwordVerify = document.getElementById('passwordVerify');
     let errorMessage = '';
     if (passwordValue.length < 8) {
-        errorMessage += 'Password must be at least 8 characters long';        
+        errorMessage += 'Password must be at least 8 characters long';
     }
     if (!/\d/.test(passwordValue)) {
         errorMessage += ', must contain at least one digit';
     }
+    // eslint-disable-next-line no-useless-escape
     if (!/[!@#$%^&*()_+={}\[\]:;<>,.?/~]/.test(passwordValue)) {
         errorMessage += ', one special character';
     }
@@ -84,7 +85,7 @@ export const validatePassword = (passwordInput, passwordValue) => {
 
 export const validatePinCode = (pinCodeInput, pinCodeValue) => {
     const pinCodeVerify = document.getElementById('pinCodeVerify');
-    if (!((pinCodeValue>= 110001)&&(pinCodeValue<= 855117))) {
+    if (!((pinCodeValue >= 110001) && (pinCodeValue <= 855117))) {
         pinCodeInput.classList.remove('is-valid');
         pinCodeInput.classList.add('is-invalid');
         pinCodeVerify.classList.remove('valid-feedback');
@@ -100,7 +101,7 @@ export const validatePinCode = (pinCodeInput, pinCodeValue) => {
 }
 export const confirmPassword = (passwordValue, confirmPasswordValue, confirmPasswordInput) => {
     const conPasswordVerify = document.getElementById('conPasswordVerify');
-    if(confirmPasswordValue !== ''){
+    if (confirmPasswordValue !== '') {
         if (!(confirmPasswordValue === passwordValue)) {
             confirmPasswordInput.classList.remove('is-valid');
             confirmPasswordInput.classList.add('is-invalid');
