@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import EmailAndOTPVerification from './EmailAndOTPVerification';
+import EmailVerification from './EmailVerification';
 import { images } from '../constant/index.js'; // Adjust the path relative to the component file
 
 const ForgotPassword = () => {
@@ -7,12 +7,31 @@ const ForgotPassword = () => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordsMatch, setPasswordsMatch] = useState(true);
-  const [otpVerified, setOtpVerified] = useState(false);
+  const [emailVerified, setEmailVerified] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleVerificationComplete = (email) => {
+  const handleEmailSubmit = async (email) => {
     setEmailOrUsername(email);
-    setOtpVerified(true);
+
+    try {
+      const response = await fetch('/api/send-reset-password-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      if (response.ok) {
+        setEmailVerified(true);
+        alert('A link to reset your password has been sent to your email.');
+      } else {
+        alert('Error sending email. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Error sending email. Please try again.');
+    }
   };
 
   const handleSubmit = (event) => {
@@ -26,7 +45,7 @@ const ForgotPassword = () => {
     setNewPassword('');
     setConfirmPassword('');
     setPasswordsMatch(true);
-    setOtpVerified(false);
+    setEmailVerified(false);
   };
 
   return (
@@ -36,8 +55,8 @@ const ForgotPassword = () => {
         <div className="w-full max-w-md">
           <div className="bg-white rounded-xl mx-auto shadow-lg overflow-hidden bg-DGXwhite shadow-DGXgreen p-8">
             <h1 className="text-DGXblue text-3xl mb-6 font-bold text-center">Forgot Password</h1>
-            {!otpVerified ? (
-              <EmailAndOTPVerification onVerificationComplete={handleVerificationComplete} />
+            {!emailVerified ? (
+              <EmailVerification onEmailSubmit={handleEmailSubmit} />
             ) : (
               <form onSubmit={handleSubmit} className="w-full">
                 <div className="mb-4 relative">

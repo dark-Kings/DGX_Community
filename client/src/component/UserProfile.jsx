@@ -3,7 +3,6 @@ import UserProfileChart from './UserProfileChart';
 import { FaFacebook, FaTwitter, FaLinkedin, FaGithub, FaUsers, FaPoll } from 'react-icons/fa';
 import { GoCommentDiscussion } from "react-icons/go";
 import { FaArrowTrendDown, FaArrowTrendUp, FaEllipsisVertical } from "react-icons/fa6";
-import { MdOutlineReportProblem, MdShare, MdMessage, MdBlock, MdPersonAddAlt1, MdOutlineSettings } from "react-icons/md";
 import { images } from '../constant/index.js';
 import ChangePassword from './ChangePassword.jsx';
 import { CgProfile } from "react-icons/cg";
@@ -72,11 +71,7 @@ const UserProfile = () => {
 
 
     const [activeTab, setActiveTab] = useState('profile');
-    // Define colors
-    const facebookColor = "#1877f2";
-    const twitterColor = "#1da1f2";
-    const linkedinColor = "#0077b5";
-    const githubColor = "#000000";
+
     const [openSettings, setOpenSettings] = useState(false);
 
     const handleSettingsToggle = () => {
@@ -208,8 +203,7 @@ const UserProfile = () => {
                     </div>
 
                 </div>
-
-                <div className="w-3/4 bg-DGXwhite rounded-lg shadow-xl p-4 border border-DGXgreen ml-4">
+                <div className="w-3/4  bg-DGXwhite rounded-lg shadow-xl p-4 border border-DGXgreen ml-4">
                     {activeTab === 'profile' && (
                         <div className="flex flex-col w-full 2xl:w-3/3 ">
                             <div className="flex bg-DGXwhite rounded-lg shadow-xl p-4 border border-DGXgreen min-h-[350px]">
@@ -311,13 +305,13 @@ const UserProfile = () => {
                                     <h4 className="text-xl text-[#0f172a] font-bold">My Posts   </h4>
                                 </div>
                                 <div className='post border-2 border-spacing-2 shadow-xl border-DGXgreen rounded-md'>
-                                    <a href="#" class="shadow-xl flex flex-col md:flex-row md:max-w-xl lg:max-w-full bg-white border border-gray-200 rounded-lg hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-                                        <div class="w-full md:w-1/4">
-                                            <img class="object-cover w-full h-96 md:h-auto md:rounded-none rounded-t-lg md:rounded-s-lg" src="/docs/images/blog/image-4.jpg" alt="" />
+                                    <a href="#" className="shadow-xl flex flex-col md:flex-row md:max-w-xl lg:max-w-full bg-white border border-gray-200 rounded-lg hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                                        <div className="w-full md:w-1/4">
+                                            <img className="object-cover w-full h-96 md:h-auto md:rounded-none rounded-t-lg md:rounded-s-lg" src="/docs/images/blog/image-4.jpg" alt="" />
                                         </div>
-                                        <div class="w-full md:w-3/4 flex flex-col justify-between p-4 leading-normal">
-                                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
-                                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+                                        <div className="w-full md:w-3/4 flex flex-col justify-between p-4 leading-normal">
+                                            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+                                            <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
                                         </div>
                                     </a>
 
@@ -334,19 +328,19 @@ const UserProfile = () => {
                                 <h4 className="text-xl text-[#0f172a] font-bold">My Events</h4>
                             </div>
                             <div className='flex space-x-4 '>
-                                <a href="#" class="border-DGXgreen shadow-xl flex flex-col items-center bg-white border border-gray-200 rounded-lg  md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-                                    <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="/docs/images/blog/image-4.jpg" alt="" />
-                                    <div class="flex flex-col justify-between p-4 leading-normal">
-                                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
-                                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+                                <a href="#" className="border-DGXgreen shadow-xl flex flex-col items-center bg-white border border-gray-200 rounded-lg  md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                                    <img className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="/docs/images/blog/image-4.jpg" alt="" />
+                                    <div className="flex flex-col justify-between p-4 leading-normal">
+                                        <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+                                        <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
                                     </div>
                                 </a>
 
-                                <a href="#" class="border-DGXgreen shadow-xl flex  items-center bg-white border border-gray-200 rounded-lg  md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-                                    <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="/docs/images/blog/image-4.jpg" alt="" />
-                                    <div class="flex flex-col justify-between p-4 leading-normal">
-                                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
-                                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+                                <a href="#" className="border-DGXgreen shadow-xl flex  items-center bg-white border border-gray-200 rounded-lg  md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                                    <img className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="/docs/images/blog/image-4.jpg" alt="" />
+                                    <div className="flex flex-col justify-between p-4 leading-normal">
+                                        <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+                                        <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
                                     </div>
                                 </a>
                             </div>
