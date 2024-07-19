@@ -10,6 +10,7 @@ import ChangePassword from './component/ChangePassword.jsx';
 import UserProfile from './component/UserProfile.jsx';
 import Discussion from './container/Discussion.jsx';
 import Notfound from './component/Notfound.jsx';
+import ResetPassword from './component/ResetPassword.jsx';
 // import LoadPage from './component/LoadPage.jsx';
 
 
@@ -28,6 +29,7 @@ function App() {
             <Route exact path="/Register" element={<Register />} />
             <Route exact path="/SignInn" element={<SignInn />} />
             <Route exact path="/ForgotPassword" element={<ForgotPassword />} />
+            <Route exact path='/ResetPassword' element={<ResetPassword />} />
             <Route exact path="/ChangePassword" element={<ChangePassword />} />
             <Route exact path="/UserProfile" element={<UserProfile />} />
             <Route exact path='/Discussion' element={<Discussion />} />

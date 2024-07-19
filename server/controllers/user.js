@@ -554,7 +554,7 @@ export const passwordRecovery = async (req, res) => {
             const updateQuery = `UPDATE Community_User SET FlagPasswordChange = 2, AuthLstEdit= ?, editOnDt = GETDATE() WHERE isnull(delStatus,0) = 0 AND EmailId= ?`
             const update = await queryAsync(conn, updateQuery, ['Server', req.body.email])
 
-            const registrationLink = `${baseLink}Resetpassword/?email=${email}&signature=${signature}`
+            const registrationLink = `${baseLink}ResetPassword/?email=${email}&signature=${signature}`
 
             const message = `Welcome to DGX Community, Your Password Reset link is given bellow:
                               ${registrationLink}`
@@ -653,7 +653,7 @@ export const resetPassword = async (req, res) => {
 
         } else {
           closeConnection();
-          const warningMessage = "User not found"
+          const warningMessage = "invalid link"
           logWarning(warningMessage)
           res.status(200).json({ success: false, data: {}, message: warningMessage });
         }
