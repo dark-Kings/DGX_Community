@@ -1,21 +1,39 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { images } from "../constant/index.js";
 import { IoRefreshCircleSharp } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import generateCaptcha from "../utils/generateCaptcha.js";
-import ApiContext from '../context/ApiContext.jsx';
+// import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const VerifyEmail = () => {
-  const { fetchData } = useContext(ApiContext);
-  const [loading, setLoading] = useState(false)
-  const navigate = useNavigate();
+  const BaseUrl = import.meta.env.VITE_API_BASEURL
+  console.log(BaseUrl)
+  async function generateCaptcha(length = 6) {
+    const lowercase = 'abcdefghijklmnopqrstuvwxyz';
+    const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const numbers = '0123456789';
+    const allCharacters = lowercase + uppercase + numbers;
 
-  const [captcha, setCaptcha] = useState("");
-  const [userCaptcha, setUserCaptcha] = useState("");
-  const [email, setEmail] = useState("");
+    let captcha = '';
 
+    captcha += lowercase[Math.floor(Math.random() * lowercase.length)];
+    captcha += uppercase[Math.floor(Math.random() * uppercase.length)];
+    captcha += numbers[Math.floor(Math.random() * numbers.length)];
+
+    for (let i = 0; i < length - 3; i++) {
+      captcha += allCharacters[Math.floor(Math.random() * allCharacters.length)];
+    }
+
+    captcha = captcha.split('').sort(() => Math.random() - 0.5).join('');
+    return captcha;
+  }
+
+  const [captcha, setCaptcha] = useState('');
+  const [userCaptcha, setUserCaptcha] = useState('');
+  const [email, setEmail] = useState('');
+  // const BaseUrl = import.meta.env.VITE_API_BASEURL
+  // console.log(BaseUrl)
 
   const refreshCaptcha = async () => {
     const newCaptcha = await generateCaptcha(6);
@@ -33,11 +51,10 @@ const VerifyEmail = () => {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailPattern.test(email);
   }
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     if (userCaptcha !== captcha) {
-      refreshCaptcha()
       toast.error("Invalid captcha", {
         position: "bottom-left",
         autoClose: 5000,
@@ -52,7 +69,6 @@ const VerifyEmail = () => {
     }
 
     if (!isValidEmail(email)) {
-      refreshCaptcha();
       toast.error("Invalid Email", {
         position: "bottom-left",
         autoClose: 5000,
@@ -65,65 +81,16 @@ const VerifyEmail = () => {
       });
       return;
     }
-    const endpoint = "user/verify";
-    const method = "POST"
-    const body = { email: email };
-    setLoading(true)
 
-    try {
-      const data = await fetchData(endpoint, method, body);
-      if (!data.success) {
-        refreshCaptcha();
-        setLoading(false)
-        toast.error(`Error verifying email: ${data.message}`, {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      } else if (data.success) {
-        refreshCaptcha();
-        setLoading(false)
-        toast.success(`Email verified successfully check your mail: ${data.data.username} for credentials`, {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-        setTimeout(() => {
-          navigate('/SignInn');
-        }, 3500);
-      }
-    } catch (error) {
-      setLoading(false)
-      refreshCaptcha();
-      toast.error(`Something went wrong try again`, {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }
-
+    const endPoint = "user/verify";
+    const headers = { "Content-Type": "application/json" };
+    const data = { email: email };
   };
 
   return (
-    loading ? <h1>Loading...</h1> : <div>
+    <div>
       <ToastContainer />
       <section className="h-screen">
-
         <div className="h-full">
           <div className="flex h-full flex-wrap md:w-250 items-center justify-center lg:justify-between">
             <div className="shrink-1 hidden lg:block ml:10 mb-12 grow-0 basis-auto md:mb-0 md:w-5/12 sm:w-6/12 md:shrink-0 lg:w-4/12 xl:w-4/12">
@@ -154,7 +121,7 @@ const VerifyEmail = () => {
                     />
                     <label
                       htmlFor="email"
-                      className="peer-focus pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.15rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[twe-input-state-active]:-translate-y-[1.15rem] peer-data-[twe-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-400 dark:peer-focus:text-primary"
+                      className="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.15rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[twe-input-state-active]:-translate-y-[1.15rem] peer-data-[twe-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-400 dark:peer-focus:text-primary"
                     >
                       Email address
                     </label>
@@ -209,7 +176,15 @@ const VerifyEmail = () => {
                     >
                       Verify
                     </button>
-
+                    <p className="mb-0 mt-2 pt-1 text-sm font-semibold">
+                      Don't have an account?
+                      <Link
+                        to="/Register"
+                        className="text-danger transition duration-150 ease-in-out hover:text-danger-600 focus:text-danger-600 active:text-danger-700 text-DGXgreen"
+                      >
+                        Register
+                      </Link>
+                    </p>
                   </div>
                 </form>
               </div>

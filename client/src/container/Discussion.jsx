@@ -51,7 +51,10 @@ const Discussion = () => {
     };
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
-    const openModal = () => setModalIsOpen(true);
+    const openModal = () => {
+        console.log("clicked");
+        setModalIsOpen(true);
+    }
     const closeModal = () => setModalIsOpen(false);
 
 
@@ -108,7 +111,7 @@ const Discussion = () => {
                     </button>
                 </nav>
             </header>
-
+            {modalIsOpen && <DiscussionModal isOpen={modalIsOpen} onRequestClose={closeModal} />}
             <div className="flex flex-col md:flex-row px-4 py-8 space-y-6 md:space-y-0">
                 <main className="w-full md:w-2/3 lg:w-1/2 mx-4 order-1 md:order-2">
                     {isFormOpen ? (
@@ -162,7 +165,7 @@ const Discussion = () => {
                                             </p>
                                             <div className="flex items-center justify-between mt-4">
                                                 <span className="text-gray-500 text-sm">Posted 2 hours ago</span>
-                                                <div className="flex items-center space-x-6">
+                                                <div className="flex items-center space-x-6 z-0">
                                                     <button
                                                         onClick={handleLike}
                                                         className="flex items-center text-gray-600 hover:text-DGXgreen transition-transform transform hover:scale-110 focus:outline-none"
@@ -179,19 +182,14 @@ const Discussion = () => {
                                                     </button>
                                                 </div>
                                             </div>
-                                            <a
-                                                href="#"
-                                                onClick={(e) => {
-                                                    e.preventDefault();
-                                                    openModal(); // Function to open the modal
-                                                }}
-                                                className="mt-4 text-DGXgreen hover:underline"
+                                            <div
+                                                onClick={openModal}
+                                                className="mt-4 text-DGXgreen hover:underline hover:text-DGXblue"
                                             >
                                                 Be a part of the discussion
-                                            </a>
+                                            </div>
                                         </div>
                                     </div>
-                                    <DiscussionModal isOpen={modalIsOpen} onRequestClose={closeModal} />
                                 </section>
 
                             )}
