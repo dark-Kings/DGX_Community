@@ -43,7 +43,9 @@ const Register = () => {
       navigate('/404');
     }
   }
-  urlExtract()
+  useEffect(() => {
+    urlExtract()
+  }, [location, navigate])
 
   const [formData, setFormData] = useState({
     username: "",
@@ -109,7 +111,16 @@ const Register = () => {
     }
 
     if (newPassword !== confirmPassword) {
-      toast.error("Passwords do not match.");
+      toast.error("Passwords do not match.", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
       return;
     }
 
@@ -137,7 +148,7 @@ const Register = () => {
       if (!data.success) {
         setLoading(false)
         toast.error("Error in Registration", {
-          position: "bottom-left",
+          position: "top-center",
           autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -146,10 +157,11 @@ const Register = () => {
           progress: undefined,
           theme: "light",
         });
+        return
       } else if (data.success) {
         setLoading(false)
         toast.success("Registration done successfully go login", {
-          position: "bottom-left",
+          position: "top-center",
           autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -174,6 +186,7 @@ const Register = () => {
         progress: undefined,
         theme: "light",
       });
+      return
     }
 
   };

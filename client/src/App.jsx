@@ -12,6 +12,7 @@ import Discussion from './container/Discussion.jsx';
 import ContactUs from './container/ContactUs.jsx';
 import DiscussionModal from './component/DiscussionModal.jsx';
 import Notfound from './component/Notfound.jsx';
+import ResetPassword from './component/ResetPassword.jsx';
 // import LoadPage from './component/LoadPage.jsx';
 
 
@@ -24,18 +25,18 @@ function App() {
         <div className="flex-grow">
           <Routes>
             <Route path="/" element={<Home />} />
-            {/* <Route path="/LoadPage" element={<LoadPage/>} /> */}
-            {/* <Route path="/Login" element={<Login />} /> */}
             <Route exact path="/VerifyEmail" element={<VerifyEmail />} />
             <Route exact path="/Register" element={<Register />} />
-            <Route path="/SignInn" element={<SignInn />} />
-            <Route path="/ForgotPassword" element={<ForgotPassword />} />
-            <Route path="/ChangePassword" element={<ChangePassword />} />
-            <Route path="/UserProfile" element={<UserProfile />} />
-            <Route path='/Discussion' element={<Discussion/>}/>
-            <Route path='/ContactUs' element={<ContactUs/>}/>
-            <Route path='/DiscussionModal' element={<DiscussionModal/>}/>
-            <Route path='/404' element={<Notfound />} />
+            <Route exact path="/SignInn" element={<SignInn />} />
+            <Route exact path="/ForgotPassword" element={<ForgotPassword />} />
+            <Route exact path='/ResetPassword' element={<ResetPassword />} />
+            <Route exact path="/ChangePassword" element={<ChangePassword />} />
+            <Route exact path="/UserProfile" element={<UserProfile />} />
+            <Route exact path='/Discussion' element={<Discussion />} />
+            <Route exact path='/Discussion' element={<Discussion />} />
+            <Route exact path='/ContactUs' element={<ContactUs />} />
+            <Route exact path='/DiscussionModal' element={<DiscussionModal />} />
+            <Route exact path='/404' element={<Notfound />} />
           </Routes>
         </div>
         <footer className="footer bg-DGXgreen text-DGXwhite text-center">

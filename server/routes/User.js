@@ -9,7 +9,9 @@ import {
   getuser,
   databaseUserVerification,
   changePassword,
-  sendInvite
+  sendInvite,
+  passwordRecovery,
+  resetPassword
 
 } from "../controllers/user.js";
 
@@ -40,6 +42,16 @@ router.get('/getuser', fetchUser, getuser)
 router.post('/sendinvite', [
   body('email', 'Enter a valid email').isEmail()
 ], fetchUser, sendInvite)
+
+router.post('/passwordrecovery', [
+  body('email', 'Enter a valid email').isEmail()
+], passwordRecovery)
+
+router.post('/resetpassword', [
+  body('email', 'Enter a valid email').isEmail(),
+  body('signature', 'New Password can not be blank').exists(),
+  body('password', 'New Password can not be blank').exists()
+], resetPassword)
 
 
 
