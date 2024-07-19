@@ -9,9 +9,10 @@ import ForgotPassword from './component/ForgotPassword';
 import ChangePassword from './component/ChangePassword.jsx';
 import UserProfile from './component/UserProfile.jsx';
 import Discussion from './container/Discussion.jsx';
+import ContactUs from './container/ContactUs.jsx';
+import DiscussionModal from './component/DiscussionModal.jsx';
 import Notfound from './component/Notfound.jsx';
 import ResetPassword from './component/ResetPassword.jsx';
-// import LoadPage from './component/LoadPage.jsx';
 
 
 
@@ -23,8 +24,6 @@ function App() {
         <div className="flex-grow">
           <Routes>
             <Route path="/" element={<Home />} />
-            {/* <Route path="/LoadPage" element={<LoadPage/>} /> */}
-            {/* <Route path="/Login" element={<Login />} /> */}
             <Route exact path="/VerifyEmail" element={<VerifyEmail />} />
             <Route exact path="/Register" element={<Register />} />
             <Route exact path="/SignInn" element={<SignInn />} />
@@ -33,7 +32,10 @@ function App() {
             <Route exact path="/ChangePassword" element={<ChangePassword />} />
             <Route exact path="/UserProfile" element={<UserProfile />} />
             <Route exact path='/Discussion' element={<Discussion />} />
-            <Route path='/404' element={<Notfound />} />
+            <Route exact path='/Discussion' element={<Discussion />} />
+            <Route exact path='/ContactUs' element={<ContactUs />} />
+            <Route exact path='/DiscussionModal' element={<DiscussionModal />} />
+            <Route exact path='/404' element={<Notfound />} />
           </Routes>
         </div>
         <footer className="footer bg-DGXgreen text-DGXwhite text-center">

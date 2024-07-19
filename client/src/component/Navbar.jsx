@@ -26,7 +26,7 @@ const Navbar = () => {
         },
         {
             label: 'Contact Us',
-            to: '#'
+            to: '/ContactUs'
         },
         {
             label: 'Community Guidelines',
