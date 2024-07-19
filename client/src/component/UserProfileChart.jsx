@@ -1,10 +1,8 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
-
 // Register necessary Chart.js components
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
-
 const UserProfileChart = () => {
   const data = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -25,7 +23,6 @@ const UserProfileChart = () => {
       },
     ],
   };
-
   const options = {
     responsive: true,
     maintainAspectRatio: false, // Ensure the chart fills the container
@@ -39,10 +36,9 @@ const UserProfileChart = () => {
       },
     },
   };
-
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 my-4 border border-DGXgreen" style={{ height: '100%', width: '100%' }}>
-      <div style={{ position: 'relative', height: '450px', width: '100%' }}>
+    <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 md:p-8 lg:p-10 my-4 border border-DGXgreen w-full max-w-full md:max-w-4xl lg:max-w-3xl xl:max-w-2xl">
+      <div className="relative w-full h-64 sm:h-80 md:h-96 lg:h-[450px]">
         <Line data={data} options={options} />
       </div>
     </div>

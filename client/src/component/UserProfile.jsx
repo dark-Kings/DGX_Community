@@ -69,8 +69,6 @@ const UserProfile = () => {
             setEmailError('Invalid email address');
         }
     };
-
-
     const [activeTab, setActiveTab] = useState('profile');
     // Define colors
     const facebookColor = "#1877f2";
@@ -78,23 +76,14 @@ const UserProfile = () => {
     const linkedinColor = "#0077b5";
     const githubColor = "#000000";
     const [openSettings, setOpenSettings] = useState(false);
-
     const handleSettingsToggle = () => {
         setOpenSettings(!openSettings);
     };
-
     return (
         <div className="h-full bg-DGXwhite p-8">
             <div className="my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
-
-
-
-
-
                 <div className="w-full flex flex-col 2xl:w-1/3">
-
                     <div className="bg-DGXwhite w-full rounded-lg shadow-xl  pb-6 border border-DGXgreen">
-
                         <div className="w-full h-[250px] rounded-t-lg border border-t-0 border-l-0 border-r-0 border-b-DGXgreen border-b-4">
                             <img src={images.NvidiaBackground} className="w-full h-full rounded-tl-lg rounded-tr-lg" alt="Profile background" />
                         </div>
@@ -111,11 +100,34 @@ const UserProfile = () => {
                             <p className="text-DGXgray">Senior Software Engineer at Tailwind CSS</p>
                             <p className="text-sm text-[#6b7280]">New York, USA</p>
                         </div>
-
                     </div>
                     <div className="my-4 flex flex-col 2xl:flex-row  2xl:space-y-0 2xl:space-x-4">
                         <div className="w-full flex flex-col ">
-                            <div className="flex-1 bg-DGXwhite rounded-lg shadow-xl p-8 border border-DGXgreen">
+                        <div className="flex-1 bg-DGXwhite rounded-lg shadow-xl mt-4 p-8 border border-DGXgreen">
+                                <ul>
+                                    <div className='flex items-center p-6 cursor-pointer' onClick={() => setActiveTab('profile')}>
+                                        <CgProfile className='mr-4 text-2xl' />
+                                        <li className={`text-lg ${activeTab === 'profile' ? 'text-DGXblue font-bold' : ''}`}>My Profile</li>
+                                    </div>
+                                    <div className='flex items-center p-6 cursor-pointer' onClick={() => setActiveTab('posts')}>
+                                        <GoCommentDiscussion className='mr-4 text-2xl' />
+                                        <li className={`text-lg ${activeTab === 'posts' ? 'text-DGXblue font-bold' : ''}`}>My Posts</li>
+                                    </div>
+                                    <div className='flex items-center p-6 cursor-pointer' onClick={() => setActiveTab('events')}>
+                                        <MdEventAvailable className='mr-4 text-2xl' />
+                                        <li className={`text-lg ${activeTab === 'events' ? 'text-DGXblue font-bold' : ''}`}>My Events</li>
+                                    </div>
+                                    <div className='flex items-center p-6 cursor-pointer' onClick={() => setActiveTab('password')}>
+                                        <CgPassword className='mr-4 text-2xl' />
+                                        <li className={`text-lg ${activeTab === 'password' ? 'text-DGXblue font-bold' : ''}`}>Change Password</li>
+                                    </div>
+                                    <div className='flex items-center p-6 cursor-pointer' onClick={() => setActiveTab('logout')}>
+                                        <SlLogout className='mr-4 text-2xl' />
+                                        <li className={`text-lg ${activeTab === 'logout' ? 'text-DGXblue font-bold' : ''}`}>Logout</li>
+                                    </div>
+                                </ul>
+                            </div>  
+                            <div className="flex-1 bg-DGXwhite rounded-lg shadow-xl mt-5 p-8 border border-DGXgreen">
                                 <h4 className="text-xl text-DGXblack font-bold">Personal Info</h4>
                                 <ul className="mt-2 text-DGXgray">
                                     <li className="flex border-y py-2">
@@ -177,38 +189,10 @@ const UserProfile = () => {
                                 {emailError && <p className="text-red-500 mt-2">{emailError}</p>}
                                 {emailSubmitted && !emailError && <p className="text-green-500 mt-2">Refered successfully!</p>}
                             </div>
-                            <div className="flex-1 bg-DGXwhite rounded-lg shadow-xl mt-4 p-8 border border-DGXgreen">
-                                <ul>
-                                    <div className='flex items-center p-6 cursor-pointer' onClick={() => setActiveTab('profile')}>
-                                        <CgProfile className='mr-4 text-2xl' />
-                                        <li className={`text-lg ${activeTab === 'profile' ? 'text-DGXblue font-bold' : ''}`}>My Profile</li>
-                                    </div>
-                                    <div className='flex items-center p-6 cursor-pointer' onClick={() => setActiveTab('posts')}>
-                                        <GoCommentDiscussion className='mr-4 text-2xl' />
-                                        <li className={`text-lg ${activeTab === 'posts' ? 'text-DGXblue font-bold' : ''}`}>My Posts</li>
-                                    </div>
-                                    <div className='flex items-center p-6 cursor-pointer' onClick={() => setActiveTab('events')}>
-                                        <MdEventAvailable className='mr-4 text-2xl' />
-                                        <li className={`text-lg ${activeTab === 'events' ? 'text-DGXblue font-bold' : ''}`}>My Events</li>
-                                    </div>
-                                    <div className='flex items-center p-6 cursor-pointer' onClick={() => setActiveTab('password')}>
-                                        <CgPassword className='mr-4 text-2xl' />
-                                        <li className={`text-lg ${activeTab === 'password' ? 'text-DGXblue font-bold' : ''}`}>Change Password</li>
-                                    </div>
-                                    <div className='flex items-center p-6 cursor-pointer' onClick={() => setActiveTab('logout')}>
-                                        <SlLogout className='mr-4 text-2xl' />
-                                        <li className={`text-lg ${activeTab === 'logout' ? 'text-DGXblue font-bold' : ''}`}>Logout</li>
-                                    </div>
-                                </ul>
-                            </div>
-
+                       
                         </div>
-
-
                     </div>
-
                 </div>
-
                 <div className="w-3/4 bg-DGXwhite rounded-lg shadow-xl p-4 border border-DGXgreen ml-4">
                     {activeTab === 'profile' && (
                         <div className="flex flex-col w-full 2xl:w-3/3 ">
@@ -249,7 +233,6 @@ const UserProfile = () => {
                                             </div>
                                         </div>
                                     </div>
-
                                     <div className="px-6 py-6 bg-DGXwhite border border-DGXgreen rounded-lg shadow-xl">
                                         <div className="flex items-center justify-between">
                                             <span className="font-bold text-sm text-DGXblue">Polls</span>
@@ -272,7 +255,6 @@ const UserProfile = () => {
                                             </div>
                                         </div>
                                     </div>
-
                                     <div className="px-6 py-6 bg-DGXwhite border border-DGXgreen rounded-lg shadow-xl">
                                         <div className="flex items-center justify-between">
                                             <span className="font-bold text-sm text-DGXblue">Connections</span>
@@ -296,7 +278,6 @@ const UserProfile = () => {
                                         </div>
                                     </div>
                                 </div>
-
                                 <div className="mt-4 flex justify-center items-center">
                                     <UserProfileChart /> {/* Include the Chart component */}
                                 </div>
@@ -305,7 +286,6 @@ const UserProfile = () => {
                     )}
                     {activeTab === 'posts' && (
                         <div>
-
                             <div className='post_bar pt-4 flex flex-col space-y-6'>
                                 <div className='flex-co'>
                                     <h4 className="text-xl text-[#0f172a] font-bold">My Posts   </h4>
@@ -320,12 +300,8 @@ const UserProfile = () => {
                                             <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
                                         </div>
                                     </a>
-
                                 </div>
-
-
                             </div>
-
                         </div>
                     )}
                     {activeTab === 'events' && (
@@ -341,7 +317,6 @@ const UserProfile = () => {
                                         <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
                                     </div>
                                 </a>
-
                                 <a href="#" class="border-DGXgreen shadow-xl flex  items-center bg-white border border-gray-200 rounded-lg  md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
                                     <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="/docs/images/blog/image-4.jpg" alt="" />
                                     <div class="flex flex-col justify-between p-4 leading-normal">
@@ -358,10 +333,8 @@ const UserProfile = () => {
                             <ChangePassword />
                         </div>
                     )}
-
                 </div>
             </div>
-
         </div>
     );
 };

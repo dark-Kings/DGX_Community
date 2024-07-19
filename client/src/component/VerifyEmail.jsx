@@ -133,7 +133,7 @@ const VerifyEmail = () => {
                 alt="Sample image"
               />
             </div>
-            <div className="w-full lg:w-6/12 lg:rounded-l-full h-screen flex justify-center items-center bg-[#0ea5e9]">
+            <div className="w-full lg:w-6/12 lg:rounded-l-full h-screen flex justify-center items-center bg-DGXblue">
               <div className="mb-12 md:mb-0 w-full md:w-8/12 lg:w-5/12 xl:w-5/12 border border-DGXgreen rounded-lg bg-DGXwhite">
                 <form className="mb-12 w:50 pr-5 pl-5" onSubmit={handleSubmit}>
                   <div className="flex flex-row items-center justify-center xl:justify-start mt-5 align-item-center">

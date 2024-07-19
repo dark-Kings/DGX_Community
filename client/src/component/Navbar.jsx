@@ -24,7 +24,7 @@ const Navbar = () => {
         },
         {
             label: 'Contact Us',
-            to: '#'
+            to: '/ContactUs'
         },
         {
             label: 'Community Guidelines',
@@ -68,7 +68,7 @@ const Navbar = () => {
 
                 <section className='flex items-center gap-6 xs:gap-1'>
                     {!isLoggedIn ? (
-                        <Link to="/SignIn">
+                        <Link to="/SignInn">
                             <button
                                 type="button"
                                 className="text-white bg-DGXgreen hover:bg-DGXgreen focus:ring-4 focus:outline-none focus:ring-DGXgreen font-medium rounded-lg text-xl px-4 py-2 text-center dark:bg-DGXgreen dark:hover:bg-blue-700 dark:focus:ring-blue-800"
