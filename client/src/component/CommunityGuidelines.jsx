@@ -9,12 +9,7 @@ import 'swiper/css/navigation';
 // import required modules
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import { images } from "../constant/index.js";
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
  
-
-
 const CommunityGuidelines = () => {
 
   const handleLearnMoreClick = (sectionId) => {
