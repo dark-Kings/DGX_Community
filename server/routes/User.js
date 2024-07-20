@@ -37,7 +37,7 @@ router.post('/changePassword', [
   body('newPassword', 'New Password can not be blank').exists()
 ], fetchUser, changePassword)
 
-router.get('/getuser', fetchUser, getuser)
+router.post('/getuser', fetchUser, getuser)
 
 router.post('/sendinvite', [
   body('email', 'Enter a valid email').isEmail()
