@@ -90,8 +90,8 @@ const Navbar = () => {
             <nav className='flex justify-between item-center p-2'>
                 {/* <div className='flex item-center gap-8'> */}
                     <section className=''>
-                        <AiOutlineMenu onClick={() => setMenu(true)} className='text-3xl cursor-pointer lg:hidden' />
                         <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+                        <AiOutlineMenu onClick={() => setMenu(true)} className='text-3xl cursor-pointer lg:hidden' />
                             <img src={images.nvidiaPartner} className="h-10 md:h-12 lg:h-14 xl:h-12 item-center" alt="NVIDIA Partner Logo" />
                         </Link>
                     </section>
