@@ -7,6 +7,7 @@ import robot from '../assets/robot.png'
 import secure from '../assets/secure.png'
 import nvbackground from '../assets/nvbackground.jpg'
 import NvidiaBackground from '../assets/NvidiaBackground.jpg'
+import Team from '../assets/Team.png'
 
 
 export default {
@@ -17,6 +18,7 @@ export default {
     robot,
     secure,
     nvbackground,
-    NvidiaBackground
+    NvidiaBackground,
+    Team
 
 }
