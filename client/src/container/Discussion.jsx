@@ -57,6 +57,49 @@ const Discussion = () => {
     }
     const closeModal = () => setModalIsOpen(false);
 
+    const [tags, setTags] = useState([]);
+    const [tagInput, setTagInput] = useState('');
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [isImageUploaded, setIsImageUploaded] = useState(false);
+
+    const handleTagInputChange = (e) => {
+        setTagInput(e.target.value);
+    };
+
+    const handleTagInputKeyPress = (e) => {
+        if (e.key === 'Enter' && tagInput.trim() !== '') {
+            e.preventDefault();
+            setTags([...tags, tagInput.trim()]);
+            setTagInput('');
+        }
+    };
+
+    const removeTag = (tagToRemove) => {
+        setTags(tags.filter(tag => tag !== tagToRemove));
+    };
+
+    const handleImageChange = (e) => {
+        if (e.target.files && e.target.files[0]) {
+            setSelectedImage(URL.createObjectURL(e.target.files[0]));
+            setIsImageUploaded(false); // Reset the flag when a new image is selected
+        }
+    };
+
+    const handleImageUpload = (e) => {
+        e.preventDefault();
+        // Simulate image upload
+        setTimeout(() => {
+            setIsImageUploaded(true); // Set the flag to true after image is "uploaded"
+            alert('Image uploaded successfully!');
+        }, 500); // Simulate upload time
+    };
+
+    const handleSubmit = (e) => {
+        if (selectedImage && !isImageUploaded) {
+            e.preventDefault();
+            alert('Please upload the selected image first.');
+        }
+    };
 
     return (
         <div>
@@ -112,12 +155,12 @@ const Discussion = () => {
                 </nav>
             </header>
             {modalIsOpen && <DiscussionModal isOpen={modalIsOpen} onRequestClose={closeModal} />}
-            <div className="flex flex-col md:flex-row px-4 py-8 space-y-6 md:space-y-0">
-                <main className="w-full md:w-2/3 lg:w-1/2 mx-4 order-1 md:order-2">
+            <div className="flex  md:w-6/6 lg:w-6/6 flex-col md:flex-row px-4 py-8 space-y-6 md:space-y-0">
+                <main className="w-full md:w-5/6 lg:w-5/6 mx-4 order-1 md:order-2">
                     {isFormOpen ? (
                         <section>
                             <h2 className="text-2xl font-bold text-DGXblue mb-4">Start a New Topic</h2>
-                            <form className="bg-gray-100 p-4 rounded-lg shadow-lg">
+                            <form className="bg-gray-100 p-4 rounded-lg shadow-lg" onSubmit={handleSubmit}>
                                 <div className="mb-4">
                                     <label htmlFor="title" className="block text-gray-700 dark:text-gray-300">Title</label>
                                     <input
@@ -131,39 +174,86 @@ const Discussion = () => {
                                     <label htmlFor="content" className="block text-gray-700 dark:text-gray-300">Content</label>
                                     <textarea
                                         id="content"
-                                        className="w-full px-3 py-2 border   rounded-md dark:bg-neutral-700 dark:border-neutral-600 dark:text-white"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-neutral-700 dark:border-neutral-600 dark:text-white"
                                         placeholder="Enter topic content"
                                         rows="4"
                                     ></textarea>
                                 </div>
+                                <div className="mb-4">
+                                    <label htmlFor="image" className="block text-gray-700 dark:text-gray-300">Upload Image</label>
+                                    <input
+                                        type="file"
+                                        id="image"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-neutral-700 dark:border-neutral-600 dark:text-white"
+                                        accept="image/*"
+                                        onChange={handleImageChange}
+                                    />
+                                    {selectedImage && <img src={selectedImage} alt="Selected" className="mt-4 max-h-48" />}
+                                    {selectedImage && (
+                                        <button
+                                            onClick={handleImageUpload}
+                                            className="mt-2 px-4 py-2 bg-DGXgreen text-DGXwhite rounded-md shadow-sm hover:bg-DGXgreen-dark"
+                                        >
+                                            Upload Image
+                                        </button>
+                                    )}
+                                </div>
+                                <div className="mb-4">
+                                    <label htmlFor="tags" className="block text-gray-700 dark:text-gray-300">Tags</label>
+                                    <input
+                                        type="text"
+                                        id="tags"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-neutral-700 dark:border-neutral-600 dark:text-white"
+                                        placeholder="Enter tags and press enter"
+                                        value={tagInput}
+                                        onChange={handleTagInputChange}
+                                        onKeyPress={handleTagInputKeyPress}
+                                    />
+                                    <div className="mt-2 flex flex-wrap">
+                                        {tags.map((tag, index) => (
+                                            <span key={index} className="bg-DGXgreen text-DGXwhite rounded-full px-3 py-1 mr-2 mb-2 flex items-center">
+                                                {tag}
+                                                <button
+                                                    type="button"
+                                                    className="ml-2 text-sm text-red-600"
+                                                    onClick={() => removeTag(tag)}
+                                                >
+                                                    &times;
+                                                </button>
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
                                 <button
                                     type="submit"
-                                    className="px-4 py-2 bg-DGXgreen text-DGXwhite rounded-md shadow-sm hover:bg-DGXgreen-dark"
+                                    className={`px-4 py-2 rounded-md shadow-sm ${selectedImage && !isImageUploaded ? 'bg-gray-400 text-gray-700 cursor-not-allowed' : 'bg-DGXgreen text-DGXwhite hover:bg-DGXgreen-dark'
+                                        }`}
+                                    disabled={selectedImage && !isImageUploaded}
                                 >
                                     Submit
                                 </button>
-                            </form> 
+                            </form>
                         </section>
                     ) : (
                         <>
                             {selectedSection === 'all' && (
-                                <section className="bg-gray-100 p-6 rounded-lg shadow-lg border-DGXgreen border">
+                                <section className="bg-gray-100 p-4 rounded-lg shadow-lg border-DGXgreen border">
                                     <div className="flex flex-col md:flex-row md:max-w-xl lg:max-w-full bg-white rounded-lg overflow-hidden">
                                         <div className="w-full md:w-1/4">
                                             <img
-                                                className="object-cover w-full h-64 md:h-auto md:rounded-none rounded-t-lg md:rounded-l-lg"
-                                                src={images.robo}
+                                                className="object-cover w-xsm h-20 md:h-auto md:rounded-none rounded-t-sm md:rounded-l-sm"
+                                                // src={images.robo}
                                                 alt="Technology"
                                             />
                                         </div>
-                                        <div className="w-full md:w-3/4 p-6 flex flex-col justify-between">
+                                        <div className="w-full md:w-3/4 p-4 flex flex-col justify-between">
                                             <h5 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
                                                 Noteworthy Technology Acquisitions 2021
                                             </h5>
-                                            <p className="text-gray-700 dark:text-gray-400 mb-4">
+                                            <p className="text-gray-700 dark:text-gray-400 mb-2">
                                                 Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
                                             </p>
-                                            <div className="flex items-center justify-between mt-4">
+                                            <div className="flex items-center justify-between mt-2">
                                                 <span className="text-gray-500 text-sm">Posted 2 hours ago</span>
                                                 <div className="flex items-center space-x-6 z-0">
                                                     <button
@@ -184,13 +274,12 @@ const Discussion = () => {
                                             </div>
                                             <div
                                                 onClick={openModal}
-                                                className="mt-4 text-DGXgreen hover:underline hover:text-DGXblue"
+                                                className="mt-2 text-DGXgreen hover:underline hover:text-DGXblue"
                                             >
                                                 Be a part of the discussion
                                             </div>
                                         </div>
-                                    </div>
-                                </section>
+                                    </div>                                </section>
 
                             )}
                             {selectedSection === 'top' && (
@@ -215,10 +304,10 @@ const Discussion = () => {
                     )}
                 </main>
 
-                <aside className="w-full md:w-1/3 lg:w-1/4 bg-gray-200 p-4 rounded-lg shadow-lg order-2 md:order-1">
+                <aside className="w-full md:w-1/6 lg:w-1/6 bg-gray-200 p-4 rounded-lg shadow-lg order-2 md:order-1">
                     <h2 className="text-xl font-bold mb-4">Hot Topics</h2>
                     {hotTopics.map((topic, index) => (
-                        <div key={index} className="mb-4 p-4 bg-white rounded-lg shadow-md border border-gray-200 dark:border-neutral-700">
+                        <div key={index} className="mb-2 p-2 bg-white rounded-lg shadow-md border border-DGXgreen dark:border-neutral-700">
                             <a href={topic.link} className="text-lg font-semibold text-DGXblue dark:text-DGXwhite hover:underline">
                                 {topic.title}
                             </a>
@@ -227,10 +316,10 @@ const Discussion = () => {
                     ))}
                 </aside>
 
-                <aside className="w-full md:w-1/3 lg:w-1/4 bg-gray-200 p-4 rounded-lg shadow-lg order-3 md:order-2">
+                <aside className="w-full md:w-1/6 lg:w-1/6 bg-gray-200 p-4 rounded-lg shadow-lg order-3 md:order-2">
                     <h2 className="text-xl font-bold mb-4">Top Users</h2>
                     {topUsers.map((user, index) => (
-                        <div key={index} className="mb-4 p-4 bg-white rounded-lg shadow-md border border-gray-200 dark:border-neutral-700">
+                        <div key={index} className="mb-2 p-2 bg-white rounded-lg shadow-md border border-DGXgreen dark:border-neutral-700">
                             <div className="text-lg font-semibold text-DGXblue dark:text-DGXwhite">
                                 {user.name}
                             </div>

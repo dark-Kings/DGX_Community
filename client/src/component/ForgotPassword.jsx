@@ -1,109 +1,102 @@
-import { useState } from 'react';
-import EmailVerification from './EmailVerification';
+import { useState, useContext } from 'react';
+import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
+import ApiContext from '../context/ApiContext.jsx';
 import { images } from '../constant/index.js'; // Adjust the path relative to the component file
 
 const ForgotPassword = () => {
-  const [emailOrUsername, setEmailOrUsername] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [passwordsMatch, setPasswordsMatch] = useState(true);
-  const [emailVerified, setEmailVerified] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate();
+  const { fetchData } = useContext(ApiContext);
+  const [email, setEmail] = useState('');
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const endpoint = "user/passwordrecovery";
+    const method = "POST"
+    const body = {
+      "email": email,
+    }
 
-  const handleEmailSubmit = async (email) => {
-    setEmailOrUsername(email);
+    // console.log(body)
+    setLoading(true)
 
     try {
-      const response = await fetch('/api/send-reset-password-email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email }),
-      });
 
-      if (response.ok) {
-        setEmailVerified(true);
-        alert('A link to reset your password has been sent to your email.');
-      } else {
-        alert('Error sending email. Please try again.');
+      const data = await fetchData(endpoint, method, body);
+
+      if (!data.success) {
+        setLoading(false)
+        toast.error("Error in Password Reset try again", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        return
+      } else if (data.success) {
+        setLoading(false)
+        toast.success("Password Reset mail has sent to your mail ", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        setTimeout(() => {
+          navigate('/SignInn');
+        }, 3500);
       }
     } catch (error) {
-      console.error('Error:', error);
-      alert('Error sending email. Please try again.');
+      setLoading(false)
+      toast.error(`Something went wrong try again`, {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return
     }
-  };
+  }
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    if (newPassword !== confirmPassword) {
-      setPasswordsMatch(false);
-      return;
-    }
-    console.log('Password reset logic goes here:', emailOrUsername, newPassword);
-    setEmailOrUsername('');
-    setNewPassword('');
-    setConfirmPassword('');
-    setPasswordsMatch(true);
-    setEmailVerified(false);
-  };
 
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row items-center justify-center relative">
+    loading ? <h1>loading...</h1> : <div className="min-h-screen flex flex-col lg:flex-row items-center justify-center relative">
+      <ToastContainer />
       {/* Left side with form */}
       <div className="w-full lg:w-1/2 min-h-screen py-20 px-8 lg:rounded-r-3xl bg-DGXblue flex items-center justify-center">
         <div className="w-full max-w-md">
           <div className="bg-white rounded-xl mx-auto shadow-lg overflow-hidden bg-DGXwhite shadow-DGXgreen p-8">
             <h1 className="text-DGXblue text-3xl mb-6 font-bold text-center">Forgot Password</h1>
-            {!emailVerified ? (
-              <EmailVerification onEmailSubmit={handleEmailSubmit} />
-            ) : (
-              <form onSubmit={handleSubmit} className="w-full">
-                <div className="mb-4 relative">
-                  <input
-                    type={showPassword ? 'text' : 'password'}
-                    placeholder="New Password"
-                    className="border border-DGXgreen py-2 px-3 w-full rounded"
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                    required
-                  />
-                  <button
-                    type="button"
-                    className="absolute right-3 top-2.5 text-[#4b5563]"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {/* {showPassword ? 'Hide' : 'Show'} */}
-                  </button>
-                </div>
-                <div className="mb-4 relative">
-                  <input
-                    type={showPassword ? 'text' : 'password'}
-                    placeholder="Confirm Password"
-                    className={`border border-DGXgreen py-2 px-3 w-full rounded ${passwordsMatch ? '' : 'border-[#ef4444]'}`}
-                    value={confirmPassword}
-                    onChange={(e) => {
-                      setConfirmPassword(e.target.value);
-                      setPasswordsMatch(e.target.value === newPassword);
-                    }}
-                    required
-                  />
-                  <button
-                    type="button"
-                    className="absolute right-3 top-2.5 text-[#4b5563]"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {/* {showPassword ? 'Hide' : 'Show'} */}
-                  </button>
-                </div>
-                {!passwordsMatch && (
-                  <p className="text-[#ef4444] mb-4 text-sm">Passwords do not match</p>
-                )}
-                <div>
-                  <button type="submit" className="w-full text-lg bg-DGXgreen rounded-full py-3 text-center font-medium text-DGXwhite">Reset Password</button>
-                </div>
-              </form>
-            )}
+
+            <form onSubmit={handleSubmit} className="w-full">
+              <div className="mb-4">
+                <input
+                  type="text"
+                  placeholder="Email or Username"
+                  className="border border-DGXgreen py-2 px-3 w-full rounded"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <button type="submit" className="w-full text-lg bg-DGXgreen hover:bg-[#1d4ed8] rounded-full py-3 text-center font-medium text-DGXwhite">
+                  Verify Email
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
