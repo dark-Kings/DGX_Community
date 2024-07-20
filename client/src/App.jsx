@@ -13,6 +13,7 @@ import ContactUs from './container/ContactUs.jsx';
 import DiscussionModal from './component/DiscussionModal.jsx';
 import Notfound from './component/Notfound.jsx';
 import CommunityGuidelines from './component/CommunityGuidelines.jsx';
+import Resources from './component/Resources.jsx';
 // import LoadPage from './component/LoadPage.jsx';
 
 
@@ -38,6 +39,7 @@ function App() {
             <Route path='/DiscussionModal' element={<DiscussionModal/>}/>
             <Route path='/404' element={<Notfound />} />
             <Route path='/CommunityGuidelines' element={<CommunityGuidelines />} />
+            <Route path='/Resources' element={<Resources />} />
           </Routes>
         </div>
         <footer className="footer bg-DGXgreen text-DGXwhite text-center">
