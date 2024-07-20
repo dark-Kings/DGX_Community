@@ -207,7 +207,7 @@ export const registration = async (req, res) => {
             if (checkRows[0].userReferCount === 0) {
               // Insert new user into the database
               // console.log("hi")
-              const insertQuerry = `INSERT INTO Community_User (Name, EmailId, CollegeName, MobileNumber, Category, Designation, ReferalNumberCount, ReferalNumber, Password, FlagPasswordChange, ReferedBy, AuthAdd, AddOnDt, delStatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)`
+              const insertQuerry = `INSERT INTO Community_User (Name, EmailId, CollegeName, MobileNumber, Category, Designation, ReferalNumberCount, ReferalNumber, Password, FlagPasswordChange, ReferedBy, AuthAdd, AddOnDt, delStatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)`
               const insertResult = await queryAsync(conn, insertQuerry, [name, email, collegeName, phoneNumber, category, designation, referalNumberCount, referCode, secPass, FlagPasswordChange, referedBy, name, 0]);
 
               success = true;
@@ -402,7 +402,7 @@ export const getuser = async (req, res) => {
 
   try {
     const userId = req.user.id;
-    // console.log(userId);
+    console.log(userId);
 
     connectToDatabase(async (err, conn) => {
       if (err) {
@@ -412,37 +412,35 @@ export const getuser = async (req, res) => {
       }
 
       try {
-        const query = `SELECT UserID, Name, EmailId, CollegeName, MobileNumber, Category, Designation, ReferalNumberCount, ReferalNumber, SequrityQuesId, SequrityQuesAns, FlagPasswordChange, EmailCount, MobileCount FROM Community_User WHERE isnull(delStatus,0) = 0 AND EmailId = ?`;
+        const query = `SELECT UserID, Name, EmailId, CollegeName, MobileNumber, Category, Designation, ReferalNumberCount, ReferalNumber, ReferedBy,  FlagPasswordChange FROM Community_User WHERE isnull(delStatus,0) = 0 AND EmailId = ?`;
         const rows = await queryAsync(conn, query, [userId]);
 
         if (rows.length > 0) {
-          const data = Object.entries(rows[0]).reduce((acc, [key, value]) => {
-            if (key !== "Password") {
-              acc[key] = value;
-            }
-            return acc;
-          }, {});
+
           success = true;
           closeConnection();
           const infoMessage = "User data"
           logInfo(infoMessage)
-          res.status(200).json({ success, data: data, message: infoMessage });
+          res.status(200).json({ success, data: rows[0], message: infoMessage });
+          return
         } else {
           closeConnection();
           const warningMessage = "User not found"
           logWarning(warningMessage)
           res.status(200).json({ success: false, data: {}, message: warningMessage });
+          return
         }
       } catch (queryErr) {
+        closeConnection();
         logError(queryErr)
         res.status(500).json({ success: false, data: queryErr, message: 'Something went wrong please try again' });
-      } finally {
-        closeConnection();
+        return
       }
     });
   } catch (error) {
     logError(queryErr)
     return res.status(500).json({ success: false, data: {}, message: 'Something went wrong please try again' });
+
   }
 };
 
@@ -624,7 +622,7 @@ export const resetPassword = async (req, res) => {
         const query = `SELECT Name, FlagPasswordChange FROM Community_User WHERE isnull(delStatus,0) = 0 AND EmailId = ?`;
         const rows = await queryAsync(conn, query, [email]);
 
-        if (rows.length > 0 && rows[0].FlagPasswordChange == 1) {
+        if (rows.length > 0 && rows[0].FlagPasswordChange == 2) {
 
           try {
 

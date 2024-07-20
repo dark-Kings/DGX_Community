@@ -13,7 +13,11 @@ import ContactUs from './container/ContactUs.jsx';
 import DiscussionModal from './component/DiscussionModal.jsx';
 import Notfound from './component/Notfound.jsx';
 import ResetPassword from './component/ResetPassword.jsx';
+<<<<<<< HEAD
 import images from './constant/images.js';
+=======
+import CommunityGuidelines from './component/CommunityGuidelines.jsx';
+>>>>>>> caef754f4cc33f57193a02d8af557f8db412549e
 // import LoadPage from './component/LoadPage.jsx';
 
 
@@ -28,16 +32,16 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route exact path="/VerifyEmail" element={<VerifyEmail />} />
             <Route exact path="/Register" element={<Register />} />
-            <Route exact path="/SignInn" element={<SignInn />} />
-            <Route exact path="/ForgotPassword" element={<ForgotPassword />} />
-            <Route exact path='/ResetPassword' element={<ResetPassword />} />
-            <Route exact path="/ChangePassword" element={<ChangePassword />} />
-            <Route exact path="/UserProfile" element={<UserProfile />} />
-            <Route exact path='/Discussion' element={<Discussion />} />
-            <Route exact path='/Discussion' element={<Discussion />} />
-            <Route exact path='/ContactUs' element={<ContactUs />} />
-            <Route exact path='/DiscussionModal' element={<DiscussionModal />} />
-            <Route exact path='/404' element={<Notfound />} />
+            <Route path="/SignInn" element={<SignInn />} />
+            <Route path="/ForgotPassword" element={<ForgotPassword />} />
+            <Route path="/ChangePassword" element={<ChangePassword />} />
+            <Route path="/UserProfile" element={<UserProfile />} />
+            <Route path='/Discussion' element={<Discussion/>}/>
+            <Route path='/ContactUs' element={<ContactUs/>}/>
+            <Route path='/DiscussionModal' element={<DiscussionModal/>}/>
+            <Route path='/404' element={<Notfound />} />
+            <Route path='/ResetPassword' element={<ResetPassword/>} />
+            <Route path='/CommunityGuidelines' element={<CommunityGuidelines />} />
           </Routes>
         </div>
 

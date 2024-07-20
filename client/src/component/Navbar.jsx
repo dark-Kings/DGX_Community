@@ -1,15 +1,66 @@
-import { useState } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { images } from '../constant/index.js';
 import { AiOutlineMenu } from "react-icons/ai";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import clsx from 'clsx';
+import ApiContext from '../context/ApiContext.jsx';
+import Cookies from 'js-cookie';
 
 const Navbar = () => {
     const [isSideMenuOpen, setMenu] = useState(false);
-
-    // eslint-disable-next-line no-unused-vars
+    const { fetchData } = useContext(ApiContext);
+    const [userToken, setUserToken] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [userData, setUserData] = useState({});
+
+
+    useEffect(() => {
+        // Retrieve the token from the cookie
+        const token = Cookies.get('userToken');
+        // console.log("hi")
+
+        if (token) {
+            try {
+                const parseToken = JSON.parse(token);
+                setUserToken(parseToken);
+                console.log(userToken)
+
+            } catch (e) {
+                console.log("Failed to parse token:", e);
+            }
+        }
+    }, []);
+
+    const handleUser = async () => {
+
+        // Add further form submission logic here (e.g., API call)
+        const endpoint = "user/getuser";
+        const method = "POST"
+        const headers = {
+            'Content-Type': 'application/json',
+            'auth-token': userToken
+        }
+        try {
+            const data = await fetchData(endpoint, method, headers);
+            if (!data.success) {
+                console.log(data.message)
+            } else if (data.success) {
+                setUserData(data)
+                console.log(data, userData)
+                setIsLoggedIn(true)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    };
+    // if (userToken) {
+
+    //     handleUser()
+    // }
+    // console.log(userData, userToken)
+
+
 
     const navLinks = [
         {
@@ -82,7 +133,7 @@ const Navbar = () => {
                         </Link>
                     ) : (
                         <img
-                            src=''  // Add the user's image URL here
+                            src={images.robot}  // Add the user's image URL here
                             alt="User"
                             className='h-12 w-12 rounded-full border-2'
                         />
