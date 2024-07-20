@@ -1,39 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { images } from "../constant/index.js";
 import { IoRefreshCircleSharp } from "react-icons/io5";
-// import axios from 'axios';
-import { Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from "react-router-dom";
+import generateCaptcha from '../utils/generateCaptcha.js'
+import ApiContext from '../context/ApiContext.jsx';
 
 const VerifyEmail = () => {
-  const BaseUrl = import.meta.env.VITE_API_BASEURL
-  console.log(BaseUrl)
-  async function generateCaptcha(length = 6) {
-    const lowercase = 'abcdefghijklmnopqrstuvwxyz';
-    const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const numbers = '0123456789';
-    const allCharacters = lowercase + uppercase + numbers;
 
-    let captcha = '';
-
-    captcha += lowercase[Math.floor(Math.random() * lowercase.length)];
-    captcha += uppercase[Math.floor(Math.random() * uppercase.length)];
-    captcha += numbers[Math.floor(Math.random() * numbers.length)];
-
-    for (let i = 0; i < length - 3; i++) {
-      captcha += allCharacters[Math.floor(Math.random() * allCharacters.length)];
-    }
-
-    captcha = captcha.split('').sort(() => Math.random() - 0.5).join('');
-    return captcha;
-  }
-
+  const { fetchData } = useContext(ApiContext);
+  const [loading, setLoading] = useState(false)
   const [captcha, setCaptcha] = useState('');
   const [userCaptcha, setUserCaptcha] = useState('');
   const [email, setEmail] = useState('');
-  // const BaseUrl = import.meta.env.VITE_API_BASEURL
-  // console.log(BaseUrl)
+  const navigate = useNavigate();
 
   const refreshCaptcha = async () => {
     const newCaptcha = await generateCaptcha(6);
@@ -51,7 +32,7 @@ const VerifyEmail = () => {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailPattern.test(email);
   }
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (userCaptcha !== captcha) {
@@ -82,13 +63,62 @@ const VerifyEmail = () => {
       return;
     }
 
-    const endPoint = "user/verify";
+    const endpoint = "user/verify";
+    const method = "POST"
     const headers = { "Content-Type": "application/json" };
-    const data = { email: email };
+    const body = { email: email };
+    setLoading(true)
+
+    try {
+      const data = await fetchData(endpoint, method, body, headers);
+      if (!data.success) {
+        refreshCaptcha()
+        setLoading(false)
+        toast.error(`Error in verify mail: ${data.message}`, {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      } else if (data.success) {
+        refreshCaptcha()
+        setLoading(false)
+        toast.success("Mail sent successfully", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        setTimeout(() => {
+          navigate('/SignInn');
+        }, 3500);
+      }
+    } catch (error) {
+      refreshCaptcha()
+      setLoading(false)
+      toast.error(`Something went wrong try again`, {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
   };
 
   return (
-    <div>
+    loading ? <h1>loading</h1> : <div>
       <ToastContainer />
       <section className="h-screen">
         <div className="h-full">
@@ -176,15 +206,7 @@ const VerifyEmail = () => {
                     >
                       Verify
                     </button>
-                    <p className="mb-0 mt-2 pt-1 text-sm font-semibold">
-                      Don't have an account?
-                      <Link
-                        to="/Register"
-                        className="text-danger transition duration-150 ease-in-out hover:text-danger-600 focus:text-danger-600 active:text-danger-700 text-DGXgreen"
-                      >
-                        Register
-                      </Link>
-                    </p>
+
                   </div>
                 </form>
               </div>

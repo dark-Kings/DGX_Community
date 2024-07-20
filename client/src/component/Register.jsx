@@ -86,10 +86,6 @@ const Register = () => {
       const passwordInput = document.getElementById(id);
       validatePassword(passwordInput, inputValue);
     }
-    // if (name === "email") {
-    //   const emailInput = document.getElementById(id);
-    //   validateEmail(emailInput, value);
-    // }
   };
 
   const handleSubmit = async (e) => {
