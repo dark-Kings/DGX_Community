@@ -13,11 +13,9 @@ import ContactUs from './container/ContactUs.jsx';
 import DiscussionModal from './component/DiscussionModal.jsx';
 import Notfound from './component/Notfound.jsx';
 import ResetPassword from './component/ResetPassword.jsx';
-<<<<<<< HEAD
 import images from './constant/images.js';
-=======
 import CommunityGuidelines from './component/CommunityGuidelines.jsx';
->>>>>>> caef754f4cc33f57193a02d8af557f8db412549e
+import Resources from './component/Resources.jsx';
 // import LoadPage from './component/LoadPage.jsx';
 
 
@@ -42,6 +40,7 @@ function App() {
             <Route path='/404' element={<Notfound />} />
             <Route path='/ResetPassword' element={<ResetPassword/>} />
             <Route path='/CommunityGuidelines' element={<CommunityGuidelines />} />
+            <Route path='/Resources' element={<Resources />} />
           </Routes>
         </div>
 
