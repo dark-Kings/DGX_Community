@@ -36,20 +36,22 @@ const Navbar = () => {
 
     return (
         <main className=''>
-            <nav className='flex justify-between px-8 item-center py-6 lg:px-24 xs:px-0 xs:mx-0'>
-                <div className='flex item-center gap-8'>
-                    <section className='flex items-center gap-6 xs:gap-1'>
+            <nav className='flex justify-between item-center p-2'>
+                {/* <div className='flex item-center gap-8'> */}
+                    <section className=''>
                         <AiOutlineMenu onClick={() => setMenu(true)} className='text-3xl cursor-pointer lg:hidden' />
                         <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
                             <img src={images.nvidiaPartner} className="h-10 md:h-12 lg:h-14 xl:h-12 item-center" alt="NVIDIA Partner Logo" />
                         </Link>
                     </section>
-                    {navLinks.map((d, i) => (
-                        <Link key={i} className='hidden lg:block text-DGXblue hover:text-black' to={d.to}>
-                            {d.label}
-                        </Link>
-                    ))}
-                </div>
+                    <div className="flex items-center justify-center font-bold space-x-6">
+                        {navLinks.map((d, i) => (
+                            <Link key={i} className='hidden lg:block text-DGXblue hover:text-black' to={d.to}>
+                                {d.label}
+                            </Link>
+                        ))}
+                    </div>
+
 
                 <div className={clsx('fixed h-full w-screen lg:hidden bg-DGXblack/50 backdrop-blur-sm top-0 right-0 -translate-x-full transition-all z-10',
                     isSideMenuOpen && 'translate-x-0'
@@ -73,7 +75,7 @@ const Navbar = () => {
                         <Link to="/SignInn">
                             <button
                                 type="button"
-                                className="text-white bg-DGXgreen hover:bg-DGXgreen focus:ring-4 focus:outline-none focus:ring-DGXgreen font-medium rounded-lg text-xl px-4 py-2 text-center dark:bg-DGXgreen dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                className="text-white bg-DGXgreen hover:bg-DGXgreen focus:ring-4 focus:outline-none focus:ring-DGXgreen font-medium rounded-md text-xl px-4 py-2 text-center dark:bg-DGXgreen dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             >
                                 Login
                             </button>

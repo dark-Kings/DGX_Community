@@ -155,8 +155,8 @@ const Discussion = () => {
                 </nav>
             </header>
             {modalIsOpen && <DiscussionModal isOpen={modalIsOpen} onRequestClose={closeModal} />}
-            <div className="flex flex-col md:flex-row px-4 py-8 space-y-6 md:space-y-0">
-                <main className="w-full md:w-2/3 lg:w-1/2 mx-4 order-1 md:order-2">
+            <div className="flex  md:w-6/6 lg:w-6/6 flex-col md:flex-row px-4 py-8 space-y-6 md:space-y-0">
+                <main className="w-full md:w-5/6 lg:w-5/6 mx-4 order-1 md:order-2">
                     {isFormOpen ? (
                         <section>
                             <h2 className="text-2xl font-bold text-DGXblue mb-4">Start a New Topic</h2>
@@ -237,23 +237,23 @@ const Discussion = () => {
                     ) : (
                         <>
                             {selectedSection === 'all' && (
-                                <section className="bg-gray-100 p-6 rounded-lg shadow-lg border-DGXgreen border">
+                                <section className="bg-gray-100 p-4 rounded-lg shadow-lg border-DGXgreen border">
                                     <div className="flex flex-col md:flex-row md:max-w-xl lg:max-w-full bg-white rounded-lg overflow-hidden">
                                         <div className="w-full md:w-1/4">
                                             <img
-                                                className="object-cover w-full h-64 md:h-auto md:rounded-none rounded-t-lg md:rounded-l-lg"
-                                                src={images.robo}
+                                                className="object-cover w-xsm h-20 md:h-auto md:rounded-none rounded-t-sm md:rounded-l-sm"
+                                                // src={images.robo}
                                                 alt="Technology"
                                             />
                                         </div>
-                                        <div className="w-full md:w-3/4 p-6 flex flex-col justify-between">
+                                        <div className="w-full md:w-3/4 p-4 flex flex-col justify-between">
                                             <h5 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
                                                 Noteworthy Technology Acquisitions 2021
                                             </h5>
-                                            <p className="text-gray-700 dark:text-gray-400 mb-4">
+                                            <p className="text-gray-700 dark:text-gray-400 mb-2">
                                                 Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
                                             </p>
-                                            <div className="flex items-center justify-between mt-4">
+                                            <div className="flex items-center justify-between mt-2">
                                                 <span className="text-gray-500 text-sm">Posted 2 hours ago</span>
                                                 <div className="flex items-center space-x-6 z-0">
                                                     <button
@@ -274,7 +274,7 @@ const Discussion = () => {
                                             </div>
                                             <div
                                                 onClick={openModal}
-                                                className="mt-4 text-DGXgreen hover:underline hover:text-DGXblue"
+                                                className="mt-2 text-DGXgreen hover:underline hover:text-DGXblue"
                                             >
                                                 Be a part of the discussion
                                             </div>
@@ -304,10 +304,10 @@ const Discussion = () => {
                     )}
                 </main>
 
-                <aside className="w-full md:w-1/3 lg:w-1/4 bg-gray-200 p-4 rounded-lg shadow-lg order-2 md:order-1">
+                <aside className="w-full md:w-1/6 lg:w-1/6 bg-gray-200 p-4 rounded-lg shadow-lg order-2 md:order-1">
                     <h2 className="text-xl font-bold mb-4">Hot Topics</h2>
                     {hotTopics.map((topic, index) => (
-                        <div key={index} className="mb-4 p-4 bg-white rounded-lg shadow-md border border-gray-200 dark:border-neutral-700">
+                        <div key={index} className="mb-2 p-2 bg-white rounded-lg shadow-md border border-DGXgreen dark:border-neutral-700">
                             <a href={topic.link} className="text-lg font-semibold text-DGXblue dark:text-DGXwhite hover:underline">
                                 {topic.title}
                             </a>
@@ -316,10 +316,10 @@ const Discussion = () => {
                     ))}
                 </aside>
 
-                <aside className="w-full md:w-1/3 lg:w-1/4 bg-gray-200 p-4 rounded-lg shadow-lg order-3 md:order-2">
+                <aside className="w-full md:w-1/6 lg:w-1/6 bg-gray-200 p-4 rounded-lg shadow-lg order-3 md:order-2">
                     <h2 className="text-xl font-bold mb-4">Top Users</h2>
                     {topUsers.map((user, index) => (
-                        <div key={index} className="mb-4 p-4 bg-white rounded-lg shadow-md border border-gray-200 dark:border-neutral-700">
+                        <div key={index} className="mb-2 p-2 bg-white rounded-lg shadow-md border border-DGXgreen dark:border-neutral-700">
                             <div className="text-lg font-semibold text-DGXblue dark:text-DGXwhite">
                                 {user.name}
                             </div>

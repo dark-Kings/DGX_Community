@@ -7,6 +7,10 @@ import robot from '../assets/robot.png'
 import secure from '../assets/secure.png'
 import nvbackground from '../assets/nvbackground.jpg'
 import NvidiaBackground from '../assets/NvidiaBackground.jpg'
+import giventures from '../assets/giventures.png'
+import HeroImg from '../assets/HeroImg.png'
+import nvidiaEvent01 from '../assets/nvidiaEvent01.png'
+import nvidiaEvent02 from '../assets/nvidiaEvent02.png'
 
 
 export default {
@@ -17,6 +21,11 @@ export default {
     robot,
     secure,
     nvbackground,
-    NvidiaBackground
+    NvidiaBackground,
+    giventures,
+    HeroImg,
+    nvidiaEvent01,
+    nvidiaEvent02,
+
 
 }
