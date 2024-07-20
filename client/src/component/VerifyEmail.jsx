@@ -118,7 +118,7 @@ const VerifyEmail = () => {
   };
 
   return (
-    loading ? <h1>loading</h1> : <div>
+    loading ? <h1 className="flex items-center justify-center min-h-screen">Loading...</h1> : <div>
       <ToastContainer />
       <section className="h-screen">
         <div className="h-full">
