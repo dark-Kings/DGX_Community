@@ -8,6 +8,7 @@ import secure from '../assets/secure.png'
 import nvbackground from '../assets/nvbackground.jpg'
 import NvidiaBackground from '../assets/NvidiaBackground.jpg'
 import Team from '../assets/Team.png'
+import Globe from '../assets/Globe.jpg'
 
 
 export default {
@@ -19,6 +20,7 @@ export default {
     secure,
     nvbackground,
     NvidiaBackground,
-    Team
+    Team,
+    Globe
 
 }
