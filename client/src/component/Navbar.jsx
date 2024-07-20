@@ -30,7 +30,7 @@ const Navbar = () => {
         },
         {
             label: 'Community Guidelines',
-            to: '#'
+            to: '/CommunityGuidelines'
         }
     ];
 
