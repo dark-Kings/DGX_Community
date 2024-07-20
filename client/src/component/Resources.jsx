@@ -69,8 +69,8 @@ const Resources = () => {
   return (
     <div className="max-w-full font-serif mx-auto p-10 bg-[#ecfdf5] shadow-lg rounded-lg mt-10 mb-10 flex flex-col md:flex-row">
       <div className="flex-1 md:pr-6">
-        <h2 className="text-4xl font-bold mb-8 text-center md:text-left text-[#333]">Community Resources</h2>
-        <p className="text-xl text-center mb-12 md:text-left text-[#555] leading-relaxed">
+        <h2 className="text-6xl font-bold mb-10 text-center md:text-left text-[#333]">Community Resources</h2>
+        <p className="text-xl text-justify mb-12 md:text-left text-[#555] leading-relaxed">
           Welcome to the Community Resources page! Here, you&apos;ll find a wealth of information and tools to support your journey with DGX servers. Our curated collection includes guides, tutorials, and best practices to help you make the most of your DGX experience. Whether you&apos;re a seasoned professional or just getting started, our resources are designed to provide valuable insights and practical tips. Stay informed, stay connected, and continue to grow with our community.
         </p>
         <section>
