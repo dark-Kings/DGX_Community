@@ -159,7 +159,7 @@ const Home = () => {
                         <div className="text-center">
                             <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-DGXblack">Welcome!</h1>
                             <p className="mt-4 text-sm sm:text-base md:text-lg lg:text-xl leading-6 text-DGXblack">
-                                Hi! Are you a student, researcher, or developer looking to showcase your achievements, access certificates, and collaborate on projects? Join our DGX Community! Connect with like-minded individuals, share your accomplishments, and work on exciting projects together. Let's build a supportive and engaging space for learning and collaboration. See you there!
+                                Hi! Are you a student, researcher, or developer looking to showcase your achievements, access certificates, and collaborate on projects? Join our DGX Community! Connect with like-minded individuals, share your accomplishments, and work on exciting projects together. Let&apos;s build a supportive and engaging space for learning and collaboration. See you there!
                             </p>
                         </div>
                     </div>
