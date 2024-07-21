@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 
-
 const Home = () => {
 
     const people = [
@@ -40,7 +39,6 @@ const Home = () => {
     const handleRedirect = () => {
         navigate('/EventWorkshopPage');
     };
-
 
     const [currentIndex, setCurrentIndex] = useState(0);
 
