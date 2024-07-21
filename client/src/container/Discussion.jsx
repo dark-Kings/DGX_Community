@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { FaThumbsUp, FaComment } from 'react-icons/fa';
-import { images } from '../constant';
+// import { images } from '../constant';
 import DiscussionModal from '../component/DiscussionModal';
 
 
