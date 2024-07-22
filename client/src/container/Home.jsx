@@ -146,13 +146,8 @@ const Home = () => {
                             {/* Discussion Platform */}
                             <div className="flex flex-col justify-center items-center relative group ">
                                 <p
-<<<<<<< HEAD
                                     onClick={handleRedirect01}
                                     className="text-base sm:text-lg md:text-xl lg:text-2xl text-orange-600 text-DGXwhite hover:text-DGXgreen transition-colors duration-300 cursor-pointer"
-=======
-                                    onClick={handleRedirect}
-                                    className="text-base sm:text-lg md:text-xl lg:text-2xl text-DGXwhite hover:text-DGXgreen transition-colors duration-300 cursor-pointer"
->>>>>>> 83528e76604402e7abddeda92a3419008b9adbc7
                                 >
                                     Discussion Platform
                                 </p>
@@ -282,7 +277,6 @@ const Home = () => {
                 </div>
             </div>
 
-<<<<<<< HEAD
             <div className="bg-white py-24 sm:py-32">
                 <div className="mx-auto max-w-7xl px-6 lg:px-8">
                     <h1 className="text-center text-2xl font-bold leading-8 text-DGXblue">
@@ -330,7 +324,7 @@ const Home = () => {
                 </div>
             </div>
 =======
->>>>>>> 83528e76604402e7abddeda92a3419008b9adbc7
+
 
         </div>
 
