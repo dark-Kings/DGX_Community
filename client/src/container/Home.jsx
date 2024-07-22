@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { images } from '../constant/index.js';
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
@@ -8,28 +8,24 @@ const Home = () => {
 
     const people = [
         {
-            name: 'Leslie Alexander',
-            role: 'Co-Founder / CEO',
-            imageUrl:
-                'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+            name: 'Ashiwini Thakur',
+            role: 'Project Manager',
+            imageUrl: `${images.AshwiniSir}`
         },
         {
-            name: 'Leslie Alexander',
-            role: 'Co-Founder / CEO',
-            imageUrl:
-                'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+            name: 'Sharad Srivastav',
+            role: 'Project Manager',
+            imageUrl: `${images.SharadSir}`
         },
         {
-            name: 'Leslie Alexander',
-            role: 'Co-Founder / CEO',
-            imageUrl:
-                'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+            name: 'Anubhav Patrick',
+            role: 'Project Manager',
+            imageUrl: `${images.PatrickSir}`
         },
         {
-            name: 'Leslie Alexander',
-            role: 'Co-Founder / CEO',
-            imageUrl:
-                'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+            name: 'Sugandh Gupta',
+            role: 'Project Manger',
+            imageUrl: `${images.SugandhMaam}`
         },
         // More people...
     ]
