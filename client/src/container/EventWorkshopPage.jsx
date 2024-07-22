@@ -3,6 +3,8 @@
 import { cn } from "../utils/cn.js";
 // import Image from "next/image";
 import { images } from '../constant/index.js';
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
 
 import React, {
   createContext,
@@ -12,7 +14,17 @@ import React, {
   useEffect,
 } from "react";
 
+
+
+
 const MouseEnterContext = createContext(undefined);
+
+/**--------------calendar------------------*/
+
+
+
+
+/**---------------------------------------- */
 
 export const CardContainer = ({
   children,
@@ -39,6 +51,13 @@ export const CardContainer = ({
     setIsMouseEntered(false);
     containerRef.current.style.transform = `rotateY(0deg) rotateX(0deg)`;
   };
+
+
+
+
+
+
+
 
   return (
     <MouseEnterContext.Provider value={[isMouseEntered, setIsMouseEntered]}>
@@ -222,7 +241,13 @@ const EventWorkshopPage = () => {
         ))}
       </div>
 
+
+
+      
+
     </div>
+
+
   );
 };
 
