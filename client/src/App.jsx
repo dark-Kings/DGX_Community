@@ -17,6 +17,8 @@ import images from './constant/images.js';
 import CommunityGuidelines from './component/CommunityGuidelines.jsx';
 import Resources from './component/Resources.jsx';
 import Footer from './component/Footer.jsx';
+import Survey from './component/Survey.jsx';
+import Quiz from './component/Quiz.jsx';
 // import LoadPage from './component/LoadPage.jsx';
 
 
@@ -42,6 +44,8 @@ function App() {
             <Route path='/CommunityGuidelines' element={<CommunityGuidelines />} />
             <Route path='/Resources' element={<Resources />} />
             <Route path='/404' element={<Notfound />} />
+            <Route path='/Quiz' element={<Quiz />} />
+            <Route path='/Survey' element={<Survey />} />
           </Routes>
         </div>
         <Footer />
