@@ -143,11 +143,7 @@ const Home = () => {
                             <div className="flex flex-col justify-center items-center relative group ">
                                 <p
                                     onClick={handleRedirect01}
-<<<<<<< HEAD
-                                    className="text-base sm:text-lg md:text-xl lg:text-2xl text-orange-600 text-DGXwhite hover:text-DGXgreen transition-colors duration-300 cursor-pointer"
-=======
                                     className="text-base sm:text-lg md:text-xl lg:text-2xl text-DGXwhite hover:text-DGXgreen transition-colors duration-300 cursor-pointer"
->>>>>>> ae150b1c40e15a41d8d7eab4bf2ea02c8d45a059
                                 >
                                     Discussion Platform
                                 </p>
