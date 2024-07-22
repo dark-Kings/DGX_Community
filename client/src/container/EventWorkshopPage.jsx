@@ -3,8 +3,8 @@
 import { cn } from "../utils/cn.js";
 // import Image from "next/image";
 import { images } from '../constant/index.js';
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
+// import FullCalendar from '@fullcalendar/react';s
+// import dayGridPlugin from '@fullcalendar/daygrid';
 
 import React, {
   createContext,
@@ -243,7 +243,7 @@ const EventWorkshopPage = () => {
 
 
 
-      
+
 
     </div>
 
