@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { images } from '../constant/index.js';
 import { useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 
 const Home = () => {
@@ -74,11 +74,11 @@ const Home = () => {
             <div
                 className="relative py-14 sm:py-24 bg-cover bg-center"
                 style={{ backgroundImage: `url(${images.HeroImg})` }} >
-                <div className="absolute inset-0 bg-black opacity-50" ></div> {/* Overlay */}
+                <div className="absolute inset-0 bg-DGXblack opacity-50" ></div> {/* Overlay */}
                 <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
                     <div className="mb-8 flex justify-center ">
                         <p className="relative rounded-full px-4 py-1.5 text-DGXwhite leading-6  bg-DGXgreen bg-opacity-90 ring-1 ring-inset ring-[#111827]/10 hover:ring-[#111827]/20 hover:bg-DGXblue">
-                            <a href="/SignInn" target="_blank" className="font-semibold text-lime-600 bd">
+                            <a href="/SignInn" target="_blank" className="font-semibold text-DGXwhite bd">
                                 <span className="absolute inset-0 "></span> Join Us Today <span>→</span>
                             </a>
                         </p>
@@ -92,7 +92,7 @@ const Home = () => {
                         </p>
 
                     </div>
-                    </div>
+                </div>
 
 
             </div>
@@ -176,14 +176,14 @@ const Home = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-4 lg:p-8">
                     {/* Text and Button Section */}
                     <div className="flex flex-col justify-center items-center lg:items-start text-center lg:text-left">
-                        <div className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4">
-                            <span className="animate-pulse bg-gradient-to-r from-DGXgreen via-DGXblack to-DGXblue bg-clip-text text-transparent">
-                                Upcoming Events
-                            </span>
-                            <p className="mt-2 text-sm md:text-base lg:text-lg text-DGXblue">
-                                Attend our regular events and workshops to learn from the best in the industry. Enhance your skills and network with professionals.
-                            </p>
-                        </div>
+                    <div className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4">
+                        <span className="bg-gradient-to-r from-DGXgreen via-DGXblack to-DGXblue bg-clip-text text-transparent animate-pulse">
+                            Upcoming Events
+                        </span>
+                        <p className="mt-2 text-sm md:text-base lg:text-lg text-DGXblue">
+                            Attend our regular events and workshops to learn from the best in the industry. Enhance your skills and network with professionals.
+                        </p>
+                    </div>
                         <button className="text-sm md:text-md lg:text-lg bg-DGXgreen text-DGXwhite py-2 px-4 lg:py-2 lg:px-5 border border-DGXblue rounded-md mt-4 hover:bg-[#27272a] transition-colors duration-300">
                             Enroll Now
                         </button>
@@ -277,6 +277,52 @@ const Home = () => {
                 </div>
             </div>
 
+            <div className="bg-white py-24 sm:py-32">
+                <div className="mx-auto max-w-7xl px-6 lg:px-8">
+                    <h1 className="text-center text-2xl font-bold leading-8 text-DGXblue">
+                        NVIDIA DGX systems are at the forefront of AI research and innovation. Trusted by the world’s most innovative universities and corporations, DGX provides the computational power needed to tackle the most complex AI challenges. Whether advancing research in academic institutions or driving breakthroughs in industry, DGX stands as the premier choice for those leading the charge in artificial intelligence.
+                    </h1>
+                    <div className="mx-auto mt-10 grid max-w-lg grid-cols-4 items-center justify-center gap-x-8 gap-y-10 sm:max-w-xl sm:grid-cols-6 sm:gap-x-10 lg:mx-0 lg:max-w-none lg:grid-cols-5">
+                        <img
+                            alt="Transistor"
+                            src={images.ABESIT}
+                            width={178}
+                            height={100}
+                            className="col-span-2 max-h-16 w-full object-contain lg:col-span-1"
+                        />
+                        <img
+                            alt="Reform"
+                            src={images.KIET}
+                            width={178}
+                            height={100}
+                            className="col-span-2 max-h-16 w-full object-contain lg:col-span-1"
+                        />
+                        <img
+                            alt="SavvyCal"
+                            src={images.giventures}
+                            width={178}
+                            height={100}
+                            className="col-span-2 max-h-20 w-full object-contain lg:col-span-1"
+                        />
+                        <img
+                            alt="Tuple"
+                            src={images.SHARDA}
+                            width={178}
+                            height={100}
+                            className="col-span-2 max-h-16 w-full object-contain lg:col-span-1"
+                        />
+                        <img
+                            alt="SavvyCal"
+                            src={images.GLBAJAJ}
+                            width={178}
+                            height={100}
+                            className="col-span-2 max-h-16 w-full object-contain lg:col-span-1"
+                        />
+
+
+                    </div>
+                </div>
+            </div>
 
         </div>
 
