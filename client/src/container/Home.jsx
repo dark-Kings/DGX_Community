@@ -70,11 +70,11 @@ const Home = () => {
             <div
                 className="relative py-14 sm:py-24 bg-cover bg-center"
                 style={{ backgroundImage: `url(${images.HeroImg})` }} >
-                <div className="absolute inset-0 bg-black opacity-50" ></div> {/* Overlay */}
+                <div className="absolute inset-0 bg-DGXblack opacity-50" ></div> {/* Overlay */}
                 <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
                     <div className="mb-8 flex justify-center ">
                         <p className="relative rounded-full px-4 py-1.5 text-DGXwhite leading-6  bg-DGXgreen bg-opacity-90 ring-1 ring-inset ring-[#111827]/10 hover:ring-[#111827]/20 hover:bg-DGXblue">
-                            <a href="/SignInn" target="_blank" className="font-semibold text-lime-600 bd">
+                            <a href="/SignInn" target="_blank" className="font-semibold text-DGXwhite bd">
                                 <span className="absolute inset-0 "></span> Join Us Today <span>→</span>
                             </a>
                         </p>
@@ -143,7 +143,11 @@ const Home = () => {
                             <div className="flex flex-col justify-center items-center relative group ">
                                 <p
                                     onClick={handleRedirect01}
+<<<<<<< HEAD
                                     className="text-base sm:text-lg md:text-xl lg:text-2xl text-orange-600 text-DGXwhite hover:text-DGXgreen transition-colors duration-300 cursor-pointer"
+=======
+                                    className="text-base sm:text-lg md:text-xl lg:text-2xl text-DGXwhite hover:text-DGXgreen transition-colors duration-300 cursor-pointer"
+>>>>>>> ae150b1c40e15a41d8d7eab4bf2ea02c8d45a059
                                 >
                                     Discussion Platform
                                 </p>
@@ -172,14 +176,14 @@ const Home = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-4 lg:p-8">
                     {/* Text and Button Section */}
                     <div className="flex flex-col justify-center items-center lg:items-start text-center lg:text-left">
-                        <div className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4">
-                            <span className="animate-pulse bg-gradient-to-r from-DGXgreen via-DGXblack to-DGXblue bg-clip-text text-transparent">
-                                Upcoming Events
-                            </span>
-                            <p className="mt-2 text-sm md:text-base lg:text-lg text-DGXblue">
-                                Attend our regular events and workshops to learn from the best in the industry. Enhance your skills and network with professionals.
-                            </p>
-                        </div>
+                    <div className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4">
+                        <span className="bg-gradient-to-r from-DGXgreen via-DGXblack to-DGXblue bg-clip-text text-transparent animate-pulse">
+                            Upcoming Events
+                        </span>
+                        <p className="mt-2 text-sm md:text-base lg:text-lg text-DGXblue">
+                            Attend our regular events and workshops to learn from the best in the industry. Enhance your skills and network with professionals.
+                        </p>
+                    </div>
                         <button className="text-sm md:text-md lg:text-lg bg-DGXgreen text-DGXwhite py-2 px-4 lg:py-2 lg:px-5 border border-DGXblue rounded-md mt-4 hover:bg-[#27272a] transition-colors duration-300">
                             Enroll Now
                         </button>
