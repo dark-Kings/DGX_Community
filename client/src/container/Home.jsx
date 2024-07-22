@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { images } from '../constant/index.js';
 import { useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 
 const Home = () => {
@@ -92,7 +92,7 @@ const Home = () => {
                         </p>
 
                     </div>
-                    </div>
+                </div>
 
 
             </div>
@@ -148,6 +148,10 @@ const Home = () => {
                                 <p
                                     onClick={handleRedirect01}
                                     className="text-base sm:text-lg md:text-xl lg:text-2xl text-orange-600 text-DGXwhite hover:text-DGXgreen transition-colors duration-300 cursor-pointer"
+<<<<<<< HEAD
+=======
+
+>>>>>>> 616b39f3cb5af16473dc7ca0392eb4370d1dcd68
                                 >
                                     Discussion Platform
                                 </p>
@@ -280,7 +284,7 @@ const Home = () => {
             <div className="bg-white py-24 sm:py-32">
                 <div className="mx-auto max-w-7xl px-6 lg:px-8">
                     <h1 className="text-center text-2xl font-bold leading-8 text-DGXblue">
-                    NVIDIA DGX systems are at the forefront of AI research and innovation. Trusted by the world’s most innovative universities and corporations, DGX provides the computational power needed to tackle the most complex AI challenges. Whether advancing research in academic institutions or driving breakthroughs in industry, DGX stands as the premier choice for those leading the charge in artificial intelligence.
+                        NVIDIA DGX systems are at the forefront of AI research and innovation. Trusted by the world’s most innovative universities and corporations, DGX provides the computational power needed to tackle the most complex AI challenges. Whether advancing research in academic institutions or driving breakthroughs in industry, DGX stands as the premier choice for those leading the charge in artificial intelligence.
                     </h1>
                     <div className="mx-auto mt-10 grid max-w-lg grid-cols-4 items-center justify-center gap-x-8 gap-y-10 sm:max-w-xl sm:grid-cols-6 sm:gap-x-10 lg:mx-0 lg:max-w-none lg:grid-cols-5">
                         <img
@@ -297,7 +301,7 @@ const Home = () => {
                             height={100}
                             className="col-span-2 max-h-16 w-full object-contain lg:col-span-1"
                         />
-                         <img
+                        <img
                             alt="SavvyCal"
                             src={images.giventures}
                             width={178}
@@ -318,13 +322,16 @@ const Home = () => {
                             height={100}
                             className="col-span-2 max-h-16 w-full object-contain lg:col-span-1"
                         />
-                      
-                       
+
+
                     </div>
                 </div>
             </div>
+<<<<<<< HEAD
 =======
 
+=======
+>>>>>>> 616b39f3cb5af16473dc7ca0392eb4370d1dcd68
 
         </div>
 
