@@ -14,6 +14,16 @@ import nvidiaEvent02 from '../assets/nvidiaEvent02.png'
 
 import Team from '../assets/Team.png'
 import Globe from '../assets/Globe.jpg'
+import DGX from '../assets/DGX.png'
+import AnimatedDGX from '../assets/AnimatedDGX.png'
+import ABESIT from '../assets/ABESIT.png'
+import KIET from '../assets/KIET.png'
+import SHARDA from '../assets/SHARDA.png'
+import GLBAJAJ from '../assets/GLBAJAJ.png'
+
+
+
+
 
 
 export default {
@@ -31,6 +41,12 @@ export default {
     nvidiaEvent01,
     nvidiaEvent02,
     Team,
-    Globe
+    Globe,
+    DGX,
+    AnimatedDGX,
+    ABESIT,
+    KIET,
+    SHARDA,
+    GLBAJAJ
 
 }
