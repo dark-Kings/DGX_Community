@@ -2,14 +2,20 @@ import { useEffect, useState } from 'react';
 
 const Notfound = () => {
     const [digits, setDigits] = useState(['0', '0', '0']);
-    const targetDigits = ['4', '0', '4'];
+    const [isCompleted, setIsCompleted] = useState(false);
 
     useEffect(() => {
+        const targetDigits = ['4', '0', '4'];
+
         const randomizeDigit = (index) => {
-            if (index >= digits.length) return;
+            if (index >= targetDigits.length) {
+                setIsCompleted(true);
+                return;
+            }
 
             let intervalId = setInterval(() => {
                 setDigits(prevDigits => {
+                    if (isCompleted) return prevDigits;
                     const newDigits = [...prevDigits];
                     newDigits[index] = Math.floor(Math.random() * 10).toString();
                     return newDigits;
@@ -24,11 +30,11 @@ const Notfound = () => {
                     return newDigits;
                 });
                 randomizeDigit(index + 1);
-            }, 400);
+            }, 800); // Increased to 1000ms for better visual effect
         };
 
         randomizeDigit(0);
-    }, []);
+    }, [isCompleted]);
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-DGXblue via-DGXgreen to-DGXblack text-DGXgreen p-4">
