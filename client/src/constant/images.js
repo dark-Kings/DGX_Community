@@ -20,6 +20,13 @@ import ABESIT from '../assets/ABESIT.png'
 import KIET from '../assets/KIET.png'
 import SHARDA from '../assets/SHARDA.png'
 import GLBAJAJ from '../assets/GLBAJAJ.png'
+import SharadSir from '../assets/SharadSir.png'
+import PatrickSir from '../assets/PatrickSir.png'
+
+import AshwiniSir from '../assets/AshwiniSir.png'
+
+import SugandhMaam from '../assets/SugandhMaam.png'
+
 
 
 
@@ -47,6 +54,10 @@ export default {
     ABESIT,
     KIET,
     SHARDA,
-    GLBAJAJ
+    GLBAJAJ,
+    SharadSir,
+    SugandhMaam,
+    PatrickSir,
+    AshwiniSir
 
 }
