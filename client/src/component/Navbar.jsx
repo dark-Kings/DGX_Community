@@ -73,7 +73,7 @@ const Navbar = () => {
         },
         {
             label: 'Event and Workshop',
-            to: '#'
+            to: '/EventWorkshopPage'
         },
         {
             label: 'Contact Us',
