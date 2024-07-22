@@ -28,7 +28,7 @@ const Discussion = () => {
     const [selectedSection, setSelectedSection] = useState('all');
     const [searchQuery, setSearchQuery] = useState('');
     const [isFormOpen, setIsFormOpen] = useState(false);
-    const [selectedDiscussion, setSelectedDiscussion] = useState(null);
+    // const [selectedDiscussion, setSelectedDiscussion] = useState(null);
 
     const toggleNav = () => {
         setIsNavOpen(!isNavOpen);
@@ -52,7 +52,7 @@ const Discussion = () => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
     const openModal = () => {
-        console.log("clicked");
+        // console.log("clicked");
         setModalIsOpen(true);
     }
     const closeModal = () => setModalIsOpen(false);
@@ -99,6 +99,7 @@ const Discussion = () => {
             e.preventDefault();
             alert('Please upload the selected image first.');
         }
+        console.log(tags)
     };
 
     return (
