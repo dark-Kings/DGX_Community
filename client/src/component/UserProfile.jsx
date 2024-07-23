@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import UserProfileChart from './UserProfileChart';
 import { FaFacebook, FaTwitter, FaLinkedin, FaGithub, FaUsers, FaPoll } from 'react-icons/fa';
 import { GoCommentDiscussion } from "react-icons/go";
@@ -9,7 +9,10 @@ import { CgProfile } from "react-icons/cg";
 import { MdEventAvailable } from "react-icons/md";
 import { CgPassword } from "react-icons/cg";
 import { SlLogout } from "react-icons/sl";
+import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import ApiContext from '../context/ApiContext.jsx';
+import { ToastContainer, toast } from "react-toastify";
 
 
 
@@ -22,20 +25,32 @@ const UserProfile = () => {
     const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState('');
     const [emailSubmitted, setEmailSubmitted] = useState(false);
-    const [userToken, setUserToken] = useState(null);
-    useEffect(() => {
-        // Retrieve the token from the cookie
-        const token = Cookies.get('userToken');
-        if (token) {
-            try {
-                const parseToken = JSON.parse(token);
-                setUserToken(parseToken);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const { user, userToken } = useContext(ApiContext);
+    const navigate = useNavigate()
 
-            } catch (e) {
-                console.log("Failed to parse token:", e);
-            }
+    useEffect(() => {
+        // setTimeout(() => {
+        if (userToken != null && user != null && userToken != undefined && user != undefined) {
+            setIsLoggedIn(true)
         }
-    }, []);
+        //  else {
+        //         toast.success("Login first", {
+        //             position: "top-center",
+        //             autoClose: 3000,
+        //             hideProgressBar: false,
+        //             closeOnClick: true,
+        //             pauseOnHover: true,
+        //             draggable: true,
+        //             theme: "light",
+        //         });
+        //         setTimeout(() => {
+        //             navigate('/SignInn');
+        //         }, 3500);
+        //     }
+        // }, 1500);
+
+    }, [user, userToken])
 
     const handleButtonClick = () => {
         setShowEmailInput(true);
@@ -71,6 +86,7 @@ const UserProfile = () => {
     const [activeTab, setActiveTab] = useState('profile');
 
     const [openSettings, setOpenSettings] = useState(false);
+
     const handleSettingsToggle = () => {
         setOpenSettings(!openSettings);
     };
@@ -98,7 +114,7 @@ const UserProfile = () => {
                     </div>
                     <div className="my-4 flex flex-col 2xl:flex-row 2xl:space-y-0 2xl:space-x-4">
                         <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
-                        <div className="flex-1 bg-DGXwhite rounded-lg shadow-xl p-8 border border-DGXgreen">
+                            <div className="flex-1 bg-DGXwhite rounded-lg shadow-xl p-8 border border-DGXgreen">
                                 <ul>
                                     <div className='flex items-center p-6 cursor-pointer' onClick={() => setActiveTab('profile')}>
                                         <CgProfile className='mr-4 text-2xl' />
@@ -121,7 +137,7 @@ const UserProfile = () => {
                                         <li className={`text-lg ${activeTab === 'logout' ? 'text-DGXblue font-bold' : ''}`}>Logout</li>
                                     </div>
                                 </ul>
-                            </div>  
+                            </div>
                             <div className="flex-1 bg-DGXwhite rounded-lg shadow-xl p-4 md:p-8 border border-DGXgreen">
                                 <h4 className="text-md md:text-xl text-DGXblack font-bold">Personal Info</h4>
                                 <ul className="mt-2 text-sm text-DGXgray">
@@ -184,7 +200,7 @@ const UserProfile = () => {
                                 {emailError && <p className="text-red-500 mt-2">{emailError}</p>}
                                 {emailSubmitted && !emailError && <p className="text-green-500 mt-2">Refered successfully!</p>}
                             </div>
-                       
+
                         </div>
                     </div>
                 </div>
@@ -312,7 +328,7 @@ const UserProfile = () => {
                                         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
                                     </div>
                                 </a>
-                                
+
                                 <a href="#" className="border-DGXgreen shadow-xl flex flex-col items-center bg-white border border-gray-200 rounded-lg  md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 m-2">
                                     <img className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="/docs/images/blog/image-4.jpg" alt="" />
                                     <div className="flex flex-col justify-between p-4 leading-normal">
@@ -320,7 +336,7 @@ const UserProfile = () => {
                                         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
                                     </div>
                                 </a>
-                                
+
                                 <a href="#" className="border-DGXgreen shadow-xl flex flex-col items-center bg-white border border-gray-200 rounded-lg  md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 m-2">
                                     <img className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="/docs/images/blog/image-4.jpg" alt="" />
                                     <div className="flex flex-col justify-between p-4 leading-normal">
@@ -328,7 +344,7 @@ const UserProfile = () => {
                                         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
                                     </div>
                                 </a>
-                                
+
                                 <a href="#" className="border-DGXgreen shadow-xl flex flex-col items-center bg-white border border-gray-200 rounded-lg  md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 m-2">
                                     <img className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="/docs/images/blog/image-4.jpg" alt="" />
                                     <div className="flex flex-col justify-between p-4 leading-normal">
@@ -336,7 +352,7 @@ const UserProfile = () => {
                                         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
                                     </div>
                                 </a>
-                                
+
                             </div>
                         </div>
                     )}

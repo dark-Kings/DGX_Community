@@ -21,7 +21,7 @@ const CommunityGuidelines = () => {
 
 
   return (
-    <div className="max-w-4xl mx-auto my-10 p-10 bg-[#dcfce7] rounded-lg shadow-lg border border-DGXgreen font-serif">
+    <div className="max-w-[1300px] mx-auto my-10 p-10 bg-DGXgreen/50 rounded-lg shadow-lg border border-DGXgreen font-serif">
       <h1 className="text-center text-6xl font-extrabold text-DGXblack mb-8">DGX Community Policies</h1>
       <div className="flex flex-wrap items-center">
         <div className="w-full md:w-1/2 p-2">
@@ -207,12 +207,13 @@ const CommunityGuidelines = () => {
         </div>
       </SwiperSlide>
     </Swiper>
-    <div>
-        <p className="text-lg text-justify font-medium text-[#0c4a6e]">
+    <div className="flex flex-wrap items-center mb-20">
+    <div className="w-full md:w-1/2 p-2">
+        <p className="text-lg w-full text-justify font-medium text-[#0c4a6e]">
           Welcome to the DGX Community, a vibrant hub where professionals and enthusiasts unite to share insights, stay informed, learn new skills, and cultivate meaningful connections. Your contributions should enrich the community in a positive and constructive manner. For further details, please refer to our Community Guidelines. Together, we can foster an environment where everyone can learn, grow, and engage, ultimately creating opportunities for all.
         </p>
     </div>
-    <div className="w-full md:w-full p-8">
+    <div className="w-full md:w-1/2 p-2">
       <img
         src={images.Globe}
         className="w-full h-auto transition-transform duration-500 ease-in-out transform hover:scale-105"
@@ -232,6 +233,8 @@ const CommunityGuidelines = () => {
       </div>
     </div>
 
+    </div>
+    
       <section id="be-safe-details" className="mb-8">
         <h2 className="text-2xl text-DGXblack mt-8 text-center font-bold">Be Safe</h2>
         <p className="text-[#374151] mt-4">

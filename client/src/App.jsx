@@ -47,7 +47,7 @@ function App() {
             <Route path='/404' element={<Notfound />} />
             <Route path='/Quiz' element={<Quiz />} />
             <Route path='/Survey' element={<Survey />} />
-            <Route path='/EventWorkshopPage' element={<EventWorkshopPage/>}/>
+            <Route path='/EventWorkshopPage' element={<EventWorkshopPage />} />
           </Routes>
         </div>
         <Footer />
