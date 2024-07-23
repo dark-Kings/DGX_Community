@@ -5,8 +5,11 @@ const Resources = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    // Open the modal when the component mounts
-    setIsModalOpen(true);
+    // Check if the user has already subscribed
+    const isSubscribed = localStorage.getItem('isSubscribed');
+    if (!isSubscribed) {
+      setIsModalOpen(true);
+    }
   }, []);
 
   const handleEmailChange = (e) => {
@@ -17,6 +20,9 @@ const Resources = () => {
     e.preventDefault();
     // Handle email submission logic
     alert(`Email submitted: ${email}`);
+    // Mark user as subscribed in localStorage
+    localStorage.setItem('isSubscribed', 'true');
+    setIsModalOpen(false);
   };
 
   const handleCloseModal = () => {
