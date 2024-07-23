@@ -88,7 +88,7 @@ const SignIn = () => {
             theme: "light",
           });
           setTimeout(() => {
-            // navigate('/');
+            navigate('/');
           }, 3500);
         }
       }
@@ -123,8 +123,8 @@ const SignIn = () => {
           />
         </div>
         {/* Sign in form container */}
-        
-        
+
+
         <div className="w-full h-screen rounded-s-full lg:w-1/2 flex justify-center items-center bg-DGXblue">
           <div className="w-full max-w-sm lg:max-w-md p-6 bg-DGXwhite rounded-lg shadow-lg border border-DGXgreen">
             <div className='text-center text-3xl mb-4 text-DGXgreen font-bold'>Sign In</div>

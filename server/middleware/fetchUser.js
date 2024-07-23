@@ -13,6 +13,7 @@ export const fetchUser = (req, res, next) => {
     // console.log(token)
     if (!token) {
         res.status(401).json({ success: false, data: {}, message: "Please authenticate using a valid token" });
+        return
     }
     try {
         const data = jwt.verify(token, JWT_SECRET);
@@ -21,5 +22,6 @@ export const fetchUser = (req, res, next) => {
         next();
     } catch (error) {
         res.status(401).send({ success: false, data: {}, message: "Please authenticate using a valid token" });
+        return
     }
 }
