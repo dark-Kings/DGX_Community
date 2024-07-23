@@ -37,8 +37,8 @@ const Notfound = () => {
     }, [isCompleted]);
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-DGXblue via-DGXgreen to-DGXblack text-DGXgreen p-4">
-            <div className="text-9xl sm:text-9xl font-bold animate-pulse flex space-x-2">
+        <div className="flex flex-col items-center justify-center min-h-screen text-DGXgreen p-4">
+            <div className="text-9xl sm:text-9xl font-bold bg-gradient-to-r from-DGXgreen via-DGXblack to-DGXblue bg-clip-text text-transparent animate-pulse flex space-x-2">
                 {digits.map((digit, index) => (
                     <span key={index}>{digit}</span>
                 ))}

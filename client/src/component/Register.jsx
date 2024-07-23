@@ -190,7 +190,7 @@ const Register = () => {
   return (
     loading ? <h1>loading ....</h1> : <div className="my-8">
       <ToastContainer />
-      <section className="max-w-4xl p-6 mx-auto bg-indigo-600 rounded-md shadow-2xl border border-DGXgreen dark:bg-gray-800">
+      <section className="max-w-4xl p-6 mx-auto bg-DGXwhite rounded-md shadow-2xl border border-DGXgreen dark:bg-gray-800">
         <h1 className="text-xl font-bold text-white capitalize text-center dark:text-white">
           Welcome to the <span className="text-DGXgreen">DGX Community</span>
         </h1>
