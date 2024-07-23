@@ -5,11 +5,13 @@ import "react-toastify/dist/ReactToastify.css";
 import ApiContext from '../context/ApiContext.jsx';
 import { decrypt } from "../utils/decrypt.js";
 import { images } from '../constant/index.js';
+import Cookies from 'js-cookie';
 
 const ResetPassword = () => {
   // Declare state variables
   const [loading, setLoading] = useState(false)
-  const { fetchData } = useContext(ApiContext);
+  const { fetchData, userToken, setUserToken, } = useContext(ApiContext);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -18,6 +20,18 @@ const ResetPassword = () => {
   const [signature, setSignature] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
+
+
+  useEffect(() => {
+    if (userToken != null && userToken != undefined) {
+      setIsLoggedIn(true)
+      Cookies.remove('userToken');
+      setUserToken(null)
+    }
+    else {
+      setIsLoggedIn(false)
+    }
+  }, [userToken, setUserToken])
 
 
   const urlExtract = async () => {
