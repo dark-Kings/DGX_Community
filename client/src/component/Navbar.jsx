@@ -83,7 +83,7 @@ const Navbar = () => {
                         <Link to="/SignInn">
                             <button
                                 type="button"
-                                className="text-white bg-DGXgreen hover:bg-DGXgreen focus:ring-4 focus:outline-none focus:ring-DGXgreen font-medium rounded-md text-xl px-4 py-2 text-center dark:bg-DGXgreen dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                className="text-white bg-DGXgreen focus:ring-4 focus:outline-none focus:ring-DGXgreen font-medium rounded-md text-xl px-4 py-2 text-center hover:bg-DGXblue"
                             >
                                 Login
                             </button>

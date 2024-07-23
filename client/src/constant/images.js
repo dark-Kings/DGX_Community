@@ -27,6 +27,13 @@ import AshwiniSir from '../assets/AshwiniSir.png'
 
 import SugandhMaam from '../assets/SugandhMaam.png'
 
+import Event1 from '../assets/Event1.jpeg'
+import Event2 from '../assets/Event2.jpeg'
+import Event3 from '../assets/Event3.jpeg'
+import Event4 from '../assets/Event4.jpeg'
+import Event5 from '../assets/Event5.jpeg'
+import Event6 from '../assets/Event6.jpeg'
+
 
 
 
@@ -58,6 +65,12 @@ export default {
     SharadSir,
     SugandhMaam,
     PatrickSir,
-    AshwiniSir
+    AshwiniSir,
+    Event1,
+    Event2,
+    Event3,
+    Event4,
+    Event5,
+    Event6
 
 }
