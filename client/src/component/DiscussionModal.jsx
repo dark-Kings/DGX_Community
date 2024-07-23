@@ -1,25 +1,24 @@
-// import React from 'react';
-import PropTypes from 'prop-types';
-import Modal from 'react-modal';
-
 const DiscussionModal = ({ isOpen, onRequestClose }) => {
   return (
-    <Modal
-      isOpen={isOpen}
-      onRequestClose={onRequestClose}
-      className="modal-content"
-      overlayClassName="modal-overlay"
+    <div
+      className={`fixed bottom-0 left-0 right-0 h-3/4 bg-DGXgreen transition-transform shadow-lg`}
     >
-      <h2 className="text-2xl font-bold">Join the Discussion</h2>
-      <button onClick={onRequestClose} className="close-button">Close</button>
-      {/* Modal content here */}
-    </Modal>
+      <div className="p-5">
+        <button
+          className="mb-5 p-2 bg-red-600 text-white rounded-full"
+          onClick={onRequestClose}
+        >
+          Close
+        </button>
+        <div className="bg-DGXgreen">
+          <h2 className="text-xl font-semibold">Offcanvas Content</h2>
+          <p className="mt-2">
+            This is the content inside the offcanvas component.
+          </p>
+        </div>
+      </div>
+    </div>
   );
-};
-
-DiscussionModal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  onRequestClose: PropTypes.func.isRequired,
 };
 
 export default DiscussionModal;
