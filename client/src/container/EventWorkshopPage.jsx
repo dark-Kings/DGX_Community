@@ -190,7 +190,7 @@ const EventWorkshopPage = () => {
             />
             <button
               type="submit"
-              className="w-full md:w-auto px-6 py-3 bg-black border-black text-white active:scale-95 duration-100 border rounded-xl transition-all"
+              className="w-full md:w-auto px-6 py-3 bg-DGXgreen border-DGXblue text-white active:scale-95 duration-100 border rounded-xl transition-all"
             >
               <div className="flex items-center">
                 <span className="text-sm font-semibold mx-auto">Search</span>
