@@ -5,6 +5,7 @@ import { AiOutlineMenu } from "react-icons/ai";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import clsx from 'clsx';
 import ApiContext from '../context/ApiContext.jsx';
+import Cookies from 'js-cookie';
 
 const Navbar = () => {
     const [isSideMenuOpen, setMenu] = useState(false);
@@ -28,6 +29,8 @@ const Navbar = () => {
     };
     const handleLogout = () => {
         toggleDropdown()
+        Cookies.remove('userToken');
+        window.location.reload()
         console.log('logout')
     }
 
@@ -83,7 +86,7 @@ const Navbar = () => {
                         </Link>
                     ) : (
                         <div className='relative flex items-center gap-2'>
-                            {user && <h1 className='text-sm font-medium'>{user.Name}</h1>}
+                            {<h1 className='text-sm font-medium'>{user.Name}</h1>}
                             <img
                                 src={images.robot}  // Add the user's image URL here
                                 alt="User"
@@ -95,12 +98,12 @@ const Navbar = () => {
 
                                     {isDropdownOpen && (
                                         <div className='absolute right-0 mt-8 w-48 bg-white rounded-md shadow-lg z-50 border border-DGXblue'>
-                                            <Link to="/UserProfile" className='block px-4 py-2 text-gray-800 hover:bg-gray-200' >
-                                                <p onClick={() => {
-                                                    // Add your logout logic here
+                                            <Link to="/UserProfile" className='block px-4 py-2 text-gray-800 hover:bg-gray-200' onClick={() => {
+                                                // Add your logout logic here
 
-                                                    toggleDropdown()
-                                                }}> Profile</p>
+                                                toggleDropdown()
+                                            }}>
+                                                Profile
                                             </Link>
                                             <button
                                                 onClick={() => {

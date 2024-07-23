@@ -85,11 +85,11 @@ const UserProfile = () => {
     };
     const [activeTab, setActiveTab] = useState('profile');
 
-    const [openSettings, setOpenSettings] = useState(false);
+    // const [openSettings, setOpenSettings] = useState(false);
 
-    const handleSettingsToggle = () => {
-        setOpenSettings(!openSettings);
-    };
+    // const handleSettingsToggle = () => {
+    //     setOpenSettings(!openSettings);
+    // };
     return (
         <div className="bg-DGXwhite p-2 md:p-8">
             <div className="md:my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
@@ -177,7 +177,7 @@ const UserProfile = () => {
                                     className="mt-4 px-4 py-2 bg-DGXgreen text-white rounded hover:bg-DGXdarkgreen"
                                     onClick={handleButtonClick}
                                 >
-                                    Add Email
+                                    Refer
                                 </button>
                                 {showEmailInput && (
                                     <div className="mt-4 flex items-center">
