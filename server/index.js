@@ -5,6 +5,7 @@ import helmet from 'helmet'
 import dotenv from 'dotenv'
 
 import userRoutes from './routes/user.js'
+import userDiscussion from './routes/Discussion.js'
 // import { connectToDatabase, closeConnection } from './db.js';
 
 
@@ -24,6 +25,7 @@ app.use(cors())
 
 
 app.use('/user', userRoutes);
+app.use('/discussion', userDiscussion)
 
 
 app.listen(port, () => {

@@ -402,7 +402,7 @@ export const getuser = async (req, res) => {
 
   try {
     const userId = req.user.id;
-    console.log(userId);
+    // console.log(userId);
 
     connectToDatabase(async (err, conn) => {
       if (err) {
