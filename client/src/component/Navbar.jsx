@@ -9,59 +9,12 @@ import Cookies from 'js-cookie';
 
 const Navbar = () => {
     const [isSideMenuOpen, setMenu] = useState(false);
-    const { fetchData } = useContext(ApiContext);
+    const { user } = useContext(ApiContext);
     const [userToken, setUserToken] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userData, setUserData] = useState({});
 
-
-    useEffect(() => {
-        // Retrieve the token from the cookie
-        const token = Cookies.get('userToken');
-        // console.log("hi")
-
-        if (token) {
-            try {
-                const parseToken = JSON.parse(token);
-                setUserToken(parseToken);
-                console.log(userToken)
-
-            } catch (e) {
-                console.log("Failed to parse token:", e);
-            }
-        }
-    }, []);
-
-    const handleUser = async () => {
-
-        // Add further form submission logic here (e.g., API call)
-        const endpoint = "user/getuser";
-        const method = "POST"
-        const headers = {
-            'Content-Type': 'application/json',
-            'auth-token': userToken
-        }
-        try {
-            const data = await fetchData(endpoint, method, headers);
-            if (!data.success) {
-                console.log(data.message)
-            } else if (data.success) {
-                setUserData(data)
-                console.log(data, userData)
-                setIsLoggedIn(true)
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    };
-    // if (userToken) {
-
-    //     handleUser()
-    // }
-    // console.log(userData, userToken)
-
-
-
+    console.log(user);
     const navLinks = [
         {
             label: 'Home',
