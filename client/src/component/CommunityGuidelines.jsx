@@ -21,7 +21,7 @@ const CommunityGuidelines = () => {
 
 
   return (
-    <div className="max-w-[1300px] mx-auto my-10 p-10 bg-DGXgreen/50 rounded-lg shadow-lg border border-DGXgreen font-serif">
+    <div className="max-w-[1300px] mx-auto my-10 p-10 bg-DGXwhite rounded-lg shadow-2xl shadow-DGXgreen border-2 border-DGXgreen font-serif">
       <h1 className="text-center text-6xl font-extrabold text-DGXblack mb-8">DGX Community Policies</h1>
       <div className="flex flex-wrap items-center">
         <div className="w-full md:w-1/2">
