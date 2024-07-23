@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 const Resources = () => {
   const [email, setEmail] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(true); // Initial state for modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     // Open the modal when the component mounts
