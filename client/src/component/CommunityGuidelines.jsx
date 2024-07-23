@@ -24,13 +24,13 @@ const CommunityGuidelines = () => {
     <div className="max-w-[1300px] mx-auto my-10 p-10 bg-DGXgreen/50 rounded-lg shadow-lg border border-DGXgreen font-serif">
       <h1 className="text-center text-6xl font-extrabold text-DGXblack mb-8">DGX Community Policies</h1>
       <div className="flex flex-wrap items-center">
-        <div className="w-full md:w-1/2 p-2">
+        <div className="w-full md:w-1/2">
           <img
             src={images.Team}
             className="w-full h-auto transition-transform duration-500 ease-in-out transform hover:scale-105"
             alt="Team"
           />
-          <div className="text-sm text-center mt-2 hover:text-[#2563eb]">
+          <div className="text-sm text-center hover:text-[#2563eb]">
             <i>
             <a href="https://storyset.com/people">People illustrations by Storyset</a>
             </i>
