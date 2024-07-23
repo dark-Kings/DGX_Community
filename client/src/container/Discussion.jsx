@@ -102,7 +102,7 @@ const Discussion = () => {
         console.log(tags)
     };
 
-    
+
 
     return (
         <div>
@@ -163,6 +163,12 @@ const Discussion = () => {
                     {isFormOpen ? (
                         <section>
                             <h2 className="text-2xl font-bold text-DGXblue mb-4">Start a New Topic</h2>
+                            <button
+                                className="mb-5 p-2 bg-DGXblue text-white rounded-full"
+                                onClick={closeModal}
+                            >
+                                Close
+                            </button>
                             <form className="bg-gray-100 p-4 rounded-lg shadow-lg" onSubmit={handleSubmit}>
                                 <div className="mb-4">
                                     <label htmlFor="title" className="block text-gray-700 dark:text-gray-300">Title</label>

@@ -62,12 +62,12 @@ const ContactUs = () => {
                                             id="exampleCheck96"
                                             checked
                                         />
-                                        <label
+                                        {/* <label
                                             className="inline-block pl-[0.15rem] hover:cursor-pointer"
                                             htmlFor="exampleCheck96"
                                         >
                                             Send me a copy of this message
-                                        </label>
+                                        </label> */}
                                     </div>
                                     <button
                                         type="button"
