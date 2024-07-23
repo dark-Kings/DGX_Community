@@ -32,10 +32,10 @@ const Register = () => {
       if (decryptedEmail && decryptedReferCode) {
         setEmail(decryptedEmail);
         // console.log(email)
-        // console.log(decryptedEmail)
+        console.log(decryptedEmail)
         setReferCode(decryptedReferCode);
         // console.log(referCode)
-        // console.log(decryptedReferCode)
+        console.log(decryptedReferCode)
       } else {
         navigate('/404');
       }

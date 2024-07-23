@@ -1,19 +1,42 @@
-import { useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useContext, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { images } from '../constant/index.js';
 import { AiOutlineMenu } from "react-icons/ai";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import clsx from 'clsx';
 import ApiContext from '../context/ApiContext.jsx';
+import Cookies from 'js-cookie';
 
 const Navbar = () => {
     const [isSideMenuOpen, setMenu] = useState(false);
-    const { user, userToken } = useContext(ApiContext);
+    const { user, userToken, setUserToken } = useContext(ApiContext);
+    // const [userToken, setUserToken] = useState(null);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    // const [userData, setUserData] = useState({});
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (userToken != null && user != null && userToken != undefined && user != undefined) {
+            setIsLoggedIn(true)
+        }
+        else {
+            setIsLoggedIn(false)
+        }
+    }, [user, userToken])
+
+
+    // console.log(user, userToken);
     const [isDropdownOpen, setDropdownOpen] = useState(false);
 
     const toggleDropdown = () => {
         setDropdownOpen(!isDropdownOpen);
     };
+    const handleLogout = () => {
+        toggleDropdown()
+        Cookies.remove('userToken');
+        setUserToken(null)
+        navigate('/')
+    }
 
     const navLinks = [
         { label: 'Home', to: "/" },
@@ -56,18 +79,18 @@ const Navbar = () => {
                 </div>
 
                 <section className='flex items-center gap-6 xs:gap-1'>
-                    {!userToken ? (
+                    {!isLoggedIn ? (
                         <Link to="/SignInn">
                             <button
                                 type="button"
-                                className="text-white bg-DGXgreen hover:bg-DGXgreen focus:ring-4 focus:outline-none focus:ring-DGXgreen font-medium rounded-md text-xl px-4 py-2 text-center dark:bg-DGXgreen dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                className="text-white bg-DGXgreen focus:ring-4 focus:outline-none focus:ring-DGXgreen font-medium rounded-md text-xl px-4 py-2 text-center hover:bg-DGXblue"
                             >
                                 Login
                             </button>
                         </Link>
                     ) : (
                         <div className='relative flex items-center gap-2'>
-                            {user && <h1 className='text-sm font-medium'>{user.Name}</h1>}
+                            {<h1 className='text-sm font-medium'>{user.Name}</h1>}
                             <img
                                 src={images.robot}  // Add the user's image URL here
                                 alt="User"
@@ -76,21 +99,21 @@ const Navbar = () => {
                             />
                             {isDropdownOpen && (
                                 <div className="relative">
-                                    {/* <img
-                                        src="path_to_your_user_image.jpg"
-                                        alt="User"
-                                        className="cursor-pointer"
-                                        onClick={() => setDropdownOpen(!isDropdownOpen)}
-                                    /> */}
-                                            {isDropdownOpen && (
+
+                                    {isDropdownOpen && (
                                         <div className='absolute right-0 mt-8 w-48 bg-white rounded-md shadow-lg z-50 border border-DGXblue'>
-                                            <Link to="/UserProfile" className='block px-4 py-2 text-gray-800 hover:bg-gray-200'>
+                                            <Link to="/UserProfile" className='block px-4 py-2 text-gray-800 hover:bg-gray-200' onClick={() => {
+                                                // Add your logout logic here
+
+                                                toggleDropdown()
+                                            }}>
                                                 Profile
                                             </Link>
                                             <button
                                                 onClick={() => {
                                                     // Add your logout logic here
-                                                    setDropdownOpen(false);
+
+                                                    handleLogout();
                                                 }}
                                                 className='block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200'
                                             >

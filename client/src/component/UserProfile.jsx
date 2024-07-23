@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import UserProfileChart from './UserProfileChart';
 import { FaFacebook, FaTwitter, FaLinkedin, FaGithub, FaUsers, FaPoll } from 'react-icons/fa';
 import { GoCommentDiscussion } from "react-icons/go";
@@ -9,7 +9,10 @@ import { CgProfile } from "react-icons/cg";
 import { MdEventAvailable } from "react-icons/md";
 import { CgPassword } from "react-icons/cg";
 import { SlLogout } from "react-icons/sl";
+import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import ApiContext from '../context/ApiContext.jsx';
+import { ToastContainer, toast, useToast } from "react-toastify";
 
 
 
@@ -22,20 +25,18 @@ const UserProfile = () => {
     const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState('');
     const [emailSubmitted, setEmailSubmitted] = useState(false);
-    const [userToken, setUserToken] = useState(null);
-    useEffect(() => {
-        // Retrieve the token from the cookie
-        const token = Cookies.get('userToken');
-        if (token) {
-            try {
-                const parseToken = JSON.parse(token);
-                setUserToken(parseToken);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const { user, userToken } = useContext(ApiContext);
+    const navigate = useNavigate()
 
-            } catch (e) {
-                console.log("Failed to parse token:", e);
-            }
+    console.log(user, userToken)
+    // const [userData, setUserData] = useState({});
+
+    useEffect(() => {
+        if (userToken != null && user != null && userToken != undefined && user != undefined) {
+            setIsLoggedIn(true)
         }
-    }, []);
+    }, [user, userToken])
 
     const handleButtonClick = () => {
         setShowEmailInput(true);
@@ -70,12 +71,13 @@ const UserProfile = () => {
     };
     const [activeTab, setActiveTab] = useState('profile');
 
-    const [openSettings, setOpenSettings] = useState(false);
-    const handleSettingsToggle = () => {
-        setOpenSettings(!openSettings);
-    };
+    // const [openSettings, setOpenSettings] = useState(false);
+
+    // const handleSettingsToggle = () => {
+    //     setOpenSettings(!openSettings);
+    // };
     return (
-        <div className="bg-DGXwhite p-2 md:p-8">
+        !isLoggedIn ? <>login?</> : <div className="bg-DGXwhite p-2 md:p-8">
             <div className="md:my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
                 <div className="w-full flex flex-col 2xl:w-1/3">
                     <div className="bg-DGXwhite w-full rounded-lg shadow-xl  pb-6 border border-DGXgreen">
@@ -85,83 +87,90 @@ const UserProfile = () => {
                         <div className="flex flex-col items-center -mt-20">
                             <img src="https://vojislavd.com/ta-template-demo/assets/img/profile.jpg" className="w-40 border-4 border-DGXgreen border-white rounded-full" alt="Profile" />
                             <div className="flex items-center space-x-2 mt-2">
-                                <p className="text-2xl">Amanda Ross</p>
+                                <p className="text-2xl">{user.Name}</p>
                                 <span className="bg-[#2563eb] rounded-full p-1" title="Verified">
                                     <svg xmlns="http://www.w3.org/2000/svg" className="text-DGXwhite h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M5 13l4 4L19 7" />
                                     </svg>
                                 </span>
                             </div>
-                            <p className="text-DGXgray">Senior Software Engineer at Tailwind CSS</p>
-                            <p className="text-sm text-[#6b7280]">New York, USA</p>
+                            <p className="text-DGXgray">{user.Designation}</p>
+                            <p className="text-sm text-[#6b7280]">{user.EmailId}</p>
                         </div>
                     </div>
                     <div className="my-4 flex flex-col 2xl:flex-row 2xl:space-y-0 2xl:space-x-4">
                         <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
-                        <div className="flex-1 bg-DGXwhite rounded-lg shadow-xl p-8 border border-DGXgreen">
+                            <div className="flex-1 bg-DGXwhite rounded-lg shadow-xl p-8 border border-DGXgreen">
                                 <ul>
-                                    <div className='flex items-center p-6 cursor-pointer' onClick={() => setActiveTab('profile')}>
-                                        <CgProfile className='mr-4 text-2xl' />
-                                        <li className={`text-lg ${activeTab === 'profile' ? 'text-DGXblue font-bold' : ''}`}>My Profile</li>
-                                    </div>
-                                    <div className='flex items-center p-6 cursor-pointer' onClick={() => setActiveTab('posts')}>
-                                        <GoCommentDiscussion className='mr-4 text-2xl' />
-                                        <li className={`text-lg ${activeTab === 'posts' ? 'text-DGXblue font-bold' : ''}`}>My Posts</li>
-                                    </div>
-                                    <div className='flex items-center p-6 cursor-pointer' onClick={() => setActiveTab('events')}>
-                                        <MdEventAvailable className='mr-4 text-2xl' />
-                                        <li className={`text-lg ${activeTab === 'events' ? 'text-DGXblue font-bold' : ''}`}>My Events</li>
-                                    </div>
-                                    <div className='flex items-center p-6 cursor-pointer' onClick={() => setActiveTab('password')}>
-                                        <CgPassword className='mr-4 text-2xl' />
-                                        <li className={`text-lg ${activeTab === 'password' ? 'text-DGXblue font-bold' : ''}`}>Change Password</li>
-                                    </div>
-                                    <div className='flex items-center p-6 cursor-pointer' onClick={() => setActiveTab('logout')}>
-                                        <SlLogout className='mr-4 text-2xl' />
-                                        <li className={`text-lg ${activeTab === 'logout' ? 'text-DGXblue font-bold' : ''}`}>Logout</li>
-                                    </div>
+                                <div className={`flex items-center p-6 cursor-pointer ${activeTab === 'profile' ? 'bg-DGXgreen/40' : ''}`} onClick={() => setActiveTab('profile')}>
+                                <CgProfile className='mr-4 text-2xl' />
+                                <li className={`text-lg ${activeTab === 'profile' ? 'text-DGXblue font-bold' : ''}`}>My Profile</li>
+                                </div>
+                                <div className={`flex items-center p-6 cursor-pointer ${activeTab === 'posts' ? 'bg-DGXgreen/40' : ''}`} onClick={() => setActiveTab('posts')}>
+                                    <GoCommentDiscussion className='mr-4 text-2xl' />
+                                    <li className={`text-lg ${activeTab === 'posts' ? 'text-DGXblue font-bold' : ''}`}>My Posts</li>
+                                </div>
+                                <div className={`flex items-center p-6 cursor-pointer ${activeTab === 'events' ? 'bg-DGXgreen/40' : ''}`} onClick={() => setActiveTab('events')}>
+                                    <MdEventAvailable className='mr-4 text-2xl' />
+                                    <li className={`text-lg ${activeTab === 'events' ? 'text-DGXblue font-bold' : ''}`}>My Events</li>
+                                </div>
+                                <div className={`flex items-center p-6 cursor-pointer ${activeTab === 'password' ? 'bg-DGXgreen/40' : ''}`} onClick={() => setActiveTab('password')}>
+                                    <CgPassword className='mr-4 text-2xl' />
+                                    <li className={`text-lg ${activeTab === 'password' ? 'text-DGXblue font-bold' : ''}`}>Change Password</li>
+                                </div>
+                                <div className={`flex items-center p-6 cursor-pointer ${activeTab === 'logout' ? 'bg-DGXgreen/40' : ''}`} onClick={() => setActiveTab('logout')}>
+                                    <SlLogout className='mr-4 text-2xl' />
+                                    <li className={`text-lg ${activeTab === 'logout' ? 'text-DGXblue font-bold' : ''}`}>Logout</li>
+                                </div>
+
                                 </ul>
-                            </div>  
+                            </div>
                             <div className="flex-1 bg-DGXwhite rounded-lg shadow-xl p-4 md:p-8 border border-DGXgreen">
                                 <h4 className="text-md md:text-xl text-DGXblack font-bold">Personal Info</h4>
                                 <ul className="mt-2 text-sm text-DGXgray">
-                                    <li className="flex justify-between border-y py-2">
+                                    {user.Name ? <li className="flex justify-between border-y py-2">
                                         <span className="font-bold w-24">Full name</span>
-                                        <span className="text-DGXgray">Amanda S. Ross</span>
-                                    </li>
-                                    <li className="flex justify-between border-b py-2">
+                                        <span className="text-DGXgray">{user.Name}</span>
+                                    </li> : <></>}
+                                    {user.AddOnDt != null ? <li className="flex justify-between border-b py-2">
                                         <span className="font-bold w-24">Joined</span>
-                                        <span className="text-DGXgray">10 Jan 2022 (25 days ago)</span>
-                                    </li>
-                                    <li className="flex justify-between border-b py-2">
+                                        <span className="text-DGXgray">{user.AddOnDt.split('T')[0]}</span>
+                                    </li> : <></>}
+                                    {user.MobileNumber ? <li className="flex justify-between border-b py-2">
                                         <span className="font-bold w-24">Mobile</span>
-                                        <span className="text-DGXgray">(123) 123-1234</span>
-                                    </li>
-                                    <li className="flex justify-between border-b py-2">
+                                        <span className="text-DGXgray">{user.MobileNumber}</span>
+                                    </li> : <></>}
+                                    {user.EmailId ? <li className="flex justify-between border-b py-2">
                                         <span className="font-bold w-24">Email</span>
-                                        <span className="text-DGXgray">amandaross@example.com</span>
-                                    </li>
-                                    <li className="flex justify-between border-b py-2">
+                                        <span className="text-DGXgray">{user.EmailId}</span>
+                                    </li> : <></>}
+                                    {user.Designation ? <li className="flex justify-between border-b py-2">
                                         <span className="font-bold w-24">Designation: </span>
-                                        <span className="text-DGXgray">Assistant Professor</span>
-                                    </li>
-                                    <li className="flex justify-between border-b py-2 flex-col lg:flex-row">
+                                        <span className="text-DGXgray">{user.Designation}</span>
+                                    </li> : <></>}
+                                    {user.CollegeName ? <li className="flex justify-between border-b py-2 flex-col lg:flex-row">
                                         <span className="font-bold w-24">College Name</span>
-                                        <span className="text-DGXgray">GB. Pant University Of Agriculture And Technology</span>
-                                    </li>
-                                    <li className="flex items-center justify-center border-b py-2 space-x-2">
-                                        {/* <span className="font-bold w-24">Elsewhere</span> */}
+                                        <span className="text-DGXgray">{user.CollegeName}</span>
+                                    </li> : <></>}
+                                    {user.ReferalNumberCount != null ? <li className="flex justify-between border-b py-2 ">
+                                        <span className="font-bold w-24">Refer Count Remaining</span>
+                                        <span className="text-DGXgray">{user.ReferalNumberCount}</span>
+                                    </li> : <></>}
+                                    {/* <li className="flex items-center justify-center border-b py-2 space-x-2">
+                                        
                                         <a href="#" title="Facebook"><FaFacebook className="w-5 h-5" /></a>
                                         <a href="#" title="Twitter"><FaTwitter className="w-5 h-5" /></a>
                                         <a href="#" title="LinkedIn"><FaLinkedin className="w-5 h-5" /></a>
                                         <a href="#" title="Github"><FaGithub className="w-5 h-5" /></a>
-                                    </li>
+                                    </li> */}
                                 </ul>
                                 <button
-                                    className="mt-4 px-4 py-2 bg-DGXgreen text-white rounded hover:bg-DGXdarkgreen"
+                                    className={`mt-4 px-4 py-2 bg-DGXgreen text-white rounded hover:bg-DGXdarkgreen ${user.
+                                        ReferalNumberCount == 0 ? 'bg-DGXgreen opacity-75' : ' '}`}
                                     onClick={handleButtonClick}
+                                    disabled={user.ReferalNumberCount === 0}
                                 >
-                                    Add Email
+                                    Refer
                                 </button>
                                 {showEmailInput && (
                                     <div className="mt-4 flex items-center">
@@ -184,7 +193,7 @@ const UserProfile = () => {
                                 {emailError && <p className="text-red-500 mt-2">{emailError}</p>}
                                 {emailSubmitted && !emailError && <p className="text-green-500 mt-2">Refered successfully!</p>}
                             </div>
-                       
+
                         </div>
                     </div>
                 </div>
@@ -305,38 +314,38 @@ const UserProfile = () => {
                                 <h4 className="text-xl text-[#0f172a] font-bold">My Events</h4>
                             </div>
                             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
-                                <a href="#" className="border-DGXgreen shadow-xl flex flex-col items-center bg-white border border-gray-200 rounded-lg  md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 m-2">
+                                <a href="#" className="border-DGXgreen shadow-xl flex flex-col items-center bg-white border rounded-lg  md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 m-2">
                                     <img className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="/docs/images/blog/image-4.jpg" alt="" />
                                     <div className="flex flex-col justify-between p-4 leading-normal">
                                         <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
                                         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
                                     </div>
                                 </a>
-                                
-                                <a href="#" className="border-DGXgreen shadow-xl flex flex-col items-center bg-white border border-gray-200 rounded-lg  md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 m-2">
+
+                                <a href="#" className="border-DGXgreen shadow-xl flex flex-col items-center bg-white border rounded-lg  md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 m-2">
                                     <img className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="/docs/images/blog/image-4.jpg" alt="" />
                                     <div className="flex flex-col justify-between p-4 leading-normal">
                                         <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
                                         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
                                     </div>
                                 </a>
-                                
-                                <a href="#" className="border-DGXgreen shadow-xl flex flex-col items-center bg-white border border-gray-200 rounded-lg  md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 m-2">
+
+                                <a href="#" className="border-DGXgreen shadow-xl flex flex-col items-center bg-white border rounded-lg  md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 m-2">
                                     <img className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="/docs/images/blog/image-4.jpg" alt="" />
                                     <div className="flex flex-col justify-between p-4 leading-normal">
                                         <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
                                         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
                                     </div>
                                 </a>
-                                
-                                <a href="#" className="border-DGXgreen shadow-xl flex flex-col items-center bg-white border border-gray-200 rounded-lg  md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 m-2">
+
+                                <a href="#" className="border-DGXgreen shadow-xl flex flex-col items-center bg-white border rounded-lg  md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 m-2">
                                     <img className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="/docs/images/blog/image-4.jpg" alt="" />
                                     <div className="flex flex-col justify-between p-4 leading-normal">
                                         <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
                                         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
                                     </div>
                                 </a>
-                                
+
                             </div>
                         </div>
                     )}
