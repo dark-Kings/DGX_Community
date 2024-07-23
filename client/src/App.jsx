@@ -13,7 +13,7 @@ import ContactUs from './container/ContactUs.jsx';
 import DiscussionModal from './component/DiscussionModal.jsx';
 import Notfound from './component/Notfound.jsx';
 import ResetPassword from './component/ResetPassword.jsx';
-import images from './constant/images.js';
+// import images from './constant/images.js';
 import CommunityGuidelines from './component/CommunityGuidelines.jsx';
 import Resources from './component/Resources.jsx';
 import Footer from './component/Footer.jsx';
@@ -47,7 +47,7 @@ function App() {
             <Route path='/404' element={<Notfound />} />
             <Route path='/Quiz' element={<Quiz />} />
             <Route path='/Survey' element={<Survey />} />
-            <Route path='/EventWorkshopPage' element={<EventWorkshopPage/>}/>
+            <Route path='/EventWorkshopPage' element={<EventWorkshopPage />} />
           </Routes>
         </div>
         <Footer />

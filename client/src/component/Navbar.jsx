@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { images } from '../constant/index.js';
 import { AiOutlineMenu } from "react-icons/ai";
@@ -11,12 +11,17 @@ const Navbar = () => {
     const [isSideMenuOpen, setMenu] = useState(false);
     const { user, userToken } = useContext(ApiContext);
     // const [userToken, setUserToken] = useState(null);
-    // const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     // const [userData, setUserData] = useState({});
 
+    useEffect(() => {
+        if (userToken != null && user != null && userToken != undefined && user != undefined) {
+            setIsLoggedIn(true)
+        }
+    }, [user, userToken])
 
 
-    console.log(user.Name, userToken);
+    // console.log(user, userToken);
     const navLinks = [
         {
             label: 'Home',
@@ -77,7 +82,7 @@ const Navbar = () => {
                 </div>
 
                 <section className='flex items-center gap-6 xs:gap-1'>
-                    {!userToken ? (
+                    {!isLoggedIn ? (
                         <Link to="/SignInn">
                             <button
                                 type="button"
@@ -87,7 +92,8 @@ const Navbar = () => {
                             </button>
                         </Link>
 
-                    ) : (<div><h1>{user.Name}</h1>
+                    ) : (<div>
+                        <h1>{user.Name}</h1>
                         <img
                             src={images.robot}  // Add the user's image URL here
                             alt="User"
