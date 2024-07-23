@@ -150,7 +150,7 @@ const UserProfile = () => {
                             <img src={images.NvidiaBackground} className="w-full h-full rounded-tl-lg rounded-tr-lg" alt="Profile background" />
                         </div>
                         <div className="flex flex-col items-center -mt-20">
-                            <img src="https://vojislavd.com/ta-template-demo/assets/img/profile.jpg" className="w-40 border-4 border-DGXgreen border-white rounded-full" alt="Profile" />
+                            <img src="https://vojislavd.com/ta-template-demo/assets/img/profile.jpg" className="w-40 border-4 border-DGXgreen  rounded-full" alt="Profile" />
                             <div className="flex items-center space-x-2 mt-2">
                                 <p className="text-2xl">{user.Name}</p>
                                 <span className="bg-[#2563eb] rounded-full p-1" title="Verified">

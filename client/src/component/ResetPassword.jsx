@@ -136,7 +136,7 @@ const ResetPassword = () => {
       <ToastContainer />
       <div className="w-full lg:w-1/2 min-h-screen py-20 px-8 lg:rounded-r-3xl bg-DGXblue flex items-center justify-center">
         <div className="w-full max-w-md">
-          <div className="bg-white rounded-xl mx-auto shadow-lg overflow-hidden bg-DGXwhite shadow-DGXgreen p-8">
+          <div className=" rounded-xl mx-auto shadow-lg overflow-hidden bg-DGXwhite shadow-DGXgreen p-8">
             <h1 className="text-DGXblue text-3xl mb-6 font-bold text-center">Reset Password</h1>
             <form onSubmit={handleSubmit} className="w-full">
               <div className="mb-4 relative">
