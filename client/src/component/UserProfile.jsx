@@ -151,6 +151,10 @@ const UserProfile = () => {
                                         <span className="font-bold w-24">College Name</span>
                                         <span className="text-DGXgray">{user.CollegeName}</span>
                                     </li> : <></>}
+                                    {user.ReferalNumberCount != null ? <li className="flex justify-between border-b py-2 ">
+                                        <span className="font-bold w-24">Refer Count Remaining</span>
+                                        <span className="text-DGXgray">{user.ReferalNumberCount}</span>
+                                    </li> : <></>}
                                     {/* <li className="flex items-center justify-center border-b py-2 space-x-2">
                                         
                                         <a href="#" title="Facebook"><FaFacebook className="w-5 h-5" /></a>
@@ -161,8 +165,9 @@ const UserProfile = () => {
                                 </ul>
                                 <button
                                     className={`mt-4 px-4 py-2 bg-DGXgreen text-white rounded hover:bg-DGXdarkgreen ${user.
-                                        ReferalNumberCount}== 0? disabled:`}
+                                        ReferalNumberCount == 0 ? 'bg-DGXgreen opacity-75' : ' '}`}
                                     onClick={handleButtonClick}
+                                    disabled={user.ReferalNumberCount === 0}
                                 >
                                     Refer
                                 </button>
