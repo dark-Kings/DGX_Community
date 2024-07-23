@@ -5,6 +5,9 @@ import { cn } from "../utils/cn.js";
 import { images } from '../constant/index.js';
 // import FullCalendar from '@fullcalendar/react';s
 // import dayGridPlugin from '@fullcalendar/daygrid';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faThumbsUp, faShare } from '@fortawesome/free-solid-svg-icons';
+
 
 import React, {
   createContext,
@@ -171,26 +174,26 @@ const EventWorkshopPage = () => {
 
   return (
     <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-      <div className="relative isolate overflow-hidden bg-white px-6 py-20 text-center sm:px-16 sm:shadow-sm">
-        <p className="mx-auto max-w-2xl text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+      <div className="relative isolate overflow-hidden bg-DGXwhite px-6 py-20 text-center sm:px-16 sm:shadow-sm">
+        <p className="mx-auto max-w-2xl text-3xl font-bold tracking-tight text-[#111827] sm:text-4xl">
           Find the Event or Workshop you were looking for...!
         </p>
 
         <form action="/search">
           <label
-            className="mx-auto mt-8 relative bg-white min-w-sm max-w-2xl flex flex-col md:flex-row items-center justify-center border py-2 px-2 rounded-2xl gap-2 shadow-2xl focus-within:border-gray-300"
+            className="mx-auto mt-8 relative bg-DGXwhite min-w-sm max-w-2xl flex flex-col md:flex-row items-center justify-center border py-2 px-2 rounded-2xl gap-2 shadow-2xl focus-within:border-[#d1d5db]"
             htmlFor="search-bar"
           >
             <input
               id="search-bar"
               placeholder="your keyword here"
               name="q"
-              className="px-6 py-2 w-full rounded-md flex-1 outline-none bg-white"
+              className="px-6 py-2 w-full rounded-md flex-1 outline-none bg-DGXwhite"
               required
             />
             <button
               type="submit"
-              className="w-full md:w-auto px-6 py-3 bg-black border-black text-white active:scale-95 duration-100 border rounded-xl transition-all"
+              className="w-full md:w-auto px-6 py-3 bg-DGXblack border-DGXblack text-DGXwhite active:scale-95 duration-100 border rounded-xl transition-all"
             >
               <div className="flex items-center">
                 <span className="text-sm font-semibold mx-auto">Search</span>
@@ -201,7 +204,7 @@ const EventWorkshopPage = () => {
 
         <svg
           viewBox="0 0 1024 1024"
-          className="absolute left-1/2 top-1/2 -z-10 h-[64rem] w-[64rem] -translate-x-1/2 [mask-image:radial-gradient(closest-side,white,transparent)]"
+          className="absolute left-1/2 top-1/2 -z-10 h-[64rem] w-[64rem] -translate-x-1/2 [mask-image:radial-gradient(closest-side,DGXwhite,transparent)]"
           aria-hidden="true"
         >
           <circle
@@ -213,28 +216,32 @@ const EventWorkshopPage = () => {
           />
           <defs>
             <radialGradient id="827591b1-ce8c-4110-b064-7cb85a0b1217">
-              <stop stopColor="#3b82f6" />
-              <stop offset="1" stopColor="#1d4ed8" />
+              <stop stopColor="#ffffff" />
+              <stop offset="1" stopColor="#ffffff" />
             </radialGradient>
           </defs>
         </svg>
       </div>
 
       {/* Example Usage of Card Components */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 bg-DGXblue">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-10 gap-8 bg-DGXblue">
         {events.map((event, index) => (
-          <CardContainer key={index} className="my-12" containerClassName="border-2 border-DGXgreen ">
-            <CardBody className="bg-gray-100 p-8 border border-DGXgreen">
+          <CardContainer key={index} className="my-12" containerClassName="border-2 border-DGXgreen">
+            <CardBody className="bg-[#f3f4f6] p-8 border border-DGXgreen">
               <CardItem translateX={10} translateY={20} rotateX={10} rotateY={20}>
                 <h2 className="text-xl font-bold">{event.title}</h2>
                 <img src={event.image} alt={event.title} />
               </CardItem>
               <div className="absolute bottom-4 left-4 flex gap-2">
-                <button className="px-4 py-2 bg-blue-500 text-white rounded-md">Enroll</button>
+                <button className="px-4 py-2 bg-DGXgreen text-DGXwhite shadow-2xl rounded-md">Enroll</button>
               </div>
               <div className="absolute bottom-4 right-4 flex gap-2">
-                <button className="px-4 py-2 bg-gray-300 text-black rounded-md">Like</button>
-                <button className="px-4 py-2 bg-gray-300 text-black rounded-md">Share</button>
+                <button className="px-4 py-2 bg-[#d1d5db] text-black rounded-md flex items-center gap-2 shadow-2xl">
+                  <FontAwesomeIcon icon={faThumbsUp} />
+                </button>
+                <button className="px-4 py-2 bg-[#d1d5db] text-black rounded-md flex items-center gap-2 shadow-2xl">
+                  <FontAwesomeIcon icon={faShare} />
+                </button>
               </div>
             </CardBody>
           </CardContainer>
