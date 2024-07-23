@@ -1,13 +1,8 @@
-
-
 import { cn } from "../utils/cn.js";
 // import Image from "next/image";
 import { images } from '../constant/index.js';
 // import FullCalendar from '@fullcalendar/react';s
 // import dayGridPlugin from '@fullcalendar/daygrid';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbsUp, faShare } from '@fortawesome/free-solid-svg-icons';
-
 
 import React, {
   createContext,
@@ -16,16 +11,13 @@ import React, {
   useRef,
   useEffect,
 } from "react";
-
-
-
+import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faThumbsUp, faShare } from '@fortawesome/free-solid-svg-icons';
 
 const MouseEnterContext = createContext(undefined);
 
 /**--------------calendar------------------*/
-
-
-
 
 /**---------------------------------------- */
 
@@ -55,13 +47,6 @@ export const CardContainer = ({
     containerRef.current.style.transform = `rotateY(0deg) rotateX(0deg)`;
   };
 
-
-
-
-
-
-
-
   return (
     <MouseEnterContext.Provider value={[isMouseEntered, setIsMouseEntered]}>
       <div
@@ -89,6 +74,17 @@ export const CardContainer = ({
   );
 };
 
+CardContainer.propTypes = {
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string,
+  containerClassName: PropTypes.string,
+};
+
+CardContainer.defaultProps = {
+  className: '',
+  containerClassName: '',
+};
+
 export const CardBody = ({ children, className }) => {
   return (
     <div
@@ -100,6 +96,15 @@ export const CardBody = ({ children, className }) => {
       {children}
     </div>
   );
+};
+
+CardBody.propTypes = {
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string,
+};
+
+CardBody.defaultProps = {
+  className: '',
 };
 
 export const CardItem = ({
@@ -137,10 +142,31 @@ export const CardItem = ({
       {...rest}
     >
       {children}
-
     </Tag>
-
   );
+};
+
+CardItem.propTypes = {
+  as: PropTypes.elementType,
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string,
+  translateX: PropTypes.number,
+  translateY: PropTypes.number,
+  translateZ: PropTypes.number,
+  rotateX: PropTypes.number,
+  rotateY: PropTypes.number,
+  rotateZ: PropTypes.number,
+};
+
+CardItem.defaultProps = {
+  as: 'div',
+  className: '',
+  translateX: 0,
+  translateY: 0,
+  translateZ: 0,
+  rotateX: 0,
+  rotateY: 0,
+  rotateZ: 0,
 };
 
 // Create a hook to use the context
@@ -153,8 +179,6 @@ export const useMouseEnter = () => {
 };
 
 const EventWorkshopPage = () => {
-
-
   const events = [
     {
       title: "Event 1",
@@ -170,7 +194,6 @@ const EventWorkshopPage = () => {
     },
     // Add more events as needed
   ];
-
 
   return (
     <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -216,15 +239,15 @@ const EventWorkshopPage = () => {
           />
           <defs>
             <radialGradient id="827591b1-ce8c-4110-b064-7cb85a0b1217">
-              <stop stopColor="#ffffff" />
-              <stop offset="1" stopColor="#ffffff" />
+              <stop stopColor="#3b82f6" />
+              <stop offset="1" stopColor="#1d4ed8" />
             </radialGradient>
           </defs>
         </svg>
       </div>
 
       {/* Example Usage of Card Components */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-10 gap-8 bg-DGXblue">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 bg-DGXblue">
         {events.map((event, index) => (
           <CardContainer key={index} className="my-12" containerClassName="border-2 border-DGXgreen">
             <CardBody className="bg-[#f3f4f6] p-8 border border-DGXgreen">
@@ -247,14 +270,7 @@ const EventWorkshopPage = () => {
           </CardContainer>
         ))}
       </div>
-
-
-
-
-
     </div>
-
-
   );
 };
 

@@ -150,7 +150,7 @@ const Discussion = () => {
                     </div>
                     <button
                         type="button"
-                        className="py-2 px-3 inline-flex items-center gap-x-2 text-lg font-bold rounded-lg bg-DGXgreen text-DGXwhite shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800"
+                        className="py-2 px-3 inline-flex items-center gap-x-2 text-lg font-bold rounded-lg bg-DGXgreen text-DGXwhite shadow-sm hover:bg-DGXblue hover:border border-DGXgreen disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800"
                         onClick={handleNewTopicClick}
                     >
                         Start a New Topic +
@@ -165,7 +165,7 @@ const Discussion = () => {
                             <h2 className="text-2xl font-bold text-DGXblue mb-4">Start a New Topic</h2>
                             <form className="bg-gray-100 p-4 rounded-lg shadow-lg" onSubmit={handleSubmit}>
                                 <div className="mb-4">
-                                    <label htmlFor="title" className="block text-gray-700 dark:text-gray-300">Title</label>
+                                    <label htmlFor="title" className="block text-gray-700 dark:text-DGXblack">Title</label>
                                     <input
                                         type="text"
                                         id="title"
@@ -174,7 +174,7 @@ const Discussion = () => {
                                     />
                                 </div>
                                 <div className="mb-4">
-                                    <label htmlFor="content" className="block text-gray-700 dark:text-gray-300">Content</label>
+                                    <label htmlFor="content" className="block text-gray-700 dark:text-DGXblack">Content</label>
                                     <textarea
                                         id="content"
                                         className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-neutral-700 dark:border-neutral-600 dark:text-white"
@@ -183,7 +183,7 @@ const Discussion = () => {
                                     ></textarea>
                                 </div>
                                 <div className="mb-4">
-                                    <label htmlFor="image" className="block text-gray-700 dark:text-gray-300">Upload Image</label>
+                                    <label htmlFor="image" className="block text-gray-700 dark:text-DGXblack">Upload Image</label>
                                     <input
                                         type="file"
                                         id="image"
@@ -202,7 +202,7 @@ const Discussion = () => {
                                     )}
                                 </div>
                                 <div className="mb-4">
-                                    <label htmlFor="tags" className="block text-gray-700 dark:text-gray-300">Tags</label>
+                                    <label htmlFor="tags" className="block text-gray-700 dark:text-DGXblack">Tags</label>
                                     <input
                                         type="text"
                                         id="tags"
