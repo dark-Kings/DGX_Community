@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 
 const ApiProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [userToken, setUserToken] = useState(null)
 
   const fetchData = async (endpoint, method, body, headers) => {
     try {
@@ -41,6 +42,7 @@ const ApiProvider = ({ children }) => {
     if (token) {
       try {
         const parseToken = JSON.parse(token);
+        setUserToken(parseToken)
         getUserData(parseToken)
           .then((userData) => {
             if (userData) {
@@ -55,9 +57,10 @@ const ApiProvider = ({ children }) => {
       }
     }
   }, []);
-  
+
   const logIn = async (authtoken) => {
     try {
+      setUserToken(authtoken)
       getUserData(authtoken)
         .then((userData) => {
           if (userData) {
@@ -74,7 +77,7 @@ const ApiProvider = ({ children }) => {
   };
 
   return (
-    <ApiContext.Provider value={{ fetchData, logIn, user }}>
+    <ApiContext.Provider value={{ fetchData, logIn, user, userToken, setUserToken }}>
       {children}
     </ApiContext.Provider>
   );

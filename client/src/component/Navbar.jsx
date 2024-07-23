@@ -1,20 +1,22 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { images } from '../constant/index.js';
 import { AiOutlineMenu } from "react-icons/ai";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import clsx from 'clsx';
 import ApiContext from '../context/ApiContext.jsx';
-import Cookies from 'js-cookie';
+// import Cookies from 'js-cookie';
 
 const Navbar = () => {
     const [isSideMenuOpen, setMenu] = useState(false);
-    const { user } = useContext(ApiContext);
-    const [userToken, setUserToken] = useState(null);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [userData, setUserData] = useState({});
+    const { user, userToken } = useContext(ApiContext);
+    // const [userToken, setUserToken] = useState(null);
+    // const [isLoggedIn, setIsLoggedIn] = useState(false);
+    // const [userData, setUserData] = useState({});
 
-    console.log(user);
+
+
+    console.log(user.Name, userToken);
     const navLinks = [
         {
             label: 'Home',
@@ -42,19 +44,19 @@ const Navbar = () => {
         <main className=''>
             <nav className='flex justify-between item-center p-2'>
                 {/* <div className='flex item-center gap-8'> */}
-                    <section className=''>
-                        <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+                <section className=''>
+                    <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
                         <AiOutlineMenu onClick={() => setMenu(true)} className='text-3xl cursor-pointer lg:hidden' />
-                            <img src={images.nvidiaPartner} className="h-10 md:h-12 lg:h-14 xl:h-12 item-center" alt="NVIDIA Partner Logo" />
+                        <img src={images.nvidiaPartner} className="h-10 md:h-12 lg:h-14 xl:h-12 item-center" alt="NVIDIA Partner Logo" />
+                    </Link>
+                </section>
+                <div className="flex items-center justify-center font-bold space-x-6">
+                    {navLinks.map((d, i) => (
+                        <Link key={i} className='hidden lg:block text-DGXblue hover:text-black' to={d.to}>
+                            {d.label}
                         </Link>
-                    </section>
-                    <div className="flex items-center justify-center font-bold space-x-6">
-                        {navLinks.map((d, i) => (
-                            <Link key={i} className='hidden lg:block text-DGXblue hover:text-black' to={d.to}>
-                                {d.label}
-                            </Link>
-                        ))}
-                    </div>
+                    ))}
+                </div>
 
 
                 <div className={clsx('fixed h-full w-screen lg:hidden bg-DGXblack/50 backdrop-blur-sm top-0 right-0 -translate-x-full transition-all z-10',
@@ -75,7 +77,7 @@ const Navbar = () => {
                 </div>
 
                 <section className='flex items-center gap-6 xs:gap-1'>
-                    {!isLoggedIn ? (
+                    {!userToken ? (
                         <Link to="/SignInn">
                             <button
                                 type="button"
@@ -84,12 +86,14 @@ const Navbar = () => {
                                 Login
                             </button>
                         </Link>
-                    ) : (
+
+                    ) : (<div><h1>{user.Name}</h1>
                         <img
                             src={images.robot}  // Add the user's image URL here
                             alt="User"
                             className='h-12 w-12 rounded-full border-2'
                         />
+                    </div>
                     )}
                 </section>
             </nav>
