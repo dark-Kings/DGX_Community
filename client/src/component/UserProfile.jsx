@@ -12,7 +12,7 @@ import { SlLogout } from "react-icons/sl";
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import ApiContext from '../context/ApiContext.jsx';
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer, toast, useToast } from "react-toastify";
 
 
 
@@ -29,27 +29,13 @@ const UserProfile = () => {
     const { user, userToken } = useContext(ApiContext);
     const navigate = useNavigate()
 
+    console.log(user, userToken)
+    // const [userData, setUserData] = useState({});
+
     useEffect(() => {
-        // setTimeout(() => {
         if (userToken != null && user != null && userToken != undefined && user != undefined) {
             setIsLoggedIn(true)
         }
-        //  else {
-        //         toast.success("Login first", {
-        //             position: "top-center",
-        //             autoClose: 3000,
-        //             hideProgressBar: false,
-        //             closeOnClick: true,
-        //             pauseOnHover: true,
-        //             draggable: true,
-        //             theme: "light",
-        //         });
-        //         setTimeout(() => {
-        //             navigate('/SignInn');
-        //         }, 3500);
-        //     }
-        // }, 1500);
-
     }, [user, userToken])
 
     const handleButtonClick = () => {
@@ -85,13 +71,13 @@ const UserProfile = () => {
     };
     const [activeTab, setActiveTab] = useState('profile');
 
-    const [openSettings, setOpenSettings] = useState(false);
+    // const [openSettings, setOpenSettings] = useState(false);
 
-    const handleSettingsToggle = () => {
-        setOpenSettings(!openSettings);
-    };
+    // const handleSettingsToggle = () => {
+    //     setOpenSettings(!openSettings);
+    // };
     return (
-        <div className="bg-DGXwhite p-2 md:p-8">
+        !isLoggedIn ? <>login?</> : <div className="bg-DGXwhite p-2 md:p-8">
             <div className="md:my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
                 <div className="w-full flex flex-col 2xl:w-1/3">
                     <div className="bg-DGXwhite w-full rounded-lg shadow-xl  pb-6 border border-DGXgreen">
@@ -101,15 +87,15 @@ const UserProfile = () => {
                         <div className="flex flex-col items-center -mt-20">
                             <img src="https://vojislavd.com/ta-template-demo/assets/img/profile.jpg" className="w-40 border-4 border-DGXgreen border-white rounded-full" alt="Profile" />
                             <div className="flex items-center space-x-2 mt-2">
-                                <p className="text-2xl">Amanda Ross</p>
+                                <p className="text-2xl">{user.Name}</p>
                                 <span className="bg-[#2563eb] rounded-full p-1" title="Verified">
                                     <svg xmlns="http://www.w3.org/2000/svg" className="text-DGXwhite h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M5 13l4 4L19 7" />
                                     </svg>
                                 </span>
                             </div>
-                            <p className="text-DGXgray">Senior Software Engineer at Tailwind CSS</p>
-                            <p className="text-sm text-[#6b7280]">New York, USA</p>
+                            <p className="text-DGXgray">{user.Designation}</p>
+                            <p className="text-sm text-[#6b7280]">{user.EmailId}</p>
                         </div>
                     </div>
                     <div className="my-4 flex flex-col 2xl:flex-row 2xl:space-y-0 2xl:space-x-4">
@@ -142,43 +128,44 @@ const UserProfile = () => {
                             <div className="flex-1 bg-DGXwhite rounded-lg shadow-xl p-4 md:p-8 border border-DGXgreen">
                                 <h4 className="text-md md:text-xl text-DGXblack font-bold">Personal Info</h4>
                                 <ul className="mt-2 text-sm text-DGXgray">
-                                    <li className="flex justify-between border-y py-2">
+                                    {user.Name ? <li className="flex justify-between border-y py-2">
                                         <span className="font-bold w-24">Full name</span>
-                                        <span className="text-DGXgray">Amanda S. Ross</span>
-                                    </li>
-                                    <li className="flex justify-between border-b py-2">
+                                        <span className="text-DGXgray">{user.Name}</span>
+                                    </li> : <></>}
+                                    {user.AddOnDt != null ? <li className="flex justify-between border-b py-2">
                                         <span className="font-bold w-24">Joined</span>
-                                        <span className="text-DGXgray">10 Jan 2022 (25 days ago)</span>
-                                    </li>
-                                    <li className="flex justify-between border-b py-2">
+                                        <span className="text-DGXgray">{user.AddOnDt.split('T')[0]}</span>
+                                    </li> : <></>}
+                                    {user.MobileNumber ? <li className="flex justify-between border-b py-2">
                                         <span className="font-bold w-24">Mobile</span>
-                                        <span className="text-DGXgray">(123) 123-1234</span>
-                                    </li>
-                                    <li className="flex justify-between border-b py-2">
+                                        <span className="text-DGXgray">{user.MobileNumber}</span>
+                                    </li> : <></>}
+                                    {user.EmailId ? <li className="flex justify-between border-b py-2">
                                         <span className="font-bold w-24">Email</span>
-                                        <span className="text-DGXgray">amandaross@example.com</span>
-                                    </li>
-                                    <li className="flex justify-between border-b py-2">
+                                        <span className="text-DGXgray">{user.EmailId}</span>
+                                    </li> : <></>}
+                                    {user.Designation ? <li className="flex justify-between border-b py-2">
                                         <span className="font-bold w-24">Designation: </span>
-                                        <span className="text-DGXgray">Assistant Professor</span>
-                                    </li>
-                                    <li className="flex justify-between border-b py-2 flex-col lg:flex-row">
+                                        <span className="text-DGXgray">{user.Designation}</span>
+                                    </li> : <></>}
+                                    {user.CollegeName ? <li className="flex justify-between border-b py-2 flex-col lg:flex-row">
                                         <span className="font-bold w-24">College Name</span>
-                                        <span className="text-DGXgray">GB. Pant University Of Agriculture And Technology</span>
-                                    </li>
-                                    <li className="flex items-center justify-center border-b py-2 space-x-2">
-                                        {/* <span className="font-bold w-24">Elsewhere</span> */}
+                                        <span className="text-DGXgray">{user.CollegeName}</span>
+                                    </li> : <></>}
+                                    {/* <li className="flex items-center justify-center border-b py-2 space-x-2">
+                                        
                                         <a href="#" title="Facebook"><FaFacebook className="w-5 h-5" /></a>
                                         <a href="#" title="Twitter"><FaTwitter className="w-5 h-5" /></a>
                                         <a href="#" title="LinkedIn"><FaLinkedin className="w-5 h-5" /></a>
                                         <a href="#" title="Github"><FaGithub className="w-5 h-5" /></a>
-                                    </li>
+                                    </li> */}
                                 </ul>
                                 <button
-                                    className="mt-4 px-4 py-2 bg-DGXgreen text-white rounded hover:bg-DGXdarkgreen"
+                                    className={`mt-4 px-4 py-2 bg-DGXgreen text-white rounded hover:bg-DGXdarkgreen ${user.
+                                        ReferalNumberCount}== 0? disabled:`}
                                     onClick={handleButtonClick}
                                 >
-                                    Add Email
+                                    Refer
                                 </button>
                                 {showEmailInput && (
                                     <div className="mt-4 flex items-center">

@@ -1,21 +1,26 @@
 import { useState, useContext, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { images } from '../constant/index.js';
 import { AiOutlineMenu } from "react-icons/ai";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import clsx from 'clsx';
 import ApiContext from '../context/ApiContext.jsx';
+import Cookies from 'js-cookie';
 
 const Navbar = () => {
     const [isSideMenuOpen, setMenu] = useState(false);
-    const { user, userToken } = useContext(ApiContext);
+    const { user, userToken, setUserToken } = useContext(ApiContext);
     // const [userToken, setUserToken] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     // const [userData, setUserData] = useState({});
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (userToken != null && user != null && userToken != undefined && user != undefined) {
             setIsLoggedIn(true)
+        }
+        else {
+            setIsLoggedIn(false)
         }
     }, [user, userToken])
 
@@ -28,7 +33,9 @@ const Navbar = () => {
     };
     const handleLogout = () => {
         toggleDropdown()
-        console.log('logout')
+        Cookies.remove('userToken');
+        setUserToken(null)
+        navigate('/')
     }
 
     const navLinks = [
@@ -83,7 +90,7 @@ const Navbar = () => {
                         </Link>
                     ) : (
                         <div className='relative flex items-center gap-2'>
-                            {user && <h1 className='text-sm font-medium'>{user.Name}</h1>}
+                            {<h1 className='text-sm font-medium'>{user.Name}</h1>}
                             <img
                                 src={images.robot}  // Add the user's image URL here
                                 alt="User"
@@ -95,12 +102,12 @@ const Navbar = () => {
 
                                     {isDropdownOpen && (
                                         <div className='absolute right-0 mt-8 w-48 bg-white rounded-md shadow-lg z-50 border border-DGXblue'>
-                                            <Link to="/UserProfile" className='block px-4 py-2 text-gray-800 hover:bg-gray-200' >
-                                                <p onClick={() => {
-                                                    // Add your logout logic here
+                                            <Link to="/UserProfile" className='block px-4 py-2 text-gray-800 hover:bg-gray-200' onClick={() => {
+                                                // Add your logout logic here
 
-                                                    toggleDropdown()
-                                                }}> Profile</p>
+                                                toggleDropdown()
+                                            }}>
+                                                Profile
                                             </Link>
                                             <button
                                                 onClick={() => {

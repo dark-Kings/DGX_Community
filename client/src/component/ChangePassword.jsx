@@ -1,5 +1,5 @@
 import { images } from '../constant/index.js';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { validatePassword } from "../utils/formValidation.js";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -9,9 +9,8 @@ import ApiContext from '../context/ApiContext.jsx';
 
 
 const ChangePassword = () => {
-    const { fetchData } = useContext(ApiContext);
+    const { fetchData, userToken, setUserToken } = useContext(ApiContext);
     const [loading, setLoading] = useState(false)
-    const [userToken, setUserToken] = useState(null);
     const navigate = useNavigate();
 
     // eslint-disable-next-line no-unused-vars
@@ -28,19 +27,7 @@ const ChangePassword = () => {
         newPassword: "",
         confirmPassword: "",
     });
-    useEffect(() => {
-        // Retrieve the token from the cookie
-        const token = Cookies.get('userToken');
-        if (token) {
-            try {
-                const parseToken = JSON.parse(token);
-                setUserToken(parseToken);
 
-            } catch (e) {
-                console.log("Failed to parse token:", e);
-            }
-        }
-    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -88,6 +75,7 @@ const ChangePassword = () => {
                 });
             } else if (data.success) {
                 setLoading(false)
+
                 toast.success("Password change successfully login again with new credentials", {
                     position: "top-center",
                     autoClose: 3000,
@@ -100,6 +88,7 @@ const ChangePassword = () => {
                 });
                 setTimeout(() => {
                     Cookies.remove('userToken');
+                    setUserToken(null)
                     navigate('/SignInn');
                 }, 3500);
             }
