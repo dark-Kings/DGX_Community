@@ -22,12 +22,13 @@ import { ToastContainer, toast, } from "react-toastify";
 
 const UserProfile = () => {
     const [showEmailInput, setShowEmailInput] = useState(false);
+    const [activeTab, setActiveTab] = useState('profile');
     const [loading, setLoading] = useState(false)
     const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState('');
     const [emailSubmitted, setEmailSubmitted] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const { user, userToken, fetchData } = useContext(ApiContext);
+    const { user, userToken, fetchData, setUserToken } = useContext(ApiContext);
     const navigate = useNavigate()
 
     // console.log(user, userToken)
@@ -124,16 +125,16 @@ const UserProfile = () => {
                     theme: "light",
                 });
             }
-
-
-
-
             // console.log('Email submitted:', email);
         } else {
             setEmailError('Invalid email address');
         }
     };
-    const [activeTab, setActiveTab] = useState('profile');
+    const handleLogout = () => {
+        Cookies.remove('userToken');
+        setUserToken(null)
+        navigate('/')
+    }
 
     // const [openSettings, setOpenSettings] = useState(false);
 
@@ -167,26 +168,26 @@ const UserProfile = () => {
                         <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
                             <div className="flex-1 bg-DGXwhite rounded-lg shadow-xl p-8 border border-DGXgreen">
                                 <ul>
-                                <div className={`flex items-center p-6 cursor-pointer ${activeTab === 'profile' ? 'bg-DGXgreen/40' : ''}`} onClick={() => setActiveTab('profile')}>
-                                <CgProfile className='mr-4 text-2xl' />
-                                <li className={`text-lg ${activeTab === 'profile' ? 'text-DGXblue font-bold' : ''}`}>My Profile</li>
-                                </div>
-                                <div className={`flex items-center p-6 cursor-pointer ${activeTab === 'posts' ? 'bg-DGXgreen/40' : ''}`} onClick={() => setActiveTab('posts')}>
-                                    <GoCommentDiscussion className='mr-4 text-2xl' />
-                                    <li className={`text-lg ${activeTab === 'posts' ? 'text-DGXblue font-bold' : ''}`}>My Posts</li>
-                                </div>
-                                <div className={`flex items-center p-6 cursor-pointer ${activeTab === 'events' ? 'bg-DGXgreen/40' : ''}`} onClick={() => setActiveTab('events')}>
-                                    <MdEventAvailable className='mr-4 text-2xl' />
-                                    <li className={`text-lg ${activeTab === 'events' ? 'text-DGXblue font-bold' : ''}`}>My Events</li>
-                                </div>
-                                <div className={`flex items-center p-6 cursor-pointer ${activeTab === 'password' ? 'bg-DGXgreen/40' : ''}`} onClick={() => setActiveTab('password')}>
-                                    <CgPassword className='mr-4 text-2xl' />
-                                    <li className={`text-lg ${activeTab === 'password' ? 'text-DGXblue font-bold' : ''}`}>Change Password</li>
-                                </div>
-                                <div className={`flex items-center p-6 cursor-pointer ${activeTab === 'logout' ? 'bg-DGXgreen/40' : ''}`} onClick={() => setActiveTab('logout')}>
-                                    <SlLogout className='mr-4 text-2xl' />
-                                    <li className={`text-lg ${activeTab === 'logout' ? 'text-DGXblue font-bold' : ''}`}>Logout</li>
-                                </div>
+                                    <div className={`flex items-center p-6 cursor-pointer ${activeTab === 'profile' ? 'bg-DGXgreen/40' : ''}`} onClick={() => setActiveTab('profile')}>
+                                        <CgProfile className='mr-4 text-2xl' />
+                                        <li className={`text-lg ${activeTab === 'profile' ? 'text-DGXblue font-bold' : ''}`}>My Profile</li>
+                                    </div>
+                                    <div className={`flex items-center p-6 cursor-pointer ${activeTab === 'posts' ? 'bg-DGXgreen/40' : ''}`} onClick={() => setActiveTab('posts')}>
+                                        <GoCommentDiscussion className='mr-4 text-2xl' />
+                                        <li className={`text-lg ${activeTab === 'posts' ? 'text-DGXblue font-bold' : ''}`}>My Posts</li>
+                                    </div>
+                                    <div className={`flex items-center p-6 cursor-pointer ${activeTab === 'events' ? 'bg-DGXgreen/40' : ''}`} onClick={() => setActiveTab('events')}>
+                                        <MdEventAvailable className='mr-4 text-2xl' />
+                                        <li className={`text-lg ${activeTab === 'events' ? 'text-DGXblue font-bold' : ''}`}>My Events</li>
+                                    </div>
+                                    <div className={`flex items-center p-6 cursor-pointer ${activeTab === 'password' ? 'bg-DGXgreen/40' : ''}`} onClick={() => setActiveTab('password')}>
+                                        <CgPassword className='mr-4 text-2xl' />
+                                        <li className={`text-lg ${activeTab === 'password' ? 'text-DGXblue font-bold' : ''}`}>Change Password</li>
+                                    </div>
+                                    <div className={`flex items-center p-6 cursor-pointer ${activeTab === 'logout' ? 'bg-DGXgreen/40' : ''}`} onClick={() => handleLogout()}>
+                                        <SlLogout className='mr-4 text-2xl' />
+                                        <li className={`text-lg ${activeTab === 'logout' ? 'text-DGXblue font-bold' : ''}`}>Logout</li>
+                                    </div>
 
                                 </ul>
                             </div>
