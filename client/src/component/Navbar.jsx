@@ -26,6 +26,10 @@ const Navbar = () => {
     const toggleDropdown = () => {
         setDropdownOpen(!isDropdownOpen);
     };
+    const handleLogout = () => {
+        toggleDropdown()
+        console.log('logout')
+    }
 
     const navLinks = [
         { label: 'Home', to: "/" },
@@ -88,21 +92,21 @@ const Navbar = () => {
                             />
                             {isDropdownOpen && (
                                 <div className="relative">
-                                    {/* <img
-                                        src="path_to_your_user_image.jpg"
-                                        alt="User"
-                                        className="cursor-pointer"
-                                        onClick={() => setDropdownOpen(!isDropdownOpen)}
-                                    /> */}
+
                                     {isDropdownOpen && (
                                         <div className='absolute right-0 mt-8 w-48 bg-white rounded-md shadow-lg z-50 border border-DGXblue'>
-                                            <Link to="/UserProfile" className='block px-4 py-2 text-gray-800 hover:bg-gray-200'>
-                                                Profile
+                                            <Link to="/UserProfile" className='block px-4 py-2 text-gray-800 hover:bg-gray-200' >
+                                                <p onClick={() => {
+                                                    // Add your logout logic here
+
+                                                    toggleDropdown()
+                                                }}> Profile</p>
                                             </Link>
                                             <button
                                                 onClick={() => {
                                                     // Add your logout logic here
-                                                    setDropdownOpen(false);
+
+                                                    handleLogout();
                                                 }}
                                                 className='block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200'
                                             >
