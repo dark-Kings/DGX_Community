@@ -12,7 +12,7 @@ import { SlLogout } from "react-icons/sl";
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import ApiContext from '../context/ApiContext.jsx';
-import { ToastContainer, toast, useToast } from "react-toastify";
+import { ToastContainer, toast, } from "react-toastify";
 
 
 
@@ -22,14 +22,15 @@ import { ToastContainer, toast, useToast } from "react-toastify";
 
 const UserProfile = () => {
     const [showEmailInput, setShowEmailInput] = useState(false);
+    const [loading, setLoading] = useState(false)
     const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState('');
     const [emailSubmitted, setEmailSubmitted] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const { user, userToken } = useContext(ApiContext);
+    const { user, userToken, fetchData } = useContext(ApiContext);
     const navigate = useNavigate()
 
-    console.log(user, userToken)
+    // console.log(user, userToken)
     // const [userData, setUserData] = useState({});
 
     useEffect(() => {
@@ -59,12 +60,75 @@ const UserProfile = () => {
         }
     };
 
-    const handleEmailSubmit = () => {
+    const handleEmailSubmit = async (e) => {
+        e.preventDefault()
+
         if (validateEmail(email)) {
             setEmailError('');
             setEmailSubmitted(true);
             // Add your email submission logic here
-            console.log('Email submitted:', email);
+
+
+            const endpoint = "user/sendinvite";
+
+
+            const method = "POST"
+            const body = {
+                "email": email
+            }
+            const headers = {
+                'Content-Type': 'application/json',
+                'auth-token': userToken
+            }
+            setLoading(true)
+
+            try {
+                const data = await fetchData(endpoint, method, body, headers);
+                if (!data.success) {
+                    setLoading(false)
+                    toast.error(`Error in send invite: ${data.message}`, {
+                        position: "top-center",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    });
+                } else if (data.success) {
+                    setLoading(false)
+
+                    toast.success("Invite send successfully ", {
+                        position: "top-center",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    });
+
+                }
+            } catch (error) {
+                setLoading(false)
+                toast.error(`Something went wrong try again`, {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            }
+
+
+
+
+            // console.log('Email submitted:', email);
         } else {
             setEmailError('Invalid email address');
         }
@@ -77,7 +141,8 @@ const UserProfile = () => {
     //     setOpenSettings(!openSettings);
     // };
     return (
-        !isLoggedIn ? <>login?</> : <div className="bg-DGXwhite p-2 md:p-8">
+        !isLoggedIn ? <h1>login?</h1> : loading ? <h1>loading</h1> : <div className="bg-DGXwhite p-2 md:p-8">
+            <ToastContainer />
             <div className="md:my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
                 <div className="w-full flex flex-col 2xl:w-1/3">
                     <div className="bg-DGXwhite w-full rounded-lg shadow-xl  pb-6 border border-DGXgreen">
