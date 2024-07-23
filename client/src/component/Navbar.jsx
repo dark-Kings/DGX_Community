@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { images } from '../constant/index.js';
 import { AiOutlineMenu } from "react-icons/ai";
 import { IoMdCloseCircleOutline } from "react-icons/io";
@@ -9,14 +9,18 @@ import Cookies from 'js-cookie';
 
 const Navbar = () => {
     const [isSideMenuOpen, setMenu] = useState(false);
-    const { user, userToken } = useContext(ApiContext);
+    const { user, userToken, setUserToken } = useContext(ApiContext);
     // const [userToken, setUserToken] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     // const [userData, setUserData] = useState({});
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (userToken != null && user != null && userToken != undefined && user != undefined) {
             setIsLoggedIn(true)
+        }
+        else {
+            setIsLoggedIn(false)
         }
     }, [user, userToken])
 
@@ -30,8 +34,8 @@ const Navbar = () => {
     const handleLogout = () => {
         toggleDropdown()
         Cookies.remove('userToken');
-        window.location.reload()
-        console.log('logout')
+        setUserToken(null)
+        navigate('/')
     }
 
     const navLinks = [

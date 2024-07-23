@@ -43,7 +43,7 @@ export const databaseUserVerification = async (req, res) => {
       try {
         // Query the database for the user
         //const query = `SELECT * FROM Community_User WHERE EmailId=?`;
-        const query = 'SELECT Name,EmailId,MobileNumber,FlagPasswordChange FROM Community_User WHERE isnull(delStatus,0) = 0 and EmailId=?';
+        const query = 'SELECT Name,EmailId,MobileNumber,FlagPasswordChange, Category FROM Community_User WHERE isnull(delStatus,0) = 0 and EmailId=?';
         const rows = await queryAsync(conn, query, [userEmail]);
 
 
@@ -72,9 +72,10 @@ export const databaseUserVerification = async (req, res) => {
                 // console.log(checkRows[0].Column0)
 
                 if (checkRows[0].userReferCount === 0) {
+                  const referCount = rows[0].Category === 'F' ? 10 : 2;
                   // Update user record with new password, date, and referral code
-                  const updateQuery = `UPDATE Community_User SET Password = ?,AuthLstEdit = ?,editOnDt = GETDATE(), ReferalNumber = ? WHERE isnull(delStatus,0)=0 and  EmailId = ?`;
-                  await queryAsync(conn, updateQuery, [secPass, rows[0].Name, referCode, userEmail]);
+                  const updateQuery = `UPDATE Community_User SET Password = ?, AuthLstEdit = ?, editOnDt = GETDATE(), ReferalNumber = ?, ReferalNumberCount = ? WHERE isnull(delStatus,0)=0 and  EmailId = ?`;
+                  await queryAsync(conn, updateQuery, [secPass, rows[0].Name, referCode, referCount, userEmail]);
 
                   // Close connection after query execution
                   closeConnection();
@@ -412,7 +413,7 @@ export const getuser = async (req, res) => {
       }
 
       try {
-        const query = `SELECT UserID, Name, EmailId, CollegeName, MobileNumber, Category, Designation, ReferalNumberCount, ReferalNumber, ReferedBy,  FlagPasswordChange FROM Community_User WHERE isnull(delStatus,0) = 0 AND EmailId = ?`;
+        const query = `SELECT UserID, Name, EmailId, CollegeName, MobileNumber, Category, Designation, ReferalNumberCount, ReferalNumber, ReferedBy,  FlagPasswordChange, AddOnDt FROM Community_User WHERE isnull(delStatus,0) = 0 AND EmailId = ?`;
         const rows = await queryAsync(conn, query, [userId]);
 
         if (rows.length > 0) {
