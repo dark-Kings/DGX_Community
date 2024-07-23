@@ -116,26 +116,27 @@ const UserProfile = () => {
                         <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
                             <div className="flex-1 bg-DGXwhite rounded-lg shadow-xl p-8 border border-DGXgreen">
                                 <ul>
-                                    <div className='flex items-center p-6 cursor-pointer' onClick={() => setActiveTab('profile')}>
-                                        <CgProfile className='mr-4 text-2xl' />
-                                        <li className={`text-lg ${activeTab === 'profile' ? 'text-DGXblue font-bold' : ''}`}>My Profile</li>
-                                    </div>
-                                    <div className='flex items-center p-6 cursor-pointer' onClick={() => setActiveTab('posts')}>
-                                        <GoCommentDiscussion className='mr-4 text-2xl' />
-                                        <li className={`text-lg ${activeTab === 'posts' ? 'text-DGXblue font-bold' : ''}`}>My Posts</li>
-                                    </div>
-                                    <div className='flex items-center p-6 cursor-pointer' onClick={() => setActiveTab('events')}>
-                                        <MdEventAvailable className='mr-4 text-2xl' />
-                                        <li className={`text-lg ${activeTab === 'events' ? 'text-DGXblue font-bold' : ''}`}>My Events</li>
-                                    </div>
-                                    <div className='flex items-center p-6 cursor-pointer' onClick={() => setActiveTab('password')}>
-                                        <CgPassword className='mr-4 text-2xl' />
-                                        <li className={`text-lg ${activeTab === 'password' ? 'text-DGXblue font-bold' : ''}`}>Change Password</li>
-                                    </div>
-                                    <div className='flex items-center p-6 cursor-pointer' onClick={() => setActiveTab('logout')}>
-                                        <SlLogout className='mr-4 text-2xl' />
-                                        <li className={`text-lg ${activeTab === 'logout' ? 'text-DGXblue font-bold' : ''}`}>Logout</li>
-                                    </div>
+                                <div className={`flex items-center p-6 cursor-pointer ${activeTab === 'profile' ? 'bg-DGXgreen/40' : ''}`} onClick={() => setActiveTab('profile')}>
+                                <CgProfile className='mr-4 text-2xl' />
+                                <li className={`text-lg ${activeTab === 'profile' ? 'text-DGXblue font-bold' : ''}`}>My Profile</li>
+                                </div>
+                                <div className={`flex items-center p-6 cursor-pointer ${activeTab === 'posts' ? 'bg-DGXgreen/40' : ''}`} onClick={() => setActiveTab('posts')}>
+                                    <GoCommentDiscussion className='mr-4 text-2xl' />
+                                    <li className={`text-lg ${activeTab === 'posts' ? 'text-DGXblue font-bold' : ''}`}>My Posts</li>
+                                </div>
+                                <div className={`flex items-center p-6 cursor-pointer ${activeTab === 'events' ? 'bg-DGXgreen/40' : ''}`} onClick={() => setActiveTab('events')}>
+                                    <MdEventAvailable className='mr-4 text-2xl' />
+                                    <li className={`text-lg ${activeTab === 'events' ? 'text-DGXblue font-bold' : ''}`}>My Events</li>
+                                </div>
+                                <div className={`flex items-center p-6 cursor-pointer ${activeTab === 'password' ? 'bg-DGXgreen/40' : ''}`} onClick={() => setActiveTab('password')}>
+                                    <CgPassword className='mr-4 text-2xl' />
+                                    <li className={`text-lg ${activeTab === 'password' ? 'text-DGXblue font-bold' : ''}`}>Change Password</li>
+                                </div>
+                                <div className={`flex items-center p-6 cursor-pointer ${activeTab === 'logout' ? 'bg-DGXgreen/40' : ''}`} onClick={() => setActiveTab('logout')}>
+                                    <SlLogout className='mr-4 text-2xl' />
+                                    <li className={`text-lg ${activeTab === 'logout' ? 'text-DGXblue font-bold' : ''}`}>Logout</li>
+                                </div>
+
                                 </ul>
                             </div>
                             <div className="flex-1 bg-DGXwhite rounded-lg shadow-xl p-4 md:p-8 border border-DGXgreen">
@@ -321,7 +322,7 @@ const UserProfile = () => {
                                 <h4 className="text-xl text-[#0f172a] font-bold">My Events</h4>
                             </div>
                             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
-                                <a href="#" className="border-DGXgreen shadow-xl flex flex-col items-center bg-white border border-gray-200 rounded-lg  md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 m-2">
+                                <a href="#" className="border-DGXgreen shadow-xl flex flex-col items-center bg-white border rounded-lg  md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 m-2">
                                     <img className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="/docs/images/blog/image-4.jpg" alt="" />
                                     <div className="flex flex-col justify-between p-4 leading-normal">
                                         <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
@@ -329,7 +330,7 @@ const UserProfile = () => {
                                     </div>
                                 </a>
 
-                                <a href="#" className="border-DGXgreen shadow-xl flex flex-col items-center bg-white border border-gray-200 rounded-lg  md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 m-2">
+                                <a href="#" className="border-DGXgreen shadow-xl flex flex-col items-center bg-white border rounded-lg  md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 m-2">
                                     <img className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="/docs/images/blog/image-4.jpg" alt="" />
                                     <div className="flex flex-col justify-between p-4 leading-normal">
                                         <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
@@ -337,7 +338,7 @@ const UserProfile = () => {
                                     </div>
                                 </a>
 
-                                <a href="#" className="border-DGXgreen shadow-xl flex flex-col items-center bg-white border border-gray-200 rounded-lg  md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 m-2">
+                                <a href="#" className="border-DGXgreen shadow-xl flex flex-col items-center bg-white border rounded-lg  md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 m-2">
                                     <img className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="/docs/images/blog/image-4.jpg" alt="" />
                                     <div className="flex flex-col justify-between p-4 leading-normal">
                                         <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
@@ -345,7 +346,7 @@ const UserProfile = () => {
                                     </div>
                                 </a>
 
-                                <a href="#" className="border-DGXgreen shadow-xl flex flex-col items-center bg-white border border-gray-200 rounded-lg  md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 m-2">
+                                <a href="#" className="border-DGXgreen shadow-xl flex flex-col items-center bg-white border rounded-lg  md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 m-2">
                                     <img className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="/docs/images/blog/image-4.jpg" alt="" />
                                     <div className="flex flex-col justify-between p-4 leading-normal">
                                         <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
