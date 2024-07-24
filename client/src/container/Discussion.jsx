@@ -131,7 +131,7 @@ const Discussion = () => {
                     <div className="sm:order-3 flex items-center gap-x-2">
                         <button
                             type="button"
-                            className="sm:hidden hs-collapse-toggle p-2.5 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-transparent dark:border-neutral-700 dark:text-white dark:hover:bg-white/10"
+                            className="sm:hidden hs-collapse-toggle p-2.5 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none "
                             aria-controls="navbar-alignment"
                             aria-label="Toggle navigation"
                             onClick={toggleNav}
@@ -156,7 +156,11 @@ const Discussion = () => {
                     </div>
                     <button
                         type="button"
+<<<<<<< HEAD
                         className="py-2 px-3 inline-flex items-center gap-x-2 text-lg font-bold rounded-lg bg-DGXgreen text-DGXwhite shadow-sm hover:bg-DGXblue hover:border-DGXgreen border border-DGXblue disabled:opacity-50 disabled:pointer-events-none  dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800"
+=======
+                        className="py-2 px-3 inline-flex items-center gap-x-2 text-lg font-bold rounded-lg bg-DGXgreen text-DGXwhite shadow-sm hover:bg-DGXblue hover:border-DGXgreen border border-DGXblue disabled:opacity-50 disabled:pointer-events-none"
+>>>>>>> 4722122215cf6b14f4badda6d95edfaaa0d342e7
                         onClick={handleNewTopicClick}
                     >
                         Start a New Topic +
@@ -177,40 +181,48 @@ const Discussion = () => {
                             </button>
                             <form className="bg-gray-100 p-4 rounded-lg shadow-lg" onSubmit={handleSubmit}>
                                 <div className="mb-4">
+<<<<<<< HEAD
                                     <label htmlFor="title" className="block text-DGXblack ">Title</label>
                                     <input
                                         type="text"
                                         id="title"
                                         className="w-full px-3 py-2 border border-gray-300 rounded-md  dark:border-neutral-600 text-DGXblack"
+=======
+                                    <label htmlFor="title" className="block text-gray-700 ">Title</label>
+                                    <input
+                                        type="text"
+                                        id="title"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md "
+>>>>>>> 4722122215cf6b14f4badda6d95edfaaa0d342e7
                                         placeholder="Enter topic title"
                                     />
                                 </div>
                                 <div className="mb-4">
-                                    <label htmlFor="content" className="block text-gray-700 dark:text-gray-300">Content</label>
+                                    <label htmlFor="content" className="block text-gray-700 ">Content</label>
                                     <textarea
                                         id="content"
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-neutral-700 dark:border-neutral-600 dark:text-white"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md "
                                         placeholder="Enter topic content"
                                         rows="4"
                                     ></textarea>
                                 </div>
                                 <div className="mb-4">
-                                    <label htmlFor="image" className="block text-gray-700 dark:text-gray-300">Upload Image</label>
+                                    <label htmlFor="image" className="block text-gray-700 ">Upload Image</label>
                                     <input
                                         type="file"
                                         id="image"
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-neutral-700 dark:border-neutral-600 dark:text-white"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md "
                                         accept="image/*"
                                         onChange={handleImageChange}
                                     />
                                     {selectedImage && <img src={selectedImage} alt="Selected" className="mt-4 max-h-48" />}
                                 </div>
                                 <div className="mb-4">
-                                    <label htmlFor="tags" className="block text-gray-700 dark:text-gray-300">Tags</label>
+                                    <label htmlFor="tags" className="block text-gray-700 ">Tags</label>
                                     <input
                                         type="text"
                                         id="tags"
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-neutral-700 dark:border-neutral-600 dark:text-white"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md "
                                         placeholder="Enter tags and press enter"
                                         value={tagInput}
                                         onChange={handleTagInputChange}
@@ -253,10 +265,10 @@ const Discussion = () => {
                                     </div>
                                 </div>
                                 <div className="mb-4">
-                                    <label htmlFor="privacy" className="block text-gray-700 dark:text-gray-300">Privacy</label>
+                                    <label htmlFor="privacy" className="block text-gray-700 ">Privacy</label>
                                     <select
                                         id="privacy"
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-neutral-700 dark:border-neutral-600 dark:text-white"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md "
                                     >
                                         <option value="private">Private</option>
                                         <option value="protected">Public</option>
@@ -264,7 +276,7 @@ const Discussion = () => {
                                 </div>
                                 <button
                                     type="submit"
-                                    className={`px-4 py-2 rounded-md shadow-sm bg-DGXgreen text-DGXwhite hover:bg-DGXgreen-dark`}
+                                    className={`px-4 py-2 rounded-md shadow-sm bg-DGXgreen text-DGXwhite hover:bg-DGXblue`}
                                 >
                                     Submit
                                 </button>
@@ -284,10 +296,10 @@ const Discussion = () => {
                                             />
                                         </div>
                                         <div className="w-full md:w-3/4 p-4 flex flex-col justify-between">
-                                            <h5 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                                            <h5 className="text-2xl font-bold text-gray-900 mb-2">
                                                 Noteworthy Technology Acquisitions 2021
                                             </h5>
-                                            <p className="text-gray-700 dark:text-gray-400 mb-2">
+                                            <p className="text-gray-700 mb-2">
                                                 Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
                                             </p>
                                             <div className="flex items-center justify-between mt-2">
@@ -344,11 +356,11 @@ const Discussion = () => {
                 <aside className="w-full md:w-1/6 lg:w-1/6 bg-gray-200 p-4 rounded-lg shadow-lg order-2 md:order-1">
                     <h2 className="text-xl font-bold mb-4">Hot Topics</h2>
                     {hotTopics.map((topic, index) => (
-                        <div key={index} className="mb-2 p-2 bg-white rounded-lg shadow-md border border-DGXgreen dark:border-neutral-700">
-                            <a href={topic.link} className="text-lg font-semibold text-DGXblue dark:text-DGXwhite hover:underline">
+                        <div key={index} className="mb-2 p-2 bg-white rounded-lg shadow-md border border-DGXgreen ">
+                            <a href={topic.link} className="text-lg font-semibold text-DGXblue  hover:underline">
                                 {topic.title}
                             </a>
-                            <p className="mt-2 text-gray-600 dark:text-gray-400">{topic.description}</p>
+                            <p className="mt-2 text-gray-600 0">{topic.description}</p>
                         </div>
                     ))}
                 </aside>
@@ -356,11 +368,11 @@ const Discussion = () => {
                 <aside className="w-full md:w-1/6 lg:w-1/6 bg-gray-200 p-4 rounded-lg shadow-lg order-3 md:order-2">
                     <h2 className="text-xl font-bold mb-4">Top Users</h2>
                     {topUsers.map((user, index) => (
-                        <div key={index} className="mb-2 p-2 bg-white rounded-lg shadow-md border border-DGXgreen dark:border-neutral-700">
-                            <div className="text-lg font-semibold text-DGXblue dark:text-DGXwhite">
+                        <div key={index} className="mb-2 p-2 bg-white rounded-lg shadow-md border border-DGXgreen ">
+                            <div className="text-lg font-semibold text-DGXblue">
                                 {user.name}
                             </div>
-                            <p className="text-gray-600 dark:text-gray-400">Points: {user.points}</p>
+                            <p className="text-gray-600">Points: {user.points}</p>
                         </div>
                     ))}
                 </aside>
