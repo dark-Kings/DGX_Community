@@ -88,7 +88,7 @@ const Home = () => {
                         </p>
 
                     </div>
-                    </div>
+                </div>
 
 
             </div>
@@ -172,14 +172,14 @@ const Home = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-4 lg:p-8">
                     {/* Text and Button Section */}
                     <div className="flex flex-col justify-center items-center lg:items-start text-center lg:text-left">
-                    <div className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4">
-                        <span className="bg-gradient-to-r from-DGXgreen via-DGXblack to-DGXblue bg-clip-text text-transparent animate-pulse">
-                            Upcoming Events
-                        </span>
-                        <p className="mt-2 text-sm md:text-base lg:text-lg text-DGXblue">
-                            Attend our regular events and workshops to learn from the best in the industry. Enhance your skills and network with professionals.
-                        </p>
-                    </div>
+                        <div className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4">
+                            <span className="bg-gradient-to-r from-DGXgreen via-DGXblack to-DGXblue bg-clip-text text-transparent animate-pulse">
+                                Upcoming Events
+                            </span>
+                            <p className="mt-2 text-sm md:text-base lg:text-lg text-DGXblue">
+                                Attend our regular events and workshops to learn from the best in the industry. Enhance your skills and network with professionals.
+                            </p>
+                        </div>
                         <button className="text-sm md:text-md lg:text-lg bg-DGXgreen text-DGXwhite py-2 px-4 lg:py-2 lg:px-5 border border-DGXblue rounded-md mt-4 hover:bg-[#27272a] transition-colors duration-300">
                             Enroll Now
                         </button>
@@ -253,8 +253,7 @@ const Home = () => {
                     <div className="max-w-2xl">
                         <h2 className="text-3xl font-bold tracking-tight text-[#111827] sm:text-4xl">Meet our leadership</h2>
                         <p className="mt-6 text-lg leading-8 text-[#4b5563]">
-                            Libero fames augue nisl porttitor nisi, quis. Id ac elit odio vitae elementum enim vitae ullamcorper
-                            suspendisse.
+                            "Our leaders harness the NVIDIA DGX system to drive AI innovation and achieve exceptional results. Explore the future of AI with their visionary guidance."
                         </p>
                     </div>
                     <ul role="list" className="grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 xl:col-span-2">
@@ -276,7 +275,7 @@ const Home = () => {
             <div className="bg-white py-24 sm:py-32">
                 <div className="mx-auto max-w-7xl px-6 lg:px-8">
                     <h1 className="text-center text-2xl font-bold leading-8 text-DGXblue">
-                    NVIDIA DGX systems are at the forefront of AI research and innovation. Trusted by the world’s most innovative universities and corporations, DGX provides the computational power needed to tackle the most complex AI challenges. Whether advancing research in academic institutions or driving breakthroughs in industry, DGX stands as the premier choice for those leading the charge in artificial intelligence.
+                        NVIDIA DGX systems are at the forefront of AI research and innovation. Trusted by the world’s most innovative universities and corporations, DGX provides the computational power needed to tackle the most complex AI challenges. Whether advancing research in academic institutions or driving breakthroughs in industry, DGX stands as the premier choice for those leading the charge in artificial intelligence.
                     </h1>
                     <div className="mx-auto mt-10 grid max-w-lg grid-cols-4 items-center justify-center gap-x-8 gap-y-10 sm:max-w-xl sm:grid-cols-6 sm:gap-x-10 lg:mx-0 lg:max-w-none lg:grid-cols-5">
                         <img
@@ -293,7 +292,7 @@ const Home = () => {
                             height={100}
                             className="col-span-2 max-h-16 w-full object-contain lg:col-span-1"
                         />
-                         <img
+                        <img
                             alt="SavvyCal"
                             src={images.giventures}
                             width={178}
@@ -314,8 +313,8 @@ const Home = () => {
                             height={100}
                             className="col-span-2 max-h-16 w-full object-contain lg:col-span-1"
                         />
-                      
-                       
+
+
                     </div>
                 </div>
             </div>

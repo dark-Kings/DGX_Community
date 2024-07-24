@@ -87,7 +87,7 @@ const CommunityGuidelines = () => {
         </div>
       </SwiperSlide>
       <SwiperSlide className="w-[70%]">
-        <div className="w-full p-4 border-dotted border-4 rounded-lg border-[#fb7185] transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10">
+        <div className="w-full p-4 border-dotted border-4 rounded-lg border-DGXblue transition-all duration-300 ease-in-out hover:bg-DGXgreen">
           <h2 className="text-2xl text-DGXblack mt-4">Be Professional</h2>
           <ul className="list-disc pl-5 text-[#374151] mt-4">
             <li className="mb-2">Do not share unprofessional or inappropriate content.</li>

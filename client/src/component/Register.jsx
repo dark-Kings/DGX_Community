@@ -32,10 +32,10 @@ const Register = () => {
       if (decryptedEmail && decryptedReferCode) {
         setEmail(decryptedEmail);
         // console.log(email)
-        // console.log(decryptedEmail)
+        console.log(decryptedEmail)
         setReferCode(decryptedReferCode);
         // console.log(referCode)
-        // console.log(decryptedReferCode)
+        console.log(decryptedReferCode)
       } else {
         navigate('/404');
       }
@@ -199,7 +199,7 @@ const Register = () => {
             <div className="">
               <div>
                 <label
-                  className="text-DGXblack "
+                  className="text-DGXblack dark:text-gray-200"
                   htmlFor="username"
                 >
                   Username
@@ -208,7 +208,7 @@ const Register = () => {
                   id="username"
                   name="username"
                   type="text"
-                  className="block w-full px-4 py-2 mt-2 text-DGXgray bg-white border border-gray-300 rounded-md   dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                  className="block w-full px-4 py-2 mt-2 text-DGXgray bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
                   value={formData.username}
                   onChange={handleChange}
                 />
@@ -216,7 +216,7 @@ const Register = () => {
 
               <div>
                 <label
-                  className="text-DGXblack "
+                  className="text-DGXblack dark:text-gray-200"
                   htmlFor="collegeName"
                 >
                   College Name
@@ -225,7 +225,7 @@ const Register = () => {
                   id="collegeName"
                   name="collegeName"
                   type="text"
-                  className="block w-full px-4 py-2 mt-2 text-DGXgray bg-white border border-gray-300 rounded-md   dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                  className="block w-full px-4 py-2 mt-2 text-DGXgray bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
                   value={formData.collegeName}
                   onChange={handleChange}
                 />
@@ -240,7 +240,7 @@ const Register = () => {
             <div>
               <div>
                 <label
-                  className="text-DGXblack "
+                  className="text-DGXblack dark:text-gray-200"
                   htmlFor="contactNumber"
                 >
                   Contact Number
@@ -249,7 +249,7 @@ const Register = () => {
                   id="contactNumber"
                   name="contactNumber"
                   type="text"
-                  className="block w-full px-4 py-2 mt-2 text-DGXgray bg-white border border-gray-300 rounded-md   dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                  className="block w-full px-4 py-2 mt-2 text-DGXgray bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
                   value={formData.contactNumber}
                   onChange={handleChange}
                 />
@@ -257,7 +257,7 @@ const Register = () => {
 
               <div>
                 <label
-                  className="text-DGXblack "
+                  className="text-DGXblack dark:text-gray-200"
                   htmlFor="designation"
                 >
                   Designation
@@ -266,14 +266,14 @@ const Register = () => {
                   id="designation"
                   name="designation"
                   type="text"
-                  className="block w-full px-4 py-2 mt-2 text-DGXgray bg-white border border-gray-300 rounded-md   dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                  className="block w-full px-4 py-2 mt-2 text-DGXgray bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
                   value={formData.designation}
                   onChange={handleChange}
                 />
               </div>
               <div className="mt-4 relative">
                 <label
-                  className="text-DGXblack "
+                  className="text-DGXblack dark:text-gray-200"
                   htmlFor="newPassword"
                 >
                   Create Password
@@ -282,7 +282,7 @@ const Register = () => {
                   id="newPassword"
                   name="newPassword"
 
-                  className="block w-full px-4 py-2 mt-2 text-DGXgray bg-white border border-gray-300 rounded-md   dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                  className="block w-full px-4 py-2 mt-2 text-DGXgray bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
                   value={formData.newPassword}
                   onChange={handleChange}
                   type={passwordVisible ? "text" : "password"}
@@ -305,7 +305,7 @@ const Register = () => {
             <div>
               <div>
                 <label
-                  className="text-DGXblack "
+                  className="text-DGXblack dark:text-gray-200"
                   htmlFor="email"
                 >
                   Email Id
@@ -314,7 +314,7 @@ const Register = () => {
                   id="email"
                   name="email"
                   type="email"
-                  className="block w-full px-4 py-2 mt-2 text-DGXgray bg-white border border-gray-300 rounded-md   dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                  className="block w-full px-4 py-2 mt-2 text-DGXgray bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
                   value={email}
                   readOnly
                 // onChange={handleChange}
@@ -324,13 +324,13 @@ const Register = () => {
               <div className="flex flex-col">
                 <div className="flex flex-row mb-4 space-x-2">
                   <div className="w-1/2">
-                    <label className="text-DGXblack " htmlFor="category">
+                    <label className="text-DGXblack dark:text-gray-200" htmlFor="category">
                       Category
                     </label>
                     <select
                       id="category"
                       name="category"
-                      className="block w-full px-4 py-2 mt-2 text-DGXgray bg-white border border-gray-300 rounded-md   dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                      className="block w-full px-4 py-2 mt-2 text-DGXgray bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
                       value={formData.category}
                       onChange={handleChange}
                     >
@@ -341,14 +341,14 @@ const Register = () => {
                     </select>
                   </div>
                   <div className="w-1/2">
-                    <label className="text-DGXblack " htmlFor="refralCode">
+                    <label className="text-DGXblack dark:text-gray-200" htmlFor="refralCode">
                       Refral Code
                     </label>
                     <input
                       id="refralCode"
                       name="refralCode"
                       type="text"
-                      className="block w-full px-4 py-2 mt-2 text-DGXgray bg-white border border-gray-300 rounded-md   dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                      className="block w-full px-4 py-2 mt-2 text-DGXgray bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
                       value={referCode}
                       // onChange={handleChange}
                       readOnly
@@ -359,7 +359,7 @@ const Register = () => {
 
               <div className="relative">
                 <label
-                  className="text-DGXblack "
+                  className="text-DGXblack dark:text-gray-200"
                   htmlFor="confirmPassword"
                 >
                   Confirm Password
@@ -368,7 +368,7 @@ const Register = () => {
                   id="confirmPassword"
                   name="confirmPassword"
                   type={confirmPasswordVisible ? "text" : "password"}
-                  className="block w-full px-4 py-2 mt-2 text-DGXgray bg-white border border-gray-300 rounded-md   dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                  className="block w-full px-4 py-2 mt-2 text-DGXgray bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
                   value={formData.confirmPassword}
                   onChange={handleChange}
                 />
@@ -387,7 +387,7 @@ const Register = () => {
           <div className="flex justify-end mt-6">
             <button
               type="submit"
-              className="px-6 py-2 leading-5 text-DGXwhite transition-colors duration-200 transform rounded-md hover:bg-DGXblue focus:outline-none bg-DGXgreen focus:bg-gray-600"
+              className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform  rounded-md hover:bg-DGXblue focus:outline-none bg-DGXgreen focus:bg-gray-600"
             >
               Register
             </button>

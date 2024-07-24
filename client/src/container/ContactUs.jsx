@@ -12,7 +12,7 @@ const ContactUs = () => {
                         width="100%" height="480" style={{ border: '0' }} allowFullScreen="" loading="lazy"></iframe> */}
                 </div>
                 <div className="container px-8 md:px-12 mt-12">
-                    <div className="block rounded-lg border-DGXgreen px-8 py-14 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] md:py-16 md:px-12 border border-gray-300">
+                    <div className="block rounded-lg border-DGXgreen px-8 py-14 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] md:py-16 md:px-12 border ">
                         <div className="flex flex-wrap">
                             <div className="mb-12 w-full md:w-1/2 lg:w-5/12 md:px-3 lg:px-6">
                                 <form>
@@ -62,12 +62,12 @@ const ContactUs = () => {
                                             id="exampleCheck96"
                                             checked
                                         />
-                                        <label
+                                        {/* <label
                                             className="inline-block pl-[0.15rem] hover:cursor-pointer"
                                             htmlFor="exampleCheck96"
                                         >
                                             Send me a copy of this message
-                                        </label>
+                                        </label> */}
                                     </div>
                                     <button
                                         type="button"

@@ -19,7 +19,7 @@ const SIGNATURE = process.env.SIGNATURE;
 
 export const databaseUserVerification = async (req, res) => {
   let success = false;
-  const userEmail = req.body.email;
+
 
   // Validate request body
   const errors = validationResult(req);
@@ -31,6 +31,7 @@ export const databaseUserVerification = async (req, res) => {
   }
 
   try {
+    const userEmail = req.body.email;
     // Connect to the database
     connectToDatabase(async (err, conn) => {
       if (err) {
@@ -255,7 +256,7 @@ export const registration = async (req, res) => {
 
 export const login = async (req, res) => {
   let success = false;
-
+  // console.log(req.body)
   // if there are errors, return bad request and the errors
   const errors = validationResult(req);
   if (!errors.isEmpty()) {

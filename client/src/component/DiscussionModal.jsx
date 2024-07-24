@@ -5,7 +5,7 @@ const DiscussionModal = ({ isOpen, onRequestClose }) => {
     >
       <div className="p-5">
         <button
-          className="mb-5 p-2 bg-red-600 text-white rounded-full"
+          className="mb-5 p-2 bg-DGXblue text-white rounded-full"
           onClick={onRequestClose}
         >
           Close
