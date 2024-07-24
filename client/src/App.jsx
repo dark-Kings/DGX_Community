@@ -21,7 +21,7 @@ import Survey from './component/Survey.jsx';
 import Quiz from './component/Quiz.jsx';
 import EventWorkshopPage from './container/EventWorkshopPage.jsx';
 import MyStoryboard from './component/MyStoryboard.jsx';
-// import LoadPage from './component/LoadPage.jsx';
+import LoadPage from './component/LoadPage.jsx';
 
 
 
@@ -50,6 +50,7 @@ function App() {
             <Route path='/Survey' element={<Survey />} />
             <Route path='/MyStoryboard' element={<MyStoryboard />} />
             <Route path='/EventWorkshopPage' element={<EventWorkshopPage />} />
+            <Route path='/LoadPage' element={<LoadPage />} />
           </Routes>
         </div>
         <Footer />
