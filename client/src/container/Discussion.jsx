@@ -156,11 +156,7 @@ const Discussion = () => {
                     </div>
                     <button
                         type="button"
-<<<<<<< HEAD
-                        className="py-2 px-3 inline-flex items-center gap-x-2 text-lg font-bold rounded-lg bg-DGXgreen text-DGXwhite shadow-sm hover:bg-DGXblue hover:border-DGXgreen border border-DGXblue disabled:opacity-50 disabled:pointer-events-none  dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800"
-=======
                         className="py-2 px-3 inline-flex items-center gap-x-2 text-lg font-bold rounded-lg bg-DGXgreen text-DGXwhite shadow-sm hover:bg-DGXblue hover:border-DGXgreen border border-DGXblue disabled:opacity-50 disabled:pointer-events-none"
->>>>>>> 4722122215cf6b14f4badda6d95edfaaa0d342e7
                         onClick={handleNewTopicClick}
                     >
                         Start a New Topic +
@@ -181,19 +177,11 @@ const Discussion = () => {
                             </button>
                             <form className="bg-gray-100 p-4 rounded-lg shadow-lg" onSubmit={handleSubmit}>
                                 <div className="mb-4">
-<<<<<<< HEAD
-                                    <label htmlFor="title" className="block text-DGXblack ">Title</label>
-                                    <input
-                                        type="text"
-                                        id="title"
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md  dark:border-neutral-600 text-DGXblack"
-=======
                                     <label htmlFor="title" className="block text-gray-700 ">Title</label>
                                     <input
                                         type="text"
                                         id="title"
                                         className="w-full px-3 py-2 border border-gray-300 rounded-md "
->>>>>>> 4722122215cf6b14f4badda6d95edfaaa0d342e7
                                         placeholder="Enter topic title"
                                     />
                                 </div>
