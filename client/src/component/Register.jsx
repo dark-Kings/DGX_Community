@@ -190,8 +190,8 @@ const Register = () => {
   return (
     loading ? <h1>loading ....</h1> : <div className="my-8">
       <ToastContainer />
-      <section className="max-w-4xl p-6 mx-auto bg-indigo-600 rounded-md shadow-2xl border border-DGXgreen dark:bg-gray-800">
-        <h1 className="text-xl font-bold text-white capitalize text-center dark:text-white">
+      <section className="max-w-4xl p-6 mx-auto bg-DGXwhite rounded-md shadow-2xl border border-DGXgreen ">
+        <h1 className="text-xl font-bold text-DGXblack capitalize text-center ">
           Welcome to the <span className="text-DGXgreen">DGX Community</span>
         </h1>
         <form onSubmit={handleSubmit}>
@@ -199,7 +199,7 @@ const Register = () => {
             <div className="">
               <div>
                 <label
-                  className="text-white dark:text-gray-200"
+                  className="text-DGXblack dark:text-gray-200"
                   htmlFor="username"
                 >
                   Username
@@ -216,7 +216,7 @@ const Register = () => {
 
               <div>
                 <label
-                  className="text-white dark:text-gray-200"
+                  className="text-DGXblack dark:text-gray-200"
                   htmlFor="collegeName"
                 >
                   College Name
@@ -240,7 +240,7 @@ const Register = () => {
             <div>
               <div>
                 <label
-                  className="text-white dark:text-gray-200"
+                  className="text-DGXblack dark:text-gray-200"
                   htmlFor="contactNumber"
                 >
                   Contact Number
@@ -257,7 +257,7 @@ const Register = () => {
 
               <div>
                 <label
-                  className="text-white dark:text-gray-200"
+                  className="text-DGXblack dark:text-gray-200"
                   htmlFor="designation"
                 >
                   Designation
@@ -273,7 +273,7 @@ const Register = () => {
               </div>
               <div className="mt-4 relative">
                 <label
-                  className="text-white dark:text-gray-200"
+                  className="text-DGXblack dark:text-gray-200"
                   htmlFor="newPassword"
                 >
                   Create Password
@@ -305,7 +305,7 @@ const Register = () => {
             <div>
               <div>
                 <label
-                  className="text-white dark:text-gray-200"
+                  className="text-DGXblack dark:text-gray-200"
                   htmlFor="email"
                 >
                   Email Id
@@ -324,7 +324,7 @@ const Register = () => {
               <div className="flex flex-col">
                 <div className="flex flex-row mb-4 space-x-2">
                   <div className="w-1/2">
-                    <label className="text-white dark:text-gray-200" htmlFor="category">
+                    <label className="text-DGXblack dark:text-gray-200" htmlFor="category">
                       Category
                     </label>
                     <select
@@ -341,7 +341,7 @@ const Register = () => {
                     </select>
                   </div>
                   <div className="w-1/2">
-                    <label className="text-white dark:text-gray-200" htmlFor="refralCode">
+                    <label className="text-DGXblack dark:text-gray-200" htmlFor="refralCode">
                       Refral Code
                     </label>
                     <input
@@ -359,7 +359,7 @@ const Register = () => {
 
               <div className="relative">
                 <label
-                  className="text-white dark:text-gray-200"
+                  className="text-DGXblack dark:text-gray-200"
                   htmlFor="confirmPassword"
                 >
                   Confirm Password
@@ -387,7 +387,7 @@ const Register = () => {
           <div className="flex justify-end mt-6">
             <button
               type="submit"
-              className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-pink-500 rounded-md hover:bg-pink-700 focus:outline-none bg-DGXgreen focus:bg-gray-600"
+              className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform  rounded-md hover:bg-DGXblue focus:outline-none bg-DGXgreen focus:bg-gray-600"
             >
               Register
             </button>
