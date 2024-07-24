@@ -23,7 +23,7 @@ export const discussionpost = async (req, res) => {
 
     try {
         const { title, content, image, likes, comment, tags, url, visibility, reference } = req.body;
-        const threadReference = reference != null ? reference : 0;
+        const threadReference = reference ?? 0;
         // Connect to the database
         connectToDatabase(async (err, conn) => {
             if (err) {
