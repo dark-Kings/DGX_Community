@@ -1,6 +1,4 @@
-// src/components/LoadPage.jsx
-
-import React from 'react';
+// import React from 'react';
 
 const LoadPage = () => {
   return (
