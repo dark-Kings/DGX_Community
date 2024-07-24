@@ -181,7 +181,7 @@ const Discussion = () => {
                                     <input
                                         type="text"
                                         id="title"
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-neutral-700 dark:border-neutral-600 dark:text-white"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md dark:border-neutral-600 dark:text-white"
                                         placeholder="Enter topic title"
                                     />
                                 </div>
