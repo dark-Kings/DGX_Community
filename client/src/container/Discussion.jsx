@@ -156,7 +156,7 @@ const Discussion = () => {
                     </div>
                     <button
                         type="button"
-                        className="py-2 px-3 inline-flex items-center gap-x-2 text-lg font-bold rounded-lg bg-DGXgreen text-DGXwhite shadow-sm hover:bg-DGXblue hover:border-DGXgreen border border-DGXblue disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800"
+                        className="py-2 px-3 inline-flex items-center gap-x-2 text-lg font-bold rounded-lg bg-DGXgreen text-DGXwhite shadow-sm hover:bg-DGXblue hover:border-DGXgreen border border-DGXblue disabled:opacity-50 disabled:pointer-events-none  dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800"
                         onClick={handleNewTopicClick}
                     >
                         Start a New Topic +
@@ -177,11 +177,11 @@ const Discussion = () => {
                             </button>
                             <form className="bg-gray-100 p-4 rounded-lg shadow-lg" onSubmit={handleSubmit}>
                                 <div className="mb-4">
-                                    <label htmlFor="title" className="block text-gray-700 dark:text-gray-300">Title</label>
+                                    <label htmlFor="title" className="block text-DGXblack ">Title</label>
                                     <input
                                         type="text"
                                         id="title"
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-neutral-700 dark:border-neutral-600 dark:text-white"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md  dark:border-neutral-600 text-DGXblack"
                                         placeholder="Enter topic title"
                                     />
                                 </div>
