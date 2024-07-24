@@ -34,6 +34,9 @@ import Event4 from '../assets/Event4.jpeg'
 import Event5 from '../assets/Event5.jpeg'
 import Event6 from '../assets/Event6.jpeg'
 
+import Certificate1 from '../assets/Certificate1.png'
+import Certificate2 from '../assets/Certificate2.png'
+
 
 
 
@@ -66,11 +69,15 @@ export default {
     SugandhMaam,
     PatrickSir,
     AshwiniSir,
+
     Event1,
     Event2,
     Event3,
     Event4,
     Event5,
-    Event6
+    Event6,
+    
+    Certificate1,
+    Certificate2
 
 }
