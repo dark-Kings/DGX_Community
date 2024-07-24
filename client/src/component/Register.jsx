@@ -4,32 +4,21 @@ import { images } from "../constant/index.js";
 import { ToastContainer, toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
-import { validatePassword } from "../utils/formValidation.js";
+import { validateEmail, validatePassword } from "../utils/formValidation.js";
 import { FaEye } from "react-icons/fa";
 import { FaEyeLowVision } from "react-icons/fa6";
 import ApiContext from '../context/ApiContext.jsx';
 import { decrypt } from "../utils/decrypt.js";
-import Cookies from 'js-cookie';
 
 const Register = () => {
   const [loading, setLoading] = useState(false)
-  const { fetchData, userToken, setUserToken } = useContext(ApiContext);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { fetchData } = useContext(ApiContext);
   const navigate = useNavigate();
   const location = useLocation();
   const [email, setEmail] = useState('');
   const [referCode, setReferCode] = useState('');
 
-  useEffect(() => {
-    if (userToken != null && userToken != undefined) {
-      setIsLoggedIn(true)
-      Cookies.remove('userToken');
-      setUserToken(null)
-    }
-    else {
-      setIsLoggedIn(false)
-    }
-  }, [userToken, setUserToken])
+
 
   const urlExtract = async () => {
     const params = new URLSearchParams(location.search);

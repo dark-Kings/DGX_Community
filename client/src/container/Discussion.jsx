@@ -1,9 +1,6 @@
 import { useState } from 'react';
-import { FaSearch } from 'react-icons/fa';
-import { FaThumbsUp, FaComment } from 'react-icons/fa';
-// import { images } from '../constant';
+import { FaSearch, FaThumbsUp, FaComment, FaWindowClose } from 'react-icons/fa';
 import DiscussionModal from '../component/DiscussionModal';
-
 
 const Discussion = () => {
     const hotTopics = [
@@ -28,43 +25,35 @@ const Discussion = () => {
     const [selectedSection, setSelectedSection] = useState('all');
     const [searchQuery, setSearchQuery] = useState('');
     const [isFormOpen, setIsFormOpen] = useState(false);
-    // const [selectedDiscussion, setSelectedDiscussion] = useState(null);
-
-    const toggleNav = () => {
-        setIsNavOpen(!isNavOpen);
-    };
-
-    const handleSearchChange = (e) => {
-        setSearchQuery(e.target.value);
-    };
-
-    const handleNewTopicClick = () => {
-        setIsFormOpen(true);
-    };
-
-    const handleLike = () => {
-        setLikeCount(likeCount + 1);
-    };
-
-    const handleComment = () => {
-        setCommentCount(commentCount + 1);
-    };
     const [modalIsOpen, setModalIsOpen] = useState(false);
-
-    const openModal = () => {
-        // console.log("clicked");
-        setModalIsOpen(true);
-    }
-    const closeModal = () => setModalIsOpen(false);
-
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
     const [tags, setTags] = useState([]);
     const [tagInput, setTagInput] = useState('');
+    const [links, setLinks] = useState([]);
+    const [linkInput, setLinkInput] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
-    const [isImageUploaded, setIsImageUploaded] = useState(false);
+    // const [isImageUploaded, setIsImageUploaded] = useState(false);
+    const [privacy, setPrivacy] = useState('private');
 
-    const handleTagInputChange = (e) => {
-        setTagInput(e.target.value);
+    const toggleNav = () => setIsNavOpen(!isNavOpen);
+
+    const handleSearchChange = (e) => setSearchQuery(e.target.value);
+
+    const handleNewTopicClick = () => setIsFormOpen(true);
+
+    const handleLike = () => setLikeCount(likeCount + 1);
+
+    const handleComment = () => setCommentCount(commentCount + 1);
+
+    const openModal = () => setModalIsOpen(true);
+
+    const closeModal = () => {
+        setModalIsOpen(false);
+        setIsFormOpen(false);
     };
+
+    const handleTagInputChange = (e) => setTagInput(e.target.value);
 
     const handleTagInputKeyPress = (e) => {
         if (e.key === 'Enter' && tagInput.trim() !== '') {
@@ -74,35 +63,52 @@ const Discussion = () => {
         }
     };
 
-    const removeTag = (tagToRemove) => {
-        setTags(tags.filter(tag => tag !== tagToRemove));
-    };
+    const removeTag = (tagToRemove) => setTags(tags.filter(tag => tag !== tagToRemove));
 
     const handleImageChange = (e) => {
         if (e.target.files && e.target.files[0]) {
             setSelectedImage(URL.createObjectURL(e.target.files[0]));
-            setIsImageUploaded(false); // Reset the flag when a new image is selected
+            setIsImageUploaded(true);
         }
     };
 
-    const handleImageUpload = (e) => {
-        e.preventDefault();
-        // Simulate image upload
-        setTimeout(() => {
-            setIsImageUploaded(true); // Set the flag to true after image is "uploaded"
-            alert('Image uploaded successfully!');
-        }, 500); // Simulate upload time
+    const handleLinkInputChange = (e) => setLinkInput(e.target.value);
+
+    const handleLinkInputKeyPress = (e) => {
+        if (e.key === 'Enter' && linkInput.trim() !== '') {
+            e.preventDefault();
+            setLinks([...links, linkInput.trim()]);
+            setLinkInput('');
+        }
     };
+
+    const removeLink = (linkToRemove) => setLinks(links.filter(link => link !== linkToRemove));
+
+    const handlePrivacyChange = (e) => setPrivacy(e.target.value);
 
     const handleSubmit = (e) => {
-        if (selectedImage && !isImageUploaded) {
-            e.preventDefault();
-            alert('Please upload the selected image first.');
-        }
-        console.log(tags)
+        e.preventDefault();
+
+        // Collect form data from state
+        console.log("Title:", title);
+        console.log("Content:", content);
+        console.log("Tags:", tags.join(', '));
+        console.log("Links:", links.join(', '));
+        console.log("Image:", selectedImage);
+        console.log("Privacy:", privacy);
+
+        // Handle form submission logic here, e.g., sending data to an API
+
+        // After handling the form submission, you may want to reset the form fields
+        setTitle('');
+        setContent('');
+        setTags([]);
+        setLinks([]);
+        setSelectedImage(null);
+        setTagInput('');
+        setLinkInput('');
+        setIsFormOpen(false);
     };
-
-
 
     return (
         <div>
@@ -150,7 +156,7 @@ const Discussion = () => {
                     </div>
                     <button
                         type="button"
-                        className="py-2 px-3 inline-flex items-center gap-x-2 text-lg font-bold rounded-lg bg-DGXgreen text-DGXwhite shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800"
+                        className="py-2 px-3 inline-flex items-center gap-x-2 text-lg font-bold rounded-lg bg-DGXgreen text-DGXwhite shadow-sm hover:bg-DGXblue hover:border-DGXgreen border border-DGXblue disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800"
                         onClick={handleNewTopicClick}
                     >
                         Start a New Topic +
@@ -161,13 +167,13 @@ const Discussion = () => {
             <div className="flex  md:w-6/6 lg:w-6/6 flex-col md:flex-row px-4 py-8 space-y-6 md:space-y-0">
                 <main className="w-full md:w-5/6 lg:w-5/6 mx-4 order-1 md:order-2">
                     {isFormOpen ? (
-                        <section>
+                        <section className="relative">
                             <h2 className="text-2xl font-bold text-DGXblue mb-4">Start a New Topic</h2>
                             <button
-                                className="mb-5 p-2 bg-DGXblue text-white rounded-full"
+                                className="absolute top-0 right-0 mb-5 p-2 bg-DGXblue text-white rounded-full"
                                 onClick={closeModal}
                             >
-                                Close
+                                <FaWindowClose />
                             </button>
                             <form className="bg-gray-100 p-4 rounded-lg shadow-lg" onSubmit={handleSubmit}>
                                 <div className="mb-4">
@@ -198,14 +204,6 @@ const Discussion = () => {
                                         onChange={handleImageChange}
                                     />
                                     {selectedImage && <img src={selectedImage} alt="Selected" className="mt-4 max-h-48" />}
-                                    {selectedImage && (
-                                        <button
-                                            onClick={handleImageUpload}
-                                            className="mt-2 px-4 py-2 bg-DGXgreen text-DGXwhite rounded-md shadow-sm hover:bg-DGXgreen-dark"
-                                        >
-                                            Upload Image
-                                        </button>
-                                    )}
                                 </div>
                                 <div className="mb-4">
                                     <label htmlFor="tags" className="block text-gray-700 dark:text-gray-300">Tags</label>
@@ -233,16 +231,46 @@ const Discussion = () => {
                                         ))}
                                     </div>
                                 </div>
+                                <div className="mb-4">
+                                    <label className="block text-sm font-medium text-gray-700">Links</label>
+                                    <input
+                                        type="text"
+                                        value={linkInput}
+                                        onChange={handleLinkInputChange}
+                                        onKeyPress={handleLinkInputKeyPress}
+                                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-DGXgreen focus:border-DGXgreen sm:text-sm"
+                                        placeholder="Enter links separated by commas"
+                                    />
+                                    <div className="mt-2">
+                                        {links.map((link, index) => (
+                                            <span key={index} className="inline-flex items-center px-3 py-1 text-sm font-medium text-white bg-DGXblue rounded-full mr-2">
+                                                {link}
+                                                <button type="button" onClick={() => removeLink(link)} className="ml-2 text-white hover:text-gray-200">
+                                                    <FaWindowClose />
+                                                </button>
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                                <div className="mb-4">
+                                    <label htmlFor="privacy" className="block text-gray-700 dark:text-gray-300">Privacy</label>
+                                    <select
+                                        id="privacy"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md dark:bg-neutral-700 dark:border-neutral-600 dark:text-white"
+                                    >
+                                        <option value="private">Private</option>
+                                        <option value="protected">Public</option>
+                                    </select>
+                                </div>
                                 <button
                                     type="submit"
-                                    className={`px-4 py-2 rounded-md shadow-sm ${selectedImage && !isImageUploaded ? 'bg-gray-400 text-gray-700 cursor-not-allowed' : 'bg-DGXgreen text-DGXwhite hover:bg-DGXgreen-dark'
-                                        }`}
-                                    disabled={selectedImage && !isImageUploaded}
+                                    className={`px-4 py-2 rounded-md shadow-sm bg-DGXgreen text-DGXwhite hover:bg-DGXgreen-dark`}
                                 >
                                     Submit
                                 </button>
                             </form>
                         </section>
+
                     ) : (
                         <>
                             {selectedSection === 'all' && (
