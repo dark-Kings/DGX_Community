@@ -291,7 +291,7 @@ const Register = () => {
                 <button
                   type="button"
                   onClick={togglePasswordVisibility}
-                  className="absolute inset-y-0 right-0 flex items-center px-4 text-DGXgreen focus:outline-none mt-8">
+                  className="absolute inset-y-0 right-0 flex   items-center px-4 text-DGXgreen focus:outline-none mt-8">
                   {passwordVisible ? <FaEye />
                     : <FaEyeLowVision />}
 
