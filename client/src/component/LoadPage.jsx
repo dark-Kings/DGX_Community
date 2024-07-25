@@ -8,7 +8,7 @@ const LoadPage = () => {
         <div className="absolute animate-spin-reverse rounded-full border-t-4 border-DGXgreen w-28 h-28"></div>
         <div className="absolute animate-spin rounded-full border-t-4 border-DGXblack w-24 h-24"></div>
         <div className="absolute text-center text-2xl font-bold text-DGXblack animate-pulse">
-          DGXC
+          DGX
         </div>
       </div>
       <div className="text-center text-lg font-medium text-DGXblack m-5 mb-1 opacity-80">
