@@ -22,6 +22,9 @@ import Quiz from './component/Quiz.jsx';
 import EventWorkshopPage from './container/EventWorkshopPage.jsx';
 import MyStoryboard from './component/MyStoryboard.jsx';
 import LoadPage from './component/LoadPage.jsx';
+import Calendar from './component/Calendar.jsx';
+import GeneralUserCalendar from './component/GeneralUserCalendar.jsx';
+
 
 
 
@@ -51,6 +54,8 @@ function App() {
             <Route path='/MyStoryboard' element={<MyStoryboard />} />
             <Route path='/EventWorkshopPage' element={<EventWorkshopPage />} />
             <Route path='/LoadPage' element={<LoadPage />} />
+            <Route path='/Calendar' element={<Calendar />} />
+            <Route path='/GeneralUserCalendar' element={<GeneralUserCalendar />} />
           </Routes>
         </div>
         <Footer />
