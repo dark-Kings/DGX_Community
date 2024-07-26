@@ -250,9 +250,9 @@ const EventWorkshopPage = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 bg-DGXblue">
         {events.map((event, index) => (
           <CardContainer key={index} className="my-12" containerClassName="border-2 border-DGXgreen">
-            <CardBody className="bg-[#f3f4f6] p-8 border border-DGXgreen">
+            <CardBody className=" bg-gradient-to-r from-DGXblack via-DGXblue p-8 border border-DGXgreen">
               <CardItem translateX={10} translateY={20} rotateX={10} rotateY={20}>
-                <h2 className="text-xl font-bold">{event.title}</h2>
+                <h2 className="text-xl font-bold text-DGXgreen">{event.title}</h2>
                 <img src={event.image} alt={event.title} />
               </CardItem>
               <div className="absolute bottom-4 left-4 flex gap-2">
