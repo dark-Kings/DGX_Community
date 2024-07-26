@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from 'js-cookie';
 import ApiContext from '../context/ApiContext.jsx';
+import { validateRequired } from '../utils/formValidation.js';
 
 const SignIn = () => {
   const { fetchData, logIn } = useContext(ApiContext);
@@ -36,17 +37,30 @@ const SignIn = () => {
     if (id === 'password') setPassword(value);
   };
 
+  const validateForm = (elements) => {
+    const inputAndSelectElements = elements.filter(element => 
+      element.tagName === 'INPUT' || element.tagName === 'SELECT'
+    );
+    inputAndSelectElements.forEach((formElemment)=>{
+      console.log(formElemment.id);
+      validateRequired(formElemment.id);
+    })
+    return document.querySelector('.is-invalid') === null;
+  }
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const formElements = Array.from(event.target.elements);
+    const isValid = validateForm(formElements);
+    if (!isValid) {
+      return;
+    }
     const endpoint = "user/login";
     const method = "POST";
     const body = {
       "email": userID,
       "password": password
     };
-
     setLoading(true);
-
     try {
       const data = await fetchData(endpoint, method, body);
       if (!data.success) {
@@ -150,6 +164,7 @@ const SignIn = () => {
                   onChange={handleInputChange}
                   value={userID}
                 />
+                <div id="usernameVerify" className="invalid-feedback"></div>
               </div>
               <div className="relative">
                 <label
@@ -167,6 +182,7 @@ const SignIn = () => {
                   onChange={handleInputChange}
                   value={password}
                 />
+                <div id="passwordVerify" className="invalid-feedback"></div>
                 <button
                   type="button"
                   onClick={togglePasswordVisibility}
