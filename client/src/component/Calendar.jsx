@@ -157,9 +157,9 @@ const Calendar = () => {
   };
 
   const handleSelectEvent = (event) => {
-	console.log('Events Data:', events);
-	setSelectedEvent(event);
-	document.getElementById('event-detail').scrollIntoView({ behavior: 'smooth' });
+    console.log('Events Data:', events);
+    setSelectedEvent(event);
+    document.getElementById('event-detail').scrollIntoView({ behavior: 'smooth' });
   };
 
   const eventStyleGetter = (event) => {
@@ -190,18 +190,16 @@ const Calendar = () => {
         </button>
       </div>
       <div className={`transition-opacity ${isModalOpen ? 'pointer-events-none opacity-50' : ''}`}>
-	  <BigCalendar
-		localizer={localizer}
-		events={events}
-		startAccessor="start"
-		endAccessor="end"
-		style={{ height: 600, zIndex: 1 }} // Ensure calendar is behind the modal
-		className="bg-white rounded-lg shadow-lg p-5"
-		eventPropGetter={eventStyleGetter}
-		onSelectEvent={handleSelectEvent}
-		/>
-
-
+        <BigCalendar
+          localizer={localizer}
+          events={events}
+          startAccessor="start"
+          endAccessor="end"
+          style={{ height: 600, zIndex: 1 }} // Ensure calendar is behind the modal
+          className="bg-white rounded-lg shadow-lg p-5"
+          eventPropGetter={eventStyleGetter}
+          onSelectEvent={handleSelectEvent}
+        />
       </div>
 
       {isModalOpen && (
@@ -326,7 +324,6 @@ const Calendar = () => {
       {selectedEvent && (
         <div id="event-detail" className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white rounded-lg shadow-lg p-5 max-w-7xl w-full max-h-[90vh] overflow-y-auto z-50">
-           
             <h2 className="text-xl font-bold mb-4">Event Details</h2>
             <div className="mb-4">
               <strong>Title:</strong> <span>{selectedEvent.title}</span>
@@ -346,7 +343,7 @@ const Calendar = () => {
             <div className="mb-4">
               <strong>Host:</strong> <span>{selectedEvent.host}</span>
             </div>
-			{selectedEvent.poster && (
+            {selectedEvent.poster && (
               <img src={selectedEvent.poster} alt="Event Poster" className="mb-4 w-full max-w-7xl object-cover" />
             )}
             <div className="flex justify-center gap-4 mt-4">
