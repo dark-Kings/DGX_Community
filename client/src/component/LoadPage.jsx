@@ -39,7 +39,7 @@ const LoadPage = () => {
           DGX
         </div>
       </div>
-      <div className="text-center text-sm sm:text-lg md:text-xl font-medium text-DGXblack mb-4">
+      <div className="text-center text-sm sm:text-lg md:text-xl font-medium text-DGXblack mt-4 mb-4">
         {message}
       </div>
       <div className="text-center text-xs sm:text-base md:text-lg font-medium text-gray-600 opacity-90">
