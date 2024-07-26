@@ -57,7 +57,7 @@ const CommunityGuidelines = () => {
       className="mySwiper mb-10 p-12"
     >
       <SwiperSlide className="w-[70%]">
-        <div className="w-full p-4 border-dotted border-4 rounded-lg border-[#fb7185] transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10">
+        <div className="w-full p-4 border-dotted border-4 rounded-lg border-DGXblue transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10">
           <h2 className="text-2xl text-DGXblack mt-4">Be Safe</h2>
           <ul className="list-disc pl-5 text-[#374151] mt-4">
             <li className="mb-2">Do not engage in or promote unlawful or harmful behavior.</li>
@@ -72,7 +72,7 @@ const CommunityGuidelines = () => {
         </div>
       </SwiperSlide>
       <SwiperSlide className="w-[70%]">
-        <div className="w-full p-4 border-dotted border-4 rounded-lg border-[#fb7185] transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10">
+        <div className="w-full p-4 border-dotted border-4 rounded-lg border-DGXblue transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10">
           <h2 className="text-2xl text-DGXblack mt-4">Be Trustworthy</h2>
           <ul className="list-disc pl-5 text-[#374151] mt-4">
             <li className="mb-2">Do not lie, misrepresent, or impersonate others.</li>
@@ -87,7 +87,7 @@ const CommunityGuidelines = () => {
         </div>
       </SwiperSlide>
       <SwiperSlide className="w-[70%]">
-        <div className="w-full p-4 border-dotted border-4 rounded-lg border-DGXblue transition-all duration-300 ease-in-out hover:bg-DGXgreen">
+        <div className="w-full p-4 border-dotted border-4 rounded-lg border-DGXblue transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10">
           <h2 className="text-2xl text-DGXblack mt-4">Be Professional</h2>
           <ul className="list-disc pl-5 text-[#374151] mt-4">
             <li className="mb-2">Do not share unprofessional or inappropriate content.</li>
@@ -102,7 +102,7 @@ const CommunityGuidelines = () => {
         </div>
       </SwiperSlide>
       <SwiperSlide className="w-[70%]">
-        <div className="w-full p-4 border-dotted border-4 rounded-lg border-[#fb7185] transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10">
+        <div className="w-full p-4 border-dotted border-4 rounded-lg border-DGXblue transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10">
           <h2 className="text-2xl text-DGXblack mt-4">Respect and Courtesy</h2>
           <ul className="list-disc pl-5 text-[#374151] mt-4">
             <li className="mb-2">Treat all members with respect and courtesy.</li>
@@ -117,7 +117,7 @@ const CommunityGuidelines = () => {
         </div>
       </SwiperSlide>
       <SwiperSlide className="w-[70%]">
-        <div className="w-full p-4 border-dotted border-4 rounded-lg border-[#fb7185] transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10">
+        <div className="w-full p-4 border-dotted border-4 rounded-lg border-DGXblue transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10">
           <h2 className="text-2xl text-DGXblack mt-4">Privacy and Confidentiality</h2>
           <ul className="list-disc pl-5 text-[#374151] mt-4">
             <li className="mb-2">Respect the privacy of other members.</li>
@@ -132,7 +132,7 @@ const CommunityGuidelines = () => {
         </div>
       </SwiperSlide>
       <SwiperSlide className="w-[70%]">
-        <div className="w-full p-4 border-dotted border-4 rounded-lg border-[#fb7185] transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10">
+        <div className="w-full p-4 border-dotted border-4 rounded-lg border-DGXblue transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10">
           <h2 className="text-2xl text-DGXblack mt-4">No Spamming or Self-Promotion</h2>
           <ul className="list-disc pl-5 text-[#374151] mt-4">
             <li className="mb-2">Refrain from spamming the community with irrelevant content.</li>
@@ -147,7 +147,7 @@ const CommunityGuidelines = () => {
         </div>
       </SwiperSlide>
       <SwiperSlide className="w-[70%]">
-        <div className="w-full p-4 border-dotted border-4 rounded-lg border-[#fb7185] transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10">
+        <div className="w-full p-4 border-dotted border-4 rounded-lg border-DGXblue transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10">
           <h2 className="text-2xl text-DGXblack mt-4">Intellectual Property</h2>
           <ul className="list-disc pl-5 text-[#374151] mt-4">
             <li className="mb-2">Respect intellectual property rights.</li>
@@ -162,7 +162,7 @@ const CommunityGuidelines = () => {
         </div>
       </SwiperSlide>
       <SwiperSlide className="w-[70%]">
-        <div className="w-full p-4 border-dotted border-4 rounded-lg border-[#fb7185] transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10">
+        <div className="w-full p-4 border-dotted border-4 rounded-lg border-DGXblue transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10">
           <h2 className="text-2xl text-DGXblack mt-4">Safety and Security</h2>
           <ul className="list-disc pl-5 text-[#374151] mt-4">
             <li className="mb-2">Do not share malicious links or software.</li>
@@ -177,7 +177,7 @@ const CommunityGuidelines = () => {
         </div>
       </SwiperSlide>
       <SwiperSlide className="w-[70%]">
-        <div className="w-full p-4 border-dotted border-4 rounded-lg border-[#fb7185] transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10">
+        <div className="w-full p-4 border-dotted border-4 rounded-lg border-DGXblue transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10">
           <h2 className="text-2xl text-DGXblack mt-4">Content Guidelines</h2>
           <ul className="list-disc pl-5 text-[#374151] mt-4">
             <li className="mb-2">Post content that is relevant to the community’s purpose.</li>
@@ -192,7 +192,7 @@ const CommunityGuidelines = () => {
         </div>
       </SwiperSlide>
       <SwiperSlide className="w-[70%]">
-        <div className="w-full p-4 border-dotted border-4 rounded-lg border-[#fb7185] transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10">
+        <div className="w-full p-4 border-dotted border-4 rounded-lg border-DGXblue transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10">
           <h2 className="text-2xl text-DGXblack mt-4">Conflict Resolution</h2>
           <ul className="list-disc pl-5 text-[#374151] mt-4">
             <li className="mb-2">Address conflicts constructively and seek to resolve disputes amicably.</li>
