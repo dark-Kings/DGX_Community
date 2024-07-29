@@ -95,6 +95,7 @@ const Calendar = () => {
     if (!newEvent.venue) errors.venue = 'Venue is required.';
     if (!newEvent.description) errors.description = 'Description is required.';
     if (!newEvent.host) errors.host = 'Host is required.';
+    if (!newEvent.registerLink) errors.registerLink = 'Register link is required.';
 
     if (Object.keys(errors).length > 0) {
       setErrors(errors);
@@ -253,15 +254,6 @@ const Calendar = () => {
             {errors.category && <p className="text-red-500 text-sm mb-2">{errors.category}</p>}
             
             <input
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-              className="mb-2"
-              ref={fileInputRef}
-            />
-            {newEvent.poster && <img src={newEvent.poster} alt="Poster" className="mb-2 w-full max-w-sm" />}
-            
-            <input
               type="text"
               name="venue"
               placeholder="Venue"
@@ -271,15 +263,6 @@ const Calendar = () => {
               ref={venueRef}
             />
             {errors.venue && <p className="text-red-500 text-sm mb-2">{errors.venue}</p>}
-            
-            <ReactQuill
-              value={newEvent.description}
-              onChange={handleDescriptionChange}
-              placeholder="Event Description"
-              className={`mb-2 ${errors.description ? 'border-red-500' : ''}`}
-              ref={descriptionRef}
-            />
-            {errors.description && <p className="text-red-500 text-sm mb-2">{errors.description}</p>}
             
             <input
               type="text"
@@ -295,7 +278,7 @@ const Calendar = () => {
             <input
               type="text"
               name="registerLink"
-              placeholder="Registration Link (Optional)"
+              placeholder="Registration Link"
               value={newEvent.registerLink}
               onChange={handleChange}
               className={`p-2 border border-gray-300 rounded mb-2 w-full ${errors.registerLink ? 'border-red-500' : ''}`}
@@ -303,25 +286,69 @@ const Calendar = () => {
             />
             {errors.registerLink && <p className="text-red-500 text-sm mb-2">{errors.registerLink}</p>}
             
-            <div className="flex justify-center gap-4 mt-4">
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+              className="p-2 border border-gray-300 rounded mb-2 w-full"
+            />
+            {newEvent.poster && (
+              <img
+                src={newEvent.poster}
+                alt="Event Poster"
+                className="w-32 h-32 object-cover mb-2"
+              />
+            )}
+            
+            <ReactQuill
+              value={newEvent.description}
+              onChange={handleDescriptionChange}
+              className={`mb-2 ${errors.description ? 'border-red-500' : ''}`}
+              ref={descriptionRef}
+              modules={{
+                toolbar: [
+                  ['bold', 'italic', 'underline', 'strike'], // toggled buttons
+                  [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                  [{ 'script': 'sub'}, { 'script': 'super' }], // superscript/subscript
+                  [{ 'indent': '-1'}, { 'indent': '+1' }], // outdent/indent
+                  [{ 'direction': 'rtl' }], // text direction
+                  [{ 'size': ['small', false, 'large', 'huge'] }], // custom dropdown
+                  [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                  [{ 'color': [] }, { 'background': [] }], // dropdown with defaults from theme
+                  [{ 'font': [] }],
+                  [{ 'align': [] }],
+                  ['clean'] // remove formatting button
+                ]
+              }}
+              formats={[
+                'header', 'font', 'size',
+                'bold', 'italic', 'underline', 'strike',
+                'blockquote', 'list', 'bullet', 'indent',
+                'link', 'image', 'color', 'background', 'align',
+                'script'
+              ]}
+            />
+            {errors.description && <p className="text-red-500 text-sm mb-2">{errors.description}</p>}
+            
+            <div className="flex justify-end">
+              <button
+                onClick={handleCloseModal}
+                className="bg-red-500 text-white p-2 rounded mr-2"
+              >
+                Cancel
+              </button>
               <button
                 onClick={handleSubmit}
                 className="bg-DGXgreen text-white p-2 rounded"
               >
                 Add Event
               </button>
-              <button
-                onClick={handleCloseModal}
-                className="bg-DGXblue text-white p-2 rounded"
-              >
-                Cancel
-              </button>
             </div>
           </div>
         </div>
       )}
 
-      {selectedEvent && (
+{selectedEvent && (
         <div id="event-detail" className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white rounded-lg shadow-lg p-5 max-w-7xl w-full max-h-[90vh] overflow-y-auto z-50">
             <h2 className="text-xl font-bold mb-4">Event Details</h2>
@@ -344,7 +371,7 @@ const Calendar = () => {
               <strong>Host:</strong> <span>{selectedEvent.host}</span>
             </div>
             {selectedEvent.poster && (
-              <img src={selectedEvent.poster} alt="Event Poster" className="mb-4 w-full max-w-7xl object-cover" />
+              <img src={selectedEvent.poster} alt="Event Poster" className="mb-4 w-full max-w-7xl object-cover border-2 rounded-lg border-DGXgreen" />
             )}
             <div className="flex justify-center gap-4 mt-4">
               {selectedEvent.registerLink && (
