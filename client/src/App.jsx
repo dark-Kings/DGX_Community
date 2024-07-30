@@ -21,15 +21,12 @@ import Survey from './component/Survey.jsx';
 import Quiz from './component/Quiz.jsx';
 import EventWorkshopPage from './container/EventWorkshopPage.jsx';
 import MyStoryboard from './component/MyStoryboard.jsx';
-<<<<<<< HEAD
 import Sidebar from './component/Admin/Sidebar.jsx';
 // import LoadPage from './component/LoadPage.jsx';
-=======
 import LoadPage from './component/LoadPage.jsx';
 import Calendar from './component/Calendar.jsx';
 import GeneralUserCalendar from './component/GeneralUserCalendar.jsx';
 
->>>>>>> fdd870ae05e7b0a7c2fe3f2003f9958b1abce6ac
 
 
 
@@ -58,17 +55,14 @@ function App() {
             <Route path='/Survey' element={<Survey />} />
             <Route path='/MyStoryboard' element={<MyStoryboard />} />
             <Route path='/EventWorkshopPage' element={<EventWorkshopPage />} />
-<<<<<<< HEAD
 
 
             /*-----------ADMIN-----------* */
 
             <Route path='/Admin/Sidebar' element={<Sidebar/>}/>
-=======
             <Route path='/LoadPage' element={<LoadPage />} />
             <Route path='/Calendar' element={<Calendar />} />
             <Route path='/GeneralUserCalendar' element={<GeneralUserCalendar />} />
->>>>>>> fdd870ae05e7b0a7c2fe3f2003f9958b1abce6ac
           </Routes>
         </div>  
         <Footer />
