@@ -4,7 +4,7 @@ import { images } from "../constant/index.js";
 import { ToastContainer, toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
-import { validateEmail, validatePassword } from "../utils/formValidation.js";
+import { validateConfirmPassword as confirmPassword, validatePassword, validateRequired } from "../utils/formValidation.js";
 import { FaEye } from "react-icons/fa";
 import { FaEyeLowVision } from "react-icons/fa6";
 import ApiContext from '../context/ApiContext.jsx';
@@ -17,9 +17,6 @@ const Register = () => {
   const location = useLocation();
   const [email, setEmail] = useState('');
   const [referCode, setReferCode] = useState('');
-
-
-
   const urlExtract = async () => {
     const params = new URLSearchParams(location.search);
     const encryptedEmail = params.get('email');
@@ -74,6 +71,27 @@ const Register = () => {
 
   }
 
+  const handleConfirmPassword = (e) => {
+    const { id, name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+    console.log(formData.confirmPassword);
+    formData.confirmPassword = e.target.value
+    confirmPassword(formData.newPassword, e.target.value, e.target)
+  }
+
+  const validateForm = (elements) => {
+    const inputAndSelectElements = elements.filter(element => 
+      element.tagName === 'INPUT' || element.tagName === 'SELECT'
+    );
+    inputAndSelectElements.forEach((formElemment)=>{
+      validateRequired(formElemment.id);
+    })
+    return document.querySelector('.is-invalid') === null;
+  }
+
   const handleChange = (e) => {
     const { id, name, value } = e.target;
     setFormData((prevData) => ({
@@ -90,7 +108,11 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    const formElements = Array.from(e.target.elements);
+    const isValid = validateForm(formElements);
+    if (!isValid) {
+      return 
+    }
     const { newPassword,
       confirmPassword,
       username,
@@ -212,6 +234,7 @@ const Register = () => {
                   value={formData.username}
                   onChange={handleChange}
                 />
+                <div id="usernameVerify" className="invalid-feedback"></div>
               </div>
 
               <div>
@@ -229,6 +252,7 @@ const Register = () => {
                   value={formData.collegeName}
                   onChange={handleChange}
                 />
+                <div id="collegeNameVerify" className="invalid-feedback"></div>
               </div>
 
             </div>
@@ -253,6 +277,7 @@ const Register = () => {
                   value={formData.contactNumber}
                   onChange={handleChange}
                 />
+                <div id="contactNumberVerify" className="invalid-feedback"></div>
               </div>
 
               <div>
@@ -270,6 +295,7 @@ const Register = () => {
                   value={formData.designation}
                   onChange={handleChange}
                 />
+                <div id="designationVerify" className="invalid-feedback"></div>
               </div>
               <div className="mt-4 relative">
                 <label
@@ -281,13 +307,12 @@ const Register = () => {
                 <input
                   id="newPassword"
                   name="newPassword"
-
                   className="block w-full px-4 py-2 mt-2 text-DGXgray bg-white border border-gray-300 rounded-md  focus:border-blue-500  focus:outline-none focus:ring"
                   value={formData.newPassword}
                   onChange={handleChange}
                   type={passwordVisible ? "text" : "password"}
                 />
-
+                
                 <button
                   type="button"
                   onClick={togglePasswordVisibility}
@@ -299,7 +324,7 @@ const Register = () => {
 
 
               </div>
-              <div id="passwordVerify"></div>
+              <div id="newPasswordVerify" className="invalid-feedback"></div>
             </div>
 
             <div>
@@ -334,11 +359,12 @@ const Register = () => {
                       value={formData.category}
                       onChange={handleChange}
                     >
-                      <option value="category1">Select a category</option>
+                      <option value="">Select a category</option>
                       <option value="S">Student</option>
                       <option value="F">Faculty</option>
                       =
                     </select>
+                    <div id="categoryVerify" className="invalid-feedback"></div>
                   </div>
                   <div className="w-1/2">
                     <label className="text-DGXblack " htmlFor="refralCode">
@@ -353,6 +379,7 @@ const Register = () => {
                       // onChange={handleChange}
                       readOnly
                     />
+                    <div id="refralCodeVerify" className="invalid-feedback"></div>
                   </div>
                 </div>
               </div>
@@ -370,7 +397,8 @@ const Register = () => {
                   type={confirmPasswordVisible ? "text" : "password"}
                   className="block w-full px-4 py-2 mt-2 text-DGXgray bg-white border border-gray-300 rounded-md  focus:border-blue-500  focus:outline-none focus:ring"
                   value={formData.confirmPassword}
-                  onChange={handleChange}
+                  // onChange={handleChange}
+                  onChange={handleConfirmPassword}
                 />
                 <button
                   type="button"
@@ -378,8 +406,8 @@ const Register = () => {
                   className="absolute inset-y-0 right-0 flex items-center px-4 text-DGXgreen focus:outline-none mt-8">
                   {confirmPasswordVisible ? <FaEye />
                     : <FaEyeLowVision />}
-
                 </button>
+                <div id="confirmPasswordVerify" className="invalid-feedback"></div>
               </div>
             </div>
           </div>

@@ -21,6 +21,7 @@ import Survey from './component/Survey.jsx';
 import Quiz from './component/Quiz.jsx';
 import EventWorkshopPage from './container/EventWorkshopPage.jsx';
 import MyStoryboard from './component/MyStoryboard.jsx';
+import Sidebar from './component/Admin/Sidebar.jsx';
 // import LoadPage from './component/LoadPage.jsx';
 
 
@@ -50,8 +51,13 @@ function App() {
             <Route path='/Survey' element={<Survey />} />
             <Route path='/MyStoryboard' element={<MyStoryboard />} />
             <Route path='/EventWorkshopPage' element={<EventWorkshopPage />} />
+
+
+            /*-----------ADMIN-----------* */
+
+            <Route path='/Admin/Sidebar' element={<Sidebar/>}/>
           </Routes>
-        </div>
+        </div>  
         <Footer />
       </div>
     </>

@@ -319,6 +319,10 @@ const Home = () => {
                 </div>
             </div>
 
+            <div className="relative flex justify-center items-center w-full h-screen bg-[#2e6d8e] p-8">
+                <img src={images.AnimatedDGX} alt="NVIDIA DGX" className="max-w-[80%] h-auto border border-black" />
+            </div>
+
 
 
         </div>
