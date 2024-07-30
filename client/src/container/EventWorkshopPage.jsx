@@ -3,8 +3,9 @@ import { cn } from "../utils/cn.js";
 import { images } from '../constant/index.js';
 // import FullCalendar from '@fullcalendar/react';s
 // import dayGridPlugin from '@fullcalendar/daygrid';
+import GeneralUserCalendar from "../component/GeneralUserCalendar.jsx";
 
-import React, {
+import {
   createContext,
   useState,
   useContext,
@@ -270,6 +271,7 @@ const EventWorkshopPage = () => {
           </CardContainer>
         ))}
       </div>
+      < GeneralUserCalendar/>
     </div>
   );
 };

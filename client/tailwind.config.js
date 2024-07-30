@@ -14,6 +14,26 @@ export default {
         'DGXblack': '#000000',
         'DGXgray': '#6b7280'
       },
+      keyframes: {
+        spin: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
+        'spin-reverse': {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(-360deg)' },
+        },
+        pulse: {
+          '0%': { opacity: '1' },
+          '50%': { opacity: '0.5' },
+          '100%': { opacity: '1' },
+        },
+      },
+      animation: {
+        spin: 'spin 1s linear infinite',
+        'spin-reverse': 'spin-reverse 1s linear infinite',
+        pulse: 'pulse 1s infinite',
+      },
       backgroundImage: theme => ({
         'dgx-gradient': `linear-gradient(135deg, ${theme('colors.DGXblue')}, ${theme('colors.DGXgreen')})`,
       }),
