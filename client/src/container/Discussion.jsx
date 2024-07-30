@@ -68,7 +68,6 @@ const Discussion = () => {
     const handleImageChange = (e) => {
         if (e.target.files && e.target.files[0]) {
             setSelectedImage(URL.createObjectURL(e.target.files[0]));
-            setIsImageUploaded(true);
         }
     };
 
@@ -84,7 +83,6 @@ const Discussion = () => {
 
     const removeLink = (linkToRemove) => setLinks(links.filter(link => link !== linkToRemove));
 
-    const handlePrivacyChange = (e) => setPrivacy(e.target.value);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -183,6 +181,8 @@ const Discussion = () => {
                                         id="title"
                                         className="w-full px-3 py-2 border border-gray-300 rounded-md "
                                         placeholder="Enter topic title"
+                                        value={title}
+                                        onChange={(e) => setTitle(e.target.value)}
                                     />
                                 </div>
                                 <div className="mb-4">
@@ -192,7 +192,9 @@ const Discussion = () => {
                                         className="w-full px-3 py-2 border border-gray-300 rounded-md "
                                         placeholder="Enter topic content"
                                         rows="4"
-                                    ></textarea>
+                                        value={content}
+                                        onChange={(e) => setContent(e.target.value)}
+                                    />
                                 </div>
                                 <div className="mb-4">
                                     <label htmlFor="image" className="block text-gray-700 ">Upload Image</label>
@@ -239,7 +241,7 @@ const Discussion = () => {
                                         onChange={handleLinkInputChange}
                                         onKeyPress={handleLinkInputKeyPress}
                                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-DGXgreen focus:border-DGXgreen sm:text-sm"
-                                        placeholder="Enter links separated by commas"
+                                        placeholder="Enter links and press enter"
                                     />
                                     <div className="mt-2">
                                         {links.map((link, index) => (
@@ -257,9 +259,11 @@ const Discussion = () => {
                                     <select
                                         id="privacy"
                                         className="w-full px-3 py-2 border border-gray-300 rounded-md "
+                                        onChange={(e) => setPrivacy(e.target.value)}
+                                        value={privacy}
                                     >
                                         <option value="private">Private</option>
-                                        <option value="protected">Public</option>
+                                        <option value="public">Public</option>
                                     </select>
                                 </div>
                                 <button
