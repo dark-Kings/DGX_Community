@@ -216,7 +216,7 @@ const Discussion = () => {
                                         placeholder="Enter tags and press enter"
                                         value={tagInput}
                                         onChange={handleTagInputChange}
-                                        onKeyPress={handleTagInputKeyPress}
+                                        // onKeyPress={handleTagInputKeyPress}
                                     />
                                     <div className="mt-2 flex flex-wrap">
                                         {tags.map((tag, index) => (
