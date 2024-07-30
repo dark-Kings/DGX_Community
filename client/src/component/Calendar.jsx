@@ -204,7 +204,7 @@ const Calendar = () => {
       </div>
 
       {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50">
           <div className="bg-white rounded-lg shadow-lg p-5 max-w-7xl w-full max-h-[90vh] overflow-y-auto z-50">
             <h2 className="text-xl font-bold mb-4">Add New Event</h2>
             <input
@@ -349,29 +349,29 @@ const Calendar = () => {
       )}
 
 {selectedEvent && (
-        <div id="event-detail" className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white rounded-lg shadow-lg p-5 max-w-7xl w-full max-h-[90vh] overflow-y-auto z-50">
-            <h2 className="text-xl font-bold mb-4">Event Details</h2>
+        <div id="event-detail" className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50">
+          <div className="bg-white shadow-lg p-5 max-w-3xl w-full max-h-[90vh] overflow-y-auto z-50">
+            <h2 className="text-4xl font-bold mb-10 flex justify-center">Event Details</h2>
             <div className="mb-4">
-              <strong>Title:</strong> <span>{selectedEvent.title}</span>
+              <strong className='text-xl underline'>Title:</strong> <span>{selectedEvent.title}</span>
             </div>
             <div className="mb-4">
-              <strong>Date & Time:</strong> <span>{moment(selectedEvent.start).format('MMMM D, YYYY h:mm A')} - {moment(selectedEvent.end).format('h:mm A')}</span>
+              <strong className='text-xl underline'>Date & Time:</strong> <span>{moment(selectedEvent.start).format('MMMM D, YYYY h:mm A')} - {moment(selectedEvent.end).format('h:mm A')}</span>
             </div>
             <div className="mb-4">
-              <strong>Category:</strong> <span>{selectedEvent.category}</span>
+              <strong className='text-xl underline'>Category:</strong> <span>{selectedEvent.category}</span>
             </div>
             <div className="mb-4">
-              <strong>Venue:</strong> <span>{selectedEvent.venue}</span>
+              <strong className='text-xl underline'>Venue:</strong> <span>{selectedEvent.venue}</span>
             </div>
             <div className="mb-4">
-              <strong>Description:</strong> <div dangerouslySetInnerHTML={{ __html: selectedEvent.description }} />
+              <strong className='text-xl underline'>Description:</strong> <div dangerouslySetInnerHTML={{ __html: selectedEvent.description }} />
             </div>
             <div className="mb-4">
-              <strong>Host:</strong> <span>{selectedEvent.host}</span>
+              <strong className='text-xl underline'>Host:</strong> <span>{selectedEvent.host}</span>
             </div>
             {selectedEvent.poster && (
-              <img src={selectedEvent.poster} alt="Event Poster" className="mb-4 w-full max-w-7xl object-cover border-2 rounded-lg border-DGXgreen" />
+              <img src={selectedEvent.poster} alt="Event Poster" className="mb-4 w-full max-w-3xl object-cover border-2 rounded-lg border-DGXgreen" />
             )}
             <div className="flex justify-center gap-4 mt-4">
               {selectedEvent.registerLink && (
