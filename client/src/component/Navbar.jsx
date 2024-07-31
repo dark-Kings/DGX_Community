@@ -66,7 +66,7 @@ const Navbar = () => {
                 <div className={clsx('fixed h-full w-screen lg:hidden bg-DGXblack/50 backdrop-blur-sm top-0 right-0 -translate-x-full transition-all z-10',
                     isSideMenuOpen && 'translate-x-0'
                 )}>
-                    <section className='text-black bg-DGXgreen/10 flex flex-col absolute left-0 top-0 h-screen p-8 gap-8 z-50 w-60'>
+                    <section className='text-DGXwhite  bg-DGXblue flex flex-col absolute left-0 top-0 h-screen p-8 gap-8 z-50 w-60'>
                         <IoMdCloseCircleOutline
                             onClick={() => setMenu(false)}
                             className='mt-0 mb-8 text-3xl cursor-pointer' />

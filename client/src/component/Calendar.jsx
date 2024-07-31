@@ -197,7 +197,7 @@ const Calendar = () => {
           startAccessor="start"
           endAccessor="end"
           style={{ height: 600, zIndex: 1 }} // Ensure calendar is behind the modal
-          className="bg-white rounded-lg shadow-lg p-5"
+          className="bg-white rounded-lg border-2 border-DGXgreen shadow-lg p-5 mb-10"
           eventPropGetter={eventStyleGetter}
           onSelectEvent={handleSelectEvent}
         />

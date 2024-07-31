@@ -180,8 +180,8 @@ const Home = () => {
                 </div>
             </section>
 
-            <section className="bg-[#f5f5f5]">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-4 lg:p-12">
+            <section className="bg-[#f5f5f5] p-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:p-12">
                     {/* Text and Button Section */}
                     <div className="flex flex-col justify-center items-center lg:items-start text-center lg:text-left m-10">
                         <div className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4">
@@ -197,13 +197,13 @@ const Home = () => {
                         </button>
                     </div>
                     {/* Carousel Section */}
-                    <div className="relative w-full h-64 lg:h-[500px] rounded-lg overflow-hidden shadow-lg shadow-black m-10">
+                    <div className="relative w-full h-[150px] lg:mt-20 lg:h-[240px] xl:mt-0 xl:h-[350px] md:h-[300px] 2xl:h-full rounded-lg overflow-hidden shadow-lg shadow-black">
                     <div className="overflow-hidden">
                             <div className="transition-transform duration-1000 ease-in-out transform translate-x-0 ">
                                 <img
                                     src={slides[currentIndex]}
                                     alt={`Slide ${currentIndex + 1}`}
-                                    className="w-full h-[500px] object-cover "
+                                    className="w-full h-full md:h-full lg:w-full lg:h-full object-contain"
                                 />
                             </div>
                         </div>
@@ -305,7 +305,7 @@ const Home = () => {
                         />
                         <img
                             alt="SavvyCal"
-                            src={images.giventures}
+                            src={images.glogo}
                             width={178}
                             height={100}
                             className="col-span-2 max-h-20 w-full object-contain lg:col-span-1"
