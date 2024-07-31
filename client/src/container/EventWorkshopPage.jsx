@@ -248,22 +248,22 @@ const EventWorkshopPage = () => {
       </div>
 
       {/* Example Usage of Card Components */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 bg-DGXblue">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 bg-DGXwhite">
         {events.map((event, index) => (
-          <CardContainer key={index} className="my-12" containerClassName="border-2 border-DGXgreen">
-            <CardBody className=" bg-gradient-to-r from-DGXblack via-DGXblue p-8 border border-DGXgreen">
+          <CardContainer key={index} className="my-12" containerClassName="border-2 border-DGXgreen bg-DGXblue">
+            <CardBody className=" bg-gradient-to-r from-DGXgray via-DGXblue to-DGXblue p-8 border border-DGXgreen">
               <CardItem translateX={10} translateY={20} rotateX={10} rotateY={20}>
-                <h2 className="text-xl font-bold">{event.title}</h2>
+                <h2 className="text-xl font-bold text-DGXgreen">{event.title}</h2>
                 <img src={event.image} alt={event.title} className="mt-10" />
               </CardItem>
               <div className="absolute bottom-4 left-4 flex gap-2">
                 <button className="px-4 py-2 bg-DGXgreen text-DGXwhite shadow-2xl rounded-md">Enroll</button>
               </div>
               <div className="absolute bottom-4 right-4 flex gap-2">
-                <button className="px-4 py-2 bg-[#d1d5db] text-black rounded-md flex items-center gap-2 shadow-2xl">
+                <button className="px-4 py-2 bg-DGXwhite text-black rounded-md flex items-center gap-2 shadow-2xl">
                   <FontAwesomeIcon icon={faThumbsUp} />
                 </button>
-                <button className="px-4 py-2 bg-[#d1d5db] text-black rounded-md flex items-center gap-2 shadow-2xl">
+                <button className="px-4 py-2 bg-DGXwhite text-black rounded-md flex items-center gap-2 shadow-2xl">
                   <FontAwesomeIcon icon={faShare} />
                 </button>
               </div>
