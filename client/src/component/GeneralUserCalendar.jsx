@@ -74,14 +74,14 @@ const GeneralUserCalendar = ({ events = dummyEvents }) => {
         startAccessor="start"
         endAccessor="end"
         style={{ height: 600 }}
-        className="bg-white rounded-lg shadow-lg p-5"
+        className="bg-white rounded-lg border-2 border-DGXgreen shadow-lg p-5 mb-10 "
         eventPropGetter={eventStyleGetter}
         onSelectEvent={handleSelectEvent}
       />
 
       {selectedEvent && (
         <div id="event-detail" className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white rounded-lg shadow-lg p-5 max-w-7xl w-full max-h-[90vh] overflow-y-auto z-50">
+          <div className="bg-white rounded-lg shadow-lg p-5 max-w-3xl w-full max-h-[90vh] overflow-y-auto z-50">
             <h2 className="text-4xl font-bold mb-10 flex justify-center">Event Details</h2>
             <div className="mb-4">
               <strong className='text-xl underline'>Title:</strong> <span>{selectedEvent.title}</span>
@@ -102,7 +102,7 @@ const GeneralUserCalendar = ({ events = dummyEvents }) => {
               <strong className='text-xl underline'>Host:</strong> <span>{selectedEvent.host}</span>
             </div>
             {selectedEvent.poster && (
-              <img src={selectedEvent.poster} alt="Event Poster" className="mb-4 w-full max-w-7xl object-cover" />
+              <img src={selectedEvent.poster} alt="Event Poster" className="mb-4 w-full max-w-3xl object-cover" />
             )}
             <div className="flex justify-center gap-4 mt-4">
               {selectedEvent.registerLink && (

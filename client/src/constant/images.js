@@ -9,8 +9,8 @@ import nvbackground from '../assets/nvbackground.jpg'
 import NvidiaBackground from '../assets/NvidiaBackground.jpg'
 import giventures from '../assets/giventures.png'
 import HeroImg from '../assets/HeroImg.png'
-import nvidiaEvent01 from '../assets/nvidiaEvent01.png'
-import nvidiaEvent02 from '../assets/nvidiaEvent02.png'
+// import nvidiaEvent01 from '../assets/nvidiaEvent01.png'
+// import nvidiaEvent02 from '../assets/nvidiaEvent02.png'
 
 import Team from '../assets/Team.png'
 import Globe from '../assets/Globe.jpg'
@@ -37,6 +37,9 @@ import Event6 from '../assets/Event6.jpeg'
 import Certificate1 from '../assets/Certificate1.png'
 import Certificate2 from '../assets/Certificate2.png'
 
+import glogo from '../assets/glogo.png' 
+import gilogowhite from '../assets/gilogowhite.png'
+
 
 
 
@@ -55,8 +58,8 @@ export default {
 
     giventures,
     HeroImg,
-    nvidiaEvent01,
-    nvidiaEvent02,
+    // nvidiaEvent01,
+    // nvidiaEvent02,
     Team,
     Globe,
     DGX,
@@ -78,6 +81,9 @@ export default {
     Event6,
     
     Certificate1,
-    Certificate2
+    Certificate2,
+
+    glogo,
+    gilogowhite 
 
 }

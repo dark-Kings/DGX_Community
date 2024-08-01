@@ -183,15 +183,15 @@ const EventWorkshopPage = () => {
   const events = [
     {
       title: "Event 1",
-      image: `${images.nvidiaEvent01}`,
+      image: `${images.Event1}`,
     },
     {
       title: "Event 2",
-      image: `${images.nvidiaEvent01}`,
+      image: `${images.Event2}`,
     },
     {
       title: "Event 3",
-      image: `${images.nvidiaEvent02}`,
+      image: `${images.Event3}`,
     },
     // Add more events as needed
   ];
@@ -253,8 +253,8 @@ const EventWorkshopPage = () => {
           <CardContainer key={index} className="my-12" containerClassName="border-2 border-DGXgreen">
             <CardBody className=" bg-gradient-to-r from-DGXblack via-DGXblue p-8 border border-DGXgreen">
               <CardItem translateX={10} translateY={20} rotateX={10} rotateY={20}>
-                <h2 className="text-xl font-bold text-DGXgreen">{event.title}</h2>
-                <img src={event.image} alt={event.title} />
+                <h2 className="text-xl font-bold">{event.title}</h2>
+                <img src={event.image} alt={event.title} className="mt-10" />
               </CardItem>
               <div className="absolute bottom-4 left-4 flex gap-2">
                 <button className="px-4 py-2 bg-DGXgreen text-DGXwhite shadow-2xl rounded-md">Enroll</button>

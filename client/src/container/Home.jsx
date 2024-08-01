@@ -1,7 +1,7 @@
 // import { Link } from 'react-router-dom';
 import { images } from '../constant/index.js';
 import { useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 
 const Home = () => {
@@ -47,11 +47,23 @@ const Home = () => {
 
     // Define your slides here
     const slides = [
-        images.nvidiaEvent01,
-        images.nvidiaEvent02,
-        images.nvidiaEvent01,
+        images.Event1,
+        images.Event2,
+        images.Event3,
+        images.Event4,
+        images.Event5,
+        images.Event6
         // Add more image paths as needed
     ];
+
+    // Automatic slider functionality
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentIndex((prevIndex) => (prevIndex === slides.length - 1 ? 0 : prevIndex + 1));
+        }, 2000); // Change slide every 3 seconds
+
+        return () => clearInterval(interval);
+    }, [slides.length]);
 
     const prevSlide = () => {
         setCurrentIndex((prevIndex) =>
@@ -168,10 +180,10 @@ const Home = () => {
                 </div>
             </section>
 
-            <section className="bg-[#f5f5f5]">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-4 lg:p-8">
+            <section className="bg-[#f5f5f5] p-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:p-12">
                     {/* Text and Button Section */}
-                    <div className="flex flex-col justify-center items-center lg:items-start text-center lg:text-left">
+                    <div className="flex flex-col justify-center items-center lg:items-start text-center lg:text-left m-10">
                         <div className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4">
                             <span className="bg-gradient-to-r from-DGXgreen via-DGXblack to-DGXblue bg-clip-text text-transparent animate-pulse">
                                 Upcoming Events
@@ -185,16 +197,15 @@ const Home = () => {
                         </button>
                     </div>
                     {/* Carousel Section */}
-                    <div className="relative w-full h-64 lg:h-[500px] rounded-lg overflow-hidden">
-                        <div className="relative h-full">
-                            {slides.map((slide, index) => (
-                                <div
-                                    key={index}
-                                    className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${index === currentIndex ? 'opacity-100' : 'opacity-0'}`}
-                                >
-                                    <img src={slide} alt={`Slide ${index}`} className="w-full h-full object-cover" />
-                                </div>
-                            ))}
+                    <div className="relative w-full h-[150px] lg:mt-20 lg:h-[240px] xl:mt-0 xl:h-[350px] md:h-[300px] 2xl:h-full rounded-lg overflow-hidden shadow-lg shadow-black">
+                    <div className="overflow-hidden">
+                            <div className="transition-transform duration-1000 ease-in-out transform translate-x-0 ">
+                                <img
+                                    src={slides[currentIndex]}
+                                    alt={`Slide ${currentIndex + 1}`}
+                                    className="w-full h-full md:h-full lg:w-full lg:h-full object-contain"
+                                />
+                            </div>
                         </div>
                         <button
                             type="button"
@@ -253,7 +264,7 @@ const Home = () => {
                     <div className="max-w-2xl">
                         <h2 className="text-3xl font-bold tracking-tight text-[#111827] sm:text-4xl">Meet our leadership</h2>
                         <p className="mt-6 text-lg leading-8 text-[#4b5563]">
-                            "Our leaders harness the NVIDIA DGX system to drive AI innovation and achieve exceptional results. Explore the future of AI with their visionary guidance."
+                            &quot;Our leaders harness the NVIDIA DGX system to drive AI innovation and achieve exceptional results. Explore the future of AI with their visionary guidance.&quot;
                         </p>
                     </div>
                     <ul role="list" className="grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 xl:col-span-2">
@@ -294,7 +305,7 @@ const Home = () => {
                         />
                         <img
                             alt="SavvyCal"
-                            src={images.giventures}
+                            src={images.glogo}
                             width={178}
                             height={100}
                             className="col-span-2 max-h-20 w-full object-contain lg:col-span-1"
