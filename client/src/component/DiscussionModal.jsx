@@ -1,7 +1,8 @@
 import React from 'react';
+import { images } from '../constant';
 
 const DiscussionModal = ({ isOpen, onRequestClose, postContent = {}, comments = [] }) => {
-  const { image, content, tags = [], links = [] } = postContent;
+  const { image, content, tags = [], links = [], user = {} } = postContent;
 
   return (
     <div>
@@ -26,11 +27,24 @@ const DiscussionModal = ({ isOpen, onRequestClose, postContent = {}, comments = 
                 <div className="w-full md:w-1/2 p-4 border-b md:border-b-0 md:border-r border-gray-200 overflow-auto">
                   <h2 className="text-xl font-semibold mb-4">Post/Discussion</h2>
                   
+                  {/* User Info */}
+                  <div className="flex items-center mb-4">
+                    <img
+                      src={images.SharadSir}
+                      alt={`${user.username}'s profile`}
+                      className="w-12 h-12 rounded-full mr-3"
+                    />
+                    <div>
+                      <h3 className="text-lg font-semibold">{user.username}</h3>
+                      <p className="text-gray-500">{user.timestamp}</p>
+                    </div>
+                  </div>
+
                   {/* Image */}
                   {image && (
                     <div className="mb-4">
                       <img
-                        src={image}
+                        src={images.nvidiaEvent01}
                         alt="Post"
                         className="w-full h-auto rounded-lg"
                       />

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { FaSearch, FaThumbsUp, FaComment, FaWindowClose } from 'react-icons/fa';
 import DiscussionModal from '../component/DiscussionModal';
+import { images } from '../constant';
 
 const Discussion = () => {
     const hotTopics = [
@@ -214,7 +215,7 @@ const Discussion = () => {
                                         placeholder="Enter tags and press enter"
                                         value={tagInput}
                                         onChange={handleTagInputChange}
-                                        // onKeyPress={handleTagInputKeyPress}
+                                    // onKeyPress={handleTagInputKeyPress}
                                     />
                                     <div className="mt-2 flex flex-wrap">
                                         {tags.map((tag, index) => (
@@ -276,10 +277,10 @@ const Discussion = () => {
                             {selectedSection === 'all' && (
                                 <section className="bg-gray-100 p-4 rounded-lg shadow-lg border-DGXgreen border">
                                     <div className="flex flex-col md:flex-row md:max-w-xl lg:max-w-full bg-white rounded-lg overflow-hidden">
-                                        <div className="w-full md:w-1/4">
+                                        <div className="w-full md:w-1/4  flex items-center justify-center bg-gray-200">
                                             <img
-                                                className="object-cover w-xsm h-20 md:h-auto md:rounded-none rounded-t-sm md:rounded-l-sm"
-                                                // src={images.robo}
+                                                className="object-cover w-full   h-20 md:h-auto md:rounded-none rounded-t-sm md:rounded-l-sm"
+                                                src={images.robo}
                                                 alt="Technology"
                                             />
                                         </div>
