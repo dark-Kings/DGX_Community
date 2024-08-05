@@ -136,17 +136,17 @@ const DiscussionModal = ({
         <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50 transition-opacity duration-300 flex justify-center items-center">
           {/* Modal */}
           <div
-            className={`w-[calc(100%-4rem)] h-[calc(100%-4rem)] md:w-[calc(100%-2rem)] md:h-[calc(100%-2rem)] bg-DGXwhite transition-transform shadow-lg transform ${
+            className={`w-[calc(100%-1rem)] h-[calc(100%-1rem)] sm:w-[calc(100%-2rem)] sm:h-[calc(100%-2rem)] lg:w-[calc(100%-4rem)] lg:h-[calc(100%-4rem)] xl:w-[calc(100%-6rem)] xl:h-[calc(100%-6rem)] bg-DGXwhite transition-transform shadow-lg transform ${
               isOpen ? "translate-y-0" : "translate-y-full"
-            } z-50 flex flex-col md:flex-row`}
+            } z-50 flex flex-col overflow-auto`}
           >
-            <div className="px-5 w-full flex flex-col">
+            <div className="px-2 sm:px-5 w-full flex flex-col flex-grow overflow-auto">
               <div className="flex justify-between">
                 {/* <div className="p-4"> */}
-                <div className="border-l-4 border-DGXblue flex items-center justify-between p-4">
+                <div className="border-l-4 border-DGXblue flex items-center justify-between p-2 sm:p-4">
                   <img
                     src={discussion.image}
-                    className="w-24 object-cover rounded-full aspect-square"
+                    className="w-16 sm:w-24 object-cover rounded-full aspect-square"
                     alt=""
                   />
                   <div className="p-4">
@@ -163,7 +163,7 @@ const DiscussionModal = ({
                 </div>
                 {/* </div> */}
                 <button
-                  className="text-4xl self-start"
+                  className="text-2xl sm:text-4xl self-start"
                   onClick={onRequestClose}
                 >
                   {" "}
@@ -171,16 +171,16 @@ const DiscussionModal = ({
                 </button>
               </div>
 
-              <div className="bg-DGXwhite p-4 rounded-lg flex flex-grow flex-col md:flex-row overflow-auto">
+              <div className="bg-DGXwhite p-2 sm:p-4 rounded-lg flex flex-grow flex-col md:flex-row overflow-auto">
                 {/* Post/Discussion Section */}
-                <div className="w-full md:w-1/2 p-4 border-b md:border-b-0 md:border-r border-gray-200 overflow-auto">
-                  <h2 className="text-xl font-semibold mb-4">
+                <div className="w-full md:w-1/2 p-2 sm:p-4 border-b md:border-b-0 md:border-r border-gray-200 overflow-auto">
+                  <h2 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-4">
                     {discussion.title}
                   </h2>
 
                   {/* Image */}
                   {discussion.image && (
-                    <div className="mb-4">
+                    <div className="mb-4 sm:mb-4">
                       <img
                         src={discussion.image}
                         alt="Post"
@@ -191,18 +191,18 @@ const DiscussionModal = ({
 
                   {/* Content */}
                   {discussion.content && (
-                    <div className="mb-4">{discussion.content}</div>
+                    <div className="mb-2 sm:mb-4">{discussion.content}</div>
                   )}
 
                   {/* Tags */}
                   {discussion.tags.length > 0 && (
-                    <div className="mb-4">
-                      <h3 className="text-lg font-semibold">Tags:</h3>
-                      <ul className="flex flex-wrap mt-2">
+                    <div className="mb-2 sm:mb-4">
+                      <h3 className="text-md sm:text-lg font-semibold">Tags:</h3>
+                      <ul className="flex flex-wrap mt-1 sm:mt-2">
                         {discussion.tags.map((tag, index) => (
                           <li
                             key={index}
-                            className="bg-gray-200 text-gray-700 px-2 py-1 rounded-full mr-2 mb-2"
+                            className="bg-DGXblue text-DGXwhite py-1 px-2 rounded-full text-xs sm:text-sm mr-2 mb-2"
                           >
                             {tag}
                           </li>
@@ -213,16 +213,16 @@ const DiscussionModal = ({
 
                   {/* Links */}
                   {discussion.links.length > 0 && (
-                    <div className="">
-                      <h3 className="text-lg font-semibold">Links:</h3>
-                      <ul className="mt-2 flex flex-wrap gap-x-6">
+                    <div>
+                      <h3 className="text-md sm:text-lg font-semibold">Links:</h3>
+                      <ul className="list-disc list-inside">
                         {discussion.links.map((link, index) => (
-                          <li key={index} className="mb-2">
+                          <li key={index}>
                             <a
                               href={link}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-DGXblue underline"
+                              className="text-DGXblue"
                             >
                               {link}
                             </a>
@@ -234,38 +234,52 @@ const DiscussionModal = ({
                 </div>
 
                 {/* Comments Section */}
-                <div className="w-full md:w-1/2 p-4 overflow-auto">
-                  <div>
+                <div className="w-full md:w-1/2 p-2 sm:p-4 overflow-auto flex flex-col flex-grow">
+                  <h2 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-4">
+                    Comments
+                  </h2>
+                  <ul className="space-y-4">
                     {dissComments.map((comment, index) => (
-                      <div className="text-white bg-DGXblue m-4 rounded shadow-lg p-4">
-                        <div className="border-b-4 border-DGXgreen pb-2 flex items-center gap-4">
-                          <img src={discussion.image} className="w-12 rounded-full object-cover aspect-square" alt="" />
-                          <h3 className="text-3xl">{comment.usernamr}</h3>
+                      <li
+                        key={index}
+                        className="p-2 sm:p-4 border rounded-lg space-y-2"
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="text-md sm:text-lg font-semibold">
+                            {comment.username}
+                          </span>
+                          <span className="text-xs sm:text-sm text-gray-500">
+                            {comment.timestamp}
+                          </span>
                         </div>
-                        <p className="p-2">{comment.commentData}</p>
-                        <div className="flex items-center justify-between pe-4 border-t-2">
-                          <span>{comment.timestamp}</span>
-                          <div className="flex items-center gap-2"><FaThumbsUp/>{comment.likes}</div>
+                        <div className="text-md sm:text-lg">{comment.commentData}</div>
+                        <div className="flex items-center gap-2">
+                          <FaThumbsUp />
+                          <span>{comment.likes}</span>
                         </div>
-                        <div className="m-4 text-DGXblue">
-                          {comment.replies.map((data, index) => (
-                            <div className="bg-slate-50 my-4 rounded p-2">
-                              <div className="border-b-2 border-DGXblue pb-1 flex items-center gap-2">
-                              <img src={discussion.image} className="w-6 rounded-full object-cover aspect-square" alt="" />
-                              <h4 className="text-xl">{data.username}</h4>
+                        <div>
+                          {comment.replies.map((reply, replyIndex) => (
+                            <div
+                              key={replyIndex}
+                              className="ml-4 p-2 sm:p-4 border-l border-gray-200"
+                            >
+                              <div className="flex items-center justify-between">
+                                <span className="text-md sm:text-lg font-semibold">
+                                  {reply.username}
+                                </span>
+                                <span className="text-xs sm:text-sm text-gray-500">
+                                  {reply.timestamp}
+                                </span>
                               </div>
-                              <p className="py-1">
-                              {data.reply}
-                              </p>
-                              <div className="flex items-center justify-between pe-4 border-t-2">
-                          <span>{data.timestamp}</span>
-                          {/* <div className="flex items-center gap-2"><FaThumbsUp/>{comment.likes}</div> */}
-                        </div>
+                              <div className="text-md sm:text-lg">
+                                {reply.reply}
+                              </div>
                             </div>
                           ))}
                         </div>
-                      </div>
+                      </li>
                     ))}
+                    </ul>
                   </div>
                   <div className="p-4 flex flex-col gap-2">
                     <textarea className="rounded border-2 border-DGXblue p-2" type="text" />
@@ -275,7 +289,6 @@ const DiscussionModal = ({
               </div>
             </div>
           </div>
-        </div>
       )}
     </div>
   );
