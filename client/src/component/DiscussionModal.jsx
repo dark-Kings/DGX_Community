@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-import React from 'react';
-import { images } from '../constant';
-
-const DiscussionModal = ({ isOpen, onRequestClose, postContent = {}, comments = [] }) => {
-  const { image, content, tags = [], links = [], user = {} } = postContent;
-=======
 import React from "react";
 import { FaThumbsUp, FaComment } from "react-icons/fa";
 
@@ -15,7 +8,6 @@ const DiscussionModal = ({
   comments = [],
 }) => {
   const { image, content, tags = [], links = [] } = postContent;
->>>>>>> c49da9027f8a0ff51a90f649f2b2cdd5ea397559
 
   const user = {
     userProfile: "",
@@ -182,36 +174,15 @@ const DiscussionModal = ({
               <div className="bg-DGXwhite p-4 rounded-lg flex flex-grow flex-col md:flex-row overflow-auto">
                 {/* Post/Discussion Section */}
                 <div className="w-full md:w-1/2 p-4 border-b md:border-b-0 md:border-r border-gray-200 overflow-auto">
-<<<<<<< HEAD
-                  <h2 className="text-xl font-semibold mb-4">Post/Discussion</h2>
-                  
-                  {/* User Info */}
-                  <div className="flex items-center mb-4">
-                    <img
-                      src={images.SharadSir}
-                      alt={`${user.username}'s profile`}
-                      className="w-12 h-12 rounded-full mr-3"
-                    />
-                    <div>
-                      <h3 className="text-lg font-semibold">{user.username}</h3>
-                      <p className="text-gray-500">{user.timestamp}</p>
-                    </div>
-                  </div>
-=======
                   <h2 className="text-xl font-semibold mb-4">
                     {discussion.title}
                   </h2>
->>>>>>> c49da9027f8a0ff51a90f649f2b2cdd5ea397559
 
                   {/* Image */}
                   {discussion.image && (
                     <div className="mb-4">
                       <img
-<<<<<<< HEAD
-                        src={images.nvidiaEvent01}
-=======
                         src={discussion.image}
->>>>>>> c49da9027f8a0ff51a90f649f2b2cdd5ea397559
                         alt="Post"
                         className="w-full h-auto rounded-lg"
                       />
