@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { FaSearch, FaThumbsUp, FaComment, FaWindowClose } from 'react-icons/fa';
 import DiscussionModal from '../component/DiscussionModal';
+import { images } from '../constant';
 
 const Discussion = () => {
     const hotTopics = [
@@ -33,8 +34,9 @@ const Discussion = () => {
     const [links, setLinks] = useState([]);
     const [linkInput, setLinkInput] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
-    // const [isImageUploaded, setIsImageUploaded] = useState(false);
+    const [discussions, setDiscussions] = useState([]);
     const [privacy, setPrivacy] = useState('private');
+    const [selectedDiscussion, setSelectedDiscussion] = useState(null);
 
     const toggleNav = () => setIsNavOpen(!isNavOpen);
 
@@ -46,7 +48,10 @@ const Discussion = () => {
 
     const handleComment = () => setCommentCount(commentCount + 1);
 
-    const openModal = () => setModalIsOpen(true);
+    const openModal = (discussion) => {
+        setSelectedDiscussion(discussion);
+        setModalIsOpen(true);
+    };
 
     const closeModal = () => {
         setModalIsOpen(false);
@@ -68,7 +73,6 @@ const Discussion = () => {
     const handleImageChange = (e) => {
         if (e.target.files && e.target.files[0]) {
             setSelectedImage(URL.createObjectURL(e.target.files[0]));
-            setIsImageUploaded(true);
         }
     };
 
@@ -89,17 +93,18 @@ const Discussion = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Collect form data from state
-        console.log("Title:", title);
-        console.log("Content:", content);
-        console.log("Tags:", tags.join(', '));
-        console.log("Links:", links.join(', '));
-        console.log("Image:", selectedImage);
-        console.log("Privacy:", privacy);
+        const newDiscussion = {
+            title,
+            content,
+            tags,
+            links,
+            image: selectedImage,
+            privacy
+        };
 
-        // Handle form submission logic here, e.g., sending data to an API
+        setDiscussions([...discussions, newDiscussion]);
 
-        // After handling the form submission, you may want to reset the form fields
+        // Reset the form fields
         setTitle('');
         setContent('');
         setTags([]);
@@ -112,13 +117,13 @@ const Discussion = () => {
 
     return (
         <div>
-            <header className="flex flex-wrap sm:justify-start sm:flex-nowrap w-full bg-DGXblue text-sm py-4 ">
+            <header className="flex flex-wrap sm:justify-start sm:flex-nowrap w-full bg-DGXblue text-sm py-4">
                 <nav className="max-w-[85rem] w-full mx-auto px-4 flex flex-wrap basis-full items-center justify-between" aria-label="Global">
                     <div className="sm:order-4 flex items-center w-full sm:w-auto mt-4 sm:mt-0 sm:ml-4">
                         <div className="relative w-full sm:w-64">
                             <input
                                 type="text"
-                                className="w-full py-2 pl-10 pr-4 bg-white border border-gray-200 rounded-lg shadow-sm text-gray-800 focus:border-DGXgreen focus:ring-DGXgreen   "
+                                className="w-full py-2 pl-10 pr-4 bg-white border border-gray-200 rounded-lg shadow-sm text-gray-800 focus:border-DGXgreen focus:ring-DGXgreen"
                                 placeholder="Search..."
                                 value={searchQuery}
                                 onChange={handleSearchChange}
@@ -131,7 +136,7 @@ const Discussion = () => {
                     <div className="sm:order-3 flex items-center gap-x-2">
                         <button
                             type="button"
-                            className="sm:hidden hs-collapse-toggle p-2.5 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none "
+                            className="sm:hidden hs-collapse-toggle p-2.5 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
                             aria-controls="navbar-alignment"
                             aria-label="Toggle navigation"
                             onClick={toggleNav}
@@ -163,210 +168,222 @@ const Discussion = () => {
                     </button>
                 </nav>
             </header>
-            {modalIsOpen && <DiscussionModal isOpen={modalIsOpen} onRequestClose={closeModal} />}
-            <div className="flex  md:w-6/6 lg:w-6/6 flex-col md:flex-row px-4 py-8 space-y-6 md:space-y-0">
-                <main className="w-full md:w-5/6 lg:w-5/6 mx-4 order-1 md:order-2">
-                    {isFormOpen ? (
-                        <section className="relative">
-                            <h2 className="text-2xl font-bold text-DGXblue mb-4">Start a New Topic</h2>
-                            <button
-                                className="absolute top-0 right-0 mb-5 p-2 bg-DGXblue text-white rounded-full"
-                                onClick={closeModal}
-                            >
-                                <FaWindowClose />
-                            </button>
-                            <form className="bg-gray-100 p-4 rounded-lg shadow-lg" onSubmit={handleSubmit}>
+            {modalIsOpen && selectedDiscussion && (
+                <DiscussionModal
+                    isOpen={modalIsOpen}
+                    onRequestClose={closeModal}
+                    discussion={selectedDiscussion}
+                />
+            )}
+            <div className="flex md:w-6/6 lg:w-6/6 md:flex mx-auto bg-white rounded-md border border-gray-200 shadow-md mt-4 mb-4 p-4">
+                <aside className="lg:w-1/4 px-4">
+                    <div className="mb-8">
+                        <h2 className="text-2xl font-bold mb-4">Community Highlights</h2>
+                        <div className="space-y-4">
+                            {hotTopics.map((topic, index) => (
+                                <div
+                                    key={index}
+                                    className="bg-gradient-to-r from-DGXblue   rounded-lg shadow-lg p-4 border border-DGXblack transition-transform transform hover:scale-105 hover:shadow-xl"
+                                >
+                                    <h3 className="text-xl font-semibold">
+                                        <a href={topic.link} className="text-DGXblack hover:underline">
+                                            {topic.title}
+                                        </a>
+                                    </h3>
+                                    <p className="text-DGXblack mt-2">{topic.description}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    <div>
+                        <h2 className="text-2xl font-bold mb-4">Top Contributors</h2>
+                        <div className="space-y-2">
+                            {topUsers.map((user, index) => (
+                                <div
+                                    key={index}
+                                    className="flex justify-between items-center bg-DGXblue border border-gray-200 rounded-lg shadow-sm p-3 hover:shadow-xl hover:scale-105 transition-colors"
+                                >
+                                    <span className="font-medium text-white">{user.name}</span>
+                                    <span className="text-white">{user.points} points</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </aside>
+
+
+                <section className="lg:w-2/3 px-4">
+                    <h2 className="text-2xl font-bold mb-4">{selectedSection.charAt(0).toUpperCase() + selectedSection.slice(1)} Discussions</h2>
+                    <div className="flex flex-col space-y-4">
+                        {isFormOpen && (
+                            <form onSubmit={handleSubmit} className="border border-gray-300 rounded-lg p-4">
+                                <h3 className="text-lg font-bold mb-4">Start a New Discussion</h3>
+
                                 <div className="mb-4">
-                                    <label htmlFor="title" className="block text-gray-700 ">Title</label>
+                                    <label className="block text-gray-700 font-bold mb-2" htmlFor="title">
+                                        Title
+                                    </label>
                                     <input
-                                        type="text"
                                         id="title"
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md "
-                                        placeholder="Enter topic title"
+                                        type="text"
+                                        className="w-full px-3 py-2 border rounded-lg"
+                                        value={title}
+                                        onChange={(e) => setTitle(e.target.value)}
                                     />
                                 </div>
+
                                 <div className="mb-4">
-                                    <label htmlFor="content" className="block text-gray-700 ">Content</label>
+                                    <label className="block text-gray-700 font-bold mb-2" htmlFor="content">
+                                        Content
+                                    </label>
                                     <textarea
                                         id="content"
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md "
-                                        placeholder="Enter topic content"
+                                        className="w-full px-3 py-2 border rounded-lg"
                                         rows="4"
-                                    ></textarea>
-                                </div>
-                                <div className="mb-4">
-                                    <label htmlFor="image" className="block text-gray-700 ">Upload Image</label>
-                                    <input
-                                        type="file"
-                                        id="image"
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md "
-                                        accept="image/*"
-                                        onChange={handleImageChange}
+                                        value={content}
+                                        onChange={(e) => setContent(e.target.value)}
                                     />
-                                    {selectedImage && <img src={selectedImage} alt="Selected" className="mt-4 max-h-48" />}
                                 </div>
+
                                 <div className="mb-4">
-                                    <label htmlFor="tags" className="block text-gray-700 ">Tags</label>
+                                    <label className="block text-gray-700 font-bold mb-2">
+                                        Tags
+                                    </label>
                                     <input
                                         type="text"
-                                        id="tags"
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md "
-                                        placeholder="Enter tags and press enter"
+                                        className="w-full px-3 py-2 border rounded-lg"
                                         value={tagInput}
                                         onChange={handleTagInputChange}
-                                        // onKeyPress={handleTagInputKeyPress}
+                                        onKeyPress={handleTagInputKeyPress}
+                                        placeholder="Press Enter to add a tag"
                                     />
                                     <div className="mt-2 flex flex-wrap">
                                         {tags.map((tag, index) => (
-                                            <span key={index} className="bg-DGXgreen text-DGXwhite rounded-full px-3 py-1 mr-2 mb-2 flex items-center">
-                                                {tag}
+                                            <div key={index} className="flex items-center bg-DGXgreen text-white rounded-full px-3 py-1 mr-2 mt-2">
+                                                <span>{tag}</span>
                                                 <button
                                                     type="button"
-                                                    className="ml-2 text-sm text-red-600"
+                                                    className="ml-2 focus:outline-none"
                                                     onClick={() => removeTag(tag)}
                                                 >
-                                                    &times;
+                                                    <FaWindowClose />
                                                 </button>
-                                            </span>
+                                            </div>
                                         ))}
                                     </div>
                                 </div>
+
                                 <div className="mb-4">
-                                    <label className="block text-sm font-medium text-gray-700">Links</label>
+                                    <label className="block text-gray-700 font-bold mb-2">
+                                        Links
+                                    </label>
                                     <input
                                         type="text"
+                                        className="w-full px-3 py-2 border rounded-lg"
                                         value={linkInput}
                                         onChange={handleLinkInputChange}
                                         onKeyPress={handleLinkInputKeyPress}
-                                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-DGXgreen focus:border-DGXgreen sm:text-sm"
-                                        placeholder="Enter links separated by commas"
+                                        placeholder="Press Enter to add a link"
                                     />
-                                    <div className="mt-2">
+                                    <div className="mt-2 flex flex-wrap">
                                         {links.map((link, index) => (
-                                            <span key={index} className="inline-flex items-center px-3 py-1 text-sm font-medium text-white bg-DGXblue rounded-full mr-2">
-                                                {link}
-                                                <button type="button" onClick={() => removeLink(link)} className="ml-2 text-white hover:text-gray-200">
+                                            <div key={index} className="flex items-center bg-DGXgreen text-white rounded-full px-3 py-1 mr-2 mt-2">
+                                                <span>{link}</span>
+                                                <button
+                                                    type="button"
+                                                    className="ml-2 focus:outline-none"
+                                                    onClick={() => removeLink(link)}
+                                                >
                                                     <FaWindowClose />
                                                 </button>
-                                            </span>
+                                            </div>
                                         ))}
                                     </div>
                                 </div>
+
                                 <div className="mb-4">
-                                    <label htmlFor="privacy" className="block text-gray-700 ">Privacy</label>
+                                    <label className="block text-gray-700 font-bold mb-2">
+                                        Image
+                                    </label>
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={handleImageChange}
+                                    />
+                                    {selectedImage && (
+                                        <div className="mt-2">
+                                            <img src={selectedImage} alt="Selected" className="max-h-40" />
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className="mb-4">
+                                    <label className="block text-gray-700 font-bold mb-2">
+                                        Privacy
+                                    </label>
                                     <select
-                                        id="privacy"
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md "
+                                        value={privacy}
+                                        onChange={handlePrivacyChange}
+                                        className="w-full px-3 py-2 border rounded-lg"
                                     >
                                         <option value="private">Private</option>
-                                        <option value="protected">Public</option>
+                                        <option value="protected">Protected</option>
+                                        <option value="public">Public</option>
                                     </select>
                                 </div>
-                                <button
-                                    type="submit"
-                                    className={`px-4 py-2 rounded-md shadow-sm bg-DGXgreen text-DGXwhite hover:bg-DGXblue`}
-                                >
-                                    Submit
-                                </button>
+
+                                <div className="flex justify-end space-x-2">
+                                    <button
+                                        type="button"
+                                        className="bg-gray-200 text-gray-700 py-2 px-4 rounded-lg"
+                                        onClick={closeModal}
+                                    >
+                                        Close
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        className="bg-DGXgreen text-white py-2 px-4 rounded-lg"
+                                    >
+                                        Submit
+                                    </button>
+                                </div>
                             </form>
-                        </section>
 
-                    ) : (
-                        <>
-                            {selectedSection === 'all' && (
-                                <section className="bg-gray-100 p-4 rounded-lg shadow-lg border-DGXgreen border">
-                                    <div className="flex flex-col md:flex-row md:max-w-xl lg:max-w-full bg-white rounded-lg overflow-hidden">
-                                        <div className="w-full md:w-1/4">
-                                            <img
-                                                className="object-cover w-xsm h-20 md:h-auto md:rounded-none rounded-t-sm md:rounded-l-sm"
-                                                // src={images.robo}
-                                                alt="Technology"
-                                            />
-                                        </div>
-                                        <div className="w-full md:w-3/4 p-4 flex flex-col justify-between">
-                                            <h5 className="text-2xl font-bold text-gray-900 mb-2">
-                                                Noteworthy Technology Acquisitions 2021
-                                            </h5>
-                                            <p className="text-gray-700 mb-2">
-                                                Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
-                                            </p>
-                                            <div className="flex items-center justify-between mt-2">
-                                                <span className="text-gray-500 text-sm">Posted 2 hours ago</span>
-                                                <div className="flex items-center space-x-6 z-0">
-                                                    <button
-                                                        onClick={handleLike}
-                                                        className="flex items-center text-gray-600 hover:text-DGXgreen transition-transform transform hover:scale-110 focus:outline-none"
-                                                    >
-                                                        <FaThumbsUp className="text-xl mr-1" />
-                                                        <span className="text-sm font-medium">{likeCount}</span>
-                                                    </button>
-                                                    <button
-                                                        onClick={handleComment}
-                                                        className="flex items-center text-gray-600 hover:text-DGXgreen transition-transform transform hover:scale-110 focus:outline-none"
-                                                    >
-                                                        <FaComment className="text-xl mr-1" />
-                                                        <span className="text-sm font-medium">{commentCount}</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div
-                                                onClick={openModal}
-                                                className="mt-2 text-DGXgreen hover:underline hover:text-DGXblue"
-                                            >
-                                                Be a part of the discussion
-                                            </div>
-                                        </div>
-                                    </div>                                </section>
-
-                            )}
-                            {selectedSection === 'top' && (
-                                <section className="bg-gray-100 p-6 rounded-lg shadow-lg">
-                                    <h2 className="text-2xl font-bold text-DGXblue mb-4">Top Discussions</h2>
-                                    <div className="bg-white p-4 rounded-lg shadow-md">
-                                        <h1 className="text-xl font-bold text-gray-900">TOP</h1>
-                                        {/* Add content for Top Discussions here */}
+                        )}
+                        {discussions.map((discussion, index) => (
+                            <div key={index} className="border border-gray-300 rounded-lg p-4">
+                                <h3 className="text-lg font-bold cursor-pointer" onClick={() => openModal(discussion)}>
+                                    {discussion.title}
+                                </h3>
+                                <p className="text-gray-600">{discussion.content}</p>
+                                {discussion.image && (
+                                    <div className="mt-2">
+                                        <img src={discussion.image} alt="Discussion" className="max-h-40" />
                                     </div>
-                                </section>
-                            )}
-                            {selectedSection === 'recent' && (
-                                <section className="bg-gray-100 p-6 rounded-lg shadow-lg">
-                                    <h2 className="text-2xl font-bold text-DGXblue mb-4">Recent Discussions</h2>
-                                    <div className="bg-white p-4 rounded-lg shadow-md">
-                                        <h1 className="text-xl font-bold text-gray-900">RECENT</h1>
-                                        {/* Add content for Recent Discussions here */}
-                                    </div>
-                                </section>
-                            )}
-                        </>
-                    )}
-                </main>
-
-                <aside className="w-full md:w-1/6 lg:w-1/6 bg-gray-200 p-4 rounded-lg shadow-lg order-2 md:order-1">
-                    <h2 className="text-xl font-bold mb-4">Hot Topics</h2>
-                    {hotTopics.map((topic, index) => (
-                        <div key={index} className="mb-2 p-2 bg-white rounded-lg shadow-md border border-DGXgreen ">
-                            <a href={topic.link} className="text-lg font-semibold text-DGXblue  hover:underline">
-                                {topic.title}
-                            </a>
-                            <p className="mt-2 text-gray-600 0">{topic.description}</p>
-                        </div>
-                    ))}
-                </aside>
-
-                <aside className="w-full md:w-1/6 lg:w-1/6 bg-gray-200 p-4 rounded-lg shadow-lg order-3 md:order-2">
-                    <h2 className="text-xl font-bold mb-4">Top Users</h2>
-                    {topUsers.map((user, index) => (
-                        <div key={index} className="mb-2 p-2 bg-white rounded-lg shadow-md border border-DGXgreen ">
-                            <div className="text-lg font-semibold text-DGXblue">
-                                {user.name}
+                                )}
+                                <div className="mt-2 flex flex-wrap">
+                                    {discussion.tags.map((tag, tagIndex) => (
+                                        <span key={tagIndex} className="bg-DGXgreen text-white rounded-full px-3 py-1 mr-2 mt-2">{tag}</span>
+                                    ))}
+                                </div>
+                                <div className="mt-2 flex flex-wrap">
+                                    {discussion.links.map((link, linkIndex) => (
+                                        <a key={linkIndex} href={link} className="text-DGXgreen hover:underline mr-2 mt-2">{link}</a>
+                                    ))}
+                                </div>
+                                <div className="mt-4 flex items-center space-x-4">
+                                    <button className="flex items-center text-DGXgreen" onClick={handleLike}>
+                                        <FaThumbsUp className="mr-2" /> {likeCount} Likes
+                                    </button>
+                                    <button className="flex items-center text-DGXgreen" onClick={handleComment}>
+                                        <FaComment className="mr-2" /> {commentCount} Comments
+                                    </button>
+                                </div>
                             </div>
-                            <p className="text-gray-600">Points: {user.points}</p>
-                        </div>
-                    ))}
-                </aside>
+                        ))}
+                    </div>
+                </section>
             </div>
-
-
         </div>
     );
 };
