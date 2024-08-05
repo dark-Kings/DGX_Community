@@ -232,9 +232,16 @@ const DiscussionModal = ({
                     </div>
                   )}
                 </div>
-
+                
                 {/* Comments Section */}
                 <div className="w-full md:w-1/2 p-2 sm:p-4 overflow-auto flex flex-col flex-grow">
+                  <div className="p-4 grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4">
+                    <textarea className=" md:w-auto rounded border-2 border-DGXblue p-2 xl:w-full" type="text" />
+                    <button className="w-full md:w-auto bg-DGXgreen hover:bg-DGXblue rounded text-white text-xl p-2 md:self-end xl:w-1/4">Add Comment</button>
+                  </div>
+
+
+
                   <h2 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-4">
                     Comments
                   </h2>
@@ -280,10 +287,6 @@ const DiscussionModal = ({
                       </li>
                     ))}
                     </ul>
-                  </div>
-                  <div className="p-4 flex flex-col gap-2">
-                    <textarea className="rounded border-2 border-DGXblue p-2" type="text" />
-                    <button className="w-2/5 bg-DGXgreen hover:bg-DGXblue rounded text-white text-xl p-2 self-end">Add Comment</button>
                   </div>
                 </div>
               </div>

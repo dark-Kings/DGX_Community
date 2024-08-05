@@ -46,7 +46,13 @@ const Discussion = () => {
 
     const handleLike = () => setLikeCount(likeCount + 1);
 
-    const handleComment = () => setCommentCount(commentCount + 1);
+    const handleComment = (discussion) => {
+        // Increment the comment count
+        setCommentCount(prevCount => prevCount + 1);
+    
+        // Open the modal with the selected discussion
+        openModal(discussion);
+    };
 
     const openModal = (discussion) => {
         setSelectedDiscussion(discussion);
@@ -183,7 +189,7 @@ const Discussion = () => {
                             {hotTopics.map((topic, index) => (
                                 <div
                                     key={index}
-                                    className="bg-gradient-to-r from-DGXblue   rounded-lg shadow-lg p-4 border border-DGXblack transition-transform transform hover:scale-105 hover:shadow-xl"
+                                    className="rounded-lg shadow-lg p-4 border border-DGXblack transition-transform transform hover:scale-105 hover:shadow-xl"
                                 >
                                     <h3 className="text-xl font-semibold">
                                         <a href={topic.link} className="text-DGXblack hover:underline">
@@ -351,36 +357,47 @@ const Discussion = () => {
 
                         )}
                         {discussions.map((discussion, index) => (
-                            <div key={index} className="border border-gray-300 rounded-lg p-4">
-                                <h3 className="text-lg font-bold cursor-pointer" onClick={() => openModal(discussion)}>
-                                    {discussion.title}
-                                </h3>
-                                <p className="text-gray-600">{discussion.content}</p>
-                                {discussion.image && (
-                                    <div className="mt-2">
-                                        <img src={discussion.image} alt="Discussion" className="max-h-40" />
-                                    </div>
-                                )}
-                                <div className="mt-2 flex flex-wrap">
-                                    {discussion.tags.map((tag, tagIndex) => (
-                                        <span key={tagIndex} className="bg-DGXgreen text-white rounded-full px-3 py-1 mr-2 mt-2">{tag}</span>
-                                    ))}
+                        <div key={index} className="border border-gray-300 rounded-lg p-4 w-full max-w-screen-sm sm:max-w-screen-md md:max-w-screen-lg lg:max-w-screen-xl xl:max-w-screen-2xl
+">
+                            <h3 className="text-lg font-bold cursor-pointer md:text-lg lg:text-xl xl:text-2xl">
+                                {discussion.title}
+                            </h3>
+                            <p className="text-gray-600 text-sm md:text-base lg:text-lg xl:text-xl">
+                                {discussion.content}
+                            </p>
+                            {discussion.image && (
+                                <div className="mt-2">
+                                    <img src={discussion.image} alt="Discussion" className="max-h-40 w-full object-cover" />
                                 </div>
-                                <div className="mt-2 flex flex-wrap">
-                                    {discussion.links.map((link, linkIndex) => (
-                                        <a key={linkIndex} href={link} className="text-DGXgreen hover:underline mr-2 mt-2">{link}</a>
-                                    ))}
-                                </div>
-                                <div className="mt-4 flex items-center space-x-4">
-                                    <button className="flex items-center text-DGXgreen" onClick={handleLike}>
-                                        <FaThumbsUp className="mr-2" /> {likeCount} Likes
-                                    </button>
-                                    <button className="flex items-center text-DGXgreen" onClick={handleComment}>
-                                        <FaComment className="mr-2" /> {commentCount} Comments
-                                    </button>
-                                </div>
+                            )}
+                            <div className="mt-2 flex flex-wrap gap-2">
+                                {discussion.tags.map((tag, tagIndex) => (
+                                    <span key={tagIndex} className="bg-DGXgreen text-white rounded-full px-3 py-1 text-xs md:text-sm lg:text-base">
+                                        {tag}
+                                    </span>
+                                ))}
                             </div>
-                        ))}
+                            <div className="mt-2 flex flex-wrap gap-2">
+                                {discussion.links.map((link, linkIndex) => (
+                                    <a key={linkIndex} href={link} className="text-DGXgreen hover:underline text-xs md:text-sm lg:text-base">
+                                        {link}
+                                    </a>
+                                ))}
+                            </div>
+                            <div className="mt-4 flex items-center space-x-4">
+                                <button className="flex items-center text-DGXgreen text-sm md:text-base lg:text-lg" onClick={handleLike}>
+                                    <FaThumbsUp className="mr-2" /> {likeCount} Likes
+                                </button>
+                                <button 
+                                    className="flex items-center text-DGXgreen text-sm md:text-base lg:text-lg" 
+                                    onClick={() => handleComment(discussion)}  // Call handleComment here
+                                >
+                                    <FaComment className="mr-2" /> {commentCount} Comments
+                                </button>
+                            </div>
+                        </div>
+                    ))}
+
                     </div>
                 </section>
             </div>
