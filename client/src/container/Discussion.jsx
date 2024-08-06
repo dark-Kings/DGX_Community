@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { FaSearch, FaThumbsUp, FaComment, FaWindowClose } from 'react-icons/fa';
 import DiscussionModal from '../component/DiscussionModal';
-import { images } from '../constant';
 
 const Discussion = () => {
     const hotTopics = [
@@ -107,7 +106,7 @@ const Discussion = () => {
             image: selectedImage,
             privacy
         };
-
+        console.log(newDiscussion)
         setDiscussions([...discussions, newDiscussion]);
 
         // Reset the form fields
@@ -359,7 +358,7 @@ const Discussion = () => {
                         {discussions.map((discussion, index) => (
                             <div key={index} className="border border-gray-300 rounded-lg p-4 w-full max-w-screen-sm sm:max-w-screen-md md:max-w-screen-lg lg:max-w-screen-xl xl:max-w-screen-2xl
 ">
-                                <div  onClick={() => openModal(discussion)}>
+                                <div onClick={() => openModal(discussion)}>
 
                                     <h3 className="text-lg font-bold cursor-pointer md:text-lg lg:text-xl xl:text-2xl">
                                         {discussion.title}
