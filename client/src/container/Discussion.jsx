@@ -91,6 +91,7 @@ const Discussion = () => {
             setLinkInput('');
         }
     };
+    
 
     const removeLink = (linkToRemove) => setLinks(links.filter(link => link !== linkToRemove));
 
@@ -102,14 +103,23 @@ const Discussion = () => {
         const newDiscussion = {
             title,
             content,
-            tags,
-            links,
+            tags: tags, // Convert tags array to string
+            links: links ,// Convert links array to string
             image: selectedImage,
             privacy
         };
+        const newDiscussion1 = {
+            title,
+            content,
+            tags: tags.join(','), // Convert tags array to string
+            links: links.join(','), // Convert links array to string
+            image: selectedImage,
+            privacy
+        };
+        console.log(newDiscussion1)
 
         setDiscussions([...discussions, newDiscussion]);
-
+        
         // Reset the form fields
         setTitle('');
         setContent('');
@@ -237,7 +247,7 @@ const Discussion = () => {
                                         onChange={(e) => setTitle(e.target.value)}
                                     />
                                 </div>
-
+                                            
                                 <div className="mb-4">
                                     <label className="block text-gray-700 font-bold mb-2" htmlFor="content">
                                         Content
