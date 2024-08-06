@@ -389,12 +389,12 @@ const Discussion = () => {
                                         {discussion.title}
                                     </h3>
                                     <p className="text-gray-600 text-sm md:text-base lg:text-lg xl:text-xl">
-                                        {discussion.content}
+                                        {discussion.content.length > 500 ? (<> {discussion.content.substring(0, 497)}  <span className='text-blue-700 cursor-pointer' onClick={() => { openModal(discussion) }}>...see more</span></>) : discussion.content}
                                     </p>
                                 </div>
                                 {discussion.image && (
                                     <div className="mt-2">
-                                        <img src={discussion.image} alt="Discussion" className="max-h-40 w-full object-cover" />
+                                        <img src={discussion.image} alt="Discussion" className="max-h-40 w-auto object-cover" />
                                     </div>
                                 )}
                                 <div className="mt-2 flex flex-wrap gap-2">
