@@ -91,6 +91,7 @@ const Discussion = () => {
         }
     };
 
+
     const removeLink = (linkToRemove) => setLinks(links.filter(link => link !== linkToRemove));
 
     const handlePrivacyChange = (e) => setPrivacy(e.target.value);
@@ -101,12 +102,21 @@ const Discussion = () => {
         const newDiscussion = {
             title,
             content,
-            tags,
-            links,
+            tags: tags, // Convert tags array to string
+            links: links,// Convert links array to string
             image: selectedImage,
             privacy
         };
-        console.log(newDiscussion)
+        const newDiscussion1 = {
+            title,
+            content,
+            tags: tags.join(','), // Convert tags array to string
+            links: links.join(','), // Convert links array to string
+            image: selectedImage,
+            privacy
+        };
+        console.log(newDiscussion1)
+
         setDiscussions([...discussions, newDiscussion]);
 
         // Reset the form fields
