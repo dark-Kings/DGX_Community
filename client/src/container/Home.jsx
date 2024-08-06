@@ -58,11 +58,23 @@ const Home = () => {
 
     // Define your slides here
     const slides = [
-        images.nvidiaEvent01,
-        images.nvidiaEvent02,
-        images.nvidiaEvent01,
+        images.Event1,
+        images.Event2,
+        images.Event3,
+        images.Event4,
+        images.Event5,
+        images.Event6
         // Add more image paths as needed
     ];
+
+    // Automatic slider functionality
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentIndex((prevIndex) => (prevIndex === slides.length - 1 ? 0 : prevIndex + 1));
+        }, 2000); // Change slide every 3 seconds
+
+        return () => clearInterval(interval);
+    }, [slides.length]);
 
     const prevSlide = () => {
         setCurrentIndex((prevIndex) =>
@@ -307,7 +319,7 @@ const Home = () => {
                         />
                         <img
                             alt="SavvyCal"
-                            src={images.giventures}
+                            src={images.glogo}
                             width={178}
                             height={100}
                             className="col-span-2 max-h-20 w-full object-contain lg:col-span-1"
@@ -332,9 +344,9 @@ const Home = () => {
                 </div>
             </div>
 
-            <div className="relative flex justify-center items-center w-full h-screen bg-[#2e6d8e] p-8">
+            {/* <div className="relative flex justify-center items-center w-full h-screen bg-[#2e6d8e] p-8">
                 <img src={images.AnimatedDGX} alt="NVIDIA DGX" className="max-w-[80%] h-auto border border-DGXgreen" />
-            </div>
+            </div> */}
 
 
 
