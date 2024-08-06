@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { FaSearch, FaThumbsUp, FaComment, FaWindowClose } from 'react-icons/fa';
 import DiscussionModal from '../component/DiscussionModal';
+import { compressImage } from '../utils/compressImage.js'
 
 const Discussion = () => {
     const hotTopics = [
@@ -75,9 +76,22 @@ const Discussion = () => {
 
     const removeTag = (tagToRemove) => setTags(tags.filter(tag => tag !== tagToRemove));
 
-    const handleImageChange = (e) => {
+    const handleImageChange = async (e) => {
         if (e.target.files && e.target.files[0]) {
-            setSelectedImage(URL.createObjectURL(e.target.files[0]));
+            // setSelectedImage(URL.createObjectURL(e.target.files[0]));
+            const file = e.target.files[0];
+
+            if (file) {
+                // Compress the image if it's larger than 500 KB
+                if (file.size > 500 * 1024) { // 500 KB in bytes
+                    const compressedFile = await compressImage(file);
+                    console.log(compressedFile)
+                    setSelectedImage(compressedFile);
+                    // setSelectedImage(URL.createObjectURL(file));
+                } else {
+                    setSelectedImage(URL.createObjectURL(file));
+                }
+            }
         }
     };
 
@@ -99,15 +113,8 @@ const Discussion = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+
         const newDiscussion = {
-            title,
-            content,
-            tags: tags, // Convert tags array to string
-            links: links,// Convert links array to string
-            image: selectedImage,
-            privacy
-        };
-        const newDiscussion1 = {
             title,
             content,
             tags: tags.join(','), // Convert tags array to string
@@ -115,9 +122,17 @@ const Discussion = () => {
             image: selectedImage,
             privacy
         };
-        console.log(newDiscussion1)
+        console.log(newDiscussion)
+        const newDiscussion1 = {
+            title,
+            content,
+            tags: tags, // Convert tags array to string
+            links: links,// Convert links array to string
+            image: selectedImage,
+            privacy
+        };
 
-        setDiscussions([...discussions, newDiscussion]);
+        setDiscussions([...discussions, newDiscussion1]);
 
         // Reset the form fields
         setTitle('');
