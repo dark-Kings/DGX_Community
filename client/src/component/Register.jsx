@@ -17,6 +17,7 @@ const Register = () => {
   const location = useLocation();
   const [email, setEmail] = useState('');
   const [referCode, setReferCode] = useState('');
+
   const urlExtract = async () => {
     const params = new URLSearchParams(location.search);
     const encryptedEmail = params.get('email');
@@ -29,10 +30,10 @@ const Register = () => {
       if (decryptedEmail && decryptedReferCode) {
         setEmail(decryptedEmail);
         // console.log(email)
-        console.log(decryptedEmail)
+        // console.log(decryptedEmail)
         setReferCode(decryptedReferCode);
         // console.log(referCode)
-        console.log(decryptedReferCode)
+        // console.log(decryptedReferCode)
       } else {
         navigate('/404');
       }
@@ -77,16 +78,16 @@ const Register = () => {
       ...prevData,
       [name]: value,
     }));
-    console.log(formData.confirmPassword);
+    // console.log(formData.confirmPassword);
     formData.confirmPassword = e.target.value
     confirmPassword(formData.newPassword, e.target.value, e.target)
   }
 
   const validateForm = (elements) => {
-    const inputAndSelectElements = elements.filter(element => 
+    const inputAndSelectElements = elements.filter(element =>
       element.tagName === 'INPUT' || element.tagName === 'SELECT'
     );
-    inputAndSelectElements.forEach((formElemment)=>{
+    inputAndSelectElements.forEach((formElemment) => {
       validateRequired(formElemment.id);
     })
     return document.querySelector('.is-invalid') === null;
@@ -111,7 +112,7 @@ const Register = () => {
     const formElements = Array.from(e.target.elements);
     const isValid = validateForm(formElements);
     if (!isValid) {
-      return 
+      return
     }
     const { newPassword,
       confirmPassword,
@@ -312,7 +313,7 @@ const Register = () => {
                   onChange={handleChange}
                   type={passwordVisible ? "text" : "password"}
                 />
-                
+
                 <button
                   type="button"
                   onClick={togglePasswordVisibility}
@@ -384,7 +385,7 @@ const Register = () => {
                 </div>
               </div>
 
-              <div className="relative">
+              <div className="  relative">
                 <label
                   className="text-DGXblack "
                   htmlFor="confirmPassword"
@@ -403,12 +404,12 @@ const Register = () => {
                 <button
                   type="button"
                   onClick={toggleConfirmPasswordVisibility}
-                  className="absolute inset-y-0 right-0 flex items-center px-4 text-DGXgreen focus:outline-none mt-8">
+                  className="absolute inset-y-0 right-0 flex   items-center px-4 text-DGXgreen focus:outline-none mt-8">
                   {confirmPasswordVisible ? <FaEye />
                     : <FaEyeLowVision />}
                 </button>
-                <div id="confirmPasswordVerify" className="invalid-feedback"></div>
               </div>
+              <div id="confirmPasswordVerify" className="invalid-feedback"></div>
             </div>
           </div>
 

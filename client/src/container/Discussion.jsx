@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FaSearch, FaThumbsUp, FaComment, FaWindowClose } from 'react-icons/fa';
 import DiscussionModal from '../component/DiscussionModal';
-import { images } from '../constant';
+import { compressImage } from '../utils/compressImage.js'
 
 const Discussion = () => {
     const hotTopics = [
@@ -76,9 +76,22 @@ const Discussion = () => {
 
     const removeTag = (tagToRemove) => setTags(tags.filter(tag => tag !== tagToRemove));
 
-    const handleImageChange = (e) => {
+    const handleImageChange = async (e) => {
         if (e.target.files && e.target.files[0]) {
-            setSelectedImage(URL.createObjectURL(e.target.files[0]));
+            // setSelectedImage(URL.createObjectURL(e.target.files[0]));
+            const file = e.target.files[0];
+
+            if (file) {
+                // Compress the image if it's larger than 500 KB
+                if (file.size > 500 * 1024) { // 500 KB in bytes
+                    const compressedFile = await compressImage(file);
+                    console.log(compressedFile)
+                    setSelectedImage(compressedFile);
+                    // setSelectedImage(URL.createObjectURL(file));
+                } else {
+                    setSelectedImage(URL.createObjectURL(file));
+                }
+            }
         }
     };
 
@@ -91,7 +104,7 @@ const Discussion = () => {
             setLinkInput('');
         }
     };
-    
+
 
     const removeLink = (linkToRemove) => setLinks(links.filter(link => link !== linkToRemove));
 
@@ -100,15 +113,8 @@ const Discussion = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+
         const newDiscussion = {
-            title,
-            content,
-            tags: tags, // Convert tags array to string
-            links: links ,// Convert links array to string
-            image: selectedImage,
-            privacy
-        };
-        const newDiscussion1 = {
             title,
             content,
             tags: tags.join(','), // Convert tags array to string
@@ -116,10 +122,18 @@ const Discussion = () => {
             image: selectedImage,
             privacy
         };
-        console.log(newDiscussion1)
+        console.log(newDiscussion)
+        const newDiscussion1 = {
+            title,
+            content,
+            tags: tags, // Convert tags array to string
+            links: links,// Convert links array to string
+            image: selectedImage,
+            privacy
+        };
 
-        setDiscussions([...discussions, newDiscussion]);
-        
+        setDiscussions([...discussions, newDiscussion1]);
+
         // Reset the form fields
         setTitle('');
         setContent('');
@@ -247,7 +261,7 @@ const Discussion = () => {
                                         onChange={(e) => setTitle(e.target.value)}
                                     />
                                 </div>
-                                            
+
                                 <div className="mb-4">
                                     <label className="block text-gray-700 font-bold mb-2" htmlFor="content">
                                         Content
@@ -369,7 +383,7 @@ const Discussion = () => {
                         {discussions.map((discussion, index) => (
                             <div key={index} className="border border-gray-300 rounded-lg p-4 w-full max-w-screen-sm sm:max-w-screen-md md:max-w-screen-lg lg:max-w-screen-xl xl:max-w-screen-2xl
 ">
-                                <div  onClick={() => openModal(discussion)}>
+                                <div onClick={() => openModal(discussion)}>
 
                                     <h3 className="text-lg font-bold cursor-pointer md:text-lg lg:text-xl xl:text-2xl">
                                         {discussion.title}

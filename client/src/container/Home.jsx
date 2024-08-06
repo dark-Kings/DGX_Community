@@ -1,11 +1,25 @@
 // import { Link } from 'react-router-dom';
 import { images } from '../constant/index.js';
 import { useNavigate } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
+import { useState, useContext, useEffect } from 'react';
+import ApiContext from '../context/ApiContext.jsx';
+import MyStoryboard from '../component/MyStoryboard.jsx';
 
 
 const Home = () => {
 
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const { userToken } = useContext(ApiContext);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    useEffect(() => {
+        if (userToken != null && userToken != undefined) {
+            setIsLoggedIn(true)
+        }
+        else {
+            setIsLoggedIn(false)
+        }
+    }, [userToken])
     const people = [
         {
             name: 'Ashiwini Thakur',
@@ -35,15 +49,12 @@ const Home = () => {
     const handleRedirect = () => {
         navigate('/EventWorkshopPage');
 
-
     };
     const handleRedirect01 = () => {
         navigate('/Discussion');
 
-
     };
 
-    const [currentIndex, setCurrentIndex] = useState(0);
 
     // Define your slides here
     const slides = [
@@ -104,160 +115,163 @@ const Home = () => {
 
 
             </div>
-            <section className="bg-[#f5f5f5]">
-                <div className="grid grid-cols-1 lg:grid-cols-2 items-center justify-items-center gap-4 bg-DGXblue p-4">
-                    {/* Text and Links Section */}
-                    <div className="flex flex-col justify-center items-center p-4">
-                        <h1 className="text-xl md:text-4xl lg:text-5xl font-bold mb-4 text-DGXwhite text-center">
-                            Join the Innovations
-                        </h1>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full p-8">
-                            {/* Event and Workshop */}
-                            <div className="flex flex-col justify-center items-center relative group">
-                                <p
-                                    onClick={handleRedirect}
-                                    className="text-base sm:text-lg md:text-xl lg:text-2xl text-DGXwhite hover:text-DGXgreen transition-colors duration-300 cursor-pointer"
-                                >
-                                    Event and Workshop
-                                </p>
-                                <div className="absolute bottom-full mb-2 hidden group-hover:flex flex-col items-center">
-                                    <div className="relative z-10 p-2 text-xs md:text-sm leading-none text-DGXwhite whitespace-no-wrap bg-DGXblack shadow-lg rounded-md">
-                                        Check it Out
-                                    </div>
-                                    <div className="w-3 h-3 -mt-1 rotate-45 bg-DGXblack"></div>
-                                </div>
-                            </div>
-                            {/* Community Ranking */}
-                            <div className="flex flex-col justify-center items-center relative group p-6">
-                                <p className="text-base sm:text-lg md:text-xl lg:text-2xl  text-DGXwhite hover:text-DGXgreen transition-colors duration-300 cursor-pointer">
-                                    Community Ranking
-                                </p>
-                                <div className="absolute bottom-full  hidden group-hover:flex flex-col items-center">
-                                    <div className="relative z-8  text-xs md:text-sm leading-none text-DGXwhite whitespace-no-wrap bg-DGXblack shadow-lg rounded-md">
-                                        Wait for the next update
-                                    </div>
-                                    <div className="w-2 h-2 -mt-1 rotate-45 bg-DGXblack"></div>
-                                </div>
-                            </div>
-                            {/* Survey and Quizzes */}
-                            <div className="flex flex-col justify-center items-center relative group p-6">
-                                <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-DGXwhite hover:text-DGXgreen">
-                                    Survey and Quizzes
-                                </p>
-                                <div className="absolute bottom-full mb-2 hidden group-hover:flex flex-col items-center">
-                                    <div className="relative z-4 p-2 text-xs md:text-sm leading-none text-DGXwhite whitespace-no-wrap bg-DGXblack shadow-lg rounded-md">
-                                        Wait for the next update
-                                    </div>
-                                    <div className="w-3 h-3 -mt-1 rotate-45 bg-DGXblack"></div>
-                                </div>
-                            </div>
-                            {/* Discussion Platform */}
-                            <div className="flex flex-col justify-center items-center relative group ">
-                                <p
-                                    onClick={handleRedirect01}
-                                    className="text-base sm:text-lg md:text-xl lg:text-2xl text-DGXwhite hover:text-DGXgreen transition-colors duration-300 cursor-pointer"
-                                >
-                                    Discussion Platform
-                                </p>
-                                <div className="absolute bottom-full mb-2 hidden group-hover:flex flex-col items-center">
-                                    <div className="relative z-10 p-2 text-xs md:text-sm leading-none text-DGXwhite whitespace-no-wrap bg-DGXblack shadow-lg rounded-md">
-                                        Be A Part Now
-                                    </div>
-                                    <div className="w-3 h-3 -mt-1 rotate-45 bg-DGXblack"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {/* Image and Text Section */}
-                    <div className="flex flex-col justify-center items-center bg-DGXwhite opacity-100 w-full h-full p-4 md:p-6 lg:p-10">
-                        <div className="text-center">
-                            <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-DGXblack">Welcome!</h1>
-                            <p className="mt-4 text-sm sm:text-base md:text-lg lg:text-xl leading-6 text-DGXblack">
-                                Hi! Are you a student, researcher, or developer looking to showcase your achievements, access certificates, and collaborate on projects? Join our DGX Community! Connect with like-minded individuals, share your accomplishments, and work on exciting projects together. Let&apos;s build a supportive and engaging space for learning and collaboration. See you there!
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
-            <section className="bg-[#f5f5f5] p-6">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:p-12">
-                    {/* Text and Button Section */}
-                    <div className="flex flex-col justify-center items-center lg:items-start text-center lg:text-left m-10">
-                        <div className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4">
-                            <span className="bg-gradient-to-r from-DGXgreen via-DGXblack to-DGXblue bg-clip-text text-transparent animate-pulse">
-                                Upcoming Events
-                            </span>
-                            <p className="mt-2 text-sm md:text-base lg:text-lg text-DGXblue">
-                                Attend our regular events and workshops to learn from the best in the industry. Enhance your skills and network with professionals.
-                            </p>
-                        </div>
-                        <button className="text-sm md:text-md lg:text-lg bg-DGXgreen text-DGXwhite py-2 px-4 lg:py-2 lg:px-5 border border-DGXblue rounded-md mt-4 hover:bg-[#27272a] transition-colors duration-300">
-                            Enroll Now
-                        </button>
-                    </div>
-                    {/* Carousel Section */}
-                    <div className="relative w-full h-[150px] lg:mt-20 lg:h-[240px] xl:mt-0 xl:h-[350px] md:h-[300px] 2xl:h-full rounded-lg overflow-hidden shadow-lg shadow-black">
-                    <div className="overflow-hidden">
-                            <div className="transition-transform duration-1000 ease-in-out transform translate-x-0 ">
-                                <img
-                                    src={slides[currentIndex]}
-                                    alt={`Slide ${currentIndex + 1}`}
-                                    className="w-full h-full md:h-full lg:w-full lg:h-full object-contain"
-                                />
+            {isLoggedIn ? <><MyStoryboard /> </> : <>
+                <section className="bg-[#f5f5f5]">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 items-center justify-items-center gap-4 bg-DGXblue p-4">
+                        {/* Text and Links Section */}
+                        <div className="flex flex-col justify-center items-center p-4">
+                            <h1 className="text-xl md:text-4xl lg:text-5xl font-bold mb-4 text-DGXwhite text-center">
+                                Join the Innovations
+                            </h1>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full p-8">
+                                {/* Event and Workshop */}
+                                <div className="flex flex-col justify-center items-center relative group">
+                                    <p
+                                        onClick={handleRedirect}
+                                        className="text-base sm:text-lg md:text-xl lg:text-2xl text-DGXwhite hover:text-DGXgreen transition-colors duration-300 cursor-pointer"
+                                    >
+                                        Event and Workshop
+                                    </p>
+                                    <div className="absolute bottom-full mb-2 hidden group-hover:flex flex-col items-center">
+                                        <div className="relative z-10 p-2 text-xs md:text-sm leading-none text-DGXwhite whitespace-no-wrap bg-DGXblack shadow-lg rounded-md">
+                                            Check it Out
+                                        </div>
+                                        <div className="w-3 h-3 -mt-1 rotate-45 bg-DGXblack"></div>
+                                    </div>
+                                </div>
+                                {/* Community Ranking */}
+                                <div className="flex flex-col justify-center items-center relative group p-6">
+                                    <p className="text-base sm:text-lg md:text-xl lg:text-2xl  text-DGXwhite hover:text-DGXgreen transition-colors duration-300 cursor-pointer">
+                                        Community Ranking
+                                    </p>
+                                    <div className="absolute bottom-full  hidden group-hover:flex flex-col items-center">
+                                        <div className="relative z-8  text-xs md:text-sm leading-none text-DGXwhite whitespace-no-wrap bg-DGXblack shadow-lg rounded-md">
+                                            Wait for the next update
+                                        </div>
+                                        <div className="w-2 h-2 -mt-1 rotate-45 bg-DGXblack"></div>
+                                    </div>
+                                </div>
+                                {/* Survey and Quizzes */}
+                                <div className="flex flex-col justify-center items-center relative group p-6">
+                                    <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-DGXwhite hover:text-DGXgreen">
+                                        Survey and Quizzes
+                                    </p>
+                                    <div className="absolute bottom-full mb-2 hidden group-hover:flex flex-col items-center">
+                                        <div className="relative z-4 p-2 text-xs md:text-sm leading-none text-DGXwhite whitespace-no-wrap bg-DGXblack shadow-lg rounded-md">
+                                            Wait for the next update
+                                        </div>
+                                        <div className="w-3 h-3 -mt-1 rotate-45 bg-DGXblack"></div>
+                                    </div>
+                                </div>
+                                {/* Discussion Platform */}
+                                <div className="flex flex-col justify-center items-center relative group ">
+                                    <p
+                                        onClick={handleRedirect01}
+                                        className="text-base sm:text-lg md:text-xl lg:text-2xl text-DGXwhite hover:text-DGXgreen transition-colors duration-300 cursor-pointer"
+                                    >
+                                        Discussion Platform
+                                    </p>
+                                    <div className="absolute bottom-full mb-2 hidden group-hover:flex flex-col items-center">
+                                        <div className="relative z-10 p-2 text-xs md:text-sm leading-none text-DGXwhite whitespace-no-wrap bg-DGXblack shadow-lg rounded-md">
+                                            Be A Part Now
+                                        </div>
+                                        <div className="w-3 h-3 -mt-1 rotate-45 bg-DGXblack"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <button
-                            type="button"
-                            className="absolute top-1/2 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none transform -translate-y-1/2"
-                            onClick={prevSlide}
-                        >
-                            <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-DGXwhite/30 group-hover:bg-DGXwhite/50">
-                                <svg
-                                    className="w-4 h-4 text-DGXwhite"
-                                    aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 6 10"
-                                >
-                                    <path
-                                        stroke="currentColor"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M5 1 1 5l4 4"
-                                    />
-                                </svg>
-                                <span className="sr-only">Previous</span>
-                            </span>
-                        </button>
-                        <button
-                            type="button"
-                            className="absolute top-1/2 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none transform -translate-y-1/2"
-                            onClick={nextSlide}
-                        >
-                            <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-DGXwhite/30 group-hover:bg-DGXwhite/50">
-                                <svg
-                                    className="w-4 h-4 text-DGXwhite"
-                                    aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 6 10"
-                                >
-                                    <path
-                                        stroke="currentColor"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="m1 9 4-4-4-4"
-                                    />
-                                </svg>
-                                <span className="sr-only">Next</span>
-                            </span>
-                        </button>
+                        {/* Image and Text Section */}
+                        <div className="flex flex-col justify-center items-center bg-DGXwhite opacity-100 w-full h-full p-4 md:p-6 lg:p-10">
+                            <div className="text-center">
+                                <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-DGXblack">Welcome!</h1>
+                                <p className="mt-4 text-sm sm:text-base md:text-lg lg:text-xl leading-6 text-DGXblack">
+                                    Hi! Are you a student, researcher, or developer looking to showcase your achievements, access certificates, and collaborate on projects? Join our DGX Community! Connect with like-minded individuals, share your accomplishments, and work on exciting projects together. Let&apos;s build a supportive and engaging space for learning and collaboration. See you there!
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
+
+                <section className="bg-[#f5f5f5]">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-4 lg:p-8">
+                        {/* Text and Button Section */}
+                        <div className="flex flex-col justify-center items-center lg:items-start text-center lg:text-left">
+                            <div className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4">
+                                <span className="bg-gradient-to-r from-DGXgreen via-DGXblack to-DGXblue bg-clip-text text-transparent animate-pulse">
+                                    Upcoming Events
+                                </span>
+                                <p className="mt-2 text-sm md:text-base lg:text-lg text-DGXblue">
+                                    Attend our regular events and workshops to learn from the best in the industry. Enhance your skills and network with professionals.
+                                </p>
+                            </div>
+                            <button className="text-sm md:text-md lg:text-lg bg-DGXgreen text-DGXwhite py-2 px-4 lg:py-2 lg:px-5 border border-DGXblue rounded-md mt-4 hover:bg-[#27272a] transition-colors duration-300">
+                                Enroll Now
+                            </button>
+                        </div>
+                        {/* Carousel Section */}
+                        <div className="relative w-full h-64 lg:h-[500px] rounded-lg overflow-hidden">
+                            <div className="relative h-full">
+                                {slides.map((slide, index) => (
+                                    <div
+                                        key={index}
+                                        className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${index === currentIndex ? 'opacity-100' : 'opacity-0'}`}
+                                    >
+                                        <img src={slide} alt={`Slide ${index}`} className="w-full h-full object-cover" />
+                                    </div>
+                                ))}
+                            </div>
+                            <button
+                                type="button"
+                                className="absolute top-1/2 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none transform -translate-y-1/2"
+                                onClick={prevSlide}
+                            >
+                                <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-DGXwhite/30 group-hover:bg-DGXwhite/50">
+                                    <svg
+                                        className="w-4 h-4 text-DGXwhite"
+                                        aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 6 10"
+                                    >
+                                        <path
+                                            stroke="currentColor"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M5 1 1 5l4 4"
+                                        />
+                                    </svg>
+                                    <span className="sr-only">Previous</span>
+                                </span>
+                            </button>
+                            <button
+                                type="button"
+                                className="absolute top-1/2 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none transform -translate-y-1/2"
+                                onClick={nextSlide}
+                            >
+                                <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-DGXwhite/30 group-hover:bg-DGXwhite/50">
+                                    <svg
+                                        className="w-4 h-4 text-DGXwhite"
+                                        aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 6 10"
+                                    >
+                                        <path
+                                            stroke="currentColor"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="m1 9 4-4-4-4"
+                                        />
+                                    </svg>
+                                    <span className="sr-only">Next</span>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </section> </>}
 
             <div className="bg-DGXgray/50 py-24 sm:py-32 ">
                 <div className="mx-auto grid max-w-7xl gap-x-8 gap-y-20 px-6 lg:px-8 xl:grid-cols-3">

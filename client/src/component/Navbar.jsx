@@ -10,9 +10,7 @@ import Cookies from 'js-cookie';
 const Navbar = () => {
     const [isSideMenuOpen, setMenu] = useState(false);
     const { user, userToken, setUserToken } = useContext(ApiContext);
-    // const [userToken, setUserToken] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    // const [userData, setUserData] = useState({});
     const navigate = useNavigate();
 
     useEffect(() => {

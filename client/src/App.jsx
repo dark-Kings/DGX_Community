@@ -20,7 +20,7 @@ import Footer from './component/Footer.jsx';
 import Survey from './component/Survey.jsx';
 import Quiz from './component/Quiz.jsx';
 import EventWorkshopPage from './container/EventWorkshopPage.jsx';
-import MyStoryboard from './component/MyStoryboard.jsx';
+// import MyStoryboard from './component/MyStoryboard.jsx';
 import Sidebar from './component/Admin/Sidebar.jsx';
 // import LoadPage from './component/LoadPage.jsx';
 import LoadPage from './component/LoadPage.jsx';
@@ -53,18 +53,18 @@ function App() {
             <Route path='/404' element={<Notfound />} />
             <Route path='/Quiz' element={<Quiz />} />
             <Route path='/Survey' element={<Survey />} />
-            <Route path='/MyStoryboard' element={<MyStoryboard />} />
+            {/* <Route path='/MyStoryboard' element={<MyStoryboard />} /> */}
             <Route path='/EventWorkshopPage' element={<EventWorkshopPage />} />
 
 
-            /*-----------ADMIN-----------* */
+            {  /*-----------ADMIN----------- */}
 
-            <Route path='/Admin/Sidebar' element={<Sidebar/>}/>
+            <Route path='/Admin/Sidebar' element={<Sidebar />} />
             <Route path='/LoadPage' element={<LoadPage />} />
             <Route path='/Calendar' element={<Calendar />} />
             <Route path='/GeneralUserCalendar' element={<GeneralUserCalendar />} />
           </Routes>
-        </div>  
+        </div>
         <Footer />
       </div>
     </>
