@@ -46,13 +46,7 @@ const Discussion = () => {
 
     const handleLike = () => setLikeCount(likeCount + 1);
 
-    const handleComment = (discussion) => {
-        // Increment the comment count
-        setCommentCount(prevCount => prevCount + 1);
-    
-        // Open the modal with the selected discussion
-        openModal(discussion);
-    };
+    const handleComment = () => setCommentCount(commentCount + 1);
 
     const openModal = (discussion) => {
         setSelectedDiscussion(discussion);
@@ -94,6 +88,7 @@ const Discussion = () => {
 
     const removeLink = (linkToRemove) => setLinks(links.filter(link => link !== linkToRemove));
 
+    const handlePrivacyChange = (e) => setPrivacy(e.target.value);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -123,55 +118,7 @@ const Discussion = () => {
     return (
         <div>
             <header className="flex flex-wrap sm:justify-start sm:flex-nowrap w-full bg-DGXblue text-sm py-4">
-                <nav className="max-w-[85rem] w-full mx-auto px-4 flex flex-wrap basis-full items-center justify-between" aria-label="Global">
-                    <div className="sm:order-4 flex items-center w-full sm:w-auto mt-4 sm:mt-0 sm:ml-4">
-                        <div className="relative w-full sm:w-64">
-                            <input
-                                type="text"
-                                className="w-full py-2 pl-10 pr-4 bg-white border border-gray-200 rounded-lg shadow-sm text-gray-800 focus:border-DGXgreen focus:ring-DGXgreen"
-                                placeholder="Search..."
-                                value={searchQuery}
-                                onChange={handleSearchChange}
-                            />
-                            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                <FaSearch className="text-gray-400" />
-                            </div>
-                        </div>
-                    </div>
-                    <div className="sm:order-3 flex items-center gap-x-2">
-                        <button
-                            type="button"
-                            className="sm:hidden hs-collapse-toggle p-2.5 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
-                            aria-controls="navbar-alignment"
-                            aria-label="Toggle navigation"
-                            onClick={toggleNav}
-                        >
-                            <svg className={`${isNavOpen ? 'hidden' : 'block'} flex-shrink-0 size-4`} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <line x1="3" x2="21" y1="6" y2="6" />
-                                <line x1="3" x2="21" y1="12" y2="12" />
-                                <line x1="3" x2="21" y1="18" y2="18" />
-                            </svg>
-                            <svg className={`${isNavOpen ? 'block' : 'hidden'} flex-shrink-0 size-4`} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M18 6 6 18" />
-                                <path d="m6 6 12 12" />
-                            </svg>
-                        </button>
-                    </div>
-                    <div id="navbar-alignment" className={`${isNavOpen ? 'block' : 'hidden'} hs-collapse overflow-hidden transition-all duration-300 basis-full grow sm:grow-0 sm:basis-auto sm:block sm:order-2`}>
-                        <div className="flex flex-col gap-6 mt-5 sm:flex-row sm:items-center sm:mt-0 sm:ps-5">
-                            <a className="text-lg font-bold text-DGXwhite cursor-pointer" onClick={() => setSelectedSection('all')} aria-current="page">All</a>
-                            <a className="text-lg font-bold text-DGXwhite cursor-pointer" onClick={() => setSelectedSection('top')}>Top Discussions</a>
-                            <a className="text-lg font-bold text-DGXwhite cursor-pointer" onClick={() => setSelectedSection('recent')}>Recent Discussions</a>
-                        </div>
-                    </div>
-                    <button
-                        type="button"
-                        className="py-2 px-3 inline-flex items-center gap-x-2 text-lg font-bold rounded-lg bg-DGXgreen text-DGXwhite shadow-sm hover:bg-DGXblue hover:border-DGXgreen border border-DGXblue disabled:opacity-50 disabled:pointer-events-none"
-                        onClick={handleNewTopicClick}
-                    >
-                        Start a New Topic +
-                    </button>
-                </nav>
+
             </header>
             {modalIsOpen && selectedDiscussion && (
                 <DiscussionModal
@@ -188,7 +135,7 @@ const Discussion = () => {
                             {hotTopics.map((topic, index) => (
                                 <div
                                     key={index}
-                                    className="rounded-lg shadow-lg p-4 border border-DGXblack transition-transform transform hover:scale-105 hover:shadow-xl"
+                                    className="bg-gradient-to-r from-DGXblue   rounded-lg shadow-lg p-4 border border-DGXblack transition-transform transform hover:scale-105 hover:shadow-xl"
                                 >
                                     <h3 className="text-xl font-semibold">
                                         <a href={topic.link} className="text-DGXblack hover:underline">
@@ -230,13 +177,8 @@ const Discussion = () => {
                                     </label>
                                     <input
                                         id="title"
-<<<<<<< HEAD
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md "
-                                        placeholder="Enter topic title"
-=======
                                         type="text"
                                         className="w-full px-3 py-2 border rounded-lg"
->>>>>>> d42d748250cc644b21fa7f42727a45117cb3abf9
                                         value={title}
                                         onChange={(e) => setTitle(e.target.value)}
                                     />
@@ -252,19 +194,6 @@ const Discussion = () => {
                                         rows="4"
                                         value={content}
                                         onChange={(e) => setContent(e.target.value)}
-<<<<<<< HEAD
-                                    />
-                                </div>
-                                <div className="mb-4">
-                                    <label htmlFor="image" className="block text-gray-700 ">Upload Image</label>
-                                    <input
-                                        type="file"
-                                        id="image"
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md "
-                                        accept="image/*"
-                                        onChange={handleImageChange}
-=======
->>>>>>> d42d748250cc644b21fa7f42727a45117cb3abf9
                                     />
                                 </div>
 
@@ -306,12 +235,7 @@ const Discussion = () => {
                                         value={linkInput}
                                         onChange={handleLinkInputChange}
                                         onKeyPress={handleLinkInputKeyPress}
-<<<<<<< HEAD
-                                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-DGXgreen focus:border-DGXgreen sm:text-sm"
-                                        placeholder="Enter links and press enter"
-=======
                                         placeholder="Press Enter to add a link"
->>>>>>> d42d748250cc644b21fa7f42727a45117cb3abf9
                                     />
                                     <div className="mt-2 flex flex-wrap">
                                         {links.map((link, index) => (
@@ -350,21 +274,12 @@ const Discussion = () => {
                                         Privacy
                                     </label>
                                     <select
-<<<<<<< HEAD
-                                        id="privacy"
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md "
-                                        onChange={(e) => setPrivacy(e.target.value)}
-                                        value={privacy}
-                                    >
-                                        <option value="private">Private</option>
-=======
                                         value={privacy}
                                         onChange={handlePrivacyChange}
                                         className="w-full px-3 py-2 border rounded-lg"
                                     >
                                         <option value="private">Private</option>
                                         <option value="protected">Protected</option>
->>>>>>> d42d748250cc644b21fa7f42727a45117cb3abf9
                                         <option value="public">Public</option>
                                     </select>
                                 </div>
@@ -388,51 +303,41 @@ const Discussion = () => {
 
                         )}
                         {discussions.map((discussion, index) => (
-                        <div key={index} className="border border-gray-300 rounded-lg p-4 w-full max-w-screen-sm sm:max-w-screen-md md:max-w-screen-lg lg:max-w-screen-xl xl:max-w-screen-2xl
-">
-                            <h3 className="text-lg font-bold cursor-pointer md:text-lg lg:text-xl xl:text-2xl">
-                                {discussion.title}
-                            </h3>
-                            <p className="text-gray-600 text-sm md:text-base lg:text-lg xl:text-xl">
-                                {discussion.content}
-                            </p>
-                            {discussion.image && (
-                                <div className="mt-2">
-                                    <img src={discussion.image} alt="Discussion" className="max-h-40 w-full object-cover" />
+                            <div key={index} className="border border-gray-300 rounded-lg p-4">
+                                <h3 className="text-lg font-bold cursor-pointer" onClick={() => openModal(discussion)}>
+                                    {discussion.title}
+                                </h3>
+                                <p className="text-gray-600">{discussion.content}</p>
+                                {discussion.image && (
+                                    <div className="mt-2">
+                                        <img src={discussion.image} alt="Discussion" className="max-h-40" />
+                                    </div>
+                                )}
+                                <div className="mt-2 flex flex-wrap">
+                                    {discussion.tags.map((tag, tagIndex) => (
+                                        <span key={tagIndex} className="bg-DGXgreen text-white rounded-full px-3 py-1 mr-2 mt-2">{tag}</span>
+                                    ))}
                                 </div>
-                            )}
-                            <div className="mt-2 flex flex-wrap gap-2">
-                                {discussion.tags.map((tag, tagIndex) => (
-                                    <span key={tagIndex} className="bg-DGXgreen text-white rounded-full px-3 py-1 text-xs md:text-sm lg:text-base">
-                                        {tag}
-                                    </span>
-                                ))}
+                                <div className="mt-2 flex flex-wrap">
+                                    {discussion.links.map((link, linkIndex) => (
+                                        <a key={linkIndex} href={link} className="text-DGXgreen hover:underline mr-2 mt-2">{link}</a>
+                                    ))}
+                                </div>
+                                <div className="mt-4 flex items-center space-x-4">
+                                    <button className="flex items-center text-DGXgreen" onClick={handleLike}>
+                                        <FaThumbsUp className="mr-2" /> {likeCount} Likes
+                                    </button>
+                                    <button className="flex items-center text-DGXgreen" onClick={handleComment}>
+                                        <FaComment className="mr-2" /> {commentCount} Comments
+                                    </button>
+                                </div>
                             </div>
-                            <div className="mt-2 flex flex-wrap gap-2">
-                                {discussion.links.map((link, linkIndex) => (
-                                    <a key={linkIndex} href={link} className="text-DGXgreen hover:underline text-xs md:text-sm lg:text-base">
-                                        {link}
-                                    </a>
-                                ))}
-                            </div>
-                            <div className="mt-4 flex items-center space-x-4">
-                                <button className="flex items-center text-DGXgreen text-sm md:text-base lg:text-lg" onClick={handleLike}>
-                                    <FaThumbsUp className="mr-2" /> {likeCount} Likes
-                                </button>
-                                <button 
-                                    className="flex items-center text-DGXgreen text-sm md:text-base lg:text-lg" 
-                                    onClick={() => handleComment(discussion)}  // Call handleComment here
-                                >
-                                    <FaComment className="mr-2" /> {commentCount} Comments
-                                </button>
-                            </div>
-                        </div>
-                    ))}
-
+                        ))}
                     </div>
                 </section>
             </div>
         </div>
+
     );
 };
 
