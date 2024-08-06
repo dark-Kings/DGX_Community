@@ -7,7 +7,7 @@ const MyStoryboard = () => {
   const [posts, setPosts] = useState([
     {
       id: 1,
-      user: { id: 'user1', name: 'Alice', profilePic: 'https://via.placeholder.com/50' },
+      user: { id: 'user1', name: 'Zeeshan', profilePic: 'https://via.placeholder.com/50' },
       certificate: 'Certificate in Web Development',
       caption: 'Completed an amazing course! #webdevelopment',
       image: images.Certificate1, // Use the image from import
@@ -20,7 +20,7 @@ const MyStoryboard = () => {
     },
     {
       id: 2,
-      user: { id: 'user2', name: 'Bob', profilePic: 'https://via.placeholder.com/50' },
+      user: { id: 'user2', name: 'Anshul', profilePic: 'https://via.placeholder.com/50' },
       certificate: 'Certificate in Data Science',
       caption: 'Data Science is the future! #datascience',
       image: images.Certificate2, // Use the image from import
@@ -59,7 +59,7 @@ const MyStoryboard = () => {
         }, {});
       });
     }, 1000);
-    
+
 
     return () => clearInterval(intervalId);
   }, [posts]);
@@ -88,7 +88,7 @@ const MyStoryboard = () => {
       })
       .join(' ');
   };
-  
+
 
   const handleLike = (id) => {
     setPosts(posts.map(post => post.id === id ? { ...post, likes: post.likes + 1 } : post));
@@ -142,7 +142,7 @@ const MyStoryboard = () => {
   const validateFields = () => {
     let isValid = true;
     const newErrors = {};
-    
+
     if (!newPost.certificate.trim()) {
       newErrors.certificate = 'Certificate title is required';
       isValid = false;
@@ -159,7 +159,7 @@ const MyStoryboard = () => {
     //   newErrors.link = 'Link is required';
     //   isValid = false;
     // }
-    
+
     setErrors(newErrors);
     return isValid;
   };
@@ -189,7 +189,7 @@ const MyStoryboard = () => {
         const ctx = canvas.getContext('2d');
         const maxSize = 400;
         let { width, height } = img;
-  
+
         if (width > height) {
           if (width > maxSize) {
             height *= maxSize / width;
@@ -201,13 +201,13 @@ const MyStoryboard = () => {
             height = maxSize;
           }
         }
-  
+
         canvas.width = width;
         canvas.height = height;
         ctx.drawImage(img, 0, 0, width, height);
-  
+
         const imageDataUrl = canvas.toDataURL(file.type);
-  
+
         setNewPost((prevPost) => ({
           ...prevPost,
           file: imageDataUrl,
@@ -215,13 +215,13 @@ const MyStoryboard = () => {
           originalDimensions: { width: originalWidth, height: originalHeight },
           dimensions: { width, height },
         }));
-  
+
         setPreviewImage(imageDataUrl);
       };
     }
   };
-  
-  
+
+
 
   const handleCancel = () => {
     setNewPost({
@@ -237,7 +237,7 @@ const MyStoryboard = () => {
     setPreviewImage(null);
     setErrors({});
   };
-  
+
 
   const handleCaptionChange = (e) => {
     const text = e.target.value;
@@ -264,73 +264,74 @@ const MyStoryboard = () => {
   return (
     <div className="p-6 bg-slate-200 min-h-screen flex justify-center items-center">
       <div className="w-full max-w-[1600px] p-10">
-        <h1 className="text-6xl font-serif mb-10 text-black font-bold text-center">Storyboard</h1>
-        
-        <button 
-          onClick={() => setShowCreatePost(true)} 
-          className="mb-10 bg-DGXgreen text-white font-medium p-2 rounded block mx-auto hover:bg-DGXblue"
+        <h1 className="text-6xl font-serif mb-10 text-black font-bold text-center bg-DGXgreen bg-clip-text text-transparent animate-gradient">
+          Storyboard
+        </h1>
+        <button
+          onClick={() => setShowCreatePost(true)}
+          className="mb-10 bg-gradient-to-r from-DGXgreen to-DGXblue text-white font-medium p-3 rounded-full shadow-lg block mx-auto transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl"
         >
           Create Post
         </button>
 
         {showCreatePost && (
-            <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center">
-              <div className="bg-white p-4 rounded shadow-lg w-full max-w-[900px] border-2 border-DGXgreen overflow-y-auto" style={{ boxShadow: `0 4px 6px var(--DGXgray)` }}>
-                <h2 className="text-xl font-semibold mb-2 text-DGXblack m-2">Create a New Post</h2>
-                <input
-                  type="text"
-                  value={newPost.certificate}
-                  onChange={(e) => setNewPost({ ...newPost, certificate: e.target.value })}
-                  placeholder="Certificate Title"
+          <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center">
+            <div className="bg-white p-4 rounded shadow-lg w-full max-w-[900px] border-2 border-DGXgreen overflow-y-auto" style={{ boxShadow: `0 4px 6px var(--DGXgray)` }}>
+              <h2 className="text-xl font-semibold mb-2 text-DGXblack m-2">Create a New Post</h2>
+              <input
+                type="text"
+                value={newPost.certificate}
+                onChange={(e) => setNewPost({ ...newPost, certificate: e.target.value })}
+                placeholder="Certificate Title"
                 className={`border m-2 p-2 w-full mb-2  ${errors.certificate ? 'border-red-500' : 'border-gray-300'} rounded border-DGXgray text-DGXblack`}
-                />
-                {errors.certificate && <p className="text-red-500 text-sm mt-1">{errors.certificate}</p>}
-                <textarea
-                  value={newPost.caption.replace(/<[^>]+>/g, '')}
-                  onChange={handleCaptionChange}
-                  placeholder="Caption (use # for hashtags)"
-                  className={`border p-2 m-2 w-full mb-2 rounded border-DGXgray text-DGXblack`}
-                />
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  className={`border p-2 m-2 w-full mb-2 ${errors.file ? 'border-red-500' : 'border-gray-300'} rounded border-DGXgray text-DGXblack`}
-                />
-                {errors.file && <p className="text-red-500 text-sm mt-1">{errors.file}</p>}
-                {previewImage && (
-                  <div className="my-4 m-2 flex justify-center">
-                    <img
-                      src={previewImage}
-                      alt="Preview"
-                      className="w-200 h-200 object-cover border-2 border-DGXgreen rounded"
-                    />
-                  </div>
-                )}
-                <input
-                  type="text"
-                  value={newPost.link}
-                  onChange={(e) => setNewPost({ ...newPost, link: e.target.value })}
-                  placeholder="Link to Certificate"
-                  className="border m-2 p-2 w-full mb-2 rounded border-DGXgray text-DGXblack"
-                />
-                <div className="flex justify-between">
-                  <button 
-                    onClick={handleAddPost} 
-                    className="bg-DGXblue m-2 text-white p-2 rounded hover:bg-DGXgreen"
-                  >
-                    Post
-                  </button>
-                  <button 
-                    onClick={handleCancel} 
-                    className="bg-red-500 m-2 text-white p-2 rounded hover:bg-red-600"
-                  >
-                    Cancel
-                  </button>
+              />
+              {errors.certificate && <p className="text-red-500 text-sm mt-1">{errors.certificate}</p>}
+              <textarea
+                value={newPost.caption.replace(/<[^>]+>/g, '')}
+                onChange={handleCaptionChange}
+                placeholder="Caption (use # for hashtags)"
+                className={`border p-2 m-2 w-full mb-2 rounded border-DGXgray text-DGXblack`}
+              />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                className={`border p-2 m-2 w-full mb-2 ${errors.file ? 'border-red-500' : 'border-gray-300'} rounded border-DGXgray text-DGXblack`}
+              />
+              {errors.file && <p className="text-red-500 text-sm mt-1">{errors.file}</p>}
+              {previewImage && (
+                <div className="my-4 m-2 flex justify-center">
+                  <img
+                    src={previewImage}
+                    alt="Preview"
+                    className="w-200 h-200 object-cover border-2 border-DGXgreen rounded"
+                  />
                 </div>
+              )}
+              <input
+                type="text"
+                value={newPost.link}
+                onChange={(e) => setNewPost({ ...newPost, link: e.target.value })}
+                placeholder="Link to Certificate"
+                className="border m-2 p-2 w-full mb-2 rounded border-DGXgray text-DGXblack"
+              />
+              <div className="flex justify-between">
+                <button
+                  onClick={handleAddPost}
+                  className="bg-DGXblue m-2 text-white p-2 rounded hover:bg-DGXgreen"
+                >
+                  Post
+                </button>
+                <button
+                  onClick={handleCancel}
+                  className="bg-red-500 m-2 text-white p-2 rounded hover:bg-red-600"
+                >
+                  Cancel
+                </button>
               </div>
             </div>
-          )}
+          </div>
+        )}
 
 
         {posts.map(post => (
@@ -346,11 +347,11 @@ const MyStoryboard = () => {
             <div className="mb-4" dangerouslySetInnerHTML={{ __html: formatText(post.caption) }} />
             <div className='flex justify-center items-center m-8 p-2 border-2 border-DGXgreen bg-gray-100'>
               {post.fileType === 'image' && (
-                <img 
-                  src={post.file} 
-                  alt="Image" 
+                <img
+                  src={post.file}
+                  alt="Image"
                   // className="w-600 h-600 m-4 object-cover cursor-pointer shadow-md" 
-                  onClick={() => handleImageClick(post.file)} 
+                  onClick={() => handleImageClick(post.file)}
                   style={{ maxWidth: '100%', maxHeight: '600px' }}
                 />
               )}
@@ -361,7 +362,7 @@ const MyStoryboard = () => {
                 <FaThumbsUp className="mr-1" /> {post.likes} Likes
               </button>
               <div className="flex items-center">
-                <FaComment className="mr-1 text-DGXgray" /> 
+                <FaComment className="mr-1 text-DGXgray" />
                 <input
                   type="text"
                   value={commentInputs[post.id] || ''}
@@ -443,15 +444,15 @@ const MyStoryboard = () => {
               <button onClick={closeFullScreen} className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded">
                 Close
               </button>
-              <img 
-                src={fullScreenImage} 
-                alt="Full Size" 
+              <img
+                src={fullScreenImage}
+                alt="Full Size"
                 className=""
                 style={{
                   maxWidth: '90%',
                   maxHeight: '90%',
                   objectFit: 'contain'
-                }} 
+                }}
               />
             </div>
           </div>

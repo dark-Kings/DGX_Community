@@ -5,10 +5,12 @@ import { images } from "../constant/index.js";
 const DiscussionModal = ({
   isOpen,
   onRequestClose,
+  discussion,
   postContent = {},
   comments = [],
 }) => {
   const { image, content, tags = [], links = [] } = postContent;
+  console.log(discussion);
 
   const user = {
     userProfile: "",
@@ -16,36 +18,36 @@ const DiscussionModal = ({
     likeCount: 45,
     comments: 3,
   };
-  const discussion = {
-    title: "Some Title of the Topic",
-    image:images.nvbackground,
-    content:
-      "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veritatis id, maiores rerum voluptas voluptatibus non placeat, provident doloribus atque minima aperiam? Nulla provident odio est laboriosam natus. Dolores, animi modi?",
-    tags: [
-      "Artificial Intelligence",
-      "DGX Servers",
-      "Artificial Intelligence",
-      "DGX Servers",
-      "Artificial Intelligence",
-      "DGX Servers",
-      "Artificial Intelligence",
-      "DGX Servers",
-      "Artificial Intelligence",
-      "DGX Servers",
-    ],
-    links: [
-      "https://www.google.com/",
-      "https://www.youtube.com/",
-      "https://www.google.com/",
-      "https://www.youtube.com/",
-      "https://www.google.com/",
-      "https://www.youtube.com/",
-      "https://www.google.com/",
-      "https://www.youtube.com/",
-      "https://www.google.com/",
-      "https://www.youtube.com/",
-    ],
-  };
+  // const discussion = {
+  //   title: "Some Title of the Topic",
+  //   image:images.nvbackground,
+  //   content:
+  //     "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veritatis id, maiores rerum voluptas voluptatibus non placeat, provident doloribus atque minima aperiam? Nulla provident odio est laboriosam natus. Dolores, animi modi?",
+  //   tags: [
+  //     "Artificial Intelligence",
+  //     "DGX Servers",
+  //     "Artificial Intelligence",
+  //     "DGX Servers",
+  //     "Artificial Intelligence",
+  //     "DGX Servers",
+  //     "Artificial Intelligence",
+  //     "DGX Servers",
+  //     "Artificial Intelligence",
+  //     "DGX Servers",
+  //   ],
+  //   links: [
+  //     "https://www.google.com/",
+  //     "https://www.youtube.com/",
+  //     "https://www.google.com/",
+  //     "https://www.youtube.com/",
+  //     "https://www.google.com/",
+  //     "https://www.youtube.com/",
+  //     "https://www.google.com/",
+  //     "https://www.youtube.com/",
+  //     "https://www.google.com/",
+  //     "https://www.youtube.com/",
+  //   ],
+  // };
   const dissComments = [
     {
       usernamr: "Comment User 1",
