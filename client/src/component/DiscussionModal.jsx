@@ -1,136 +1,58 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaThumbsUp, FaComment } from "react-icons/fa";
 import { images } from "../constant/index.js";
 
-const DiscussionModal = ({
-  isOpen,
-  onRequestClose,
-  discussion,
-  postContent = {},
-  comments = [],
-}) => {
-  const { image, content, tags = [], links = [] } = postContent;
-  console.log(discussion);
-
+const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
   const user = {
     userProfile: "",
     userName: "User has this name",
     likeCount: 45,
     comments: 3,
   };
-  // const discussion = {
-  //   title: "Some Title of the Topic",
-  //   image:images.nvbackground,
-  //   content:
-  //     "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veritatis id, maiores rerum voluptas voluptatibus non placeat, provident doloribus atque minima aperiam? Nulla provident odio est laboriosam natus. Dolores, animi modi?",
-  //   tags: [
-  //     "Artificial Intelligence",
-  //     "DGX Servers",
-  //     "Artificial Intelligence",
-  //     "DGX Servers",
-  //     "Artificial Intelligence",
-  //     "DGX Servers",
-  //     "Artificial Intelligence",
-  //     "DGX Servers",
-  //     "Artificial Intelligence",
-  //     "DGX Servers",
-  //   ],
-  //   links: [
-  //     "https://www.google.com/",
-  //     "https://www.youtube.com/",
-  //     "https://www.google.com/",
-  //     "https://www.youtube.com/",
-  //     "https://www.google.com/",
-  //     "https://www.youtube.com/",
-  //     "https://www.google.com/",
-  //     "https://www.youtube.com/",
-  //     "https://www.google.com/",
-  //     "https://www.youtube.com/",
-  //   ],
-  // };
-  const dissComments = [
-    {
-      usernamr: "Comment User 1",
-      commentData:
-        "Comment 1: Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur odit beatae, laborum officia quod animi vel. Eius, perspiciatis, fugiat commodi asperiores voluptates laudantium fugit sunt itaque quaerat nobis doloremque aperiam.",
-      likes: 4,
-      timestamp: new Date().toLocaleString(),
-      replies: [
-        {
-          username: "User 1",
-          timestamp: new Date().toLocaleString(),
-          reply:
-            "reply1: Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur odit beatae, laborum officia quod animi vel. Eius, perspiciatis, fugiat commodi asperiores voluptates laudantium fugit sunt itaque quaerat nobis doloremque aperiam.",
-        },
-        {
-          username: "User 2",
-          timestamp: new Date().toLocaleString(),
-          reply:
-            "reply1: Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur odit beatae, laborum officia quod animi vel. Eius, perspiciatis, fugiat commodi asperiores voluptates laudantium fugit sunt itaque quaerat nobis doloremque aperiam.",
-        },
-        {
-          username: "User 3",
-          timestamp: new Date().toLocaleString(),
-          reply:
-            "reply1: Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur odit beatae, laborum officia quod animi vel. Eius, perspiciatis, fugiat commodi asperiores voluptates laudantium fugit sunt itaque quaerat nobis doloremque aperiam.",
-        },
-      ],
-    },
-    {
-      usernamr: "Comment User 2",
-      commentData:
-        "Comment 1: Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur odit beatae, laborum officia quod animi vel. Eius, perspiciatis, fugiat commodi asperiores voluptates laudantium fugit sunt itaque quaerat nobis doloremque aperiam.",
-      likes: 4,
-      timestamp: new Date().toLocaleString(),
-      replies: [
-        {
-          username: "User 1",
-          timestamp: new Date().toLocaleString(),
-          reply:
-            "reply1: Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur odit beatae, laborum officia quod animi vel. Eius, perspiciatis, fugiat commodi asperiores voluptates laudantium fugit sunt itaque quaerat nobis doloremque aperiam.",
-        },
-        {
-          username: "User 2",
-          timestamp: new Date().toLocaleString(),
-          reply:
-            "reply1: Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur odit beatae, laborum officia quod animi vel. Eius, perspiciatis, fugiat commodi asperiores voluptates laudantium fugit sunt itaque quaerat nobis doloremque aperiam.",
-        },
-        {
-          username: "User 3",
-          timestamp: new Date().toLocaleString(),
-          reply:
-            "reply1: Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur odit beatae, laborum officia quod animi vel. Eius, perspiciatis, fugiat commodi asperiores voluptates laudantium fugit sunt itaque quaerat nobis doloremque aperiam.",
-        },
-      ],
-    },
-    {
-      usernamr: "Comment User 3",
-      commentData:
-        "Comment 1: Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur odit beatae, laborum officia quod animi vel. Eius, perspiciatis, fugiat commodi asperiores voluptates laudantium fugit sunt itaque quaerat nobis doloremque aperiam.",
-      likes: 4,
-      timestamp: new Date().toLocaleString(),
-      replies: [
-        {
-          username: "User 1",
-          timestamp: new Date().toLocaleString(),
-          reply:
-            "reply1: Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur odit beatae, laborum officia quod animi vel. Eius, perspiciatis, fugiat commodi asperiores voluptates laudantium fugit sunt itaque quaerat nobis doloremque aperiam.",
-        },
-        {
-          username: "User 2",
-          timestamp: new Date().toLocaleString(),
-          reply:
-            "reply1: Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur odit beatae, laborum officia quod animi vel. Eius, perspiciatis, fugiat commodi asperiores voluptates laudantium fugit sunt itaque quaerat nobis doloremque aperiam.",
-        },
-        {
-          username: "User 3",
-          timestamp: new Date().toLocaleString(),
-          reply:
-            "reply1: Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur odit beatae, laborum officia quod animi vel. Eius, perspiciatis, fugiat commodi asperiores voluptates laudantium fugit sunt itaque quaerat nobis doloremque aperiam.",
-        },
-      ],
-    },
-  ];
+  const [dissComments, setDissComments] = useState([]);
+
+  const [newComment, setNewComment] = useState("");
+  const [replyTexts, setReplyTexts] = useState({});
+
+  const handleAddComment = () => {
+    if (newComment.trim() !== "") {
+      const newCommentObj = {
+        username: "New User",
+        timestamp: new Date().toLocaleString(),
+        commentData: newComment,
+        likes: 0,
+        replies: [],
+      };
+
+      setDissComments([...dissComments, newCommentObj]);
+      setNewComment("");
+    }
+  };
+
+  const handleReplyTextChange = (index, text) => {
+    setReplyTexts((prevState) => ({
+      ...prevState,
+      [index]: text,
+    }));
+  };
+
+  const handleAddReply = (commentIndex, replyText) => {
+    if (replyText.trim() !== "") {
+      const updatedComments = [...dissComments];
+      updatedComments[commentIndex].replies.push({
+        username: "New User", // Replace with actual username logic
+        timestamp: new Date().toLocaleString(),
+        reply: replyText,
+      });
+
+      setDissComments(updatedComments);
+      setReplyTexts((prevState) => ({
+        ...prevState,
+        [commentIndex]: "",
+      }));
+    }
+  };
+
   return (
     <div>
       {/* Background Overlay */}
@@ -199,7 +121,9 @@ const DiscussionModal = ({
                   {/* Tags */}
                   {discussion.tags.length > 0 && (
                     <div className="mb-2 sm:mb-4">
-                      <h3 className="text-md sm:text-lg font-semibold">Tags:</h3>
+                      <h3 className="text-md sm:text-lg font-semibold">
+                        Tags:
+                      </h3>
                       <ul className="flex flex-wrap mt-1 sm:mt-2">
                         {discussion.tags.map((tag, index) => (
                           <li
@@ -216,7 +140,9 @@ const DiscussionModal = ({
                   {/* Links */}
                   {discussion.links.length > 0 && (
                     <div>
-                      <h3 className="text-md sm:text-lg font-semibold">Links:</h3>
+                      <h3 className="text-md sm:text-lg font-semibold">
+                        Links:
+                      </h3>
                       <ul className="list-disc list-inside">
                         {discussion.links.map((link, index) => (
                           <li key={index}>
@@ -234,15 +160,24 @@ const DiscussionModal = ({
                     </div>
                   )}
                 </div>
-                
+
                 {/* Comments Section */}
                 <div className="w-full md:w-1/2 p-2 sm:p-4 overflow-auto flex flex-col flex-grow">
-                  <div className="p-4 grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4">
-                    <textarea className=" md:w-auto rounded border-2 border-DGXblue p-2 xl:w-full" type="text" />
-                    <button className="w-full md:w-auto bg-DGXgreen hover:bg-DGXblue rounded text-white text-xl p-2 md:self-end xl:w-1/4">Add Comment</button>
+                  <div className="p-4 w-full text-end">
+                    <textarea
+                      rows={3}
+                      value={newComment}
+                      onChange={(e) => setNewComment(e.target.value)}
+                      className="md:w-auto rounded border-2 border-DGXblue p-2 xl:w-full"
+                      placeholder="Add a comment..."
+                    />
+                    <button
+                      onClick={handleAddComment}
+                      className="my-4 md:w-1/4 bg-DGXgreen hover:bg-DGXblue rounded text-white text-xl p-2"
+                    >
+                      Add Comment
+                    </button>
                   </div>
-
-
 
                   <h2 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-4">
                     Comments
@@ -261,7 +196,9 @@ const DiscussionModal = ({
                             {comment.timestamp}
                           </span>
                         </div>
-                        <div className="text-md sm:text-lg">{comment.commentData}</div>
+                        <div className="text-md sm:text-lg">
+                          {comment.commentData}
+                        </div>
                         <div className="flex items-center gap-2">
                           <FaThumbsUp />
                           <span>{comment.likes}</span>
@@ -286,17 +223,38 @@ const DiscussionModal = ({
                             </div>
                           ))}
                         </div>
+                        {/* Reply form */}
+                        <div className="p-2 sm:p-4 border-t border-gray-200">
+                          <textarea
+                            rows={1}
+                            value={replyTexts[index] || ""}
+                            onChange={(e) =>
+                              handleReplyTextChange(index, e.target.value)
+                            }
+                            className="md:w-auto rounded border-2 border-DGXblue p-2 xl:w-full"
+                            placeholder="Reply to this comment..."
+                          />
+                          <button
+                            onClick={() =>
+                              handleAddReply(index, replyTexts[index])
+                            }
+                            className="my-2 md:w-1/4 bg-DGXgreen hover:bg-DGXblue rounded text-white text-xl p-2"
+                          >
+                            Add Reply
+                          </button>
+                        </div>
                       </li>
                     ))}
-                    </ul>
-                  </div>
+                  </ul>
                 </div>
               </div>
             </div>
           </div>
+        </div>
       )}
     </div>
   );
 };
+``;
 
 export default DiscussionModal;
