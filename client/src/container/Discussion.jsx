@@ -19,9 +19,9 @@ const Discussion = () => {
         { name: "User 4", points: 1020 },
         { name: "User 5", points: 980 }
     ];
-
-    const [likeCount, setLikeCount] = useState(0);
-    const [commentCount, setCommentCount] = useState(0);
+    const [discussions, setDiscussions] = useState([]);
+    const [likeCount, setLikeCount] = useState(discussions.map(() => 0));
+    const [commentCount, setCommentCount] = useState(discussions.map(() => 0));
     const [isNavOpen, setIsNavOpen] = useState(false);
     const [selectedSection, setSelectedSection] = useState('all');
     const [searchQuery, setSearchQuery] = useState('');
@@ -34,7 +34,6 @@ const Discussion = () => {
     const [links, setLinks] = useState([]);
     const [linkInput, setLinkInput] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
-    const [discussions, setDiscussions] = useState([]);
     const [privacy, setPrivacy] = useState('private');
     const [selectedDiscussion, setSelectedDiscussion] = useState(null);
 
@@ -44,14 +43,24 @@ const Discussion = () => {
 
     const handleNewTopicClick = () => setIsFormOpen(true);
 
-    const handleLike = () => setLikeCount(likeCount + 1);
+    const handleLike = (index) =>{
+        const newLikeCounts = [...likeCounts];
+        newLikeCounts[index] += 1;
+        setLikeCount(newLikeCounts);
+    } 
 
-    const handleComment = (discussion) => {
-        // Increment the comment count
-        setCommentCount(prevCount => prevCount + 1);
-
+    const handleComment = (index) => {
+        const newCommentCounts = [...commentCount];
+        newCommentCounts[index] += 1;
+        setCommentCount(newCommentCounts);
+    
         // Open the modal with the selected discussion
-        openModal(discussion);
+        openModal(discussion[index]);
+        // Increment the comment count
+        // setCommentCount(prevCount => prevCount + 1);
+
+        // // Open the modal with the selected discussion
+        // openModal(discussion);
     };
 
     const openModal = (discussion) => {
