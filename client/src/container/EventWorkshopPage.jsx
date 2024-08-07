@@ -205,7 +205,7 @@ const EventWorkshopPage = () => {
 
         <form action="/search">
           <label
-            className="mx-auto mt-8 relative bg-DGXwhite min-w-sm max-w-2xl flex flex-col md:flex-row items-center justify-center border py-2 px-2 rounded-2xl gap-2 shadow-2xl focus-within:border-[#d1d5db]"
+            className="mx-auto mt-8 relative bg-DGXwhite min-w-sm max-w-2xl flex flex-col border-DGXgreen md:flex-row items-center justify-center border py-2 px-2 rounded-2xl gap-2 shadow-2xl focus-within:border-[#d1d5db]"
             htmlFor="search-bar"
           >
             <input
@@ -217,7 +217,7 @@ const EventWorkshopPage = () => {
             />
             <button
               type="submit"
-              className="w-full md:w-auto px-6 py-3 bg-DGXgreen border-DGXblue text-white active:scale-95 duration-100 border rounded-xl transition-all"
+              className="w-full md:w-auto px-6 py-3 bg-DGXgreen border-DGXblue hover:bg-DGXblue hover:border-DGXgreen text-white active:scale-95 duration-100 border rounded-xl transition-all"
             >
               <div className="flex items-center">
                 <span className="text-sm font-semibold mx-auto">Search</span>
@@ -251,7 +251,7 @@ const EventWorkshopPage = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 bg-DGXwhite">
         {events.map((event, index) => (
           <CardContainer key={index} className="my-12" containerClassName="border-2 border-DGXgreen bg-DGXblue">
-            <CardBody className=" bg-gradient-to-r from-DGXgray via-DGXblue to-DGXblue p-8 border border-DGXgreen">
+            <CardBody className=" bg-gradient-to-r from-DGXgray via-DGXblue to-DGXblue p-8 border border-DGXgreen xs:w-full xs:h-72 sm:w-full md:w-full lg:w-full xl:w-full 2xl:w-full">
               <CardItem translateX={10} translateY={20} rotateX={10} rotateY={20}>
                 <h2 className="text-xl font-bold text-DGXgreen">{event.title}</h2>
                 <img src={event.image} alt={event.title} className="mt-10" />

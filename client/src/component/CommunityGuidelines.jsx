@@ -22,12 +22,12 @@ const CommunityGuidelines = () => {
 
   return (
     <div className="w-full mx-auto my-10 p-10 bg-DGXwhite rounded-lg shadow-2xl shadow-DGXgreen border-2 border-DGXgreen font-serif sm:max-w-[90%]">
-      <h1 className="text-center text-6xl font-extrabold text-DGXblack mb-8">DGX Community Policies</h1>
+      <h1 className="text-center text-6xl font-extrabold text-DGXblack mb-8 xs:text-4xl">DGX Community Policies</h1>
       <div className="flex flex-wrap items-center">
         <div className="w-full md:w-1/2">
           <img
             src={images.Team}
-            className="w-full h-auto transition-transform duration-500 ease-in-out transform hover:scale-105"
+            className="w-600 h-600 transition-transform duration-500 ease-in-out transform hover:scale-105"
             alt="Team"
           />
           <div className="text-sm text-center hover:text-[#2563eb]">
@@ -56,156 +56,416 @@ const CommunityGuidelines = () => {
       modules={[Autoplay, Pagination, Navigation]}
       className="mySwiper mb-10 p-12"
     >
-      <SwiperSlide className="w-[70%]">
-        <div className="w-full p-4 border-dotted border-4 rounded-lg border-DGXblue transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10">
-          <h2 className="text-2xl text-DGXblack mt-4">Be Safe</h2>
-          <ul className="list-disc pl-5 text-[#374151] mt-4">
-            <li className="mb-2">Do not engage in or promote unlawful or harmful behavior.</li>
-            <li className="mb-2">Respect other&apos;s rights and privacy.</li>
-          </ul>
-          <button
-            onClick={() => handleLearnMoreClick('be-safe-details')}
-            className="text-[#2563eb] hover:underline focus:outline-none"
-          >
-            Learn more
-          </button>
-        </div>
-      </SwiperSlide>
-      <SwiperSlide className="w-[70%]">
-        <div className="w-full p-4 border-dotted border-4 rounded-lg border-DGXblue transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10">
-          <h2 className="text-2xl text-DGXblack mt-4">Be Trustworthy</h2>
-          <ul className="list-disc pl-5 text-[#374151] mt-4">
-            <li className="mb-2">Do not lie, misrepresent, or impersonate others.</li>
-            <li className="mb-2">Provide accurate information.</li>
-          </ul>
-          <button
-            onClick={() => handleLearnMoreClick('be-trustworthy-details')}
-            className="text-[#2563eb] hover:underline focus:outline-none"
-          >
-            Learn more
-          </button>
-        </div>
-      </SwiperSlide>
-      <SwiperSlide className="w-[70%]">
-        <div className="w-full p-4 border-dotted border-4 rounded-lg border-DGXblue transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10">
-          <h2 className="text-2xl text-DGXblack mt-4">Be Professional</h2>
-          <ul className="list-disc pl-5 text-[#374151] mt-4">
-            <li className="mb-2">Do not share unprofessional or inappropriate content.</li>
-            <li className="mb-2">Behave with integrity and respect.</li>
-          </ul>
-          <button
-            onClick={() => handleLearnMoreClick('be-professional-details')}
-            className="text-[#2563eb] hover:underline focus:outline-none"
-          >
-            Learn more
-          </button>
-        </div>
-      </SwiperSlide>
-      <SwiperSlide className="w-[70%]">
-        <div className="w-full p-4 border-dotted border-4 rounded-lg border-DGXblue transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10">
-          <h2 className="text-2xl text-DGXblack mt-4">Respect and Courtesy</h2>
-          <ul className="list-disc pl-5 text-[#374151] mt-4">
-            <li className="mb-2">Treat all members with respect and courtesy.</li>
-            <li className="mb-2">Be mindful of different perspectives and cultures.</li>
-          </ul>
-          <button
-            onClick={() => handleLearnMoreClick('respect-and-courtesy-details')}
-            className="text-[#2563eb] hover:underline focus:outline-none"
-          >
-            Learn more
-          </button>
-        </div>
-      </SwiperSlide>
-      <SwiperSlide className="w-[70%]">
-        <div className="w-full p-4 border-dotted border-4 rounded-lg border-DGXblue transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10">
-          <h2 className="text-2xl text-DGXblack mt-4">Privacy and Confidentiality</h2>
-          <ul className="list-disc pl-5 text-[#374151] mt-4">
-            <li className="mb-2">Respect the privacy of other members.</li>
-            <li className="mb-2">Avoid posting sensitive or confidential information.</li>
-          </ul>
-          <button
-            onClick={() => handleLearnMoreClick('privacy-and-confidentiality-details')}
-            className="text-[#2563eb] hover:underline focus:outline-none"
-          >
-            Learn more
-          </button>
-        </div>
-      </SwiperSlide>
-      <SwiperSlide className="w-[70%]">
-        <div className="w-full p-4 border-dotted border-4 rounded-lg border-DGXblue transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10">
-          <h2 className="text-2xl text-DGXblack mt-4">No Spamming or Self-Promotion</h2>
-          <ul className="list-disc pl-5 text-[#374151] mt-4">
-            <li className="mb-2">Refrain from spamming the community with irrelevant content.</li>
-            <li className="mb-2">Contribute valuable and relevant content to discussions.</li>
-          </ul>
-          <button
-            onClick={() => handleLearnMoreClick('no-spamming-or-self-promotion-details')}
-            className="text-[#2563eb] hover:underline focus:outline-none"
-          >
-            Learn more
-          </button>
-        </div>
-      </SwiperSlide>
-      <SwiperSlide className="w-[70%]">
-        <div className="w-full p-4 border-dotted border-4 rounded-lg border-DGXblue transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10">
-          <h2 className="text-2xl text-DGXblack mt-4">Intellectual Property</h2>
-          <ul className="list-disc pl-5 text-[#374151] mt-4">
-            <li className="mb-2">Respect intellectual property rights.</li>
-            <li className="mb-2">Attribute sources appropriately when sharing third-party content.</li>
-          </ul>
-          <button
-            onClick={() => handleLearnMoreClick('intellectual-property-details')}
-            className="text-[#2563eb] hover:underline focus:outline-none"
-          >
-            Learn more
-          </button>
-        </div>
-      </SwiperSlide>
-      <SwiperSlide className="w-[70%]">
-        <div className="w-full p-4 border-dotted border-4 rounded-lg border-DGXblue transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10">
-          <h2 className="text-2xl text-DGXblack mt-4">Safety and Security</h2>
-          <ul className="list-disc pl-5 text-[#374151] mt-4">
-            <li className="mb-2">Do not share malicious links or software.</li>
-            <li className="mb-2">Report any suspicious activities or security breaches to the moderators.</li>
-          </ul>
-          <button
-            onClick={() => handleLearnMoreClick('safety-and-security-details')}
-            className="text-[#2563eb] hover:underline focus:outline-none"
-          >
-            Learn more
-          </button>
-        </div>
-      </SwiperSlide>
-      <SwiperSlide className="w-[70%]">
-        <div className="w-full p-4 border-dotted border-4 rounded-lg border-DGXblue transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10">
-          <h2 className="text-2xl text-DGXblack mt-4">Content Guidelines</h2>
-          <ul className="list-disc pl-5 text-[#374151] mt-4">
-            <li className="mb-2">Post content that is relevant to the community’s purpose.</li>
-            <li className="mb-2">Use clear and concise language in your posts.</li>
-          </ul>
-          <button
-            onClick={() => handleLearnMoreClick('content-guidelines-details')}
-            className="text-[#2563eb] hover:underline focus:outline-none"
-          >
-            Learn more
-          </button>
-        </div>
-      </SwiperSlide>
-      <SwiperSlide className="w-[70%]">
-        <div className="w-full p-4 border-dotted border-4 rounded-lg border-DGXblue transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10">
-          <h2 className="text-2xl text-DGXblack mt-4">Conflict Resolution</h2>
-          <ul className="list-disc pl-5 text-[#374151] mt-4">
-            <li className="mb-2">Address conflicts constructively and seek to resolve disputes amicably.</li>
-            <li className="mb-2">Report unresolved conflicts to community moderators.</li>
-          </ul>
-          <button
-            onClick={() => handleLearnMoreClick('conflict-resolution-details')}
-            className="text-[#2563eb] hover:underline focus:outline-none"
-          >
-            Learn more
-          </button>
-        </div>
-      </SwiperSlide>
+      <SwiperSlide className="w-[90%] sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%] 2xl:w-[40%]">
+  <div className="w-full p-4 border-dotted border-4 rounded-lg border-DGXblue transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10
+                  xs:p-2 xs:text-xs xs:rounded-md
+                  sm:p-3 sm:text-sm sm:rounded-lg
+                  md:p-4 md:text-base md:rounded-lg
+                  lg:p-5 lg:text-lg lg:rounded-xl
+                  xl:p-6 xl:text-xl xl:rounded-2xl
+                  2xl:p-8 2xl:text-2xl 2xl:rounded-3xl">
+    <h2 className="text-2xl text-DGXblack mt-4 
+                  xs:text-base
+                  sm:text-lg
+                  md:text-xl
+                  lg:text-2xl
+                  xl:text-3xl
+                  2xl:text-4xl">
+      Be Safe
+    </h2>
+    <ul className="list-disc pl-5 text-[#374151] mt-4 
+                  xs:text-xs
+                  sm:text-sm
+                  md:text-base
+                  lg:text-lg
+                  xl:text-xl
+                  2xl:text-2xl">
+      <li className="mb-2">Do not engage in or promote unlawful or harmful behavior.</li>
+      <li className="mb-2">Respect others&apos; rights and privacy.</li>
+    </ul>
+    <button
+      onClick={() => handleLearnMoreClick('be-safe-details')}
+      className="text-[#2563eb] hover:underline focus:outline-none
+                  xs:text-xs
+                  sm:text-sm
+                  md:text-base
+                  lg:text-lg
+                  xl:text-xl
+                  2xl:text-2xl">
+      Learn more
+    </button>
+  </div>
+</SwiperSlide>
+
+<SwiperSlide className="w-[90%] sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%] 2xl:w-[40%]">
+  <div className="w-full p-4 border-dotted border-4 rounded-lg border-DGXblue transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10
+                  xs:p-2 xs:text-xs xs:rounded-md
+                  sm:p-3 sm:text-sm sm:rounded-lg
+                  md:p-4 md:text-base md:rounded-lg
+                  lg:p-5 lg:text-lg lg:rounded-xl
+                  xl:p-6 xl:text-xl xl:rounded-2xl
+                  2xl:p-8 2xl:text-2xl 2xl:rounded-3xl">
+    <h2 className="text-2xl text-DGXblack mt-4 
+                  xs:text-base
+                  sm:text-lg
+                  md:text-xl
+                  lg:text-2xl
+                  xl:text-3xl
+                  2xl:text-4xl">
+      Be Trustworthy
+    </h2>
+    <ul className="list-disc pl-5 text-[#374151] mt-4 
+                  xs:text-xs
+                  sm:text-sm
+                  md:text-base
+                  lg:text-lg
+                  xl:text-xl
+                  2xl:text-2xl">
+      <li className="mb-2">Do not lie, misrepresent, or impersonate others.</li>
+      <li className="mb-2">Provide accurate information.</li>
+    </ul>
+    <button
+      onClick={() => handleLearnMoreClick('be-trustworthy-details')}
+      className="text-[#2563eb] hover:underline focus:outline-none
+                  xs:text-xs
+                  sm:text-sm
+                  md:text-base
+                  lg:text-lg
+                  xl:text-xl
+                  2xl:text-2xl">
+      Learn more
+    </button>
+  </div>
+</SwiperSlide>
+
+<SwiperSlide className="w-[90%] sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%] 2xl:w-[40%]">
+  <div className="w-full p-4 border-dotted border-4 rounded-lg border-DGXblue transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10
+                  xs:p-2 xs:text-xs xs:rounded-md
+                  sm:p-3 sm:text-sm sm:rounded-lg
+                  md:p-4 md:text-base md:rounded-lg
+                  lg:p-5 lg:text-lg lg:rounded-xl
+                  xl:p-6 xl:text-xl xl:rounded-2xl
+                  2xl:p-8 2xl:text-2xl 2xl:rounded-3xl">
+    <h2 className="text-2xl text-DGXblack mt-4 
+                  xs:text-base
+                  sm:text-lg
+                  md:text-xl
+                  lg:text-2xl
+                  xl:text-3xl
+                  2xl:text-4xl">
+      Be Professional
+    </h2>
+    <ul className="list-disc pl-5 text-[#374151] mt-4 
+                  xs:text-xs
+                  sm:text-sm
+                  md:text-base
+                  lg:text-lg
+                  xl:text-xl
+                  2xl:text-2xl">
+      <li className="mb-2">Do not share unprofessional or inappropriate content.</li>
+      <li className="mb-2">Behave with integrity and respect.</li>
+    </ul>
+    <button
+      onClick={() => handleLearnMoreClick('be-professional-details')}
+      className="text-[#2563eb] hover:underline focus:outline-none
+                  xs:text-xs
+                  sm:text-sm
+                  md:text-base
+                  lg:text-lg
+                  xl:text-xl
+                  2xl:text-2xl">
+      Learn more
+    </button>
+  </div>
+</SwiperSlide>
+
+<SwiperSlide className="w-[90%] sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%] 2xl:w-[40%]">
+  <div className="w-full p-4 border-dotted border-4 rounded-lg border-DGXblue transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10
+                  xs:p-2 xs:text-xs xs:rounded-md
+                  sm:p-3 sm:text-sm sm:rounded-lg
+                  md:p-4 md:text-base md:rounded-lg
+                  lg:p-5 lg:text-lg lg:rounded-xl
+                  xl:p-6 xl:text-xl xl:rounded-2xl
+                  2xl:p-8 2xl:text-2xl 2xl:rounded-3xl">
+    <h2 className="text-2xl text-DGXblack mt-4 
+                  xs:text-base
+                  sm:text-lg
+                  md:text-xl
+                  lg:text-2xl
+                  xl:text-3xl
+                  2xl:text-4xl">
+      Respect and Courtesy
+    </h2>
+    <ul className="list-disc pl-5 text-[#374151] mt-4 
+                  xs:text-xs
+                  sm:text-sm
+                  md:text-base
+                  lg:text-lg
+                  xl:text-xl
+                  2xl:text-2xl">
+      <li className="mb-2">Treat all members with respect and courtesy.</li>
+      <li className="mb-2">Be mindful of different perspectives and cultures.</li>
+    </ul>
+    <button
+      onClick={() => handleLearnMoreClick('respect-and-courtesy-details')}
+      className="text-[#2563eb] hover:underline focus:outline-none
+                  xs:text-xs
+                  sm:text-sm
+                  md:text-base
+                  lg:text-lg
+                  xl:text-xl
+                  2xl:text-2xl">
+      Learn more
+    </button>
+  </div>
+</SwiperSlide>
+
+<SwiperSlide className="w-[90%] sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%] 2xl:w-[40%]">
+  <div className="w-full p-4 border-dotted border-4 rounded-lg border-DGXblue transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10
+                  xs:p-2 xs:text-xs xs:rounded-md
+                  sm:p-3 sm:text-sm sm:rounded-lg
+                  md:p-4 md:text-base md:rounded-lg
+                  lg:p-5 lg:text-lg lg:rounded-xl
+                  xl:p-6 xl:text-xl xl:rounded-2xl
+                  2xl:p-8 2xl:text-2xl 2xl:rounded-3xl">
+    <h2 className="text-2xl text-DGXblack mt-4 
+                  xs:text-base
+                  sm:text-lg
+                  md:text-xl
+                  lg:text-2xl
+                  xl:text-3xl
+                  2xl:text-4xl">
+      Privacy and Confidentiality
+    </h2>
+    <ul className="list-disc pl-5 text-[#374151] mt-4 
+                  xs:text-xs
+                  sm:text-sm
+                  md:text-base
+                  lg:text-lg
+                  xl:text-xl
+                  2xl:text-2xl">
+      <li className="mb-2">Respect the privacy of other members.</li>
+      <li className="mb-2">Avoid posting sensitive or confidential information.</li>
+    </ul>
+    <button
+      onClick={() => handleLearnMoreClick('privacy-and-confidentiality-details')}
+      className="text-[#2563eb] hover:underline focus:outline-none
+                  xs:text-xs
+                  sm:text-sm
+                  md:text-base
+                  lg:text-lg
+                  xl:text-xl
+                  2xl:text-2xl">
+      Learn more
+    </button>
+  </div>
+</SwiperSlide>
+
+<SwiperSlide className="w-[90%] sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%] 2xl:w-[40%]">
+  <div className="w-full p-4 border-dotted border-4 rounded-lg border-DGXblue transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10
+                  xs:p-2 xs:text-xs xs:rounded-md
+                  sm:p-3 sm:text-sm sm:rounded-lg
+                  md:p-4 md:text-base md:rounded-lg
+                  lg:p-5 lg:text-lg lg:rounded-xl
+                  xl:p-6 xl:text-xl xl:rounded-2xl
+                  2xl:p-8 2xl:text-2xl 2xl:rounded-3xl">
+    <h2 className="text-2xl text-DGXblack mt-4 
+                  xs:text-base
+                  sm:text-lg
+                  md:text-xl
+                  lg:text-2xl
+                  xl:text-3xl
+                  2xl:text-4xl">
+      No Spamming or Self-Promotion
+    </h2>
+    <ul className="list-disc pl-5 text-[#374151] mt-4 
+                  xs:text-xs
+                  sm:text-sm
+                  md:text-base
+                  lg:text-lg
+                  xl:text-xl
+                  2xl:text-2xl">
+      <li className="mb-2">Refrain from spamming the community with irrelevant content.</li>
+      <li className="mb-2">Contribute valuable and relevant content to discussions.</li>
+    </ul>
+    <button
+      onClick={() => handleLearnMoreClick('no-spamming-or-self-promotion-details')}
+      className="text-[#2563eb] hover:underline focus:outline-none
+                  xs:text-xs
+                  sm:text-sm
+                  md:text-base
+                  lg:text-lg
+                  xl:text-xl
+                  2xl:text-2xl">
+      Learn more
+    </button>
+  </div>
+</SwiperSlide>
+
+<SwiperSlide className="w-[90%] sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%] 2xl:w-[40%]">
+  <div className="w-full p-4 border-dotted border-4 rounded-lg border-DGXblue transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10
+                  xs:p-2 xs:text-xs xs:rounded-md
+                  sm:p-3 sm:text-sm sm:rounded-lg
+                  md:p-4 md:text-base md:rounded-lg
+                  lg:p-5 lg:text-lg lg:rounded-xl
+                  xl:p-6 xl:text-xl xl:rounded-2xl
+                  2xl:p-8 2xl:text-2xl 2xl:rounded-3xl">
+    <h2 className="text-2xl text-DGXblack mt-4 
+                  xs:text-base
+                  sm:text-lg
+                  md:text-xl
+                  lg:text-2xl
+                  xl:text-3xl
+                  2xl:text-4xl">
+      Intellectual Property
+    </h2>
+    <ul className="list-disc pl-5 text-[#374151] mt-4 
+                  xs:text-xs
+                  sm:text-sm
+                  md:text-base
+                  lg:text-lg
+                  xl:text-xl
+                  2xl:text-2xl">
+      <li className="mb-2">Respect intellectual property rights.</li>
+      <li className="mb-2">Attribute sources appropriately when sharing third-party content.</li>
+    </ul>
+    <button
+      onClick={() => handleLearnMoreClick('intellectual-property-details')}
+      className="text-[#2563eb] hover:underline focus:outline-none
+                  xs:text-xs
+                  sm:text-sm
+                  md:text-base
+                  lg:text-lg
+                  xl:text-xl
+                  2xl:text-2xl">
+      Learn more
+    </button>
+  </div>
+</SwiperSlide>
+
+<SwiperSlide className="w-[90%] sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%] 2xl:w-[40%]">
+  <div className="w-full p-4 border-dotted border-4 rounded-lg border-DGXblue transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10
+                  xs:p-2 xs:text-xs xs:rounded-md
+                  sm:p-3 sm:text-sm sm:rounded-lg
+                  md:p-4 md:text-base md:rounded-lg
+                  lg:p-5 lg:text-lg lg:rounded-xl
+                  xl:p-6 xl:text-xl xl:rounded-2xl
+                  2xl:p-8 2xl:text-2xl 2xl:rounded-3xl">
+    <h2 className="text-2xl text-DGXblack mt-4 
+                  xs:text-base
+                  sm:text-lg
+                  md:text-xl
+                  lg:text-2xl
+                  xl:text-3xl
+                  2xl:text-4xl">
+      Safety and Security
+    </h2>
+    <ul className="list-disc pl-5 text-[#374151] mt-4 
+                  xs:text-xs
+                  sm:text-sm
+                  md:text-base
+                  lg:text-lg
+                  xl:text-xl
+                  2xl:text-2xl">
+      <li className="mb-2">Do not share malicious links or software.</li>
+      <li className="mb-2">Report any suspicious activities or security breaches to the moderators.</li>
+    </ul>
+    <button
+      onClick={() => handleLearnMoreClick('safety-and-security-details')}
+      className="text-[#2563eb] hover:underline focus:outline-none
+                  xs:text-xs
+                  sm:text-sm
+                  md:text-base
+                  lg:text-lg
+                  xl:text-xl
+                  2xl:text-2xl">
+      Learn more
+    </button>
+  </div>
+</SwiperSlide>
+
+<SwiperSlide className="w-[90%] sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%] 2xl:w-[40%]">
+  <div className="w-full p-4 border-dotted border-4 rounded-lg border-DGXblue transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10
+                  xs:p-2 xs:text-xs xs:rounded-md
+                  sm:p-3 sm:text-sm sm:rounded-lg
+                  md:p-4 md:text-base md:rounded-lg
+                  lg:p-5 lg:text-lg lg:rounded-xl
+                  xl:p-6 xl:text-xl xl:rounded-2xl
+                  2xl:p-8 2xl:text-2xl 2xl:rounded-3xl">
+    <h2 className="text-2xl text-DGXblack mt-4 
+                  xs:text-base
+                  sm:text-lg
+                  md:text-xl
+                  lg:text-2xl
+                  xl:text-3xl
+                  2xl:text-4xl">
+      Content Guidelines
+    </h2>
+    <ul className="list-disc pl-5 text-[#374151] mt-4 
+                  xs:text-xs
+                  sm:text-sm
+                  md:text-base
+                  lg:text-lg
+                  xl:text-xl
+                  2xl:text-2xl">
+      <li className="mb-2">Post content that is relevant to the community’s purpose.</li>
+      <li className="mb-2">Use clear and concise language in your posts.</li>
+    </ul>
+    <button
+      onClick={() => handleLearnMoreClick('content-guidelines-details')}
+      className="text-[#2563eb] hover:underline focus:outline-none
+                  xs:text-xs
+                  sm:text-sm
+                  md:text-base
+                  lg:text-lg
+                  xl:text-xl
+                  2xl:text-2xl">
+      Learn more
+    </button>
+  </div>
+</SwiperSlide>
+
+<SwiperSlide className="w-[90%] sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%] 2xl:w-[40%]">
+  <div className="w-full p-4 border-dotted border-4 rounded-lg border-DGXblue transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10
+                  xs:p-2 xs:text-xs xs:rounded-md
+                  sm:p-3 sm:text-sm sm:rounded-lg
+                  md:p-4 md:text-base md:rounded-lg
+                  lg:p-5 lg:text-lg lg:rounded-xl
+                  xl:p-6 xl:text-xl xl:rounded-2xl
+                  2xl:p-8 2xl:text-2xl 2xl:rounded-3xl">
+    <h2 className="text-2xl text-DGXblack mt-4 
+                  xs:text-base
+                  sm:text-lg
+                  md:text-xl
+                  lg:text-2xl
+                  xl:text-3xl
+                  2xl:text-4xl">
+      Conflict Resolution
+    </h2>
+    <ul className="list-disc pl-5 text-[#374151] mt-4 
+                  xs:text-xs
+                  sm:text-sm
+                  md:text-base
+                  lg:text-lg
+                  xl:text-xl
+                  2xl:text-2xl">
+      <li className="mb-2">Address conflicts constructively and seek to resolve disputes amicably.</li>
+      <li className="mb-2">Report unresolved conflicts to community moderators.</li>
+    </ul>
+    <button
+      onClick={() => handleLearnMoreClick('conflict-resolution-details')}
+      className="text-[#2563eb] hover:underline focus:outline-none
+                  xs:text-xs
+                  sm:text-sm
+                  md:text-base
+                  lg:text-lg
+                  xl:text-xl
+                  2xl:text-2xl">
+      Learn more
+    </button>
+  </div>
+</SwiperSlide>
+
     </Swiper>
     <div className="flex flex-wrap items-center mb-20">
     <div className="w-full md:w-1/2 p-2">
@@ -234,8 +494,8 @@ const CommunityGuidelines = () => {
     </div>
 
     </div>
-    
-      <section id="be-safe-details" className="mb-8">
+    <div className='flex flex-col md:grid md:grid-cols-2 lg:grid-cols-3 gap-8'>
+    <section id="be-safe-details" className="mb-8">
         <h2 className="text-2xl text-DGXblack mt-8 text-center font-bold">Be Safe</h2>
         <p className="text-[#374151] mt-4">
           Ensuring safety is crucial to maintaining a positive community environment. This includes:
@@ -423,6 +683,8 @@ const CommunityGuidelines = () => {
           </ul>
         </p>
       </section>
+    </div>
+     
     </div>
   );
 };
