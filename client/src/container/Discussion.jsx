@@ -1,9 +1,14 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { FaSearch, FaThumbsUp, FaComment, FaWindowClose } from 'react-icons/fa';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import ApiContext from '../context/ApiContext.jsx';
 import DiscussionModal from '../component/DiscussionModal';
 import { compressImage } from '../utils/compressImage.js'
 
 const Discussion = () => {
+    const { fetchData, userToken, setUserToken } = useContext(ApiContext);
+    const [loading, setLoading] = useState(false);
     const hotTopics = [
         { title: "Topic 1", link: "#", description: "Description for Topic 1" },
         { title: "Topic 2", link: "#", description: "Description for Topic 2" },
@@ -83,14 +88,14 @@ const Discussion = () => {
 
             if (file) {
                 // Compress the image if it's larger than 500 KB
-                if (file.size > 500 * 1024) { // 500 KB in bytes
-                    const compressedFile = await compressImage(file);
-                    console.log(compressedFile)
-                    setSelectedImage(compressedFile);
-                    // setSelectedImage(URL.createObjectURL(file));
-                } else {
-                    setSelectedImage(URL.createObjectURL(file));
-                }
+                // if (file.size > 500 * 1024) { // 500 KB in bytes
+                const compressedFile = await compressImage(file);
+                // console.log(compressedFile)
+                setSelectedImage(compressedFile);
+                // setSelectedImage(URL.createObjectURL(file));
+                // } else {
+                //     setSelectedImage(URL.createObjectURL(file));
+                // }
             }
         }
     };
@@ -110,7 +115,7 @@ const Discussion = () => {
 
     const handlePrivacyChange = (e) => setPrivacy(e.target.value);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
 
@@ -118,11 +123,72 @@ const Discussion = () => {
             title,
             content,
             tags: tags.join(','), // Convert tags array to string
-            links: links.join(','), // Convert links array to string
+            url: links.join(','), // Convert links array to string
             image: selectedImage,
             privacy
         };
-        console.log(newDiscussion)
+
+        const endpoint = "discussion/discussionpost";
+
+        const method = "POST";
+        const body = {
+            title,
+            content,
+            tags: tags.join(','), // Convert tags array to string
+            url: links.join(','), // Convert links array to string
+            image: selectedImage,
+            visibility: privacy
+
+        };
+        const headers = {
+            'Content-Type': 'application/json',
+            'auth-token': userToken
+        };
+        setLoading(true);
+        console.log(headers, body, endpoint)
+
+        try {
+            const data = await fetchData(endpoint, method, body, headers);
+            if (!data.success) {
+                setLoading(false);
+                toast.error(`Error in password change: ${data.message}`, {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            } else if (data.success) {
+                setLoading(false);
+                toast.success("Password changed successfully. Log in again with new credentials.", {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+
+            }
+        } catch (error) {
+            setLoading(false);
+            toast.error(`Something went wrong, try again`, {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
+        // console.log(newDiscussion)
         const newDiscussion1 = {
             title,
             content,
@@ -147,6 +213,7 @@ const Discussion = () => {
 
     return (
         <div>
+            <ToastContainer />
             <header className="flex flex-wrap sm:justify-start sm:flex-nowrap w-full bg-DGXblue text-sm py-4">
                 <nav className="max-w-[85rem] w-full mx-auto px-4 flex flex-wrap basis-full items-center justify-between" aria-label="Global">
                     <div className="sm:order-4 flex items-center w-full sm:w-auto mt-4 sm:mt-0 sm:ml-4">

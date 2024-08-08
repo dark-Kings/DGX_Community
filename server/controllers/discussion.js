@@ -1,4 +1,4 @@
-import { validationResult } from 'express-validator';
+import { body, validationResult } from 'express-validator';
 import { connectToDatabase, closeConnection } from '../database/mySql.js';
 import dotenv from 'dotenv'
 import { queryAsync, mailSender, logError, logInfo, logWarning } from '../helper/index.js';
@@ -12,6 +12,7 @@ export const discussionpost = async (req, res) => {
     let success = false;
 
     const userId = req.user.id;
+    console.log(userId)
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -22,8 +23,19 @@ export const discussionpost = async (req, res) => {
     }
 
     try {
-        const { title, content, image, likes, comment, tags, url, visibility, reference } = req.body;
+        console.log(req.body)
+        let { title, content, image, likes, comment, tags, url, visibility, reference } = req.body;
         const threadReference = reference ?? 0;
+        title = title ?? null
+        content = content ?? null
+        image = image ?? null
+        likes = likes ?? null
+        comment = comment ?? null
+        tags = tags ?? null
+        url = url ?? null
+        visibility = visibility ?? null
+
+        console.log(title, content, image, likes, comment, tags, url, visibility, threadReference)
         // Connect to the database
         connectToDatabase(async (err, conn) => {
             if (err) {
@@ -36,6 +48,7 @@ export const discussionpost = async (req, res) => {
             try {
                 const query = `SELECT UserID, Name FROM Community_User WHERE isnull(delStatus,0) = 0 AND EmailId = ?`;
                 const rows = await queryAsync(conn, query, [userId]);
+                console.log(rows)
 
                 if (rows.length > 0) {
                     const discussionPostQuery = `INSERT INTO Community_Discussion (UserID, Title, Content, Image, Likes, Comment, Tag, Visibility, Reference, ResourceUrl, AuthAdd, AddOnDt, delStatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), 0)`
@@ -61,7 +74,7 @@ export const discussionpost = async (req, res) => {
             }
         });
     } catch (error) {
-        logError(queryErr)
+        logError(error)
         return res.status(500).json({ success: false, data: {}, message: 'Something went wrong please try again' });
 
     }
