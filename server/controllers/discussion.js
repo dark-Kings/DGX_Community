@@ -23,7 +23,7 @@ export const discussionpost = async (req, res) => {
     }
 
     try {
-        console.log(req.body)
+        // console.log(req.body)
         let { title, content, image, likes, comment, tags, url, visibility, reference } = req.body;
         const threadReference = reference ?? 0;
         title = title ?? null
@@ -35,7 +35,7 @@ export const discussionpost = async (req, res) => {
         url = url ?? null
         visibility = visibility ?? null
 
-        console.log(title, content, image, likes, comment, tags, url, visibility, threadReference)
+        // console.log(title, content, image, likes, comment, tags, url, visibility, threadReference)
         // Connect to the database
         connectToDatabase(async (err, conn) => {
             if (err) {
@@ -48,7 +48,7 @@ export const discussionpost = async (req, res) => {
             try {
                 const query = `SELECT UserID, Name FROM Community_User WHERE isnull(delStatus,0) = 0 AND EmailId = ?`;
                 const rows = await queryAsync(conn, query, [userId]);
-                console.log(rows)
+                // console.log(rows)
 
                 if (rows.length > 0) {
                     const discussionPostQuery = `INSERT INTO Community_Discussion (UserID, Title, Content, Image, Likes, Comment, Tag, Visibility, Reference, ResourceUrl, AuthAdd, AddOnDt, delStatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), 0)`
