@@ -335,107 +335,128 @@ const MyStoryboard = () => {
 
 
         {posts.map(post => (
-          <div key={post.id} className="mb-6 p-4 border border-DGXgray rounded shadow-sm bg-white">
-            <div className="flex items-center mb-4">
-              <img src={post.user.profilePic} alt={post.user.name} className="w-10 h-10 rounded-full mr-4" />
-              <div>
-                <p className="text-DGXblack font-bold">{post.user.name}</p>
-                <p className="text-DGXgray text-sm">{timestamps[post.id]?.postTime}</p>
+          <div key={post.id} className="grid grid-cols-1 lg:grid-cols-7 mb-6 p-4 border border-DGXgray rounded shadow-sm bg-white">
+            <div className="lg:col-span-5">
+              <div className="flex items-center mb-4">
+                <img src={post.user.profilePic} alt={post.user.name} className="w-10 h-10 rounded-full mr-4" />
+                <div>
+                  <p className="text-DGXblack font-bold">{post.user.name}</p>
+                  <p className="text-DGXgray text-sm">{timestamps[post.id]?.postTime}</p>
+                </div>
               </div>
-            </div>
-            <h2 className="text-lg font-semibold text-DGXblack mb-2">{post.certificate}</h2>
-            <div className="mb-4" dangerouslySetInnerHTML={{ __html: formatText(post.caption) }} />
-            <div className='flex justify-center items-center m-8 p-2 border-2 border-DGXgreen bg-gray-100'>
-              {post.fileType === 'image' && (
-                <img
-                  src={post.file}
-                  alt="Image"
-                  // className="w-600 h-600 m-4 object-cover cursor-pointer shadow-md" 
-                  onClick={() => handleImageClick(post.file)}
-                  style={{ maxWidth: '100%', maxHeight: '600px' }}
-                />
-              )}
-            </div>
-            {post.link && <a href={post.link} className="text-DGXblue" target="_blank" rel="noopener noreferrer">View Certificate</a>}
-            <div className="flex items-center mt-2">
-              <button onClick={() => handleLike(post.id)} className="flex items-center text-DGXblue mr-4">
+
+              <h2 className="text-lg font-semibold text-DGXblack mb-2">{post.certificate}</h2>
+              <div className="mb-4" dangerouslySetInnerHTML={{ __html: formatText(post.caption) }} />
+              <div className="flex justify-center items-center m-8 mb-0 p-2 border-2 border-DGXgreen bg-gray-100 w-full lg:w-3/5 mx-auto">
+                {post.fileType === 'image' && (
+                  <img
+                    src={post.file}
+                    alt="Image"
+                    onClick={() => handleImageClick(post.file)}
+                    className="max-w-full max-h-60 object-contain"
+                  />
+                )}
+              </div>
+              <button onClick={() => handleLike(post.id)} className="flex items-center justify-center text-DGXblue mr-4 mt-4 lg:mt-0">
                 <FaThumbsUp className="mr-1" /> {post.likes} Likes
               </button>
-              <div className="flex items-center">
+              <div className="flex items-center mt-4 lg:mt-0">
                 <FaComment className="mr-1 text-DGXgray" />
                 <input
                   type="text"
                   value={commentInputs[post.id] || ''}
                   onChange={(e) => handleCommentChange(post.id, e.target.value)}
                   placeholder="Add a comment"
-                  className="border p-2 rounded border-DGXgray text-DGXblack w-80"
+                  className="border p-2 rounded border-DGXgray text-DGXblack w-full lg:w-50"
                 />
                 <button onClick={() => handleAddComment(post.id)} className="bg-DGXblue text-white p-2 rounded ml-2">
                   Post
                 </button>
               </div>
             </div>
-            {post.comments.length > 0 && (
-              <div className="mt-4">
-                <h3 className="text-lg font-semibold text-DGXblack">Comments:</h3>
-                {post.comments.map(comment => (
-                  <div key={comment.id} className="border-b border-DGXgray mb-2 pb-2">
-                    <div className="flex items-center mb-2">
-                      <p className="text-DGXblack font-bold mr-2">{comment.user.name}:</p>
-                      {comment.isEditing ? (
-                        <input
-                          type="text"
-                          value={comment.text}
-                          onChange={(e) => handleEditComment(post.id, comment.id, e.target.value)}
-                          className="border p-2 rounded border-DGXgray text-DGXblack w-80"
-                        />
-                      ) : (
-                        <p className="text-DGXblack" dangerouslySetInnerHTML={{ __html: formatText(comment.text) }} />
-                      )}
-                      <button onClick={() => setPosts(posts.map(p => p.id === post.id ? {
-                        ...p,
-                        comments: p.comments.map(c => c.id === comment.id ? { ...c, isEditing: !c.isEditing } : c)
-                      } : p))} className="ml-4 text-DGXblue">
-                        <FaEdit />
-                      </button>
-                      <button onClick={() => handleDeleteComment(post.id, comment.id)} className="ml-2 text-red-500">
-                        <FaTrash />
-                      </button>
-                    </div>
-                    <p className="text-DGXgray text-sm">{timestamps[post.id]?.comments.find(c => c.id === comment.id)?.time}</p>
-                    {comment.replies.length > 0 && (
-                      <div className="ml-4">
-                        {comment.replies.map(reply => (
-                          <div key={reply.id} className="border-t border-DGXgray mt-2 pt-2">
-                            <p className="text-DGXblack">{reply.user.name}:</p>
-                            <p className="text-DGXgray" dangerouslySetInnerHTML={{ __html: formatText(reply.text) }} />
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                    {activeReplyTo === comment.id ? (
-                      <div className="ml-4 mt-2">
-                        <input
-                          type="text"
-                          value={replyInputs[comment.id] || ''}
-                          onChange={(e) => handleReplyChange(comment.id, e.target.value)}
-                          placeholder="Reply"
-                          className="border p-2 rounded border-DGXgray text-DGXblack w-80"
-                        />
-                        <button onClick={() => handleAddComment(post.id, comment.id)} className="bg-DGXblue text-white p-2 rounded ml-2">
-                          Reply
+
+            <div className="lg:col-span-2 mt-4 lg:mt-0">
+              {post.comments.length > 0 && (
+                <div className="mt-4">
+                  <h3 className="text-lg font-semibold text-DGXblack">Comments:</h3>
+                  {post.comments.map((comment) => (
+                    <div key={comment.id} className="border-b border-DGXgray mb-2 pb-2">
+                      <div className="flex items-center mb-2">
+                        <p className="text-DGXblack font-bold mr-2">{comment.user.name}:</p>
+                        {comment.isEditing ? (
+                          <input
+                            type="text"
+                            value={comment.text}
+                            onChange={(e) => handleEditComment(post.id, comment.id, e.target.value)}
+                            className="border p-2 rounded border-DGXgray text-DGXblack w-full"
+                          />
+                        ) : (
+                          <p className="text-DGXblack" dangerouslySetInnerHTML={{ __html: formatText(comment.text) }} />
+                        )}
+                        <button
+                          onClick={() =>
+                            setPosts(
+                              posts.map((p) =>
+                                p.id === post.id
+                                  ? {
+                                    ...p,
+                                    comments: p.comments.map((c) =>
+                                      c.id === comment.id ? { ...c, isEditing: !c.isEditing } : c
+                                    ),
+                                  }
+                                  : p
+                              )
+                            )
+                          }
+                          className="ml-4 text-DGXblue"
+                        >
+                          <FaEdit />
+                        </button>
+                        <button onClick={() => handleDeleteComment(post.id, comment.id)} className="ml-2 text-red-500">
+                          <FaTrash />
                         </button>
                       </div>
-                    ) : (
-                      <button onClick={() => setActiveReplyTo(comment.id)} className="bg-DGXblue text-white p-2 rounded mt-2">
-                        Reply
-                      </button>
-                    )}
-                  </div>
-                ))}
-              </div>
-            )}
+                      <p className="text-DGXgray text-sm">
+                        {timestamps[post.id]?.comments.find((c) => c.id === comment.id)?.time}
+                      </p>
+                      {comment.replies.length > 0 && (
+                        <div className="ml-4">
+                          {comment.replies.map((reply) => (
+                            <div key={reply.id} className="border-t border-DGXgray mt-2 pt-2">
+                              <p className="text-DGXblack">{reply.user.name}:</p>
+                              <p className="text-DGXgray" dangerouslySetInnerHTML={{ __html: formatText(reply.text) }} />
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      {activeReplyTo === comment.id ? (
+                        <div className="ml-4 mt-2">
+                          <input
+                            type="text"
+                            value={replyInputs[comment.id] || ''}
+                            onChange={(e) => handleReplyChange(comment.id, e.target.value)}
+                            placeholder="Reply"
+                            className="border p-2 rounded border-DGXgray text-DGXblack w-full"
+                          />
+                          <button onClick={() => handleAddComment(post.id, comment.id)} className="bg-DGXblue text-white p-2 rounded ml-2">
+                            Reply
+                          </button>
+                        </div>
+                      ) : (
+                        <button onClick={() => setActiveReplyTo(comment.id)} className="bg-DGXblue text-white p-2 rounded mt-2">
+                          Reply
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
+
+
+
+
         ))}
 
         {fullScreenImage && (
