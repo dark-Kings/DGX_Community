@@ -163,7 +163,7 @@ const Discussion = () => {
                 });
             } else if (data.success) {
                 setLoading(false);
-                toast.success("Password changed successfully. Log in again with new credentials.", {
+                toast.success("Disscussion Post Successfully", {
                     position: "top-center",
                     autoClose: 3000,
                     hideProgressBar: false,
@@ -424,7 +424,6 @@ const Discussion = () => {
                                         className="w-full px-3 py-2 border rounded-lg"
                                     >
                                         <option value="private">Private</option>
-                                        <option value="protected">Protected</option>
                                         <option value="public">Public</option>
                                     </select>
                                 </div>
