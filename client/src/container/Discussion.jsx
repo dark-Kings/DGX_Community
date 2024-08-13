@@ -5,11 +5,11 @@ import { compressImage } from '../utils/compressImage.js'
 
 const Discussion = () => {
     const hotTopics = [
-        { title: "Topic 1", link: "#", description: "Description for Topic 1" },
-        { title: "Topic 2", link: "#", description: "Description for Topic 2" },
-        { title: "Topic 3", link: "#", description: "Description for Topic 3" },
-        { title: "Topic 4", link: "#", description: "Description for Topic 4" },
-        { title: "Topic 5", link: "#", description: "Description for Topic 5" }
+        { title: "NVIDIA Innovations", link: "#", description: "Discover the latest advancements from NVIDIA and how they are shaping the future of technology." },
+        { title: "NVIDIA-H100: Performance Unleashed", link: "#", description: "Discuss the performance of the NVIDIA-H100 GPU. Share your experiences, benchmarks, and use cases to help others understand its capabilities and benefits." },
+        { title: "NVIDIA Ecosystem", link: "#", description: "Engage with other community members to discuss how various NVIDIA tools and platforms integrate with each other. Share tips, tricks, and best practices for maximizing the NVIDIA ecosystem." },
+        { title: "Success Stories with NVIDIA-H100", link: "#", description: "Exchange stories and insights about how the NVIDIA-H100 is being utilized in different industries. Discuss successful projects and explore innovative applications of this powerful GPU." },
+        { title: "Future of GPU Technology", link: "#", description: "Speculate on the future of GPU technology and NVIDIA’s role in it. What advancements do you anticipate, and how do you see them shaping the tech landscape?" }
     ];
 
     const topUsers = [
@@ -214,7 +214,7 @@ const Discussion = () => {
             {hotTopics.map((topic, index) => (
               <div
                 key={index}
-                className="rounded-lg shadow-lg p-4 border border-DGXblack transition-transform transform hover:scale-105 hover:shadow-xl"
+                className="rounded-lg shadow-lg p-4 border hover:bg-DGXgreen/50 border-DGXblack transition-transform transform hover:scale-105 hover:shadow-xl"
               >
                 <h3 className="text-xl font-semibold">
                   <a href={topic.link} className="text-DGXblack hover:underline">
@@ -439,7 +439,7 @@ const Discussion = () => {
                 {hotTopics.map((topic, index) => (
                   <div
                     key={index}
-                    className="rounded-lg shadow-lg p-4 border border-DGXblack transition-transform transform hover:scale-105 hover:shadow-xl"
+                    className="rounded-lg shadow-lg p-4 border border-DGXblack hover:bg-DGXgreen/50 transition-transform transform hover:scale-105 hover:shadow-xl"
                   >
                     <h3 className="text-xl font-semibold">
                       <a href={topic.link} className="text-DGXblack hover:underline">

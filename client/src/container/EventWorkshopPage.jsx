@@ -182,15 +182,15 @@ export const useMouseEnter = () => {
 const EventWorkshopPage = () => {
   const events = [
     {
-      title: "Event 1",
+      title: "NVIDIA CEO Jensen Huang and Lauren Goode at WIRED",
       image: `${images.Event1}`,
     },
     {
-      title: "Event 2",
+      title: "NVIDIA CEO Jensen Huang and Mark Zuckerberg",
       image: `${images.Event2}`,
     },
     {
-      title: "Event 3",
+      title: "NVIDIA Boosts Global Quantum Computing with CUDA-Q",
       image: `${images.Event3}`,
     },
     // Add more events as needed
@@ -253,7 +253,7 @@ const EventWorkshopPage = () => {
           <CardContainer key={index} className="my-12" containerClassName="border-2 border-DGXgreen bg-DGXblue">
             <CardBody className=" bg-gradient-to-r from-DGXgray via-DGXblue to-DGXblue p-8 border border-DGXgreen xs:w-full xs:h-72 sm:w-full md:w-full lg:w-full xl:w-full 2xl:w-full">
               <CardItem translateX={10} translateY={20} rotateX={10} rotateY={20}>
-                <h2 className="text-xl font-bold text-DGXgreen">{event.title}</h2>
+                <h2 className="text-xl font-bold text-DGXwhite">{event.title}</h2>
                 <img src={event.image} alt={event.title} className="mt-10" />
               </CardItem>
               <div className="absolute bottom-4 left-4 flex gap-2">
