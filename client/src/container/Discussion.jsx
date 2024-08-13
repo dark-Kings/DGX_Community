@@ -127,7 +127,7 @@ const Discussion = () => {
             image: selectedImage,
             privacy
         };
-
+        
         const endpoint = "discussion/discussionpost";
 
         const method = "POST";

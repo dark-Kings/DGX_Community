@@ -21,11 +21,11 @@ import Survey from './component/Survey.jsx';
 import Quiz from './component/Quiz.jsx';
 import EventWorkshopPage from './container/EventWorkshopPage.jsx';
 // import MyStoryboard from './component/MyStoryboard.jsx';
-import Sidebar from './component/Admin/Sidebar.jsx';
 // import LoadPage from './component/LoadPage.jsx';
 import LoadPage from './component/LoadPage.jsx';
 import Calendar from './component/Calendar.jsx';
 import GeneralUserCalendar from './component/GeneralUserCalendar.jsx';
+import AdminDashboard from './Admin/AdminDashboard.jsx';
 
 
 
@@ -59,10 +59,11 @@ function App() {
 
             {  /*-----------ADMIN----------- */}
 
-            <Route path='/Admin/Sidebar' element={<Sidebar />} />
+            <Route path='/AdminDashboard' element={<AdminDashboard />} />
+            {/* <Route path='/Admin/Sidebar' element={<Sidebar />} />
             <Route path='/LoadPage' element={<LoadPage />} />
             <Route path='/Calendar' element={<Calendar />} />
-            <Route path='/GeneralUserCalendar' element={<GeneralUserCalendar />} />
+            <Route path='/GeneralUserCalendar' element={<GeneralUserCalendar />} /> */}
           </Routes>
         </div>
         <Footer />

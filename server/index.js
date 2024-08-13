@@ -12,7 +12,8 @@ import userDiscussion from './routes/Discussion.js'
 
 // Middleware to parse JSON bodies
 dotenv.config()
-const port = process.env.PORT
+const port = process.env.PORT | 8000
+
 const app = express()
 app.use(express.json())
 app.use(cors())

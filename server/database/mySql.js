@@ -2,7 +2,7 @@ import sql from 'msnodesqlv8';
 import dotenv from 'dotenv'
 dotenv.config()
 // const connectionString = 'Driver={ODBC Driver 17 for SQL Server};Server=ANSHUL\\SQLEXPRESS;Database=GIINDIAdgx_Community;Trusted_Connection=yes;';
-const connectionString = process.env.DATABASE_MYSQLURL;
+const connectionString = process.env.DATABASE_MYSQLURL
 
 let connection;
 
