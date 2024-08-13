@@ -121,26 +121,26 @@ export const getdiscussion = async (req, res) => {
                         const likeCountQuery = `SELECT UserID, Likes, AuthAdd as UserName FROM Community_Discussion WHERE ISNULL(delStatus, 0) = 0 AND Likes > 0 AND Reference = ?`;
                         const likeCountResult = await queryAsync(conn, likeCountQuery, [item.DiscussionID]);
 
+                        const commentQuery = `SELECT UserID, Comment, AuthAdd as UserName FROM Community_Discussion WHERE ISNULL(delStatus, 0) = 0 AND  Comment IS NOT NULL AND Reference = ?`;
+                        const commentResult = await queryAsync(conn, commentQuery, [item.DiscussionID]);
+                        // console.log(commentResult)
+                        const commentsArray = Array.isArray(commentResult) ? commentResult : [];
+
 
                         let userLike = 0;
 
                         // Check if `UserID` in `likeCountResult` matches `rows[0].UserId`
                         if (likeCountResult.some(likeItem => likeItem.UserID === rows[0].UserID)) {
                             userLike = 1;
-                            console.log("User has liked the discussion");
-                        } else {
-                            console.log("User has not liked the discussion");
                         }
 
-                        // Debugging information
-                        console.log("likeCountResult:", likeCountResult);
-                        console.log("rows[0].UserId:", rows[0].UserID);
-                        console.log("userLike:", userLike);
+
                         const likeCount = likeCountResult.length > 0 ? likeCountResult.length : 0;
 
                         // Add like count to the discussion item
-                        updatedDiscussions.push({ ...item, likeCount, userLike });
+                        updatedDiscussions.push({ ...item, likeCount, userLike, comment: commentsArray });
                     }
+
 
 
 
