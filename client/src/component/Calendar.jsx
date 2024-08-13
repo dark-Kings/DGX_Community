@@ -17,8 +17,8 @@ const Calendar = () => {
   const [events, setEvents] = useState([
     {
       title: 'Workshop on DGX H100',
-      start: new Date(2024, 7, 11, 10, 0),
-      end: new Date(2024, 7, 12, 12, 0),
+      start: new Date(),
+      end: new Date(new Date().getTime() + 3600000), // 1 hour later
       category: 'workshop',
       poster: images.Event1, // Add poster URL
       venue: 'Room 101',
@@ -28,8 +28,8 @@ const Calendar = () => {
     },
     {
       title: 'DGX Server Maintenance',
-      start: new Date(2024, 7, 9, 14, 0),
-      end: new Date(2024, 7, 9, 16, 0),
+      start: new Date(new Date().getTime() + 86400000), // 1 day later
+      end: new Date(new Date().getTime() + 86400000 + 3600000), // 1 hour later
       category: 'event',
       poster: images.Event5, // Add poster URL
       venue: 'Server Room',

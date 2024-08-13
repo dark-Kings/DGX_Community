@@ -211,7 +211,7 @@ const MyStoryboard = () => {
         setNewPost((prevPost) => ({
           ...prevPost,
           file: imageDataUrl,
-          fileType: file.type.includes('pdf') ? 'pdf' : 'image',
+          fileType: 'image',
           originalDimensions: { width: originalWidth, height: originalHeight },
           dimensions: { width, height },
         }));

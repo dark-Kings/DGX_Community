@@ -1,9 +1,10 @@
 import React from 'react'
+import Calendar from '../../component/Calendar'
+
 
 const Events = () => {
   return (
-    <div>Events</div>
-  )
+    < Calendar />  )
 }
 
 export default Events
