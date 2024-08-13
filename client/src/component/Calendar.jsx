@@ -17,8 +17,8 @@ const Calendar = () => {
   const [events, setEvents] = useState([
     {
       title: 'Workshop on DGX H100',
-      start: new Date(2024, 6, 26, 10, 0),
-      end: new Date(2024, 6, 26, 12, 0),
+      start: new Date(),
+      end: new Date(new Date().getTime() + 3600000), // 1 hour later
       category: 'workshop',
       poster: images.Event1, // Add poster URL
       venue: 'Room 101',
@@ -28,8 +28,8 @@ const Calendar = () => {
     },
     {
       title: 'DGX Server Maintenance',
-      start: new Date(2024, 6, 27, 14, 0),
-      end: new Date(2024, 6, 27, 16, 0),
+      start: new Date(new Date().getTime() + 86400000), // 1 day later
+      end: new Date(new Date().getTime() + 86400000 + 3600000), // 1 hour later
       category: 'event',
       poster: images.Event5, // Add poster URL
       venue: 'Server Room',
@@ -182,6 +182,7 @@ const Calendar = () => {
 
   return (
     <div className="container mx-auto mt-10">
+      <div><h1 className='flex justify-center items-center font-bold text-5xl mb-10'>Events and Workshops Calendar</h1></div>
       <div className="mb-5">
         <button
           onClick={() => setIsModalOpen(true)}

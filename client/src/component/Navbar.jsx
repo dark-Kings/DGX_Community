@@ -14,27 +14,25 @@ const Navbar = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (userToken != null && user != null && userToken != undefined && user != undefined) {
-            setIsLoggedIn(true)
+        if (userToken && user) {
+            setIsLoggedIn(true);
+        } else {
+            setIsLoggedIn(false);
         }
-        else {
-            setIsLoggedIn(false)
-        }
-    }, [user, userToken])
+    }, [user, userToken]);
 
-
-    // console.log(user, userToken);
     const [isDropdownOpen, setDropdownOpen] = useState(false);
 
     const toggleDropdown = () => {
         setDropdownOpen(!isDropdownOpen);
     };
+
     const handleLogout = () => {
-        toggleDropdown()
+        toggleDropdown();
         Cookies.remove('userToken');
-        setUserToken(null)
-        navigate('/')
-    }
+        setUserToken(null);
+        navigate('/');
+    };
 
     const navLinks = [
         { label: 'Home', to: "/" },
@@ -45,9 +43,9 @@ const Navbar = () => {
     ];
 
     return (
-        <main className=''>
+        <main>
             <nav className='flex justify-between items-center p-2'>
-                <section className=''>
+                <section>
                     <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
                         <AiOutlineMenu onClick={() => setMenu(true)} className='text-3xl cursor-pointer lg:hidden' />
                         <img src={images.nvidiaPartner} className="h-10 md:h-12 lg:h-14 xl:h-12 items-center" alt="NVIDIA Partner Logo" />
@@ -61,13 +59,9 @@ const Navbar = () => {
                     ))}
                 </div>
 
-                <div className={clsx('fixed h-full w-screen lg:hidden bg-DGXblack/50 backdrop-blur-sm top-0 right-0 -translate-x-full transition-all z-10',
-                    isSideMenuOpen && 'translate-x-0'
-                )}>
-                    <section className='text-DGXwhite  bg-DGXblue flex flex-col absolute left-0 top-0 h-screen p-8 gap-8 z-50 w-60'>
-                        <IoMdCloseCircleOutline
-                            onClick={() => setMenu(false)}
-                            className='mt-0 mb-8 text-3xl cursor-pointer' />
+                <div className={clsx('fixed h-full w-screen lg:hidden bg-DGXblack/50 backdrop-blur-sm top-0 right-0 -translate-x-full transition-all z-10', isSideMenuOpen && 'translate-x-0')}>
+                    <section className='text-DGXwhite bg-DGXblue flex flex-col absolute left-0 top-0 h-screen p-8 gap-8 z-50 w-60'>
+                        <IoMdCloseCircleOutline onClick={() => setMenu(false)} className='mt-0 mb-8 text-3xl cursor-pointer' />
                         {navLinks.map((d, i) => (
                             <Link key={i} className='font-bold' to={d.to}>
                                 {d.label}
@@ -97,22 +91,16 @@ const Navbar = () => {
                             />
                             {isDropdownOpen && (
                                 <div className="relative">
-
                                     {isDropdownOpen && (
                                         <div className='absolute right-0 mt-8 w-48 bg-white rounded-md shadow-lg z-50 border border-DGXblue'>
-                                            <Link to="/UserProfile" className='block px-4 py-2 text-gray-800 hover:bg-gray-200' onClick={() => {
-                                                // Add your logout logic here
-
-                                                toggleDropdown()
-                                            }}>
+                                            <Link to="/UserProfile" className='block px-4 py-2 text-gray-800 hover:bg-gray-200' onClick={toggleDropdown}>
                                                 Profile
                                             </Link>
+                                            <Link to="/AdminDashboard" className='block px-4 py-2 text-gray-800 hover:bg-gray-200' onClick={toggleDropdown}>
+                                                Admin Profile
+                                            </Link>
                                             <button
-                                                onClick={() => {
-                                                    // Add your logout logic here
-
-                                                    handleLogout();
-                                                }}
+                                                onClick={handleLogout}
                                                 className='block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200'
                                             >
                                                 Logout
@@ -120,7 +108,6 @@ const Navbar = () => {
                                         </div>
                                     )}
                                 </div>
-
                             )}
                         </div>
                     )}
