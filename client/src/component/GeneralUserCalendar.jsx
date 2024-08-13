@@ -65,7 +65,7 @@ const GeneralUserCalendar = ({ events = dummyEvents }) => {
   return (
     <div className="container mx-auto mt-10">
       <div className="mb-5">
-        <h1 className="text-2xl font-bold mb-4">Upcoming Events & Workshops</h1>
+        <h1 className="text-2xl font-bold mb-4">Our Event and Workshop Calendar</h1>
       </div>
 
       <BigCalendar
