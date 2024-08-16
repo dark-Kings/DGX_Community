@@ -25,12 +25,12 @@ const Users = () => {
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-      <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <caption className="p-5 text-lg font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+      <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
+        <caption className="p-5 text-lg font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white ">
           Our users
-          <p className="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">Browse a list of DGX community users.</p>
+          <p className="mt-1 text-sm font-normal text-gray-500 ">Browse a list of DGX community users.</p>
         </caption>
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
           <tr>
             <th scope="col" className="px-6 py-3">User ID</th>
             <th scope="col" className="px-6 py-3">Name</th>
@@ -43,8 +43,8 @@ const Users = () => {
         </thead>
         <tbody>
           {users.map((user) => (
-            <tr key={user.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            <tr key={user.id} className="bg-white border-b ">
+              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowra">
                 {user.id}
               </th>
               <td className="px-6 py-4">{user.name}</td>
