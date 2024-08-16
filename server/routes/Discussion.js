@@ -8,6 +8,6 @@ import { discussionpost, getdiscussion } from "../controllers/discussion.js";
 const router = express.Router();
 
 router.post('/discussionpost', fetchUser, discussionpost)
-router.get('/getdiscussion', fetchUser, getdiscussion)
+router.post('/getdiscussion', fetchUser, getdiscussion)
 
 export default router;
