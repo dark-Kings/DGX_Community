@@ -193,6 +193,18 @@ const EventWorkshopPage = () => {
       title: "NVIDIA Boosts Global Quantum Computing with CUDA-Q",
       image: `${images.Event3}`,
     },
+    {
+      title: "NVIDIA CEO Jensen Huang and Lauren Goode at WIRED",
+      image: `${images.Event1}`,
+    },
+    {
+      title: "NVIDIA CEO Jensen Huang and Mark Zuckerberg",
+      image: `${images.Event2}`,
+    },
+    {
+      title: "NVIDIA Boosts Global Quantum Computing with CUDA-Q",
+      image: `${images.Event3}`,
+    },
     // Add more events as needed
   ];
 

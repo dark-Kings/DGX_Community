@@ -182,7 +182,11 @@ const Calendar = () => {
 
   return (
     <div className="container mx-auto mt-10">
-      <div><h1 className='flex justify-center items-center font-bold text-5xl mb-10'>Events and Workshops Calendar</h1></div>
+      <div>
+        <h1 className='flex justify-center items-center font-bold text-3xl mb-10'>Events and Workshops Calendar</h1>
+        <p className="mt-1 flex text-md justify-center items-center font-normal text-gray-500 dark:text-gray-400">Browse and manage discussions in the DGX community.</p>
+      </div>
+
       <div className="mb-5">
         <button
           onClick={() => setIsModalOpen(true)}
