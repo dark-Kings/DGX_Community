@@ -177,10 +177,6 @@ export const getdiscussion = async (req, res) => {
                         // Add like count to the discussion item
                         updatedDiscussions.push({ ...item, likeCount, userLike, comment: commentsArrayUpdated });
                     }
-
-
-
-
                     success = true;
                     closeConnection();
                     const infoMessage = "Disscussion Get Successfully"

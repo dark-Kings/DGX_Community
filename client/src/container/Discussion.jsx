@@ -7,82 +7,80 @@ import DiscussionModal from '../component/DiscussionModal';
 import { compressImage } from '../utils/compressImage.js'
 
 const Discussion = () => {
-  const { fetchData, userToken, setUserToken } = useContext(ApiContext);
+  const { fetchData, userToken } = useContext(ApiContext);
   const [loading, setLoading] = useState(false);
-  useEffect(()=>{
+  useEffect(() => {
     if (userToken) {
-      
-    
-    console.log("Here we go!!!");
-    
-    const endpoint = "discussion/getdiscussion";
-    const method = "POST";
-    const headers = {
-      'Content-Type': 'application/json',
-      'auth-token': userToken
-    };
-    setLoading(true);
-    console.log(headers, endpoint)
+      const endpoint = "discussion/getdiscussion";
+      const method = "POST";
+      const headers = {
+        'Content-Type': 'application/json',
+        'auth-token': userToken
+      };
+      setLoading(true);
+      console.log(headers, endpoint)
 
-    try {
-      console.log("Inside Try");
-      
-    fetchData(endpoint, method,{}, headers)
-    // console.log(data);
-    
-    .then(result=>{
-      console.log(result);
-      return result.data}).then((data)=>{
-        setDemoDiscussions(data.updatedDiscussions)
-console.log(data.updatedDiscussions);
-      })
-    } catch (error) {
-      setLoading(false);
-      toast.error(`Something went wrongdjsfkjsd`, {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }}
-  },[userToken])
+      try {
+        // console.log("Inside Try");
+
+        fetchData(endpoint, method, {}, headers)
+          // console.log(data);
+
+          .then(result => {
+            console.log(result);
+            return result.data
+          }).then((data) => {
+            setDemoDiscussions(data.updatedDiscussions)
+            // console.log(data.updatedDiscussions);
+          })
+      } catch (error) {
+        setLoading(false);
+        toast.error(`Something went wrong`, {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    }
+  }, [userToken])
   const [demoDiscussions, setDemoDiscussions] = useState([])
   // discussion/getdiscussion
-  const demoDiscussions1 = [
-    {
-      "DiscussionID": 10,
-      "UserID": 9,
-      "UserName": "Nilesh",
-      "Title": "The Impact of AI on Future Job Markets: Opportunities and Challenges",
-      "Content": "Artificial Intelligence (AI) is rapidly advancing and reshaping various industries. As we look towards the future, it's essential to understand how AI will influence job markets globally. This discussion aims to explore both the opportunities and challenges that AI presents in the workforce.",
-      "Image": null,
-      "Tag": "ai,job,nvidia",
-      "ResourceUrl": "https://www.youtube.com/watch?v=izR8F_LY3X8,https://www.youtube.com/watch?v=izR8F_LY3X8",
-      "Date": "2024-08-13T17:05:10.467Z",
-      "likeCount": 0,
-      "userLike": 0,
-      "comment": []
-    },
-    {
-      "DiscussionID": 10,
-      "UserID": 9,
-      "UserName": "Nilesh",
-      "Title": "The Impact of AI on Future Job Markets: Opportunities and Challenges",
-      "Content": "Artificial Intelligence (AI) is rapidly advancing and reshaping various industries. As we look towards the future, it's essential to understand how AI will influence job markets globally. This discussion aims to explore both the opportunities and challenges that AI presents in the workforce.",
-      "Image": null,
-      "Tag": "ai,job,nvidia",
-      "ResourceUrl": "https://www.youtube.com/watch?v=izR8F_LY3X8,https://www.youtube.com/watch?v=izR8F_LY3X8",
-      "Date": "2024-08-13T17:05:10.467Z",
-      "likeCount": 0,
-      "userLike": 0,
-      "comment": []
-    },
-  ]
-  
+  // const demoDiscussions1 = [
+  //   {
+  //     "DiscussionID": 10,
+  //     "UserID": 9,
+  //     "UserName": "Nilesh",
+  //     "Title": "The Impact of AI on Future Job Markets: Opportunities and Challenges",
+  //     "Content": "Artificial Intelligence (AI) is rapidly advancing and reshaping various industries. As we look towards the future, it's essential to understand how AI will influence job markets globally. This discussion aims to explore both the opportunities and challenges that AI presents in the workforce.",
+  //     "Image": null,
+  //     "Tag": "ai,job,nvidia",
+  //     "ResourceUrl": "https://www.youtube.com/watch?v=izR8F_LY3X8,https://www.youtube.com/watch?v=izR8F_LY3X8",
+  //     "Date": "2024-08-13T17:05:10.467Z",
+  //     "likeCount": 0,
+  //     "userLike": 0,
+  //     "comment": []
+  //   },
+  //   {
+  //     "DiscussionID": 10,
+  //     "UserID": 9,
+  //     "UserName": "Nilesh",
+  //     "Title": "The Impact of AI on Future Job Markets: Opportunities and Challenges",
+  //     "Content": "Artificial Intelligence (AI) is rapidly advancing and reshaping various industries. As we look towards the future, it's essential to understand how AI will influence job markets globally. This discussion aims to explore both the opportunities and challenges that AI presents in the workforce.",
+  //     "Image": null,
+  //     "Tag": "ai,job,nvidia",
+  //     "ResourceUrl": "https://www.youtube.com/watch?v=izR8F_LY3X8,https://www.youtube.com/watch?v=izR8F_LY3X8",
+  //     "Date": "2024-08-13T17:05:10.467Z",
+  //     "likeCount": 0,
+  //     "userLike": 0,
+  //     "comment": []
+  //   },
+  // ]
+
   const hotTopics = [
     { title: "NVIDIA Innovations", link: "#", description: "Discover the latest advancements from NVIDIA and how they are shaping the future of technology." },
     { title: "NVIDIA-H100: Performance Unleashed", link: "#", description: "Discuss the performance of the NVIDIA-H100 GPU. Share your experiences, benchmarks, and use cases to help others understand its capabilities and benefits." },
@@ -192,17 +190,6 @@ console.log(data.updatedDiscussions);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-
-    const newDiscussion = {
-      title,
-      content,
-      tags: tags.join(','), // Convert tags array to string
-      url: links.join(','), // Convert links array to string
-      image: selectedImage,
-      privacy
-    };
-
     const endpoint = "discussion/discussionpost";
 
     const method = "POST";
@@ -520,7 +507,7 @@ console.log(data.updatedDiscussions);
                 </div>
               </form>
             )}
-            {demoDiscussions.map((discussion, i)=>(
+            {demoDiscussions.map((discussion, i) => (
               // <div>{discussion.Title}</div>
               <div key={i} className="border border-gray-300 rounded-lg p-4 w-full max-w-screen-sm sm:max-w-screen-md md:max-w-screen-lg lg:max-w-screen-xl xl:max-w-screen-2xl">
                 <div onClick={() => openModal(discussion)}>
