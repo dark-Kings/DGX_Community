@@ -8,10 +8,12 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
   const [newComment, setNewComment] = useState("");
   const [replyTexts, setReplyTexts] = useState({});
 
-  const handleAddComment = () => {
+  const handleAddComment = (id) => {
+    console.log(id, newComment)
     if (newComment.trim() !== "") {
       const newCommentObj = {
         username: "New User",
+        discussion: discussion.DiscussionID,
         timestamp: new Date().toLocaleString(),
         commentData: newComment,
         likes: 0,
@@ -30,7 +32,8 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
     }));
   };
 
-  const handleAddReply = (commentIndex, replyText) => {
+  const handleAddReply = (commentIndex, replyText,id) => {
+    console.log(id, replyText)
     if (replyText.trim() !== "") {
       const updatedComments = [...dissComments];
       updatedComments[commentIndex].replies.push({
@@ -166,7 +169,7 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
                       placeholder="Add a comment..."
                     />
                     <button
-                      onClick={handleAddComment}
+                      onClick={()=>handleAddComment(discussion.DiscussionID)}
                       className="my-4 md:w-1/4 bg-DGXgreen hover:bg-DGXblue rounded text-white text-xl p-2"
                     >
                       Add Comment
@@ -233,7 +236,7 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
                           />
                           <button
                             onClick={() =>
-                              handleAddReply(index, replyTexts[index])
+                              handleAddReply(index, replyTexts[index],comment.DiscussionID)
                             }
                             className="my-2 md:w-1/4 bg-DGXgreen hover:bg-DGXblue rounded text-white text-xl p-2"
                           >

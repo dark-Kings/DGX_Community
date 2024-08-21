@@ -1,7 +1,7 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
-import helmet from 'helmet'
+// import helmet from 'helmet'
 import dotenv from 'dotenv'
 
 import userRoutes from './routes/user.js'

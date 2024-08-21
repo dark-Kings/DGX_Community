@@ -48,7 +48,8 @@ console.log(data.updatedDiscussions);
         progress: undefined,
         theme: "light",
       });
-    }}
+    }
+  }
   },[userToken])
   const [demoDiscussions, setDemoDiscussions] = useState([])
   // discussion/getdiscussion
@@ -345,6 +346,8 @@ console.log(data.updatedDiscussions);
           isOpen={modalIsOpen}
           onRequestClose={closeModal}
           discussion={selectedDiscussion}
+          setDiscussions={setDiscussions}
+          discussions={discussions}
         />
       )}
       <div className="flex flex-col lg:flex-row w-full mx-auto bg-white rounded-md border border-gray-200 shadow-md mt-4 mb-4 p-4">
