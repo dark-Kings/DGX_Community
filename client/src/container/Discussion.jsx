@@ -21,7 +21,7 @@ const Discussion = () => {
       console.log(headers, endpoint)
 
       try {
-        // console.log("Inside Try");
+        console.log("Inside Try");
 
         fetchData(endpoint, method, {}, headers)
           // console.log(data);
@@ -31,11 +31,11 @@ const Discussion = () => {
             return result.data
           }).then((data) => {
             setDemoDiscussions(data.updatedDiscussions)
-            // console.log(data.updatedDiscussions);
+            console.log(data.updatedDiscussions);
           })
       } catch (error) {
         setLoading(false);
-        toast.error(`Something went wrong`, {
+        toast.error(`Something went wrongdjsfkjsd`, {
           position: "top-center",
           autoClose: 3000,
           hideProgressBar: false,
@@ -332,6 +332,8 @@ const Discussion = () => {
           isOpen={modalIsOpen}
           onRequestClose={closeModal}
           discussion={selectedDiscussion}
+          setDiscussions={setDiscussions}
+          discussions={discussions}
         />
       )}
       <div className="flex flex-col lg:flex-row w-full mx-auto bg-white rounded-md border border-gray-200 shadow-md mt-4 mb-4 p-4">
