@@ -64,18 +64,15 @@ export const discussionpost = async (req, res) => {
 
 
                     // console.log(discussionPost);
-                    console.log(lastInsertedId, discussionPost);
+                    // console.log(lastInsertedId, discussionPost);
                     // console.log(lastInsertedId);
-
-
-
 
 
                     success = true;
                     closeConnection();
                     const infoMessage = "Disscussion Posted Successfully"
                     logInfo(infoMessage)
-                    res.status(200).json({ success, data: {}, message: infoMessage });
+                    res.status(200).json({ success, data: { postId: lastInsertedId }, message: infoMessage });
                     return
                 } else {
                     closeConnection();
