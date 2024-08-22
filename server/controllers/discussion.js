@@ -55,15 +55,15 @@ export const discussionpost = async (req, res) => {
                     INSERT INTO Community_Discussion 
                     (UserID, Title, Content, Image, Likes, Comment, Tag, Visibility, Reference, ResourceUrl, AuthAdd, AddOnDt, delStatus) 
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), 0); 
-                    SELECT SCOPE_IDENTITY() AS LastInsertedId;
+                   
                 `;
                     const discussionPost = await queryAsync(conn, discussionPostQuery, [rows[0].UserID, title, content, image, likes, comment, tags, visibility, threadReference, url, rows[0].Name, 0])
-                    const lastInsertedIdQuerry = ` SELECT SCOPE_IDENTITY() AS LastInsertedId; `
+                    const lastInsertedIdQuerry = ` select top 1 DiscussionID from Community_Discussion where ISNULL(delStatus,0)=0 order by DiscussionID desc;`
                     const lastInsertedId = await queryAsync(conn, lastInsertedIdQuerry)
 
 
 
-                    console.log(discussionPost);
+                    // console.log(discussionPost);
                     console.log(lastInsertedId, discussionPost);
                     // console.log(lastInsertedId);
 
