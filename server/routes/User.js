@@ -11,7 +11,8 @@ import {
   changePassword,
   sendInvite,
   passwordRecovery,
-  resetPassword
+  resetPassword,
+  getAllUser
 
 } from "../controllers/user.js";
 
@@ -38,6 +39,7 @@ router.post('/changePassword', [
 ], fetchUser, changePassword)
 
 router.post('/getuser', fetchUser, getuser)
+router.get('/users', getAllUser)
 
 router.post('/sendinvite', [
   body('email', 'Enter a valid email').isEmail()

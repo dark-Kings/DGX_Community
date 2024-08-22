@@ -1,7 +1,7 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
-import helmet from 'helmet'
+// import helmet from 'helmet'
 import dotenv from 'dotenv'
 
 import userRoutes from './routes/user.js'
@@ -30,5 +30,5 @@ app.use('/discussion', userDiscussion)
 
 
 app.listen(port, () => {
-  console.log(`Example app listening on port http://localhost: ${port}`)
+  console.log(`Example app listening on port http://localhost/${port}`)
 })

@@ -445,6 +445,50 @@ export const getuser = async (req, res) => {
 
   }
 };
+export const getAllUser = async (req, res) => {
+  
+  let success = false;
+
+  try {
+    connectToDatabase(async (err, conn) => {
+      if (err) {
+        logError(err)
+        res.status(500).json({ success: false, data: err, message: "Failed to connect to database" });
+        return;
+      }
+
+      try {
+        const query = `SELECT UserID, Name, EmailId, CollegeName, MobileNumber, Category, Designation, ReferalNumberCount, ReferalNumber, ReferedBy,  FlagPasswordChange, AddOnDt FROM Community_User`;
+        const rows = await queryAsync(conn, query, [userId]);
+
+        if (rows.length > 0) {
+
+          success = true;
+          closeConnection();
+          const infoMessage = "User data"
+          logInfo(infoMessage)
+          res.status(200).json({ success, data: rows[0], message: infoMessage });
+          return
+        } else {
+          closeConnection();
+          const warningMessage = "User not found"
+          logWarning(warningMessage)
+          res.status(200).json({ success: false, data: {}, message: warningMessage });
+          return
+        }
+      } catch (queryErr) {
+        closeConnection();
+        logError(queryErr)
+        res.status(500).json({ success: false, data: queryErr, message: 'Something went wrong please try again' });
+        return
+      }
+    });
+  } catch (error) {
+    logError(queryErr)
+    return res.status(500).json({ success: false, data: {}, message: 'Something went wrong please try again' });
+
+  }
+};
 
 //Route 5) Sending Invite to mail "/sendinvite" - Login required
 

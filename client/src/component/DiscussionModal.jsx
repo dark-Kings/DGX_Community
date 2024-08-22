@@ -1,23 +1,91 @@
-import React, { useState } from "react";
+import { useState, useContext } from "react";
 import { FaThumbsUp, FaComment } from "react-icons/fa";
-import { images } from "../constant/index.js";
+// import { images } from "../constant/index.js";
+import ApiContext from '../context/ApiContext.jsx';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
-  const user = {
-    userProfile: "",
-    userName: "User has this name",
-    likeCount: 45,
-    comments: 3,
-  };
   const [dissComments, setDissComments] = useState([]);
 
   const [newComment, setNewComment] = useState("");
   const [replyTexts, setReplyTexts] = useState({});
 
-  const handleAddComment = () => {
+  const { fetchData, userToken } = useContext(ApiContext);
+  const [loading, setLoading] = useState(false);
+
+  const handleAddComment = async (id) => {
+    // console.log(id, newComment)
+
+    if (userToken) {
+      const endpoint = "discussion/discussionpost";
+      const method = "POST";
+      const headers = {
+        'Content-Type': 'application/json',
+        'auth-token': userToken
+      };
+      const body = {
+        "reference": id,
+        "comment": newComment
+      };
+      setLoading(true);
+      // console.log(headers, endpoint)
+
+      try {
+        // console.log("Inside Try");
+
+        const data = await fetchData(endpoint, method, body, headers)
+        // console.log(data);
+        if (!data.success) {
+          setLoading(false);
+          toast.error(`Error in posting comment try again: ${data.message}`, {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        } else if (data.success) {
+          setLoading(false);
+          toast.success("Comment Post Successfully", {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+
+        }
+
+
+      } catch (error) {
+        setLoading(false);
+        toast.error(`Something went wrongdjsfkjsd`, {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    }
+
+
+
+
     if (newComment.trim() !== "") {
       const newCommentObj = {
         username: "New User",
+        discussion: discussion.DiscussionID,
         timestamp: new Date().toLocaleString(),
         commentData: newComment,
         likes: 0,
@@ -36,7 +104,75 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
     }));
   };
 
-  const handleAddReply = (commentIndex, replyText) => {
+  const handleAddReply = async (commentIndex, replyText, id) => {
+    // console.log(id, replyText)
+
+    if (userToken) {
+      const endpoint = "discussion/discussionpost";
+      const method = "POST";
+      const headers = {
+        'Content-Type': 'application/json',
+        'auth-token': userToken
+      };
+      const body = {
+        "reference": id,
+        "comment": replyText
+      };
+      setLoading(true);
+      // console.log(headers, endpoint)
+
+      try {
+        // console.log("Inside Try");
+
+        const data = await fetchData(endpoint, method, body, headers)
+        // console.log(data);
+        if (!data.success) {
+          setLoading(false);
+          toast.error(`Error in posting comment try again: ${data.message}`, {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        } else if (data.success) {
+          setLoading(false);
+          toast.success("Comment Post Successfully", {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+
+        }
+
+
+      } catch (error) {
+        setLoading(false);
+        toast.error(`Something went wrongdjsfkjsd`, {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    }
+
+
+
+
+
     if (replyText.trim() !== "") {
       const updatedComments = [...dissComments];
       updatedComments[commentIndex].replies.push({
@@ -56,31 +192,32 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
   return (
     <div>
       {/* Background Overlay */}
+      <ToastContainer />
+
       {isOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50 transition-opacity duration-300 flex justify-center items-center">
           {/* Modal */}
           <div
-            className={`w-[calc(100%-1rem)] h-[calc(100%-1rem)] sm:w-[calc(100%-2rem)] sm:h-[calc(100%-2rem)] lg:w-[calc(100%-4rem)] lg:h-[calc(100%-4rem)] xl:w-[calc(100%-6rem)] xl:h-[calc(100%-6rem)] bg-DGXwhite transition-transform shadow-lg transform ${
-              isOpen ? "translate-y-0" : "translate-y-full"
-            } z-50 flex flex-col overflow-auto`}
+            className={`w-[calc(100%-1rem)] h-[calc(100%-1rem)] sm:w-[calc(100%-2rem)] sm:h-[calc(100%-2rem)] lg:w-[calc(100%-4rem)] lg:h-[calc(100%-4rem)] xl:w-[calc(100%-6rem)] xl:h-[calc(100%-6rem)] bg-DGXwhite transition-transform shadow-lg transform ${isOpen ? "translate-y-0" : "translate-y-full"
+              } z-50 flex flex-col overflow-auto`}
           >
             <div className="px-2 sm:px-5 w-full flex flex-col flex-grow overflow-auto">
               <div className="flex justify-between">
                 {/* <div className="p-4"> */}
                 <div className="border-l-4 border-DGXblue flex items-center justify-between p-2 sm:p-4">
                   <img
-                    src={discussion.image}
+                    src={discussion.Image}
                     className="w-16 sm:w-24 object-cover rounded-full aspect-square"
                     alt=""
                   />
                   <div className="p-4">
-                    <div className="text-3xl">{user.userName}</div>
+                    <div className="text-3xl">{discussion.Title}</div>
                     <div className="flex flex-col">
-                      <span>{new Date().toLocaleString()}</span>
+                      <span>{new Date(discussion.Date).toLocaleString()}</span>
                       <span className="flex items-center gap-2">
                         <FaThumbsUp />
-                        {user.likeCount}
-                        <FaComment /> {user.comments}
+                        {discussion.likeCount}
+                        <FaComment /> {discussion.comment.length}
                       </span>
                     </div>
                   </div>
@@ -103,10 +240,10 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
                   </h2>
 
                   {/* Image */}
-                  {discussion.image && (
-                    <div className="mb-4 sm:mb-4">
+                  {discussion.Image && (
+                    <div className="max-w-sm mx-auto mb-4 sm:mb-4">
                       <img
-                        src={discussion.image}
+                        src={discussion.Image}
                         alt="Post"
                         className="w-full h-auto rounded-lg"
                       />
@@ -114,18 +251,18 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
                   )}
 
                   {/* Content */}
-                  {discussion.content && (
-                    <div className="mb-2 sm:mb-4">{discussion.content}</div>
+                  {discussion.Content && (
+                    <div className="mb-2 sm:mb-4">{discussion.Content}</div>
                   )}
 
                   {/* Tags */}
-                  {discussion.tags.length > 0 && (
+                  {discussion.Tag && (
                     <div className="mb-2 sm:mb-4">
                       <h3 className="text-md sm:text-lg font-semibold">
                         Tags:
                       </h3>
                       <ul className="flex flex-wrap mt-1 sm:mt-2">
-                        {discussion.tags.map((tag, index) => (
+                        {discussion.Tag.split(',').map((tag, index) => (
                           <li
                             key={index}
                             className="bg-DGXblue text-DGXwhite py-1 px-2 rounded-full text-xs sm:text-sm mr-2 mb-2"
@@ -138,13 +275,13 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
                   )}
 
                   {/* Links */}
-                  {discussion.links.length > 0 && (
+                  {discussion.ResourceUrl && (
                     <div>
                       <h3 className="text-md sm:text-lg font-semibold">
                         Links:
                       </h3>
                       <ul className="list-disc list-inside">
-                        {discussion.links.map((link, index) => (
+                        {discussion.ResourceUrl.split(',').map((link, index) => (
                           <li key={index}>
                             <a
                               href={link}
@@ -172,7 +309,7 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
                       placeholder="Add a comment..."
                     />
                     <button
-                      onClick={handleAddComment}
+                      onClick={() => handleAddComment(discussion.DiscussionID)}
                       className="my-4 md:w-1/4 bg-DGXgreen hover:bg-DGXblue rounded text-white text-xl p-2"
                     >
                       Add Comment
@@ -183,47 +320,50 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
                     Comments
                   </h2>
                   <ul className="space-y-4">
-                    {dissComments.map((comment, index) => (
+                    {discussion.comment.map((comment, index) => (
                       <li
                         key={index}
                         className="p-2 sm:p-4 border rounded-lg space-y-2"
                       >
                         <div className="flex items-center justify-between">
                           <span className="text-md sm:text-lg font-semibold">
-                            {comment.username}
+                            {comment.UserName}
                           </span>
                           <span className="text-xs sm:text-sm text-gray-500">
                             {comment.timestamp}
                           </span>
                         </div>
                         <div className="text-md sm:text-lg">
-                          {comment.commentData}
+                          {comment.Comment}
                         </div>
                         <div className="flex items-center gap-2">
                           <FaThumbsUp />
-                          <span>{comment.likes}</span>
+                          <span>{comment.likeCount}</span>
                         </div>
                         <div>
-                          {comment.replies.map((reply, replyIndex) => (
+                          {comment.comment && comment.comment.map((reply, replyIndex) => (
                             <div
                               key={replyIndex}
                               className="ml-4 p-2 sm:p-4 border-l border-gray-200"
                             >
                               <div className="flex items-center justify-between">
                                 <span className="text-md sm:text-lg font-semibold">
-                                  {reply.username}
+                                  {reply.UserName}
                                 </span>
                                 <span className="text-xs sm:text-sm text-gray-500">
                                   {reply.timestamp}
                                 </span>
                               </div>
                               <div className="text-md sm:text-lg">
-                                {reply.reply}
+                                {reply.Comment}
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <FaThumbsUp />
+                                <span>{reply.likeCount}</span>
                               </div>
                             </div>
                           ))}
                         </div>
-                        {/* Reply form */}
                         <div className="p-2 sm:p-4 border-t border-gray-200">
                           <textarea
                             rows={1}
@@ -236,7 +376,7 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
                           />
                           <button
                             onClick={() =>
-                              handleAddReply(index, replyTexts[index])
+                              handleAddReply(index, replyTexts[index], comment.DiscussionID)
                             }
                             className="my-2 md:w-1/4 bg-DGXgreen hover:bg-DGXblue rounded text-white text-xl p-2"
                           >

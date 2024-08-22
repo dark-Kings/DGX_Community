@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { FaSearch, FaThumbsUp, FaComment, FaWindowClose } from 'react-icons/fa';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -7,23 +7,83 @@ import DiscussionModal from '../component/DiscussionModal';
 import { compressImage } from '../utils/compressImage.js'
 
 const Discussion = () => {
-  // discussion/getdiscussion
-  // eg     {
-  //   "DiscussionID": 10,
-  //   "UserID": 9,
-  //   "UserName": "Nilesh",
-  //   "Title": "The Impact of AI on Future Job Markets: Opportunities and Challenges",
-  //   "Content": "Artificial Intelligence (AI) is rapidly advancing and reshaping various industries. As we look towards the future, it's essential to understand how AI will influence job markets globally. This discussion aims to explore both the opportunities and challenges that AI presents in the workforce.",
-  //   "Image": null,
-  //   "Tag": "ai,job,nvidia",
-  //   "ResourceUrl": "https://www.youtube.com/watch?v=izR8F_LY3X8,https://www.youtube.com/watch?v=izR8F_LY3X8",
-  //   "Date": "2024-08-13T17:05:10.467Z",
-  //   "likeCount": 0,
-  //   "userLike": 0,
-  //   "comment": []
-  // }
-  const { fetchData, userToken, setUserToken } = useContext(ApiContext);
+  const { fetchData, userToken, user } = useContext(ApiContext);
   const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    // Function to fetch data based on user and userToken status
+    try {
+
+
+      const fetchDiscussionData = (userEmail) => {
+        try {
+
+
+          const body = userEmail ? { user: userEmail } : { user: null };
+
+          const endpoint = "discussion/getdiscussion";
+          const method = "POST";
+          const headers = {
+            'Content-Type': 'application/json',
+          };
+
+          setLoading(true);
+
+          // console.log(endpoint, headers, body)
+          fetchData(endpoint, method, body, headers)
+            .then(result => {
+              if (result && result.data) {
+                return result.data;
+              } else {
+                return
+                // throw new Error("Invalid data format");
+              }
+            })
+            .then(data => {
+              if (data && data.updatedDiscussions) {
+                setDemoDiscussions(data.updatedDiscussions);
+              } else {
+                return
+                // throw new Error("Missing updatedDiscussions in response data");
+              }
+              setLoading(false); // Ensure loading is turned off after data is fetched
+            })
+            .catch(error => {
+              setLoading(false);
+              toast.error(`Something went wrong: ${error.message}`, {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            });
+        } catch (error) {
+          console.log(error)
+        }
+      };
+
+      // Initial fetch when the component loads
+      // Fetch with `user: null` on first load
+
+
+      // Fetch again when userToken and user are available
+      if (userToken && user) {
+        fetchDiscussionData(user.EmailId); // Fetch with user's email
+      } else {
+        fetchDiscussionData(null);
+      }
+    } catch (error) {
+      console.log(error)
+    }
+
+  }, [user, userToken, fetchData]);
+  // Re-run when `user` or `userToken` change
+
+  const [demoDiscussions, setDemoDiscussions] = useState([])
+
   const hotTopics = [
     { title: "NVIDIA Innovations", link: "#", description: "Discover the latest advancements from NVIDIA and how they are shaping the future of technology." },
     { title: "NVIDIA-H100: Performance Unleashed", link: "#", description: "Discuss the performance of the NVIDIA-H100 GPU. Share your experiences, benchmarks, and use cases to help others understand its capabilities and benefits." },
@@ -133,17 +193,6 @@ const Discussion = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-
-    const newDiscussion = {
-      title,
-      content,
-      tags: tags.join(','), // Convert tags array to string
-      url: links.join(','), // Convert links array to string
-      image: selectedImage,
-      privacy
-    };
-
     const endpoint = "discussion/discussionpost";
 
     const method = "POST";
@@ -161,13 +210,13 @@ const Discussion = () => {
       'auth-token': userToken
     };
     setLoading(true);
-    console.log(headers, body, endpoint)
+    // console.log(headers, body, endpoint)
 
     try {
       const data = await fetchData(endpoint, method, body, headers);
       if (!data.success) {
         setLoading(false);
-        toast.error(`Error in password change: ${data.message}`, {
+        toast.error(`Error in posting discussion try again: ${data.message}`, {
           position: "top-center",
           autoClose: 3000,
           hideProgressBar: false,
@@ -286,6 +335,8 @@ const Discussion = () => {
           isOpen={modalIsOpen}
           onRequestClose={closeModal}
           discussion={selectedDiscussion}
+          setDiscussions={setDiscussions}
+          discussions={discussions}
         />
       )}
       <div className="flex flex-col lg:flex-row w-full mx-auto bg-white rounded-md border border-gray-200 shadow-md mt-4 mb-4 p-4">
@@ -461,6 +512,49 @@ const Discussion = () => {
                 </div>
               </form>
             )}
+            {demoDiscussions.map((discussion, i) => (
+              // <div>{discussion.Title}</div>
+              <div key={i} className="border border-gray-300 rounded-lg p-4 w-full max-w-screen-sm sm:max-w-screen-md md:max-w-screen-lg lg:max-w-screen-xl xl:max-w-screen-2xl">
+                <div onClick={() => openModal(discussion)}>
+                  <h3 className="text-lg font-bold cursor-pointer md:text-lg lg:text-xl xl:text-2xl">
+                    {discussion.Title}
+                  </h3>
+                  <p className="text-gray-600 text-sm md:text-base lg:text-lg xl:text-xl">
+                    {discussion.Content.length > 500 ? (<> {discussion.Content.substring(0, 497)} <span className='text-blue-700 cursor-pointer' onClick={() => { openModal(discussion) }}>...see more</span></>) : discussion.content}
+                  </p>
+                </div>
+                {discussion.Image && (
+                  <div className="mt-2">
+                    <img src={discussion.Image} alt="Discussion" className="max-h-40 w-auto object-cover" />
+                  </div>
+                )}
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {discussion.Tag.split(',').map((tag, tagIndex) => (
+                    <span key={tagIndex} className="bg-DGXgreen text-white rounded-full px-3 py-1 text-xs md:text-sm lg:text-base">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {discussion.ResourceUrl.split(',').map((link, linkIndex) => (
+                    <a key={linkIndex} href={link} className="text-DGXgreen hover:underline text-xs md:text-sm lg:text-base">
+                      {link}
+                    </a>
+                  ))}
+                </div>
+                <div className="mt-4 flex items-center space-x-4">
+                  <button className="flex items-center text-DGXgreen text-sm md:text-base lg:text-lg" onClick={handleLike}>
+                    <FaThumbsUp className="mr-2" /> {discussion.likeCount} Likes
+                  </button>
+                  <button
+                    className="flex items-center text-DGXgreen text-sm md:text-base lg:text-lg"
+                    onClick={() => handleComment(discussion)}
+                  >
+                    <FaComment className="mr-2" /> {discussion.comment.length} Comments
+                  </button>
+                </div>
+              </div>
+            ))}
             {discussions.map((discussion, index) => (
               <div key={index} className="border border-gray-300 rounded-lg p-4 w-full max-w-screen-sm sm:max-w-screen-md md:max-w-screen-lg lg:max-w-screen-xl xl:max-w-screen-2xl">
                 <div onClick={() => openModal(discussion)}>

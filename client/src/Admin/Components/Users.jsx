@@ -4,14 +4,37 @@ const Users = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      // Replace this with your actual API endpoint
-      const response = await fetch('/api/users');
-      const data = await response.json();
-      setUsers(data);
-    };
+    // const fetchUsers = async () => {
+    //   // Replace this with your actual API endpoint
+    //   const response = await fetch('https://localhost:8000/api/user/users');
+    //   const data = await response.json();
+    //   console.log(data);
+    //   setUsers(data);
 
-    fetchUsers();
+    // };
+
+    // fetchUsers();
+    const endpoint = "user/users";
+    const method = "GET";
+    const headers = {
+      'Content-Type': 'application/json'
+    };
+    console.log(headers, endpoint)
+
+    try {
+      console.log("Inside Try");
+      
+    fetchData(endpoint, method,{}, headers)
+    // console.log(data);
+    
+    .then(result=>{
+      console.log(result);
+      return result.data}).then((data)=>{
+        // setDemoDiscussions(data.updatedDiscussions)
+console.log(data);
+      })
+    } catch (error) {
+    }
   }, []);
 
   const handleDelete = async (userId) => {
