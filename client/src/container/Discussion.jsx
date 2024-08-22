@@ -370,6 +370,7 @@ console.log(data.updatedDiscussions);
               ))}
             </div>
           </div>
+          
           <div>
             <h2 className="text-2xl font-bold mb-4">Top Contributors</h2>
             <div className="space-y-2">
