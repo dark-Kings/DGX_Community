@@ -4,6 +4,7 @@ export async function queryAsync(conn, query, params) {
             if (err) {
                 return reject(err);
             }
+            // console.log(results)
             resolve(results);
         });
     });

@@ -51,8 +51,26 @@ export const discussionpost = async (req, res) => {
                 // console.log(rows)
 
                 if (rows.length > 0) {
-                    const discussionPostQuery = `INSERT INTO Community_Discussion (UserID, Title, Content, Image, Likes, Comment, Tag, Visibility, Reference, ResourceUrl, AuthAdd, AddOnDt, delStatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), 0)`
+                    const discussionPostQuery = `
+                    INSERT INTO Community_Discussion 
+                    (UserID, Title, Content, Image, Likes, Comment, Tag, Visibility, Reference, ResourceUrl, AuthAdd, AddOnDt, delStatus) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), 0); 
+                    SELECT SCOPE_IDENTITY() AS LastInsertedId;
+                `;
                     const discussionPost = await queryAsync(conn, discussionPostQuery, [rows[0].UserID, title, content, image, likes, comment, tags, visibility, threadReference, url, rows[0].Name, 0])
+                    const lastInsertedIdQuerry = ` SELECT SCOPE_IDENTITY() AS LastInsertedId; `
+                    const lastInsertedId = await queryAsync(conn, lastInsertedIdQuerry)
+
+
+
+                    console.log(discussionPost);
+                    console.log(lastInsertedId, discussionPost);
+                    // console.log(lastInsertedId);
+
+
+
+
+
                     success = true;
                     closeConnection();
                     const infoMessage = "Disscussion Posted Successfully"
@@ -84,7 +102,7 @@ export const getdiscussion = async (req, res) => {
     let success = false;
 
     const userId = req.body.user;
-    console.log(userId)
+    // console.log(userId)
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
