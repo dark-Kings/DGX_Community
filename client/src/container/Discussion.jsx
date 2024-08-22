@@ -547,7 +547,7 @@ const Discussion = () => {
                 </div>
                 <div className="mt-4 flex items-center space-x-4">
                   <button className="flex items-center text-DGXgreen text-sm md:text-base lg:text-lg" onClick={handleLike}>
-                    <FaThumbsUp className={`mr-2 ${discussion.userLike ?? 'text-DGXblue'}`} /> {discussion.likeCount} Likes
+                    <FaThumbsUp className={`mr-2 ${discussion.userLike ?? 'text-DGXblue'}`} /> {'userLike ${}'}{discussion.likeCount} Likes
                   </button>
                   <button
                     className="flex items-center text-DGXgreen text-sm md:text-base lg:text-lg"
