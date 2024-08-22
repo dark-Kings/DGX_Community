@@ -39,6 +39,9 @@ import Certificate2 from '../assets/Certificate2.png'
 
 import glogo from '../assets/glogo.png' 
 import gilogowhite from '../assets/gilogowhite.png'
+import rvce from '../assets/rvce.png'
+import utu from '../assets/utu.png'
+import BMS from '../assets/BMS.png'
 
 
 
@@ -84,6 +87,10 @@ export default {
     Certificate2,
 
     glogo,
-    gilogowhite 
+    gilogowhite,
+
+    rvce,
+    BMS,
+    utu
 
 }

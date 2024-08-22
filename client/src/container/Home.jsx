@@ -6,6 +6,8 @@ import ApiContext from '../context/ApiContext.jsx';
 import MyStoryboard from '../component/MyStoryboard.jsx';
 
 
+
+
 const Home = () => {
 
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -298,51 +300,67 @@ const Home = () => {
             </div>
 
             <div className="bg-white py-24 sm:py-32">
-                <div className="mx-auto max-w-7xl px-6 lg:px-8">
-                    <h1 className="text-center text-2xl font-bold leading-8 text-DGXblue">
-                        NVIDIA DGX systems are at the forefront of AI research and innovation. Trusted by the world’s most innovative universities and corporations, DGX provides the computational power needed to tackle the most complex AI challenges. Whether advancing research in academic institutions or driving breakthroughs in industry, DGX stands as the premier choice for those leading the charge in artificial intelligence.
-                    </h1>
-                    <div className="mx-auto mt-10 grid max-w-lg grid-cols-4 items-center justify-center gap-x-8 gap-y-10 sm:max-w-xl sm:grid-cols-6 sm:gap-x-10 lg:mx-0 lg:max-w-none lg:grid-cols-5">
-                        <img
-                            alt="Transistor"
-                            src={images.ABESIT}
-                            width={178}
-                            height={100}
-                            className="col-span-2 max-h-16 w-full object-contain lg:col-span-1"
-                        />
-                        <img
-                            alt="Reform"
-                            src={images.KIET}
-                            width={178}
-                            height={100}
-                            className="col-span-2 max-h-16 w-full object-contain lg:col-span-1"
-                        />
-                        <img
-                            alt="SavvyCal"
-                            src={images.glogo}
-                            width={178}
-                            height={100}
-                            className="col-span-2 max-h-20 w-full object-contain lg:col-span-1"
-                        />
-                        <img
-                            alt="Tuple"
-                            src={images.SHARDA}
-                            width={178}
-                            height={100}
-                            className="col-span-2 max-h-16 w-full object-contain lg:col-span-1"
-                        />
-                        <img
-                            alt="SavvyCal"
-                            src={images.GLBAJAJ}
-                            width={178}
-                            height={100}
-                            className="col-span-2 max-h-16 w-full object-contain lg:col-span-1"
-                        />
+    <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <h1 className="text-center text-2xl font-bold leading-8 text-DGXblue">
+            NVIDIA DGX systems are at the forefront of AI research and innovation. Trusted by the world’s most innovative universities and corporations, DGX provides the computational power needed to tackle the most complex AI challenges. Whether advancing research in academic institutions or driving breakthroughs in industry, DGX stands as the premier choice for those leading the charge in artificial intelligence.
+        </h1>
+        <div className="mx-auto mt-10 flex flex-wrap gap-10 items-center justify-center">
+  <div className="flex justify-center items-center w-full sm:w-auto">
+    <img
+      alt="Transistor"
+      src={images.ABESIT}
+      className="w-44 h-24 object-contain"
+    />
+  </div>
+  <div className="flex justify-center items-center w-full sm:w-auto">
+    <img
+      alt="Reform"
+      src={images.KIET}
+      className="w-44 h-24 object-contain"
+    />
+  </div>
+  <div className="flex justify-center items-center w-full sm:w-auto">
+    <img
+      alt="SavvyCal"
+      src={images.glogo}
+      className="w-44 h-24 object-contain"
+    />
+  </div>
+  <div className="flex justify-center items-center w-full sm:w-auto">
+    <img
+      alt="Tuple"
+      src={images.SHARDA}
+      className="w-44 h-24 object-contain"
+    />
+  </div>
+  <div className="flex justify-center items-center w-full sm:w-auto">
+    <img
+      alt="utu"
+      src={images.utu}
+      className="w-44 h-24 object-contain"
+    />
+  </div>
+  <div className="flex justify-center items-center w-full sm:w-auto">
+    <img
+      alt="rvce"
+      src={images.rvce}
+      className="w-44 h-24 object-contain"
+    />
+  </div>
+  <div className="flex justify-center items-center w-full sm:w-auto">
+    <img
+      alt="BMS"
+      src={images.BMS}
+      className="w-44 h-24 object-contain"
+    />
+  </div>
+</div>
 
 
-                    </div>
-                </div>
-            </div>
+
+    </div>
+</div>
+
 
             {/* <div className="relative flex justify-center items-center w-full h-screen bg-[#2e6d8e] p-8">
                 <img src={images.AnimatedDGX} alt="NVIDIA DGX" className="max-w-[80%] h-auto border border-DGXgreen" />
