@@ -38,11 +38,11 @@ const SignIn = () => {
   };
 
   const validateForm = (elements) => {
-    const inputAndSelectElements = elements.filter(element => 
+    const inputAndSelectElements = elements.filter(element =>
       element.tagName === 'INPUT' || element.tagName === 'SELECT'
     );
-    inputAndSelectElements.forEach((formElemment)=>{
-      console.log(formElemment.id);
+    inputAndSelectElements.forEach((formElemment) => {
+      // console.log(formElemment.id);
       validateRequired(formElemment.id);
     })
     return document.querySelector('.is-invalid') === null;

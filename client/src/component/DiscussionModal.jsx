@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import { useState, useContext } from "react";
 import { FaThumbsUp, FaComment } from "react-icons/fa";
-import { images } from "../constant/index.js";
+// import { images } from "../constant/index.js";
+import ApiContext from '../context/ApiContext.jsx';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
   const [dissComments, setDissComments] = useState([]);
@@ -8,8 +11,77 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
   const [newComment, setNewComment] = useState("");
   const [replyTexts, setReplyTexts] = useState({});
 
-  const handleAddComment = (id) => {
-    console.log(id, newComment)
+  const { fetchData, userToken } = useContext(ApiContext);
+  const [loading, setLoading] = useState(false);
+
+  const handleAddComment = async (id) => {
+    // console.log(id, newComment)
+
+    if (userToken) {
+      const endpoint = "discussion/discussionpost";
+      const method = "POST";
+      const headers = {
+        'Content-Type': 'application/json',
+        'auth-token': userToken
+      };
+      const body = {
+        "reference": id,
+        "comment": newComment
+      };
+      setLoading(true);
+      // console.log(headers, endpoint)
+
+      try {
+        // console.log("Inside Try");
+
+        const data = await fetchData(endpoint, method, body, headers)
+        // console.log(data);
+        if (!data.success) {
+          setLoading(false);
+          toast.error(`Error in posting comment try again: ${data.message}`, {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        } else if (data.success) {
+          setLoading(false);
+          toast.success("Comment Post Successfully", {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+
+        }
+
+
+      } catch (error) {
+        setLoading(false);
+        toast.error(`Something went wrongdjsfkjsd`, {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    }
+
+
+
+
     if (newComment.trim() !== "") {
       const newCommentObj = {
         username: "New User",
@@ -32,8 +104,75 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
     }));
   };
 
-  const handleAddReply = (commentIndex, replyText,id) => {
-    console.log(id, replyText)
+  const handleAddReply = async (commentIndex, replyText, id) => {
+    // console.log(id, replyText)
+
+    if (userToken) {
+      const endpoint = "discussion/discussionpost";
+      const method = "POST";
+      const headers = {
+        'Content-Type': 'application/json',
+        'auth-token': userToken
+      };
+      const body = {
+        "reference": id,
+        "comment": replyText
+      };
+      setLoading(true);
+      // console.log(headers, endpoint)
+
+      try {
+        // console.log("Inside Try");
+
+        const data = await fetchData(endpoint, method, body, headers)
+        // console.log(data);
+        if (!data.success) {
+          setLoading(false);
+          toast.error(`Error in posting comment try again: ${data.message}`, {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        } else if (data.success) {
+          setLoading(false);
+          toast.success("Comment Post Successfully", {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+
+        }
+
+
+      } catch (error) {
+        setLoading(false);
+        toast.error(`Something went wrongdjsfkjsd`, {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+    }
+
+
+
+
+
     if (replyText.trim() !== "") {
       const updatedComments = [...dissComments];
       updatedComments[commentIndex].replies.push({
@@ -53,13 +192,14 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
   return (
     <div>
       {/* Background Overlay */}
+      <ToastContainer />
+
       {isOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50 transition-opacity duration-300 flex justify-center items-center">
           {/* Modal */}
           <div
-            className={`w-[calc(100%-1rem)] h-[calc(100%-1rem)] sm:w-[calc(100%-2rem)] sm:h-[calc(100%-2rem)] lg:w-[calc(100%-4rem)] lg:h-[calc(100%-4rem)] xl:w-[calc(100%-6rem)] xl:h-[calc(100%-6rem)] bg-DGXwhite transition-transform shadow-lg transform ${
-              isOpen ? "translate-y-0" : "translate-y-full"
-            } z-50 flex flex-col overflow-auto`}
+            className={`w-[calc(100%-1rem)] h-[calc(100%-1rem)] sm:w-[calc(100%-2rem)] sm:h-[calc(100%-2rem)] lg:w-[calc(100%-4rem)] lg:h-[calc(100%-4rem)] xl:w-[calc(100%-6rem)] xl:h-[calc(100%-6rem)] bg-DGXwhite transition-transform shadow-lg transform ${isOpen ? "translate-y-0" : "translate-y-full"
+              } z-50 flex flex-col overflow-auto`}
           >
             <div className="px-2 sm:px-5 w-full flex flex-col flex-grow overflow-auto">
               <div className="flex justify-between">
@@ -169,7 +309,7 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
                       placeholder="Add a comment..."
                     />
                     <button
-                      onClick={()=>handleAddComment(discussion.DiscussionID)}
+                      onClick={() => handleAddComment(discussion.DiscussionID)}
                       className="my-4 md:w-1/4 bg-DGXgreen hover:bg-DGXblue rounded text-white text-xl p-2"
                     >
                       Add Comment
@@ -218,9 +358,9 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
                                 {reply.Comment}
                               </div>
                               <div className="flex items-center gap-2">
-                          <FaThumbsUp />
-                          <span>{reply.likeCount}</span>
-                        </div>
+                                <FaThumbsUp />
+                                <span>{reply.likeCount}</span>
+                              </div>
                             </div>
                           ))}
                         </div>
@@ -236,7 +376,7 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
                           />
                           <button
                             onClick={() =>
-                              handleAddReply(index, replyTexts[index],comment.DiscussionID)
+                              handleAddReply(index, replyTexts[index], comment.DiscussionID)
                             }
                             className="my-2 md:w-1/4 bg-DGXgreen hover:bg-DGXblue rounded text-white text-xl p-2"
                           >
