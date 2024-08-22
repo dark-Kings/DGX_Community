@@ -7,79 +7,82 @@ import DiscussionModal from '../component/DiscussionModal';
 import { compressImage } from '../utils/compressImage.js'
 
 const Discussion = () => {
-  const { fetchData, userToken } = useContext(ApiContext);
+  const { fetchData, userToken, user } = useContext(ApiContext);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
-    if (userToken) {
-      const endpoint = "discussion/getdiscussion";
-      const method = "POST";
-      const headers = {
-        'Content-Type': 'application/json',
-        'auth-token': userToken
+    // Function to fetch data based on user and userToken status
+    try {
+
+
+      const fetchDiscussionData = (userEmail) => {
+        try {
+
+
+          const body = userEmail ? { user: userEmail } : { user: null };
+
+          const endpoint = "discussion/getdiscussion";
+          const method = "POST";
+          const headers = {
+            'Content-Type': 'application/json',
+          };
+
+          setLoading(true);
+
+          // console.log(endpoint, headers, body)
+          fetchData(endpoint, method, body, headers)
+            .then(result => {
+              if (result && result.data) {
+                return result.data;
+              } else {
+                return
+                // throw new Error("Invalid data format");
+              }
+            })
+            .then(data => {
+              if (data && data.updatedDiscussions) {
+                setDemoDiscussions(data.updatedDiscussions);
+              } else {
+                return
+                // throw new Error("Missing updatedDiscussions in response data");
+              }
+              setLoading(false); // Ensure loading is turned off after data is fetched
+            })
+            .catch(error => {
+              setLoading(false);
+              toast.error(`Something went wrong: ${error.message}`, {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            });
+        } catch (error) {
+          console.log(error)
+        }
       };
-      setLoading(true);
-      console.log(headers, endpoint)
 
-      try {
-        console.log("Inside Try");
+      // Initial fetch when the component loads
+      // Fetch with `user: null` on first load
 
-        fetchData(endpoint, method, {}, headers)
-          // console.log(data);
 
-          .then(result => {
-            console.log(result);
-            return result.data
-          }).then((data) => {
-            setDemoDiscussions(data.updatedDiscussions)
-            console.log(data.updatedDiscussions);
-          })
-      } catch (error) {
-        setLoading(false);
-        toast.error(`Something went wrongdjsfkjsd`, {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+      // Fetch again when userToken and user are available
+      if (userToken && user) {
+        fetchDiscussionData(user.EmailId); // Fetch with user's email
+      } else {
+        fetchDiscussionData(null);
       }
+    } catch (error) {
+      console.log(error)
     }
-  }, [userToken])
+
+  }, [user, userToken, fetchData]);
+  // Re-run when `user` or `userToken` change
+
   const [demoDiscussions, setDemoDiscussions] = useState([])
-  // discussion/getdiscussion
-  // const demoDiscussions1 = [
-  //   {
-  //     "DiscussionID": 10,
-  //     "UserID": 9,
-  //     "UserName": "Nilesh",
-  //     "Title": "The Impact of AI on Future Job Markets: Opportunities and Challenges",
-  //     "Content": "Artificial Intelligence (AI) is rapidly advancing and reshaping various industries. As we look towards the future, it's essential to understand how AI will influence job markets globally. This discussion aims to explore both the opportunities and challenges that AI presents in the workforce.",
-  //     "Image": null,
-  //     "Tag": "ai,job,nvidia",
-  //     "ResourceUrl": "https://www.youtube.com/watch?v=izR8F_LY3X8,https://www.youtube.com/watch?v=izR8F_LY3X8",
-  //     "Date": "2024-08-13T17:05:10.467Z",
-  //     "likeCount": 0,
-  //     "userLike": 0,
-  //     "comment": []
-  //   },
-  //   {
-  //     "DiscussionID": 10,
-  //     "UserID": 9,
-  //     "UserName": "Nilesh",
-  //     "Title": "The Impact of AI on Future Job Markets: Opportunities and Challenges",
-  //     "Content": "Artificial Intelligence (AI) is rapidly advancing and reshaping various industries. As we look towards the future, it's essential to understand how AI will influence job markets globally. This discussion aims to explore both the opportunities and challenges that AI presents in the workforce.",
-  //     "Image": null,
-  //     "Tag": "ai,job,nvidia",
-  //     "ResourceUrl": "https://www.youtube.com/watch?v=izR8F_LY3X8,https://www.youtube.com/watch?v=izR8F_LY3X8",
-  //     "Date": "2024-08-13T17:05:10.467Z",
-  //     "likeCount": 0,
-  //     "userLike": 0,
-  //     "comment": []
-  //   },
-  // ]
 
   const hotTopics = [
     { title: "NVIDIA Innovations", link: "#", description: "Discover the latest advancements from NVIDIA and how they are shaping the future of technology." },
@@ -207,13 +210,13 @@ const Discussion = () => {
       'auth-token': userToken
     };
     setLoading(true);
-    console.log(headers, body, endpoint)
+    // console.log(headers, body, endpoint)
 
     try {
       const data = await fetchData(endpoint, method, body, headers);
       if (!data.success) {
         setLoading(false);
-        toast.error(`Error in password change: ${data.message}`, {
+        toast.error(`Error in posting discussion try again: ${data.message}`, {
           position: "top-center",
           autoClose: 3000,
           hideProgressBar: false,

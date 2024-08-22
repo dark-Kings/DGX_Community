@@ -12,7 +12,7 @@ export const discussionpost = async (req, res) => {
     let success = false;
 
     const userId = req.user.id;
-    console.log(userId)
+    // console.log(userId)
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -83,8 +83,8 @@ export const discussionpost = async (req, res) => {
 export const getdiscussion = async (req, res) => {
     let success = false;
 
-    const userId = req.user.id;
-    // console.log(userId)
+    const userId = req.body.user;
+    console.log(userId)
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -105,92 +105,102 @@ export const getdiscussion = async (req, res) => {
             }
 
             try {
-                const query = `SELECT UserID, Name FROM Community_User WHERE isnull(delStatus,0) = 0 AND EmailId = ?`;
-                const rows = await queryAsync(conn, query, [userId]);
-                // console.log(rows)
-
-                if (rows.length > 0) {
-                    const discussionGetQuery = `SELECT DiscussionID, UserID, AuthAdd as UserName, Title, Content, Image, Tag, ResourceUrl, AddOnDt as Date FROM Community_Discussion WHERE ISNULL(delStatus, 0) = 0 AND Visibility = 'public' AND Reference = 0 ORDER BY AddOnDt DESC`
-                    const discussionGet = await queryAsync(conn, discussionGetQuery)
-
-                    const updatedDiscussions = [];
-
-                    // Map over each discussion and fetch like count
-                    for (const item of discussionGet) {
-                        // Query to get like count for each discussion
-                        const likeCountQuery = `SELECT DiscussionID, UserID, Likes, AuthAdd as UserName FROM Community_Discussion WHERE ISNULL(delStatus, 0) = 0 AND Likes > 0 AND Reference = ?`;
-                        const likeCountResult = await queryAsync(conn, likeCountQuery, [item.DiscussionID]);
-
-                        const commentQuery = `SELECT DiscussionID, UserID, Comment, AuthAdd as UserName FROM Community_Discussion WHERE ISNULL(delStatus, 0) = 0 AND  Comment IS NOT NULL AND Reference = ?`;
-                        const commentResult = await queryAsync(conn, commentQuery, [item.DiscussionID]);
-                        // console.log(commentResult)
-                        const commentsArray = Array.isArray(commentResult) ? commentResult : [];
-
-                        const commentsArrayUpdated = []
-
-                        let userLike = 0;
-
-                        // Check if `UserID` in `likeCountResult` matches `rows[0].UserId`
-                        if (likeCountResult.some(likeItem => likeItem.UserID === rows[0].UserID)) {
-                            userLike = 1;
-                        }
-
-                        if (commentsArray.length > 0) {
-                            const commentsArrayUpdatedSecond = []
-                            for (const item of commentsArray) {
-                                const likeCountQuery = `SELECT DiscussionID, UserID, Likes, AuthAdd as UserName FROM Community_Discussion WHERE ISNULL(delStatus, 0) = 0 AND Likes > 0 AND Reference = ?`;
-                                const likeCountResult = await queryAsync(conn, likeCountQuery, [item.DiscussionID]);
-                                const likeCount = likeCountResult.length > 0 ? likeCountResult.length : 0;
-
-                                const commentQuery = `SELECT DiscussionID, UserID, Comment, AuthAdd as UserName FROM Community_Discussion WHERE ISNULL(delStatus, 0) = 0 AND  Comment IS NOT NULL AND Reference = ?`;
-                                const commentResult = await queryAsync(conn, commentQuery, [item.DiscussionID]);
-                                const commentsArray = Array.isArray(commentResult) ? commentResult : [];
-
-                                let userLike = 0;
-
-                                // Check if `UserID` in `likeCountResult` matches `rows[0].UserId`
-                                if (likeCountResult.some(likeItem => likeItem.UserID === rows[0].UserID)) {
-                                    userLike = 1;
-                                }
-                                if (commentsArray.length > 0) {
-                                    for (const item of commentsArray) {
-                                        const likeCountQuery = `SELECT DiscussionID, UserID, Likes, AuthAdd as UserName FROM Community_Discussion WHERE ISNULL(delStatus, 0) = 0 AND Likes > 0 AND Reference = ?`;
-                                        const likeCountResult = await queryAsync(conn, likeCountQuery, [item.DiscussionID]);
-                                        const likeCount = likeCountResult.length > 0 ? likeCountResult.length : 0;
-                                        let userLike = 0;
-                                        // Check if `UserID` in `likeCountResult` matches `rows[0].UserId`
-                                        if (likeCountResult.some(likeItem => likeItem.UserID === rows[0].UserID)) {
-                                            userLike = 1;
-                                        }
-                                        commentsArrayUpdatedSecond.push({ ...item, likeCount, userLike })
-
-                                    }
-                                }
-
-                                commentsArrayUpdated.push({ ...item, likeCount, userLike, comment: commentsArrayUpdatedSecond })
-                            }
-                        }
-
-
-                        const likeCount = likeCountResult.length > 0 ? likeCountResult.length : 0;
-
-                        // Add like count to the discussion item
-                        updatedDiscussions.push({ ...item, likeCount, userLike, comment: commentsArrayUpdated });
-                    }
-                    success = true;
-                    closeConnection();
-                    const infoMessage = "Disscussion Get Successfully"
-                    logInfo(infoMessage)
-                    res.status(200).json({ success, data: { updatedDiscussions }, message: infoMessage });
-                    return
-                } else {
-                    closeConnection();
-                    const warningMessage = "User not found"
-                    logWarning(warningMessage)
-                    res.status(200).json({ success: false, data: {}, message: warningMessage });
-                    return
+                let rows = []
+                if (userId !== null && userId !== undefined) {
+                    // console.log("Ho")
+                    const query = `SELECT UserID, Name FROM Community_User WHERE isnull(delStatus,0) = 0 AND EmailId = ?`;
+                    rows = await queryAsync(conn, query, [userId]);
                 }
-            } catch (queryErr) {
+                // console.log(rows)
+                if (rows.length === 0) {
+                    rows.push({ UserID: null });
+                }
+                // console.log(rows[0].UserID);
+                // if (rows.length > 0) {
+                const discussionGetQuery = `SELECT DiscussionID, UserID, AuthAdd as UserName, Title, Content, Image, Tag, ResourceUrl, AddOnDt as Date FROM Community_Discussion WHERE ISNULL(delStatus, 0) = 0 AND Visibility = 'public' AND Reference = 0 ORDER BY AddOnDt DESC`;
+                const discussionGet = await queryAsync(conn, discussionGetQuery);
+                // console.log(discussionGet)
+                const updatedDiscussions = [];
+
+                // Map over each discussion and fetch like count
+                for (const item of discussionGet) {
+                    // Query to get like count for each discussion
+                    const likeCountQuery = `SELECT DiscussionID, UserID, Likes, AuthAdd as UserName FROM Community_Discussion WHERE ISNULL(delStatus, 0) = 0 AND Likes > 0 AND Reference = ?`;
+                    const likeCountResult = await queryAsync(conn, likeCountQuery, [item.DiscussionID]);
+
+                    const commentQuery = `SELECT DiscussionID, UserID, Comment, AuthAdd as UserName FROM Community_Discussion WHERE ISNULL(delStatus, 0) = 0 AND  Comment IS NOT NULL AND Reference = ?`;
+                    const commentResult = await queryAsync(conn, commentQuery, [item.DiscussionID]);
+                    const commentsArray = Array.isArray(commentResult) ? commentResult : [];
+
+                    const commentsArrayUpdated = [];
+
+                    let userLike = 0;
+
+                    // Check if `UserID` in `likeCountResult` matches `rows[0].UserId`
+                    if (likeCountResult.some(likeItem => likeItem.UserID === rows[0].UserID)) {
+                        userLike = 1;
+                    }
+
+                    if (commentsArray.length > 0) {
+                        for (const comment of commentsArray) {
+                            // Reset the second-level comments array for each top-level comment
+                            const commentsArrayUpdatedSecond = [];
+
+                            const likeCountQuery = `SELECT DiscussionID, UserID, Likes, AuthAdd as UserName FROM Community_Discussion WHERE ISNULL(delStatus, 0) = 0 AND Likes > 0 AND Reference = ?`;
+                            const likeCountResult = await queryAsync(conn, likeCountQuery, [comment.DiscussionID]);
+                            const likeCount = likeCountResult.length > 0 ? likeCountResult.length : 0;
+
+                            const commentQuery = `SELECT DiscussionID, UserID, Comment, AuthAdd as UserName FROM Community_Discussion WHERE ISNULL(delStatus, 0) = 0 AND  Comment IS NOT NULL AND Reference = ?`;
+                            const commentResult = await queryAsync(conn, commentQuery, [comment.DiscussionID]);
+                            const secondLevelCommentsArray = Array.isArray(commentResult) ? commentResult : [];
+
+                            let secondLevelUserLike = 0;
+
+                            // Check if `UserID` in `likeCountResult` matches `rows[0].UserId`
+                            if (likeCountResult.some(likeItem => likeItem.UserID === rows[0].UserID)) {
+                                secondLevelUserLike = 1;
+                            }
+
+                            if (secondLevelCommentsArray.length > 0) {
+                                for (const secondLevelComment of secondLevelCommentsArray) {
+                                    const secondLevelLikeCountQuery = `SELECT DiscussionID, UserID, Likes, AuthAdd as UserName FROM Community_Discussion WHERE ISNULL(delStatus, 0) = 0 AND Likes > 0 AND Reference = ?`;
+                                    const secondLevelLikeCountResult = await queryAsync(conn, secondLevelLikeCountQuery, [secondLevelComment.DiscussionID]);
+                                    const secondLevelLikeCount = secondLevelLikeCountResult.length > 0 ? secondLevelLikeCountResult.length : 0;
+
+                                    let secondLevelUserLike = 0;
+                                    if (secondLevelLikeCountResult.some(likeItem => likeItem.UserID === rows[0].UserID)) {
+                                        secondLevelUserLike = 1;
+                                    }
+
+                                    commentsArrayUpdatedSecond.push({ ...secondLevelComment, likeCount: secondLevelLikeCount, userLike: secondLevelUserLike });
+                                }
+                            }
+
+                            commentsArrayUpdated.push({ ...comment, likeCount, userLike: secondLevelUserLike, comment: commentsArrayUpdatedSecond });
+                        }
+                    }
+
+                    const likeCount = likeCountResult.length > 0 ? likeCountResult.length : 0;
+
+                    // Add like count to the discussion item
+                    updatedDiscussions.push({ ...item, likeCount, userLike, comment: commentsArrayUpdated });
+                }
+
+                success = true;
+                closeConnection();
+                const infoMessage = "Discussion Get Successfully";
+                logInfo(infoMessage);
+                res.status(200).json({ success, data: { updatedDiscussions }, message: infoMessage });
+                return;
+                // } else {
+                //     closeConnection();
+                //     const warningMessage = "User not found";
+                //     logWarning(warningMessage);
+                //     res.status(200).json({ success: false, data: {}, message: warningMessage });
+                //     return;
+                // }
+            }
+            catch (queryErr) {
                 closeConnection();
                 logError(queryErr)
                 res.status(500).json({ success: false, data: queryErr, message: 'Something went wrong please try again' });
