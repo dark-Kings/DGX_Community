@@ -1,10 +1,11 @@
 import { useState, useContext, useEffect } from 'react';
-import { FaSearch, FaThumbsUp, FaComment, FaWindowClose } from 'react-icons/fa';
+import { FaSearch, FaComment, FaWindowClose } from 'react-icons/fa';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ApiContext from '../context/ApiContext.jsx';
 import DiscussionModal from '../component/DiscussionModal';
 import { compressImage } from '../utils/compressImage.js'
+import { AiFillLike, AiOutlineLike } from "react-icons/ai"
 
 const Discussion = () => {
   const { fetchData, userToken, user } = useContext(ApiContext);
@@ -28,7 +29,7 @@ const Discussion = () => {
 
           setLoading(true);
 
-          // console.log(endpoint, headers, body)
+          console.log(endpoint, headers, body)
           fetchData(endpoint, method, body, headers)
             .then(result => {
               if (result && result.data) {
@@ -254,16 +255,16 @@ const Discussion = () => {
       });
     }
     // console.log(newDiscussion)
-    const newDiscussion1 = {
-      title,
-      content,
-      tags: tags, // Convert tags array to string
-      links: links,// Convert links array to string
-      image: selectedImage,
-      privacy
-    };
+    // const newDiscussion1 = {
+    //   title,
+    //   content,
+    //   tags: tags, // Convert tags array to string
+    //   links: links,// Convert links array to string
+    //   image: selectedImage,
+    //   privacy
+    // };
 
-    setDiscussions([...discussions, newDiscussion1]);
+    // setDiscussions([...discussions, newDiscussion1]);
 
     // Reset the form fields
     setTitle('');
@@ -275,8 +276,8 @@ const Discussion = () => {
     setLinkInput('');
     setIsFormOpen(false);
   };
-  console.log(demoDiscussions);
-  
+  // console.log(demoDiscussions);
+
 
   return (
     <div>
@@ -361,7 +362,7 @@ const Discussion = () => {
               ))}
             </div>
           </div>
-          
+
           <div>
             <h2 className="text-2xl font-bold mb-4">Top Contributors</h2>
             <div className="space-y-2">
@@ -493,7 +494,6 @@ const Discussion = () => {
                     className="w-full px-3 py-2 border rounded-lg"
                   >
                     <option value="private">Private</option>
-                    <option value="protected">Protected</option>
                     <option value="public">Public</option>
                   </select>
                 </div>
@@ -546,8 +546,8 @@ const Discussion = () => {
                   ))}
                 </div>
                 <div className="mt-4 flex items-center space-x-4">
-                  <button className="flex items-center text-DGXgreen text-sm md:text-base lg:text-lg" onClick={handleLike}>
-                    <FaThumbsUp className={`mr-2 ${discussion.userLike ?? 'text-DGXblue'}`} /> {'userLike ${}'}{discussion.likeCount} Likes
+                  <button className="flex items-center  text-sm md:text-base lg:text-lg" onClick={handleLike}>
+                    {discussion.userLike == 1 ? <AiFillLike /> : <AiOutlineLike />}{discussion.likeCount} Likes
                   </button>
                   <button
                     className="flex items-center text-DGXgreen text-sm md:text-base lg:text-lg"
@@ -558,7 +558,7 @@ const Discussion = () => {
                 </div>
               </div>
             ))}
-            
+
           </div>
         </section>
 

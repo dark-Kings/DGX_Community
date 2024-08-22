@@ -1,5 +1,6 @@
 import { useState, useContext } from "react";
 import { FaThumbsUp, FaComment } from "react-icons/fa";
+import { AiFillLike, AiOutlineLike } from "react-icons/ai"
 // import { images } from "../constant/index.js";
 import ApiContext from '../context/ApiContext.jsx';
 import { ToastContainer, toast } from "react-toastify";
@@ -215,7 +216,7 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
                     <div className="flex flex-col">
                       <span>{new Date(discussion.Date).toLocaleString()}</span>
                       <span className="flex items-center gap-2">
-                        <FaThumbsUp />
+                        {discussion.userLike == 1 ? <AiFillLike /> : <AiOutlineLike />}
                         {discussion.likeCount}
                         <FaComment /> {discussion.comment.length}
                       </span>
@@ -337,7 +338,7 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
                           {comment.Comment}
                         </div>
                         <div className="flex items-center gap-2">
-                          <FaThumbsUp />
+                          {comment.userLike == 1 ? <AiFillLike /> : <AiOutlineLike />}
                           <span>{comment.likeCount}</span>
                         </div>
                         <div>
@@ -358,7 +359,7 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
                                 {reply.Comment}
                               </div>
                               <div className="flex items-center gap-2">
-                                <FaThumbsUp />
+                                {reply.userLike == 1 ? <AiFillLike /> : <AiOutlineLike />}
                                 <span>{reply.likeCount}</span>
                               </div>
                             </div>
