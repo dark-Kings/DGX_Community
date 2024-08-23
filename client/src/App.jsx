@@ -62,10 +62,10 @@ function App() {
             {  /*-----------ADMIN----------- */}
 
             <Route path='/AdminDashboard' element={<AdminDashboard />} />
-            {/* <Route path='/Admin/Sidebar' element={<Sidebar />} />
+            {/* <Route path='/Admin/Sidebar' element={<Sidebar />} /> */}
             <Route path='/LoadPage' element={<LoadPage />} />
             <Route path='/Calendar' element={<Calendar />} />
-            <Route path='/GeneralUserCalendar' element={<GeneralUserCalendar />} /> */}
+            <Route path='/GeneralUserCalendar' element={<GeneralUserCalendar />} />
           </Routes>
         </div>
         <Footer />
