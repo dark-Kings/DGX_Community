@@ -122,12 +122,12 @@ const Home = () => {
                 <section className="bg-[#f5f5f5]">
                     <div className="grid grid-cols-1 lg:grid-cols-2 items-center justify-items-center gap-4 bg-DGXblue p-4">
                         {/* Text and Links Section */}
-                        <div className="flex flex-col justify-center items-center p-4">
+                        {/* <div className="flex flex-col justify-center items-center p-4">
                             <h1 className="text-xl md:text-4xl lg:text-5xl font-bold mb-4 text-DGXwhite text-center">
                                 Join the Innovations
                             </h1>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full p-8">
-                                {/* Event and Workshop */}
+                                Event and Workshop
                                 <div className="flex flex-col justify-center items-center relative group">
                                     <p
                                         onClick={handleRedirect}
@@ -142,7 +142,7 @@ const Home = () => {
                                         <div className="w-3 h-3 -mt-1 rotate-45 bg-DGXblack"></div>
                                     </div>
                                 </div>
-                                {/* Community Ranking */}
+                                Community Ranking
                                 <div className="flex flex-col justify-center items-center relative group p-6">
                                     <p className="text-base sm:text-lg md:text-xl lg:text-2xl  text-DGXwhite hover:text-DGXgreen transition-colors duration-300 cursor-pointer">
                                         Community Ranking
@@ -154,7 +154,7 @@ const Home = () => {
                                         <div className="w-2 h-2 -mt-1 rotate-45 bg-DGXblack"></div>
                                     </div>
                                 </div>
-                                {/* Survey and Quizzes */}
+                                Survey and Quizzes
                                 <div className="flex flex-col justify-center items-center relative group p-6">
                                     <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-DGXwhite hover:text-DGXgreen">
                                         Survey and Quizzes
@@ -166,7 +166,7 @@ const Home = () => {
                                         <div className="w-3 h-3 -mt-1 rotate-45 bg-DGXblack"></div>
                                     </div>
                                 </div>
-                                {/* Discussion Platform */}
+                                Discussion Platform
                                 <div className="flex flex-col justify-center items-center relative group ">
                                     <p
                                         onClick={handleRedirect01}
@@ -182,16 +182,17 @@ const Home = () => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        {/* Image and Text Section */}
-                        <div className="flex flex-col justify-center items-center bg-DGXwhite opacity-100 w-full h-full p-4 md:p-6 lg:p-10">
+                        </div> */}
+                        <div className="flex flex-col justify-center items-center bg-DGXblue     opacity-100 w-full h-full p-4 md:p-6 lg:p-10">
                             <div className="text-center">
-                                <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-DGXblack">Welcome!</h1>
-                                <p className="mt-4 text-sm sm:text-base md:text-lg lg:text-xl leading-6 text-DGXblack">
+                                <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-DGXwhite">Welcome!</h1>
+                                <p className="mt-4 text-sm sm:text-base md:text-lg lg:text-xl leading-6 text-DGXwhite">
                                     Hi! Are you a student, researcher, or developer looking to showcase your achievements, access certificates, and collaborate on projects? Join our DGX Community! Connect with like-minded individuals, share your accomplishments, and work on exciting projects together. Let&apos;s build a supportive and engaging space for learning and collaboration. See you there!
                                 </p>
                             </div>
                         </div>
+                        {/* Image and Text Section */}
+                        
                     </div>
                 </section>
 

@@ -1,5 +1,6 @@
 import { useState, useContext } from "react";
 import { FaThumbsUp, FaComment } from "react-icons/fa";
+import { AiFillLike, AiOutlineLike } from "react-icons/ai"
 // import { images } from "../constant/index.js";
 import ApiContext from '../context/ApiContext.jsx';
 import { ToastContainer, toast } from "react-toastify";
@@ -215,7 +216,7 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
                     <div className="flex flex-col">
                       <span>{new Date(discussion.Date).toLocaleString()}</span>
                       <span className="flex items-center gap-2">
-                        <FaThumbsUp />
+                        {discussion.userLike == 1 ? <AiFillLike /> : <AiOutlineLike />}
                         {discussion.likeCount}
                         <FaComment /> {discussion.comment.length}
                       </span>
@@ -262,7 +263,7 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
                         Tags:
                       </h3>
                       <ul className="flex flex-wrap mt-1 sm:mt-2">
-                        {discussion.Tag.split(',').map((tag, index) => (
+                        {discussion.Tag.split(',').filter(tag => tag).map((tag, index) => (
                           <li
                             key={index}
                             className="bg-DGXblue text-DGXwhite py-1 px-2 rounded-full text-xs sm:text-sm mr-2 mb-2"
@@ -281,7 +282,7 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
                         Links:
                       </h3>
                       <ul className="list-disc list-inside">
-                        {discussion.ResourceUrl.split(',').map((link, index) => (
+                        {discussion.ResourceUrl.split(',').filter(link => link).map((link, index) => (
                           <li key={index}>
                             <a
                               href={link}
@@ -337,7 +338,7 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
                           {comment.Comment}
                         </div>
                         <div className="flex items-center gap-2">
-                          <FaThumbsUp />
+                          {comment.userLike == 1 ? <AiFillLike /> : <AiOutlineLike />}
                           <span>{comment.likeCount}</span>
                         </div>
                         <div>
@@ -358,7 +359,7 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
                                 {reply.Comment}
                               </div>
                               <div className="flex items-center gap-2">
-                                <FaThumbsUp />
+                                {reply.userLike == 1 ? <AiFillLike /> : <AiOutlineLike />}
                                 <span>{reply.likeCount}</span>
                               </div>
                             </div>

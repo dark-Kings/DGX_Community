@@ -1,25 +1,40 @@
 import { useState, useContext, useEffect } from 'react';
-import { FaSearch, FaThumbsUp, FaComment, FaWindowClose } from 'react-icons/fa';
+import { FaSearch, FaComment, FaWindowClose } from 'react-icons/fa';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ApiContext from '../context/ApiContext.jsx';
 import DiscussionModal from '../component/DiscussionModal';
 import { compressImage } from '../utils/compressImage.js'
+import { AiFillLike, AiOutlineLike } from "react-icons/ai"
 
 const Discussion = () => {
   const { fetchData, userToken, user } = useContext(ApiContext);
+  const [demoDiscussions, setDemoDiscussions] = useState([])
   const [loading, setLoading] = useState(false);
+  const [likeCount, setLikeCount] = useState(0);
+  const [commentCount, setCommentCount] = useState(0);
+  const [isNavOpen, setIsNavOpen] = useState(false);
+  const [selectedSection, setSelectedSection] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [tags, setTags] = useState('');
+  const [tagInput, setTagInput] = useState('');
+  const [links, setLinks] = useState('');
+  const [linkInput, setLinkInput] = useState('');
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [discussions, setDiscussions] = useState([]);
+  const [privacy, setPrivacy] = useState('private');
+  const [selectedDiscussion, setSelectedDiscussion] = useState(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   useEffect(() => {
-    // Function to fetch data based on user and userToken status
     try {
-
-
       const fetchDiscussionData = (userEmail) => {
         try {
-
-
           const body = userEmail ? { user: userEmail } : { user: null };
-
           const endpoint = "discussion/getdiscussion";
           const method = "POST";
           const headers = {
@@ -28,7 +43,7 @@ const Discussion = () => {
 
           setLoading(true);
 
-          // console.log(endpoint, headers, body)
+          console.log(endpoint, headers, body)
           fetchData(endpoint, method, body, headers)
             .then(result => {
               if (result && result.data) {
@@ -64,14 +79,8 @@ const Discussion = () => {
           console.log(error)
         }
       };
-
-      // Initial fetch when the component loads
-      // Fetch with `user: null` on first load
-
-
-      // Fetch again when userToken and user are available
       if (userToken && user) {
-        fetchDiscussionData(user.EmailId); // Fetch with user's email
+        fetchDiscussionData(user.EmailId);
       } else {
         fetchDiscussionData(null);
       }
@@ -80,9 +89,33 @@ const Discussion = () => {
     }
 
   }, [user, userToken, fetchData]);
-  // Re-run when `user` or `userToken` change
+  
+  const handleAddLike = async (id) => {
+    console.log(id)
 
-  const [demoDiscussions, setDemoDiscussions] = useState([])
+    if (userToken) {
+      const endpoint = "discussion/discussionpost";
+      const method = "POST";
+      const headers = {
+        'Content-Type': 'application/json',
+        'auth-token': userToken
+      };
+      const body = {
+        "reference": id,
+        "likes": 1
+      };
+      try {
+        const data = await fetchData(endpoint, method, body, headers)
+        if (!data.success) {
+          console.log("Error occured while liking the post")
+        } else if (data.success) {
+          console.log(data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
   const hotTopics = [
     { title: "NVIDIA Innovations", link: "#", description: "Discover the latest advancements from NVIDIA and how they are shaping the future of technology." },
@@ -100,38 +133,11 @@ const Discussion = () => {
     { name: "User 5", points: 980 }
   ];
 
-  const [likeCount, setLikeCount] = useState(0);
-  const [commentCount, setCommentCount] = useState(0);
-  const [isNavOpen, setIsNavOpen] = useState(false);
-  const [selectedSection, setSelectedSection] = useState('all');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [isFormOpen, setIsFormOpen] = useState(false);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [tags, setTags] = useState([]);
-  const [tagInput, setTagInput] = useState('');
-  const [links, setLinks] = useState([]);
-  const [linkInput, setLinkInput] = useState('');
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [discussions, setDiscussions] = useState([]);
-  const [privacy, setPrivacy] = useState('private');
-  const [selectedDiscussion, setSelectedDiscussion] = useState(null);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
   const toggleNav = () => setIsNavOpen(!isNavOpen);
-
-  const handleSearchChange = (e) => setSearchQuery(e.target.value);
-
-  const handleNewTopicClick = () => setIsFormOpen(true);
-
   const handleLike = () => setLikeCount(likeCount + 1);
 
   const handleComment = (discussion) => {
-    // Increment the comment count
     setCommentCount(prevCount => prevCount + 1);
-
-    // Open the modal with the selected discussion
     openModal(discussion);
   };
 
@@ -150,28 +156,23 @@ const Discussion = () => {
   const handleTagInputKeyPress = (e) => {
     if (e.key === 'Enter' && tagInput.trim() !== '') {
       e.preventDefault();
-      setTags([...tags, tagInput.trim()]);
+      setTags(tags+','+tagInput.trim());
       setTagInput('');
     }
   };
 
-  const removeTag = (tagToRemove) => setTags(tags.filter(tag => tag !== tagToRemove));
-
+  const removeTag = (tagToRemove) => {
+    const tagArray = tags.split(',');
+    const filteredTags = tagArray.filter(tag => tag !== tagToRemove);
+    const newTags = filteredTags.join(',');
+    setTags(newTags);
+}
   const handleImageChange = async (e) => {
     if (e.target.files && e.target.files[0]) {
-      // setSelectedImage(URL.createObjectURL(e.target.files[0]));
       const file = e.target.files[0];
-
       if (file) {
-        // Compress the image if it's larger than 500 KB
-        // if (file.size > 500 * 1024) { // 500 KB in bytes
         const compressedFile = await compressImage(file);
-        // console.log(compressedFile)
         setSelectedImage(compressedFile);
-        // setSelectedImage(URL.createObjectURL(file));
-        // } else {
-        //     setSelectedImage(URL.createObjectURL(file));
-        // }
       }
     }
   };
@@ -181,16 +182,18 @@ const Discussion = () => {
   const handleLinkInputKeyPress = (e) => {
     if (e.key === 'Enter' && linkInput.trim() !== '') {
       e.preventDefault();
-      setLinks([...links, linkInput.trim()]);
+      setLinks(links+','+linkInput.trim());
       setLinkInput('');
     }
   };
 
-
-  const removeLink = (linkToRemove) => setLinks(links.filter(link => link !== linkToRemove));
-
-  const handlePrivacyChange = (e) => setPrivacy(e.target.value);
-
+  const removeLink = (linkToRemove) => {
+    const linkArray = links.split(',');
+    const filteredLinks = linkArray.filter(link => link !== linkToRemove);
+    const newLinks = filteredLinks.join(',');
+    setLinks(newLinks);
+}
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     const endpoint = "discussion/discussionpost";
@@ -199,8 +202,8 @@ const Discussion = () => {
     const body = {
       title,
       content,
-      tags: tags.join(','), // Convert tags array to string
-      url: links.join(','), // Convert links array to string
+      tags: tags,
+      url: links,
       image: selectedImage,
       visibility: privacy
 
@@ -210,7 +213,6 @@ const Discussion = () => {
       'auth-token': userToken
     };
     setLoading(true);
-    // console.log(headers, body, endpoint)
 
     try {
       const data = await fetchData(endpoint, method, body, headers);
@@ -227,22 +229,48 @@ const Discussion = () => {
           theme: "light",
         });
       } else if (data.success) {
+        console.log(data);
         setLoading(false);
-        toast.success("Disscussion Post Successfully", {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-
+        if (privacy == "private") {
+          toast.success("Private Discussion Posted Successfully", {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        } else {
+          const newDiscussion = {
+            DiscussionID : data.postID,
+            Title:title,
+            Content:content,
+            Tag: tags,
+            ResourceUrl: links,
+            Image: selectedImage,
+            Visibility:privacy,
+            comment:[]
+          };
+          setDemoDiscussions([newDiscussion, ...demoDiscussions]);
+          toast.success("Disscussion Post Successfully", {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        }
       }
     } catch (error) {
       setLoading(false);
-      toast.error(`Something went wrong, try again`, {
+      console.log(error);
+      
+      toast.error(`On catching error: Something went wrong, try again`, {
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: false,
@@ -253,28 +281,18 @@ const Discussion = () => {
         theme: "light",
       });
     }
-    // console.log(newDiscussion)
-    const newDiscussion1 = {
-      title,
-      content,
-      tags: tags, // Convert tags array to string
-      links: links,// Convert links array to string
-      image: selectedImage,
-      privacy
-    };
-
-    setDiscussions([...discussions, newDiscussion1]);
-
-    // Reset the form fields
     setTitle('');
     setContent('');
-    setTags([]);
-    setLinks([]);
+    setTags('');
+    setLinks('');
     setSelectedImage(null);
     setTagInput('');
     setLinkInput('');
     setIsFormOpen(false);
   };
+
+  console.log(demoDiscussions);
+  
 
   return (
     <div>
@@ -288,7 +306,7 @@ const Discussion = () => {
                 className="w-full py-2 pl-10 pr-4 bg-white border border-gray-200 rounded-lg shadow-sm text-gray-800 focus:border-DGXgreen focus:ring-DGXgreen"
                 placeholder="Search..."
                 value={searchQuery}
-                onChange={handleSearchChange}
+                onChange={()=>{setSearchQuery(e.target.value)}}
               />
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <FaSearch className="text-gray-400" />
@@ -324,7 +342,7 @@ const Discussion = () => {
           <button
             type="button"
             className="py-2 px-3 inline-flex items-center gap-x-2 text-lg font-bold rounded-lg bg-DGXgreen text-DGXwhite shadow-sm hover:bg-DGXblue hover:border-DGXgreen border border-DGXblue disabled:opacity-50 disabled:pointer-events-none"
-            onClick={handleNewTopicClick}
+            onClick={()=>{setIsFormOpen(true)}}
           >
             Start a New Topic +
           </button>
@@ -359,6 +377,7 @@ const Discussion = () => {
               ))}
             </div>
           </div>
+
           <div>
             <h2 className="text-2xl font-bold mb-4">Top Contributors</h2>
             <div className="space-y-2">
@@ -381,7 +400,6 @@ const Discussion = () => {
             {isFormOpen && (
               <form onSubmit={handleSubmit} className="border border-gray-300 rounded-lg p-4">
                 <h3 className="text-lg font-bold mb-4">Start a New Discussion</h3>
-
                 <div className="mb-4">
                   <label className="block text-gray-700 font-bold mb-2" htmlFor="title">
                     Title
@@ -421,7 +439,7 @@ const Discussion = () => {
                     placeholder="Press Enter to add a tag"
                   />
                   <div className="mt-2 flex flex-wrap">
-                    {tags.map((tag, index) => (
+                    {tags.split(',').filter(tag => tag).map((tag, index) => (
                       <div key={index} className="flex items-center bg-DGXgreen text-white rounded-full px-3 py-1 mr-2 mt-2">
                         <span>{tag}</span>
                         <button
@@ -449,7 +467,7 @@ const Discussion = () => {
                     placeholder="Press Enter to add a link"
                   />
                   <div className="mt-2 flex flex-wrap">
-                    {links.map((link, index) => (
+                    {links.split(',').filter(link => link).map((link, index) => (
                       <div key={index} className="flex items-center bg-DGXgreen text-white rounded-full px-3 py-1 mr-2 mt-2">
                         <span>{link}</span>
                         <button
@@ -486,11 +504,10 @@ const Discussion = () => {
                   </label>
                   <select
                     value={privacy}
-                    onChange={handlePrivacyChange}
+                    onChange={(e) => setPrivacy(e.target.value)}
                     className="w-full px-3 py-2 border rounded-lg"
                   >
                     <option value="private">Private</option>
-                    <option value="protected">Protected</option>
                     <option value="public">Public</option>
                   </select>
                 </div>
@@ -529,7 +546,7 @@ const Discussion = () => {
                   </div>
                 )}
                 <div className="mt-2 flex flex-wrap gap-2">
-                  {discussion.Tag.split(',').map((tag, tagIndex) => (
+                  {discussion.Tag.split(',').filter(tag => tag).map((tag, tagIndex) => (
                     <span key={tagIndex} className="bg-DGXgreen text-white rounded-full px-3 py-1 text-xs md:text-sm lg:text-base">
                       {tag}
                     </span>
@@ -543,8 +560,8 @@ const Discussion = () => {
                   ))}
                 </div>
                 <div className="mt-4 flex items-center space-x-4">
-                  <button className="flex items-center text-DGXgreen text-sm md:text-base lg:text-lg" onClick={handleLike}>
-                    <FaThumbsUp className="mr-2" /> {discussion.likeCount} Likes
+                  <button className="flex items-center  text-sm md:text-base lg:text-lg" onClick={()=>{handleAddLike(discussion.DiscussionID)}}>
+                    {discussion.userLike == 1 ? <AiFillLike /> : <AiOutlineLike />}{discussion.likeCount} Likes
                   </button>
                   <button
                     className="flex items-center text-DGXgreen text-sm md:text-base lg:text-lg"
@@ -555,48 +572,7 @@ const Discussion = () => {
                 </div>
               </div>
             ))}
-            {discussions.map((discussion, index) => (
-              <div key={index} className="border border-gray-300 rounded-lg p-4 w-full max-w-screen-sm sm:max-w-screen-md md:max-w-screen-lg lg:max-w-screen-xl xl:max-w-screen-2xl">
-                <div onClick={() => openModal(discussion)}>
-                  <h3 className="text-lg font-bold cursor-pointer md:text-lg lg:text-xl xl:text-2xl">
-                    {discussion.title}
-                  </h3>
-                  <p className="text-gray-600 text-sm md:text-base lg:text-lg xl:text-xl">
-                    {discussion.content.length > 500 ? (<> {discussion.content.substring(0, 497)} <span className='text-blue-700 cursor-pointer' onClick={() => { openModal(discussion) }}>...see more</span></>) : discussion.content}
-                  </p>
-                </div>
-                {discussion.image && (
-                  <div className="mt-2">
-                    <img src={discussion.image} alt="Discussion" className="max-h-40 w-auto object-cover" />
-                  </div>
-                )}
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {discussion.tags.map((tag, tagIndex) => (
-                    <span key={tagIndex} className="bg-DGXgreen text-white rounded-full px-3 py-1 text-xs md:text-sm lg:text-base">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {discussion.links.map((link, linkIndex) => (
-                    <a key={linkIndex} href={link} className="text-DGXgreen hover:underline text-xs md:text-sm lg:text-base">
-                      {link}
-                    </a>
-                  ))}
-                </div>
-                <div className="mt-4 flex items-center space-x-4">
-                  <button className="flex items-center text-DGXgreen text-sm md:text-base lg:text-lg" onClick={handleLike}>
-                    <FaThumbsUp className="mr-2" /> {likeCount} Likes
-                  </button>
-                  <button
-                    className="flex items-center text-DGXgreen text-sm md:text-base lg:text-lg"
-                    onClick={() => handleComment(discussion)}
-                  >
-                    <FaComment className="mr-2" /> {commentCount} Comments
-                  </button>
-                </div>
-              </div>
-            ))}
+
           </div>
         </section>
 
