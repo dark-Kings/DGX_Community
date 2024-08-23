@@ -51,23 +51,28 @@ export const discussionpost = async (req, res) => {
                 // console.log(rows)
 
                 if (rows.length > 0) {
+
+                    if (likes !== null) {
+                        const likeExistsQuery = `select DiscussionID from Community_Discussion where ISNULL(delStatus,0)=0 and Reference= ? and UserID = ? and Likes is not null;`
+                        const likeExists = await queryAsync(conn, likeExistsQuery, [threadReference, rows[0].UserID])
+                        if (likeExists.length > 0) {
+                            // console.log(likeExists[0].DiscussionID)
+                            const updateLikeQuery = `UPDATE Community_Discussion SET Likes = ?, AuthLstEdit= ?, editOnDt= GETDATE() WHERE ISNULL(delStatus, 0) = 0 AND DiscussionID = ?`
+                            const updateLike = await queryAsync(conn, updateLikeQuery, [likes, rows[0].Name, likeExists[0].DiscussionID])
+                            const infoMessage = "like Posted Successfully"
+                            closeConnection();
+                            res.status(200).json({ success, data: {}, message: infoMessage });
+                            return
+                        }
+                    }
                     const discussionPostQuery = `
                     INSERT INTO Community_Discussion 
                     (UserID, Title, Content, Image, Likes, Comment, Tag, Visibility, Reference, ResourceUrl, AuthAdd, AddOnDt, delStatus) 
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), 0); 
-                   
-                `;
+                    `;
                     const discussionPost = await queryAsync(conn, discussionPostQuery, [rows[0].UserID, title, content, image, likes, comment, tags, visibility, threadReference, url, rows[0].Name, 0])
-                    const lastInsertedIdQuerry = ` select top 1 DiscussionID from Community_Discussion where ISNULL(delStatus,0)=0 order by DiscussionID desc;`
+                    const lastInsertedIdQuerry = `select top 1 DiscussionID from Community_Discussion where ISNULL(delStatus,0)=0 order by DiscussionID desc;`
                     const lastInsertedId = await queryAsync(conn, lastInsertedIdQuerry)
-
-
-
-                    // console.log(discussionPost);
-                    // console.log(lastInsertedId, discussionPost);
-                    // console.log(lastInsertedId);
-
-
                     success = true;
                     closeConnection();
                     const infoMessage = "Disscussion Posted Successfully"
@@ -76,7 +81,7 @@ export const discussionpost = async (req, res) => {
                     return
                 } else {
                     closeConnection();
-                    const warningMessage = "User not found"
+                    const warningMessage = "User not found login first"
                     logWarning(warningMessage)
                     res.status(200).json({ success: false, data: {}, message: warningMessage });
                     return
@@ -152,7 +157,8 @@ export const getdiscussion = async (req, res) => {
                     let userLike = 0;
 
                     // Check if `UserID` in `likeCountResult` matches `rows[0].UserId`
-                    if (likeCountResult.some(likeItem => likeItem.UserID === rows[0].UserID)) {
+
+                    if (likeCountResult.some(likeItem => likeItem.UserID === rows[0].UserID && likeItem.Likes === 1)) {
                         userLike = 1;
                     }
 
@@ -172,7 +178,7 @@ export const getdiscussion = async (req, res) => {
                             let secondLevelUserLike = 0;
 
                             // Check if `UserID` in `likeCountResult` matches `rows[0].UserId`
-                            if (likeCountResult.some(likeItem => likeItem.UserID === rows[0].UserID)) {
+                            if (likeCountResult.some(likeItem => likeItem.UserID === rows[0].UserID && likeItem.Likes === 1)) {
                                 secondLevelUserLike = 1;
                             }
 
@@ -183,7 +189,7 @@ export const getdiscussion = async (req, res) => {
                                     const secondLevelLikeCount = secondLevelLikeCountResult.length > 0 ? secondLevelLikeCountResult.length : 0;
 
                                     let secondLevelUserLike = 0;
-                                    if (secondLevelLikeCountResult.some(likeItem => likeItem.UserID === rows[0].UserID)) {
+                                    if (secondLevelLikeCountResult.some(likeItem => likeItem.UserID === rows[0].UserID && likeItem.Likes === 1)) {
                                         secondLevelUserLike = 1;
                                     }
 
