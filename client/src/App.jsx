@@ -26,6 +26,7 @@ import LoadPage from './component/LoadPage.jsx';
 import Calendar from './component/Calendar.jsx';
 import GeneralUserCalendar from './component/GeneralUserCalendar.jsx';
 import AdminDashboard from './Admin/AdminDashboard.jsx';
+import HomeAfterLoginComponent from './component/HomeAfterLoginComponent.jsx';
 
 
 
@@ -55,15 +56,16 @@ function App() {
             <Route path='/Survey' element={<Survey />} />
             {/* <Route path='/MyStoryboard' element={<MyStoryboard />} /> */}
             <Route path='/EventWorkshopPage' element={<EventWorkshopPage />} />
+            <Route path='/HomeAfterLoginComponent' element={<HomeAfterLoginComponent/>}/>
 
 
             {  /*-----------ADMIN----------- */}
 
             <Route path='/AdminDashboard' element={<AdminDashboard />} />
-            {/* <Route path='/Admin/Sidebar' element={<Sidebar />} />
+            {/* <Route path='/Admin/Sidebar' element={<Sidebar />} /> */}
             <Route path='/LoadPage' element={<LoadPage />} />
             <Route path='/Calendar' element={<Calendar />} />
-            <Route path='/GeneralUserCalendar' element={<GeneralUserCalendar />} /> */}
+            <Route path='/GeneralUserCalendar' element={<GeneralUserCalendar />} />
           </Routes>
         </div>
         <Footer />

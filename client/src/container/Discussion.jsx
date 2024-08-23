@@ -233,7 +233,7 @@ const Discussion = () => {
         setLoading(false);
         if (privacy == "private") {
           toast.success("Private Discussion Posted Successfully", {
-            position: "top-center",
+            position: "center",
             autoClose: 3000,
             hideProgressBar: false,
             closeOnClick: true,
@@ -263,6 +263,10 @@ const Discussion = () => {
             draggable: true,
             progress: undefined,
             theme: "light",
+            style:{
+              backgroundColor:'green',
+              color:'white',
+            }
           });
         }
       }
@@ -296,7 +300,7 @@ const Discussion = () => {
 
   return (
     <div>
-      <ToastContainer />
+      <ToastContainer style={{top:'50%', left:'50%', transform:'translate(-50%, -50%)'}}/>
       <header className="flex flex-wrap sm:justify-start sm:flex-nowrap w-full bg-DGXblue text-sm py-4">
         <nav className="max-w-[85rem] w-full mx-auto px-4 flex flex-wrap basis-full items-center justify-between" aria-label="Global">
           <div className="sm:order-4 flex items-center w-full sm:w-auto mt-4 sm:mt-0 sm:ml-4">
