@@ -263,7 +263,7 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
                         Tags:
                       </h3>
                       <ul className="flex flex-wrap mt-1 sm:mt-2">
-                        {discussion.Tag.split(',').map((tag, index) => (
+                        {discussion.Tag.split(',').filter(tag => tag).map((tag, index) => (
                           <li
                             key={index}
                             className="bg-DGXblue text-DGXwhite py-1 px-2 rounded-full text-xs sm:text-sm mr-2 mb-2"
@@ -282,7 +282,7 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
                         Links:
                       </h3>
                       <ul className="list-disc list-inside">
-                        {discussion.ResourceUrl.split(',').map((link, index) => (
+                        {discussion.ResourceUrl.split(',').filter(link => link).map((link, index) => (
                           <li key={index}>
                             <a
                               href={link}
