@@ -15,6 +15,40 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
   const { fetchData, userToken } = useContext(ApiContext);
   const [loading, setLoading] = useState(false);
 
+  const handleAddLike = async (id) => {
+    // console.log(id, newComment)
+
+    if (userToken) {
+      const endpoint = "discussion/discussionpost";
+      const method = "POST";
+      const headers = {
+        'Content-Type': 'application/json',
+        'auth-token': userToken
+      };
+      const body = {
+        "reference": id,
+        "likes": 1
+      };
+      // console.log(headers, endpoint)
+
+      try {
+        // console.log("Inside Try");
+
+        const data = await fetchData(endpoint, method, body, headers)
+        // console.log(data);
+        if (!data.success) {
+          console.log("Error occured while liking the post")
+        } else if (data.success) {
+          
+        }
+
+
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   const handleAddComment = async (id) => {
     // console.log(id, newComment)
 

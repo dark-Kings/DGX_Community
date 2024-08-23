@@ -26,6 +26,7 @@ import LoadPage from './component/LoadPage.jsx';
 import Calendar from './component/Calendar.jsx';
 import GeneralUserCalendar from './component/GeneralUserCalendar.jsx';
 import AdminDashboard from './Admin/AdminDashboard.jsx';
+import HomeAfterLoginComponent from './component/HomeAfterLoginComponent.jsx';
 
 
 
@@ -55,6 +56,7 @@ function App() {
             <Route path='/Survey' element={<Survey />} />
             {/* <Route path='/MyStoryboard' element={<MyStoryboard />} /> */}
             <Route path='/EventWorkshopPage' element={<EventWorkshopPage />} />
+            <Route path='/HomeAfterLoginComponent' element={<HomeAfterLoginComponent/>}/>
 
 
             {  /*-----------ADMIN----------- */}

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useContext, useEffect } from 'react';
 import ApiContext from '../context/ApiContext.jsx';
 import MyStoryboard from '../component/MyStoryboard.jsx';
+import HomeAfterLoginComponent from '../component/HomeAfterLoginComponent.jsx';
 
 
 const Home = () => {
@@ -116,7 +117,7 @@ const Home = () => {
 
             </div>
 
-            {isLoggedIn ? <><MyStoryboard /> </> : <>
+            {isLoggedIn ? <><HomeAfterLoginComponent /> </> : <>
                 <section className="bg-[#f5f5f5]">
                     <div className="grid grid-cols-1 lg:grid-cols-2 items-center justify-items-center gap-4 bg-DGXblue p-4">
                         {/* Text and Links Section */}
