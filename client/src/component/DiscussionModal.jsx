@@ -8,6 +8,8 @@ import "react-toastify/dist/ReactToastify.css";
 
 const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
   const [dissComments, setDissComments] = useState([]);
+  console.log(discussion);
+  
 
   const [newComment, setNewComment] = useState("");
   const [replyTexts, setReplyTexts] = useState({});
@@ -60,7 +62,7 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
         'auth-token': userToken
       };
       const body = {
-        "reference": id,
+        "reference":id,
         "comment": newComment
       };
       setLoading(true);
@@ -84,6 +86,23 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
             theme: "light",
           });
         } else if (data.success) {
+          console.log(data.postId);
+          
+          const newCommentObj = {
+            UserID: "New User",
+            UserName: "New User",
+            DiscussionID: data.postId,
+            timestamp: new Date().toLocaleString(),
+            Comment: newComment,
+            comment: [],
+            likeCount: 0,
+            UserLike: 0,
+          };
+          // console.log(discussion.comment);
+          
+          discussion.comment = [newCommentObj, ...discussion.comment]
+          console.log(discussion.comment);
+          
           setLoading(false);
           toast.success("Comment Post Successfully", {
             position: "top-center",
@@ -101,7 +120,7 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
 
       } catch (error) {
         setLoading(false);
-        toast.error(`Something went wrongdjsfkjsd`, {
+        toast.error(`Something went wrong`, {
           position: "top-center",
           autoClose: 3000,
           hideProgressBar: false,
@@ -113,9 +132,6 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
         });
       }
     }
-
-
-
 
     if (newComment.trim() !== "") {
       const newCommentObj = {
@@ -248,7 +264,7 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
                   <div className="p-4">
                     <div className="text-3xl">{discussion.Title}</div>
                     <div className="flex flex-col">
-                      <span>{new Date(discussion.Date).toLocaleString()}</span>
+                      <span>{new Date(discussion.timestamp).toLocaleString()}</span>
                       <span className="flex items-center gap-2">
                         {discussion.userLike == 1 ? <AiFillLike /> : <AiOutlineLike />}
                         {discussion.likeCount}
@@ -359,7 +375,7 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
                       <li
                         key={index}
                         className="p-2 sm:p-4 border rounded-lg space-y-2"
-                      >
+                      >we
                         <div className="flex items-center justify-between">
                           <span className="text-md sm:text-lg font-semibold">
                             {comment.UserName}
