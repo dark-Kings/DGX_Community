@@ -4,8 +4,7 @@ import dotenv from 'dotenv'
 import { queryAsync, mailSender, logError, logInfo, logWarning } from '../helper/index.js';
 
 dotenv.config()
-// const JWT_SECRET = process.env.JWTSECRET;
-// const SIGNATURE = process.env.SIGNATURE;
+
 
 
 export const discussionpost = async (req, res) => {
@@ -137,7 +136,7 @@ export const getdiscussion = async (req, res) => {
                 }
                 // console.log(rows[0].UserID);
                 // if (rows.length > 0) {
-                const discussionGetQuery = `SELECT DiscussionID, UserID, AuthAdd as UserName, Title, Content, Image, Tag, ResourceUrl, AddOnDt as Date FROM Community_Discussion WHERE ISNULL(delStatus, 0) = 0 AND Visibility = 'public' AND Reference = 0 ORDER BY AddOnDt DESC`;
+                const discussionGetQuery = `SELECT DiscussionID, UserID, AuthAdd as UserName, Title, Content, Image, Tag, ResourceUrl, AddOnDt as timestamp FROM Community_Discussion WHERE ISNULL(delStatus, 0) = 0 AND Visibility = 'public' AND Reference = 0 ORDER BY AddOnDt DESC`;
                 const discussionGet = await queryAsync(conn, discussionGetQuery);
                 // console.log(discussionGet)
                 const updatedDiscussions = [];
@@ -148,7 +147,7 @@ export const getdiscussion = async (req, res) => {
                     const likeCountQuery = `SELECT DiscussionID, UserID, Likes, AuthAdd as UserName FROM Community_Discussion WHERE ISNULL(delStatus, 0) = 0 AND Likes > 0 AND Reference = ?`;
                     const likeCountResult = await queryAsync(conn, likeCountQuery, [item.DiscussionID]);
 
-                    const commentQuery = `SELECT DiscussionID, UserID, Comment, AuthAdd as UserName FROM Community_Discussion WHERE ISNULL(delStatus, 0) = 0 AND  Comment IS NOT NULL AND Reference = ?`;
+                    const commentQuery = `SELECT DiscussionID, UserID, Comment, AuthAdd as UserName, AddOnDt as timestamp FROM Community_Discussion WHERE ISNULL(delStatus, 0) = 0 AND  Comment IS NOT NULL AND Reference = ? ORDER BY AddOnDt DESC`;
                     const commentResult = await queryAsync(conn, commentQuery, [item.DiscussionID]);
                     const commentsArray = Array.isArray(commentResult) ? commentResult : [];
 
@@ -171,7 +170,7 @@ export const getdiscussion = async (req, res) => {
                             const likeCountResult = await queryAsync(conn, likeCountQuery, [comment.DiscussionID]);
                             const likeCount = likeCountResult.length > 0 ? likeCountResult.length : 0;
 
-                            const commentQuery = `SELECT DiscussionID, UserID, Comment, AuthAdd as UserName FROM Community_Discussion WHERE ISNULL(delStatus, 0) = 0 AND  Comment IS NOT NULL AND Reference = ?`;
+                            const commentQuery = `SELECT DiscussionID, UserID, Comment, AuthAdd as UserName, AddOnDt as timestamp FROM Community_Discussion WHERE ISNULL(delStatus, 0) = 0 AND  Comment IS NOT NULL AND Reference = ? ORDER BY AddOnDt DESC`;
                             const commentResult = await queryAsync(conn, commentQuery, [comment.DiscussionID]);
                             const secondLevelCommentsArray = Array.isArray(commentResult) ? commentResult : [];
 
@@ -184,7 +183,7 @@ export const getdiscussion = async (req, res) => {
 
                             if (secondLevelCommentsArray.length > 0) {
                                 for (const secondLevelComment of secondLevelCommentsArray) {
-                                    const secondLevelLikeCountQuery = `SELECT DiscussionID, UserID, Likes, AuthAdd as UserName FROM Community_Discussion WHERE ISNULL(delStatus, 0) = 0 AND Likes > 0 AND Reference = ?`;
+                                    const secondLevelLikeCountQuery = `SELECT DiscussionID, UserID, Likes, AuthAdd as UserName, AddOnDt as timestamp FROM Community_Discussion WHERE ISNULL(delStatus, 0) = 0 AND Likes > 0 AND Reference = ?`;
                                     const secondLevelLikeCountResult = await queryAsync(conn, secondLevelLikeCountQuery, [secondLevelComment.DiscussionID]);
                                     const secondLevelLikeCount = secondLevelLikeCountResult.length > 0 ? secondLevelLikeCountResult.length : 0;
 
