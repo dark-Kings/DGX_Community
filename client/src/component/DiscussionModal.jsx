@@ -8,13 +8,13 @@ import "react-toastify/dist/ReactToastify.css";
 
 const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
   const [dissComments, setDissComments] = useState([]);
-  console.log(discussion);
-  
+
 
   const [newComment, setNewComment] = useState("");
   const [replyTexts, setReplyTexts] = useState({});
 
-  const { fetchData, userToken } = useContext(ApiContext);
+  const { fetchData, userToken, user } = useContext(ApiContext);
+
   const [loading, setLoading] = useState(false);
 
   const handleAddLike = async (id) => {
@@ -41,7 +41,7 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
         if (!data.success) {
           console.log("Error occured while liking the post")
         } else if (data.success) {
-          
+
         }
 
 
@@ -62,7 +62,7 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
         'auth-token': userToken
       };
       const body = {
-        "reference":id,
+        "reference": id,
         "comment": newComment
       };
       setLoading(true);
@@ -87,10 +87,10 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
           });
         } else if (data.success) {
           console.log(data.postId);
-          
+
           const newCommentObj = {
-            UserID: "New User",
-            UserName: "New User",
+            UserID: user.UserID,
+            UserName: user.Name,
             DiscussionID: data.postId,
             timestamp: new Date().toLocaleString(),
             Comment: newComment,
@@ -99,10 +99,10 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
             UserLike: 0,
           };
           // console.log(discussion.comment);
-          
+
           discussion.comment = [newCommentObj, ...discussion.comment]
           console.log(discussion.comment);
-          
+
           setLoading(false);
           toast.success("Comment Post Successfully", {
             position: "top-center",
@@ -156,7 +156,7 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
   };
 
   const handleAddReply = async (commentIndex, replyText, id) => {
-    // console.log(id, replyText)
+    console.log(id, replyText)
 
     if (userToken) {
       const endpoint = "discussion/discussionpost";
@@ -178,8 +178,10 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
         const data = await fetchData(endpoint, method, body, headers)
         // console.log(data);
         if (!data.success) {
+          console.log()
+
           setLoading(false);
-          toast.error(`Error in posting comment try again: ${data.message}`, {
+          toast.error(`Error in posting reply try again: ${data.message}`, {
             position: "top-center",
             autoClose: 3000,
             hideProgressBar: false,
@@ -190,8 +192,23 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
             theme: "light",
           });
         } else if (data.success) {
+
+          const newReplyObj = {
+            comment: replyText,
+            DiscussionID: data.postId,
+            UserID: user.UserID,
+            likeCount: 0,
+            timestamp: new Date().toLocaleString(),
+            userLike: 0,
+          };
+
+          // discussion.comment = [newReplyObj, ...discussion.comment]
+          console.log(discussion.comment);
+
+
+
           setLoading(false);
-          toast.success("Comment Post Successfully", {
+          toast.success("Reply Post Successfully", {
             position: "top-center",
             autoClose: 3000,
             hideProgressBar: false,
@@ -207,7 +224,7 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
 
       } catch (error) {
         setLoading(false);
-        toast.error(`Something went wrongdjsfkjsd`, {
+        toast.error(`Something went wrong`, {
           position: "top-center",
           autoClose: 3000,
           hideProgressBar: false,
@@ -226,11 +243,12 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
 
     if (replyText.trim() !== "") {
       const updatedComments = [...dissComments];
-      updatedComments[commentIndex].replies.push({
-        username: "New User", // Replace with actual username logic
-        timestamp: new Date().toLocaleString(),
-        reply: replyText,
-      });
+      
+      // updatedComments[commentIndex].comment.push({
+      //   username: "New User", // Replace with actual username logic
+      //   timestamp: new Date().toLocaleString(),
+      //   reply: replyText,
+      // });
 
       setDissComments(updatedComments);
       setReplyTexts((prevState) => ({
@@ -375,7 +393,7 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
                       <li
                         key={index}
                         className="p-2 sm:p-4 border rounded-lg space-y-2"
-                      >we
+                      >
                         <div className="flex items-center justify-between">
                           <span className="text-md sm:text-lg font-semibold">
                             {comment.UserName}
