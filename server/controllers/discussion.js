@@ -1,7 +1,7 @@
-import { body, validationResult } from 'express-validator';
+import { validationResult } from 'express-validator';
 import { connectToDatabase, closeConnection } from '../database/mySql.js';
 import dotenv from 'dotenv'
-import { queryAsync, mailSender, logError, logInfo, logWarning } from '../helper/index.js';
+import { queryAsync, logError, logInfo, logWarning } from '../helper/index.js';
 
 dotenv.config()
 
@@ -34,7 +34,6 @@ export const discussionpost = async (req, res) => {
         url = url ?? null
         visibility = visibility ?? null
 
-        // console.log(title, content, image, likes, comment, tags, url, visibility, threadReference)
         // Connect to the database
         connectToDatabase(async (err, conn) => {
             if (err) {
