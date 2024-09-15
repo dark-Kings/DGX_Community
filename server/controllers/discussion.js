@@ -59,7 +59,7 @@ export const discussionpost = async (req, res) => {
                             const updateLike = await queryAsync(conn, updateLikeQuery, [likes, rows[0].Name, likeExists[0].DiscussionID])
                             const infoMessage = "like Posted Successfully"
                             closeConnection();
-                            res.status(200).json({ success, data: {}, message: infoMessage });
+                            res.status(200).json({ success: true, data: {}, message: infoMessage });
                             return
                         }
                     }

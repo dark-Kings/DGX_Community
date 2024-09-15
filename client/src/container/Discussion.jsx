@@ -89,9 +89,9 @@ const Discussion = () => {
     }
 
   }, [user, userToken, fetchData]);
-  
-  const handleAddLike = async (id) => {
-    console.log(id)
+
+  const handleAddLike = async (id, userLike) => {
+    // console.log(id, userLike)
 
     if (userToken) {
       const endpoint = "discussion/discussionpost";
@@ -100,16 +100,23 @@ const Discussion = () => {
         'Content-Type': 'application/json',
         'auth-token': userToken
       };
+      const like = userLike == 1 ? 0 : 1
       const body = {
         "reference": id,
-        "likes": 1
+        "likes": like
       };
+      console.log(body)
       try {
         const data = await fetchData(endpoint, method, body, headers)
         if (!data.success) {
           console.log("Error occured while liking the post")
         } else if (data.success) {
-          console.log(data);
+          // console.log(data);
+          const updatedData = demoDiscussions.map((item) =>
+            item.DiscussionID === id ? { ...item, userLike: like, likeCount: like === 1 ? item.likeCount + 1 : item.likeCount - 1 } : item
+          );
+          setDemoDiscussions(updatedData)
+          console.log(updatedData)
         }
       } catch (error) {
         console.log(error);
@@ -156,7 +163,7 @@ const Discussion = () => {
   const handleTagInputKeyPress = (e) => {
     if (e.key === 'Enter' && tagInput.trim() !== '') {
       e.preventDefault();
-      setTags(tags+','+tagInput.trim());
+      setTags(tags + ',' + tagInput.trim());
       setTagInput('');
     }
   };
@@ -166,7 +173,7 @@ const Discussion = () => {
     const filteredTags = tagArray.filter(tag => tag !== tagToRemove);
     const newTags = filteredTags.join(',');
     setTags(newTags);
-}
+  }
   const handleImageChange = async (e) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
@@ -182,7 +189,7 @@ const Discussion = () => {
   const handleLinkInputKeyPress = (e) => {
     if (e.key === 'Enter' && linkInput.trim() !== '') {
       e.preventDefault();
-      setLinks(links+','+linkInput.trim());
+      setLinks(links + ',' + linkInput.trim());
       setLinkInput('');
     }
   };
@@ -192,8 +199,8 @@ const Discussion = () => {
     const filteredLinks = linkArray.filter(link => link !== linkToRemove);
     const newLinks = filteredLinks.join(',');
     setLinks(newLinks);
-}
-  
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const endpoint = "discussion/discussionpost";
@@ -244,14 +251,14 @@ const Discussion = () => {
           });
         } else {
           const newDiscussion = {
-            DiscussionID : data.postID,
-            Title:title,
-            Content:content,
+            DiscussionID: data.postID,
+            Title: title,
+            Content: content,
             Tag: tags,
             ResourceUrl: links,
             Image: selectedImage,
-            Visibility:privacy,
-            comment:[]
+            Visibility: privacy,
+            comment: []
           };
           setDemoDiscussions([newDiscussion, ...demoDiscussions]);
           toast.success("Disscussion Post Successfully", {
@@ -263,9 +270,9 @@ const Discussion = () => {
             draggable: true,
             progress: undefined,
             theme: "light",
-            style:{
-              backgroundColor:'green',
-              color:'white',
+            style: {
+              backgroundColor: 'green',
+              color: 'white',
             }
           });
         }
@@ -273,7 +280,7 @@ const Discussion = () => {
     } catch (error) {
       setLoading(false);
       console.log(error);
-      
+
       toast.error(`On catching error: Something went wrong, try again`, {
         position: "top-center",
         autoClose: 3000,
@@ -295,12 +302,12 @@ const Discussion = () => {
     setIsFormOpen(false);
   };
 
-  console.log(demoDiscussions);
-  
+  // console.log(demoDiscussions);
+
 
   return (
     <div>
-      <ToastContainer style={{top:'50%', left:'50%', transform:'translate(-50%, -50%)'}}/>
+      <ToastContainer style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }} />
       <header className="flex flex-wrap sm:justify-start sm:flex-nowrap w-full bg-DGXblue text-sm py-4">
         <nav className="max-w-[85rem] w-full mx-auto px-4 flex flex-wrap basis-full items-center justify-between" aria-label="Global">
           <div className="sm:order-4 flex items-center w-full sm:w-auto mt-4 sm:mt-0 sm:ml-4">
@@ -310,7 +317,7 @@ const Discussion = () => {
                 className="w-full py-2 pl-10 pr-4 bg-white border border-gray-200 rounded-lg shadow-sm text-gray-800 focus:border-DGXgreen focus:ring-DGXgreen"
                 placeholder="Search..."
                 value={searchQuery}
-                onChange={()=>{setSearchQuery(e.target.value)}}
+                onChange={() => { setSearchQuery(e.target.value) }}
               />
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <FaSearch className="text-gray-400" />
@@ -346,7 +353,7 @@ const Discussion = () => {
           <button
             type="button"
             className="py-2 px-3 inline-flex items-center gap-x-2 text-lg font-bold rounded-lg bg-DGXgreen text-DGXwhite shadow-sm hover:bg-DGXblue hover:border-DGXgreen border border-DGXblue disabled:opacity-50 disabled:pointer-events-none"
-            onClick={()=>{setIsFormOpen(true)}}
+            onClick={() => { setIsFormOpen(true) }}
           >
             Start a New Topic +
           </button>
@@ -564,7 +571,7 @@ const Discussion = () => {
                   ))}
                 </div>
                 <div className="mt-4 flex items-center space-x-4">
-                  <button className="flex items-center  text-sm md:text-base lg:text-lg" onClick={()=>{handleAddLike(discussion.DiscussionID)}}>
+                  <button className="flex items-center  text-sm md:text-base lg:text-lg" onClick={() => { handleAddLike(discussion.DiscussionID, discussion.userLike) }}>
                     {discussion.userLike == 1 ? <AiFillLike /> : <AiOutlineLike />}{discussion.likeCount} Likes
                   </button>
                   <button
