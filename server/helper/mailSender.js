@@ -10,13 +10,13 @@ export async function mailSender(receiver, message, htmlContent = "thank You") {
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'anshulpant14@gmail.com',
+            user: '666.akanksha@gmail.com',
             pass: pass
         }
     });
 
     var mailOptions = {
-        from: 'anshulpant14@gmail.com',
+        from: '666.akanksha@gmail.com',
         to: receiver,
         subject: 'Yours DGX Community',
         text: message,
