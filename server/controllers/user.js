@@ -523,12 +523,30 @@ export const sendInvite = async (req, res) => {
           const email = await encrypt(req.body.email)
           const refercode = await encrypt(rows[0].ReferalNumber)
 
-          const registrationLink = `${baseLink}Register/?email=${email}&refercode=${refercode}`
+          const registrationLink = `${baseLink}Register/?email=${email}&refercode=${refercode}`;
 
-          const message = `Welcome to DGX Community, Your Registration link is given bellow:
-                            ${registrationLink}`
-          const htmlContent = `Welcome to DGX Community, Your Registration link is given bellow:<br/>
-                              <a href=${registrationLink}>${registrationLink}</a>`
+          const message = `Welcome to the DGX Community!
+
+          We're excited to have you join us. To complete your registration, please click the link below:
+
+          Complete your registration: ${registrationLink}
+
+          If you didn't sign up for the DGX Community, feel free to ignore this email.
+
+          Best regards,
+          The DGX Community Team`;
+
+          const htmlContent = `Welcome to the DGX Community!<br/><br/>
+
+          We're excited to have you join us. To complete your registration, please click the button below:<br/><br/>
+
+          <a href="${registrationLink}" style="padding: 10px 20px; background-color: #28a745; color: #fff; text-decoration: none; border-radius: 5px;">Complete Your Registration</a><br/><br/>
+
+          If you didn't sign up for the DGX Community, feel free to ignore this email.<br/><br/>
+
+          Best regards,<br/>
+          The DGX Community Team`;
+
           closeConnection();
           const mailsent = await mailSender(req.body.email, message, htmlContent)
           if (mailsent.success) {
@@ -600,10 +618,28 @@ export const passwordRecovery = async (req, res) => {
 
             const registrationLink = `${baseLink}ResetPassword/?email=${email}&signature=${signature}`
 
-            const message = `Welcome to DGX Community, Your Password Reset link is given bellow:
-                              ${registrationLink}`
-            const htmlContent = `Welcome to DGX Community, Your Password Reset link is given bellow:<br/>
-                                <a href=${registrationLink}>${registrationLink}</a>`
+            const message = `Hello,
+
+            It looks like you’ve requested to reset your password for the DGX Community. Don’t worry, we’ve got you covered! Just click the link below to create a new password:
+            
+            Reset your password: ${registrationLink}
+            
+            If you didn’t request a password reset, no problem—just ignore this email. Your account is still secure.
+            
+            Best regards,
+            The DGX Community Team`;
+            
+            const htmlContent = `Hello,<br/><br/>
+            
+            It looks like you’ve requested to reset your password for the DGX Community. Don’t worry, we’ve got you covered! Just click the button below to create a new password:<br/><br/>
+            
+            <a href="${registrationLink}" style="padding: 10px 20px; background-color: #007BFF; color: #fff; text-decoration: none; border-radius: 5px;">Reset Your Password</a><br/><br/>
+            
+            If you didn’t request a password reset, no problem—just ignore this email. Your account is still secure.<br/><br/>
+            
+            Best regards,<br/>
+            The DGX Community Team`;
+            
             closeConnection();
             const mailsent = await mailSender(req.body.email, message, htmlContent)
             if (mailsent.success) {

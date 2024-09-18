@@ -182,8 +182,8 @@ export const useMouseEnter = () => {
 const EventWorkshopPage = () => {
   const events = [
     {
-      title: "NVIDIA CEO Jensen Huang and Lauren Goode at WIRED",
-      image: `${images.Event1}`,
+      title: "NVIDIA AI Summit India",
+      image: `${images.aisummit}`,
     },
     {
       title: "NVIDIA CEO Jensen Huang and Mark Zuckerberg",

@@ -351,6 +351,13 @@ const Home = () => {
   </div>
   <div className="flex justify-center items-center w-full sm:w-auto">
     <img
+      alt="glbajaj"
+      src={images.GLBAJAJ}
+      className="w-44 h-24 object-contain"
+    />
+  </div>
+  <div className="flex justify-center items-center w-full sm:w-auto">
+    <img
       alt="BMS"
       src={images.BMS}
       className="w-44 h-24 object-contain"
