@@ -4,12 +4,13 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ApiContext from '../context/ApiContext.jsx';
 import DiscussionModal from '../component/DiscussionModal';
-import { compressImage } from '../utils/compressImage.js'
-import { AiFillLike, AiOutlineLike } from "react-icons/ai"
+import { compressImage } from '../utils/compressImage.js';
+import { AiFillLike, AiOutlineLike } from "react-icons/ai";
+import { useCallback } from 'react';
 
 const Discussion = () => {
   const { fetchData, userToken, user } = useContext(ApiContext);
-  const [demoDiscussions, setDemoDiscussions] = useState([])
+  const [demoDiscussions, setDemoDiscussions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [commentCount, setCommentCount] = useState(0);
@@ -90,9 +91,34 @@ const Discussion = () => {
 
   }, [user, userToken, fetchData]);
 
+  const searchDiscussion = useCallback(async (searchTerm, userId) => {
+    try {
+      const body = { searchTerm, userId }; // Match the backend expected structure
+      const endpoint = "discussion/searchdiscussion";
+      const method = "POST";
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+  
+      setLoading(true);
+      const result = await fetchData(endpoint, method, body, headers);
+      console.log("API Response:", result);
+      if (result && result.data && result.data.updatedDiscussions) {
+        setDemoDiscussions(result.data.updatedDiscussions);
+      } else {
+        toast.error("No discussions found.");
+      }
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      toast.error(`Something went wrong: ${error.message}`);
+    }
+  }, [fetchData]);
+  
+
+
   const handleAddLike = async (id, userLike) => {
     // console.log(id, userLike)
-
     if (userToken) {
       const endpoint = "discussion/discussionpost";
       const method = "POST";
@@ -109,6 +135,7 @@ const Discussion = () => {
       try {
         const data = await fetchData(endpoint, method, body, headers)
         if (!data.success) {
+          // console.log(data)
           console.log("Error occured while liking the post")
         } else if (data.success) {
           // console.log(data);
@@ -117,6 +144,7 @@ const Discussion = () => {
           );
           setDemoDiscussions(updatedData)
           console.log(updatedData)
+          console.log(demoDiscussions)
         }
       } catch (error) {
         console.log(error);
@@ -303,7 +331,16 @@ const Discussion = () => {
   };
 
   // console.log(demoDiscussions);
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
 
+  const handleKeyDown = async (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault(); // Prevent default form submission
+      await searchDiscussion(searchQuery); // Trigger the search
+    }
+  };
 
   return (
     <div>
@@ -317,7 +354,9 @@ const Discussion = () => {
                 className="w-full py-2 pl-10 pr-4 bg-white border border-gray-200 rounded-lg shadow-sm text-gray-800 focus:border-DGXgreen focus:ring-DGXgreen"
                 placeholder="Search..."
                 value={searchQuery}
-                onChange={() => { setSearchQuery(e.target.value) }}
+                onChange={handleSearchChange} // Call this directly without the arrow function
+                onKeyDown={handleKeyDown}
+
               />
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <FaSearch className="text-gray-400" />
