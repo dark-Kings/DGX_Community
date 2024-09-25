@@ -8,7 +8,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
   const [dissComments, setDissComments] = useState([]);
-  // const [discussions, setDiscussions] = useState([]);
   const [demoDiscussions, setDemoDiscussions] = useState([]);
 
   const [newComment, setNewComment] = useState("");
@@ -21,8 +20,6 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
 
  
   const handleAddComment = async (id) => {
-    // console.log(id, newComment)
-
     if (userToken) {
       const endpoint = "discussion/discussionpost";
       const method = "POST";
@@ -121,7 +118,7 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
 
   const handleAddReply = async (commentIndex, replyText, id) => {
     console.log("Posting reply:", { id, replyText });
-
+  
     if (userToken) {
       const endpoint = "discussion/discussionpost";
       const method = "POST";
@@ -134,11 +131,11 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
         comment: replyText,
       };
       setLoading(true);
-
+  
       try {
         const data = await fetchData(endpoint, method, body, headers);
         console.log("API Response:", data);
-
+  
         if (!data.success) {
           setLoading(false);
           toast.error(`Error in posting reply: ${data.message}`, {
@@ -153,7 +150,7 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
           });
           return;
         }
-
+  
         const newReplyObj = {
           Comment: replyText,
           DiscussionID: id,
@@ -164,27 +161,38 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
           userLike: 0,
           comment: [],
         };
-
+  
         console.log("New Reply Object:", newReplyObj);
-
-        const updatedComments = dissComments.map((comment, index) => {
-          if (index === commentIndex) {
+  
+        // Find the correct discussion in demoDiscussions
+        const updatedDemoDiscussions = demoDiscussions.map((discussionItem) => {
+          if (discussionItem.DiscussionID === discussion.DiscussionID) {
+            const updatedComments = discussionItem.comment.map((comment, index) => {
+              if (index === commentIndex) {
+                return {
+                  ...comment,
+                  comment: [...comment.comment, newReplyObj], // Add new reply to the replies array
+                };
+              }
+              return comment;
+            });
+  
             return {
-              ...comment,
-              comment: [...comment.comment, newReplyObj],
+              ...discussionItem,
+              comment: updatedComments, // Update the discussion comments with modified replies
             };
           }
-          return comment;
+          return discussionItem;
         });
-
-        console.log("Updated Comments Array:", updatedComments);
-
-        setDissComments(updatedComments);
-        setReplyTexts(prevState => ({
+  
+        console.log("Updated demoDiscussions Array:", updatedDemoDiscussions);
+  
+        setDemoDiscussions(updatedDemoDiscussions);
+        setReplyTexts((prevState) => ({
           ...prevState,
           [commentIndex]: "",
         }));
-
+  
         setLoading(false);
         toast.success("Reply Posted Successfully", {
           position: "top-center",
@@ -211,16 +219,15 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
         });
       }
     }
-
+  
     if (replyText.trim() !== "") {
-      setReplyTexts(prevState => ({
+      setReplyTexts((prevState) => ({
         ...prevState,
         [commentIndex]: "",
       }));
-      // setDissComments([...dissComments, newRObj]);
-      // setNewComment("");
     }
   };
+  
 
   // const handleAddLike = async (id, userLike) => {
   //   // console.log(id, userLike)
