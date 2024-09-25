@@ -9,6 +9,7 @@ import ForgotPassword from './component/ForgotPassword';
 import ChangePassword from './component/ChangePassword.jsx';
 import UserProfile from './component/UserProfile.jsx';
 import Discussion from './container/Discussion.jsx';
+import Blog from './container/Blog.jsx';
 import ContactUs from './container/ContactUs.jsx';
 import DiscussionModal from './component/DiscussionModal.jsx';
 import Notfound from './component/Notfound.jsx';
@@ -47,6 +48,7 @@ function App() {
             <Route path="/UserProfile" element={<UserProfile />} />
             <Route path='/Discussion' element={<Discussion />} />
             <Route path='/ContactUs' element={<ContactUs />} />
+            <Route path='/Blog' element={<Blog />} />
             <Route path='/DiscussionModal' element={<DiscussionModal />} />
             <Route path='/ResetPassword' element={<ResetPassword />} />
             <Route path='/CommunityGuidelines' element={<CommunityGuidelines />} />
