@@ -14,6 +14,8 @@ const ApiProvider = ({ children }) => {
       const result = await apiRequest(endpoint, method, body, headers);
       return result;
     } catch (error) {
+      // console.log("This is some error: ", error);
+      
       console.error("Error fetching data:", error);
     }
   };
