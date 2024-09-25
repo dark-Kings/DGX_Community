@@ -39,6 +39,7 @@ const Navbar = () => {
         { label: 'Home', to: "/" },
         { label: 'Discussions', to: '/Discussion' },
         { label: 'Event and Workshop', to: '/EventWorkshopPage' },
+        { label: 'Blog', to: '/Blog' },
         { label: 'Contact Us', to: '/ContactUs' },
         { label: 'Community Guidelines', to: '/CommunityGuidelines' }
     ];

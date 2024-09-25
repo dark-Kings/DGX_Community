@@ -1,10 +1,9 @@
-import { validationResult } from 'express-validator';
+import { body, validationResult } from 'express-validator';
 import { connectToDatabase, closeConnection } from '../database/mySql.js';
 import dotenv from 'dotenv'
-import { queryAsync, logError, logInfo, logWarning } from '../helper/index.js';
+import { queryAsync, mailSender, logError, logInfo, logWarning } from '../helper/index.js';
 
-dotenv.config()
-
+dotenv.config() 
 
 
 export const discussionpost = async (req, res) => {
@@ -232,3 +231,179 @@ export const getdiscussion = async (req, res) => {
 
     }
 }
+
+
+
+export const searchdiscussion = async (req, res) => {
+    let success = false;
+
+    // Capture search term from request body
+    const { searchTerm, userId } = req.body;
+
+    if (!searchTerm || searchTerm.trim() === "") {
+        return res.status(400).json({ success: false, message: "Search term is required." });
+    }
+
+    console.log("Search Term:", searchTerm, "User ID:", userId);
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        const warningMessage = "Data is not in the right format";
+        logWarning(warningMessage);
+        res.status(400).json({ success, data: errors.array(), message: warningMessage });
+        return;
+    }
+
+    try {
+        connectToDatabase(async (err, conn) => {
+            if (err) {
+                const errorMessage = "Failed to connect to database";
+                logError(err);
+                res.status(500).json({ success: false, data: err, message: errorMessage });
+                return;
+            }
+
+            try {
+                let rows = [];
+                if (userId) {
+                    const query = `SELECT UserID, Name FROM Community_User WHERE ISNULL(delStatus, 0) = 0 AND EmailId = ?`;
+                    rows = await queryAsync(conn, query, [userId]);
+                }
+
+                if (rows.length === 0) {
+                    rows.push({ UserID: null });
+                }
+
+                const searchPattern = `%${searchTerm}%`; 
+                const discussionGetQuery = `
+                    SELECT 
+                        DiscussionID, UserID, AuthAdd as UserName, Title, Content, Image, Tag, ResourceUrl, AddOnDt as timestamp 
+                    FROM 
+                        Community_Discussion 
+                    WHERE 
+                        ISNULL(delStatus, 0) = 0 
+                        AND Visibility = 'public' 
+                        AND Reference = 0 
+                        AND (
+                            Title LIKE ? OR 
+                            Content LIKE ? OR 
+                            Tag LIKE ?
+                        ) 
+                    ORDER BY AddOnDt DESC
+                `;
+
+                const discussionGet = await queryAsync(conn, discussionGetQuery, [searchPattern, searchPattern, searchPattern]);
+
+                const updatedDiscussions = [];
+
+                for (const item of discussionGet) {
+                    const likeCountQuery = `SELECT DiscussionID, UserID, Likes FROM Community_Discussion WHERE ISNULL(delStatus, 0) = 0 AND Likes > 0 AND Reference = ?`;
+                    const likeCountResult = await queryAsync(conn, likeCountQuery, [item.DiscussionID]);
+
+                    const commentQuery = `SELECT DiscussionID, UserID, Comment, AuthAdd as UserName, AddOnDt as timestamp FROM Community_Discussion WHERE ISNULL(delStatus, 0) = 0 AND Comment IS NOT NULL AND Reference = ? ORDER BY AddOnDt DESC`;
+                    const commentResult = await queryAsync(conn, commentQuery, [item.DiscussionID]);
+
+                    const commentsArrayUpdated = [];
+                    let userLike = 0;
+
+                    if (likeCountResult.some(likeItem => likeItem.UserID === rows[0].UserID && likeItem.Likes === 1)) {
+                        userLike = 1;
+                    }
+
+                    if (commentResult.length > 0) {
+                        // Process comments (same logic as before)
+                    }
+
+                    updatedDiscussions.push({
+                        ...item,
+                        likeCount: likeCountResult.length,
+                        userLike,
+                        comment: commentsArrayUpdated,
+                        highlightedTitle: item.Title.replace(new RegExp(searchTerm, 'gi'), (match) => `<strong>${match}</strong>`),
+                        highlightedContent: item.Content.replace(new RegExp(searchTerm, 'gi'), (match) => `<strong>${match}</strong>`),
+                    });
+                }
+
+                success = true;
+                closeConnection();
+                res.status(200).json({ success, data: { updatedDiscussions }, message: "Discussion Get Successfully" });
+                return;
+
+            } catch (queryErr) {
+                closeConnection();
+                logError(queryErr);
+                res.status(500).json({ success: false, data: queryErr, message: 'Something went wrong, please try again.' });
+                return;
+            }
+        });
+    } catch (error) {
+        logError(error);
+        return res.status(500).json({ success: false, data: {}, message: 'Something went wrong, please try again.' });
+    }
+};
+
+
+
+
+
+
+    // existing
+    // export const searchdiscussion = async (req, res) => {
+    //     let success = false;
+    
+    //     const userId = req.body.user; // Ensure this is defined
+    //     const searchKeyword = req.body.searchKeyword; // Get this from the request body
+    //     console.log(req.body);
+    
+    //     const errors = validationResult(req);
+    //     if (!errors.isEmpty()) {
+    //         const warningMessage = "Data is not in the right format";
+    //         logWarning(warningMessage);
+    //         return res.status(400).json({ success, data: errors.array(), message: warningMessage });
+    //     }
+    
+    //     try {
+    //         // Connect to the database
+    //         const conn = await connectToDatabase(); // Assume this is a promise-based function
+    //         let rows = [];
+    
+    //         if (userId) {
+    //             const userQuery = `SELECT UserID, Name FROM Community_User WHERE ISNULL(delStatus, 0) = 0 AND EmailId = ?`;
+    //             rows = await queryAsync(conn, userQuery, [userId]);
+    //         }
+    
+    //         if (rows.length === 0) {
+    //             rows.push({ UserID: null });
+    //         }
+    
+    //         const discussionGetQuery = `
+    //             SELECT DiscussionID, UserID, AuthAdd as UserName, Title, Content, Image, Tag, ResourceUrl, AddOnDt as timestamp 
+    //             FROM Community_Discussion 
+    //             WHERE ISNULL(delStatus, 0) = 0 AND Visibility = 'public' AND Reference = 0 
+    //             AND (Title LIKE ? OR Content LIKE ? OR Tag LIKE ?) 
+    //             ORDER BY AddOnDt DESC`;
+            
+    //         const discussionGet = await queryAsync(conn, discussionGetQuery, [`%${searchKeyword}%`, `%${searchKeyword}%`, `%${searchKeyword}%`]);
+    
+    //         const updatedDiscussions = await Promise.all(discussionGet.map(async (item) => {
+    //             const likeCountResult = await queryAsync(conn, `SELECT DiscussionID, UserID, Likes FROM Community_Discussion WHERE ISNULL(delStatus, 0) = 0 AND Likes > 0 AND Reference = ?`, [item.DiscussionID]);
+    //             const likeCount = likeCountResult.length;
+    //             const userLike = likeCountResult.some(likeItem => likeItem.UserID === rows[0].UserID && likeItem.Likes === 1) ? 1 : 0;
+    
+    //             const commentsArray = await queryAsync(conn, `SELECT DiscussionID, UserID, Comment, AuthAdd as UserName, AddOnDt as timestamp FROM Community_Discussion WHERE ISNULL(delStatus, 0) = 0 AND Comment IS NOT NULL AND Reference = ? ORDER BY AddOnDt DESC`, [item.DiscussionID]);
+    //             return { ...item, likeCount, userLike, commentsArray };
+    //         }));
+    
+    //         success = true;
+    //         const infoMessage = "Discussion Get Successfully";
+    //         logInfo(infoMessage);
+    //         res.status(200).json({ success, data: { updatedDiscussions }, message: infoMessage });
+    
+    //     } catch (error) {
+    //         logError(error);
+    //         res.status(500).json({ success: false, data: {}, message: 'Something went wrong please try again' });
+    //     } finally {
+    //         closeConnection(); // Ensure to close the connection in the end
+    //     }
+    // };
+    

@@ -445,6 +445,7 @@ export const getuser = async (req, res) => {
 
   }
 };
+
 export const getAllUser = async (req, res) => {
   
   let success = false;
