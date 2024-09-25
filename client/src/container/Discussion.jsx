@@ -123,8 +123,6 @@ const Discussion = () => {
     }
   }, [user, userToken, fetchData]);
 
-  console.log("Highlights", communityHighlights);
-  console.log("topUsers", topUsers);
   
 
   const searchDiscussion = useCallback(async (searchTerm, userId) => {
@@ -620,7 +618,7 @@ const Discussion = () => {
             <div className="two-h-screen no-scrollbar overflow-y-auto">
             {demoDiscussions.map((discussion, i) => (
               // <div>{discussion.Title}</div>
-              <div key={i} className="shadow my-4 bo rder border-gray-300 rounded-lg p-4 w-full max-w-screen-sm sm:max-w-screen-md md:max-w-screen-lg lg:max-w-screen-xl xl:max-w-screen-2xl">
+              <div key={i} className="shadow my-4 border border-gray-300 rounded-lg p-4 w-full max-w-screen-sm sm:max-w-screen-md md:max-w-screen-lg lg:max-w-screen-xl xl:max-w-screen-2xl">
                 <div onClick={() => openModal(discussion)}>
                   <h3 className="text-lg font-bold cursor-pointer md:text-lg lg:text-xl xl:text-2xl">
                     {discussion.Title}
