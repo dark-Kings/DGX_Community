@@ -358,47 +358,6 @@ const CommunityGuidelines = () => {
                   lg:text-2xl
                   xl:text-3xl
                   2xl:text-4xl">
-      Safety and Security
-    </h2>
-    <ul className="list-disc pl-5 text-[#374151] mt-4 
-                  xs:text-xs
-                  sm:text-sm
-                  md:text-base
-                  lg:text-lg
-                  xl:text-xl
-                  2xl:text-2xl">
-      <li className="mb-2">Do not share malicious links or software.</li>
-      <li className="mb-2">Report any suspicious activities or security breaches to the moderators.</li>
-    </ul>
-    <button
-      onClick={() => handleLearnMoreClick('safety-and-security-details')}
-      className="text-[#2563eb] hover:underline focus:outline-none
-                  xs:text-xs
-                  sm:text-sm
-                  md:text-base
-                  lg:text-lg
-                  xl:text-xl
-                  2xl:text-2xl">
-      Learn more
-    </button>
-  </div>
-</SwiperSlide>
-
-<SwiperSlide className="w-[90%] sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%] 2xl:w-[40%]">
-  <div className="w-full p-4 border-dotted border-4 rounded-lg border-DGXblue transition-all duration-300 ease-in-out hover:bg-[#fb7185]/10
-                  xs:p-2 xs:text-xs xs:rounded-md
-                  sm:p-3 sm:text-sm sm:rounded-lg
-                  md:p-4 md:text-base md:rounded-lg
-                  lg:p-5 lg:text-lg lg:rounded-xl
-                  xl:p-6 xl:text-xl xl:rounded-2xl
-                  2xl:p-8 2xl:text-2xl 2xl:rounded-3xl">
-    <h2 className="text-2xl text-DGXblack mt-4 
-                  xs:text-base
-                  sm:text-lg
-                  md:text-xl
-                  lg:text-2xl
-                  xl:text-3xl
-                  2xl:text-4xl">
       Content Guidelines
     </h2>
     <ul className="list-disc pl-5 text-[#374151] mt-4 
@@ -625,24 +584,6 @@ const CommunityGuidelines = () => {
             </li>
             <li className="mb-2">
               <a className="font-bold text-DGXblack">Attributing Sources Appropriately:</a> When sharing content created by others, always provide proper attribution and links back to the original source.
-            </li>
-          </ul>
-        </p>
-      </section>
-
-      <section id="safety-and-security-details" className="mb-8">
-        <h2 className="text-2xl text-DGXblack mt-8 text-center font-bold">Safety and Security</h2>
-        <p className="text-[#374151] mt-4">
-          Safety and security are paramount. This includes:
-          <ul className="list-disc pl-5 text-[#374151]">
-            <li className="mb-2">
-              <a className="font-bold text-DGXblack">Reporting Suspicious Activities:</a> If you notice anything that seems out of place or potentially harmful, inform the moderation team immediately.
-            </li>
-            <li className="mb-2">
-              <a className="font-bold text-DGXblack">Not Sharing Malicious Links or Software:</a> Ensure that any links or files you share are safe and free from malware or viruses.
-            </li>
-            <li className="mb-2">
-              <a className="font-bold text-DGXblack">Practicing Online Security:</a> Protect your account by following best practices for online security, such as using strong passwords and enabling two-factor authentication.
             </li>
           </ul>
         </p>
