@@ -4,6 +4,7 @@ import Discussions from './Components/Discussions'
 import Events from './Components/Events'
 import Guidelines from './Components/Guidelines'
 import Contact from './Components/Contact'
+import BlogManager from './Components/BlogManager'
 
 const AdminDashboard = () => {
   const [activeComp, setActiveComp] = useState('user')
@@ -16,6 +17,8 @@ const AdminDashboard = () => {
         return <Discussions/>
       case 'events':    
         return <Events/>
+      case 'blog_manager':    
+        return <BlogManager/>
       case 'guidelines':    
         return <Guidelines/>
       case 'contact':    
@@ -35,6 +38,7 @@ const AdminDashboard = () => {
               <li><div className="block py-2 px-4 hover:bg-gray-700 rounded-lg transition-colors duration-300" onClick={()=>{setActiveComp('users')}}>Users</div></li>
               <li><div className="block py-2 px-4 hover:bg-gray-700 rounded-lg transition-colors duration-300" onClick={()=>{setActiveComp('discussions')}}>Discussions</div></li>
               <li><div className="block py-2 px-4 hover:bg-gray-700 rounded-lg transition-colors duration-300" onClick={()=>{setActiveComp('events')}}>Events</div></li>
+              <li><div className="block py-2 px-4 hover:bg-gray-700 rounded-lg transition-colors duration-300" onClick={()=>{setActiveComp('blog_manager')}}>Blogs</div></li>
               <li><div className="block py-2 px-4 hover:bg-gray-700 rounded-lg transition-colors duration-300" onClick={()=>{setActiveComp('guidelines')}}>Guidelines</div></li>
               <li><div className="block py-2 px-4 hover:bg-gray-700 rounded-lg transition-colors duration-300" onClick={()=>{setActiveComp('contact')}}>Contact Us</div></li>
               {/* <li><Link to="/search" className="block py-2 px-4 hover:bg-gray-700">Search & Resources</Link></li>
