@@ -30,6 +30,35 @@ const Discussion = () => {
   const [privacy, setPrivacy] = useState('private');
   const [selectedDiscussion, setSelectedDiscussion] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [communityHighlights, setCommunityHighlights] = useState([])
+  const [topUsers, setTopUsers] = useState([])
+
+  const getCommunityHighlights = (discussions)=>{
+    const sortedDiscussions = discussions.sort((a, b) => b.comment.length - a.comment.length);
+    return sortedDiscussions.slice(0, 5);
+  }
+
+  const getTopUsersByDiscussions = (discussions) => {
+    const userDiscussionCount = {};
+
+    discussions.forEach(discussion => {
+      const { UserID, UserName } = discussion;
+
+      if (userDiscussionCount[UserID]) {
+        userDiscussionCount[UserID].count++;
+      } else {
+        userDiscussionCount[UserID] = { userName: UserName, count: 1 };
+      }
+    });
+
+    const usersArray = Object.keys(userDiscussionCount).map(UserID => ({
+      userID: UserID,
+      userName: userDiscussionCount[UserID].userName,
+      count: userDiscussionCount[UserID].count
+    }));
+
+    return usersArray.sort((a, b) => b.count - a.count).slice(0, 5);
+  };
 
   useEffect(() => {
     try {
@@ -50,18 +79,22 @@ const Discussion = () => {
               if (result && result.data) {
                 return result.data;
               } else {
-                return
-                // throw new Error("Invalid data format");
+                // return
+                throw new Error("Invalid data format");
               }
             })
             .then(data => {
               if (data && data.updatedDiscussions) {
                 setDemoDiscussions(data.updatedDiscussions);
+                const highlights = getCommunityHighlights(data.updatedDiscussions);
+                setCommunityHighlights(highlights)
+                const users = getTopUsersByDiscussions(data.updatedDiscussions);
+                setTopUsers(users)
               } else {
-                return
-                // throw new Error("Missing updatedDiscussions in response data");
+                // return
+                throw new Error("Missing updatedDiscussions in response data");
               }
-              setLoading(false); // Ensure loading is turned off after data is fetched
+              setLoading(false);
             })
             .catch(error => {
               setLoading(false);
@@ -88,8 +121,11 @@ const Discussion = () => {
     } catch (error) {
       console.log(error)
     }
-
   }, [user, userToken, fetchData]);
+
+  console.log("Highlights", communityHighlights);
+  console.log("topUsers", topUsers);
+  
 
   const searchDiscussion = useCallback(async (searchTerm, userId) => {
     try {
@@ -152,21 +188,21 @@ const Discussion = () => {
     }
   };
 
-  const hotTopics = [
-    { title: "NVIDIA Innovations", link: "#", description: "Discover the latest advancements from NVIDIA and how they are shaping the future of technology." },
-    { title: "NVIDIA-H100: Performance Unleashed", link: "#", description: "Discuss the performance of the NVIDIA-H100 GPU. Share your experiences, benchmarks, and use cases to help others understand its capabilities and benefits." },
-    { title: "NVIDIA Ecosystem", link: "#", description: "Engage with other community members to discuss how various NVIDIA tools and platforms integrate with each other. Share tips, tricks, and best practices for maximizing the NVIDIA ecosystem." },
-    { title: "Success Stories with NVIDIA-H100", link: "#", description: "Exchange stories and insights about how the NVIDIA-H100 is being utilized in different industries. Discuss successful projects and explore innovative applications of this powerful GPU." },
-    { title: "Future of GPU Technology", link: "#", description: "Speculate on the future of GPU technology and NVIDIA’s role in it. What advancements do you anticipate, and how do you see them shaping the tech landscape?" }
-  ];
+  // const hotTopics = [
+  //   { title: "NVIDIA Innovations", link: "#", description: "Discover the latest advancements from NVIDIA and how they are shaping the future of technology." },
+  //   { title: "NVIDIA-H100: Performance Unleashed", link: "#", description: "Discuss the performance of the NVIDIA-H100 GPU. Share your experiences, benchmarks, and use cases to help others understand its capabilities and benefits." },
+  //   { title: "NVIDIA Ecosystem", link: "#", description: "Engage with other community members to discuss how various NVIDIA tools and platforms integrate with each other. Share tips, tricks, and best practices for maximizing the NVIDIA ecosystem." },
+  //   { title: "Success Stories with NVIDIA-H100", link: "#", description: "Exchange stories and insights about how the NVIDIA-H100 is being utilized in different industries. Discuss successful projects and explore innovative applications of this powerful GPU." },
+  //   { title: "Future of GPU Technology", link: "#", description: "Speculate on the future of GPU technology and NVIDIA’s role in it. What advancements do you anticipate, and how do you see them shaping the tech landscape?" }
+  // ];
 
-  const topUsers = [
-    { name: "User 1", points: 1200 },
-    { name: "User 2", points: 1100 },
-    { name: "User 3", points: 1050 },
-    { name: "User 4", points: 1020 },
-    { name: "User 5", points: 980 }
-  ];
+  // const topUsers = [
+  //   { name: "User 1", points: 1200 },
+  //   { name: "User 2", points: 1100 },
+  //   { name: "User 3", points: 1050 },
+  //   { name: "User 4", points: 1020 },
+  //   { name: "User 5", points: 980 }
+  // ];
 
   const toggleNav = () => setIsNavOpen(!isNavOpen);
   const handleLike = () => setLikeCount(likeCount + 1);
@@ -330,7 +366,7 @@ const Discussion = () => {
     setIsFormOpen(false);
   };
 
-  // console.log(demoDiscussions);
+  console.log(demoDiscussions);
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
@@ -383,11 +419,11 @@ const Discussion = () => {
             </button>
           </div>
           <div id="navbar-alignment" className={`${isNavOpen ? 'block' : 'hidden'} hs-collapse overflow-hidden transition-all duration-300 basis-full grow sm:grow-0 sm:basis-auto sm:block sm:order-2`}>
-            <div className="flex flex-col gap-6 mt-5 sm:flex-row sm:items-center sm:mt-0 sm:ps-5">
+            {/* <div className="flex flex-col gap-6 mt-5 sm:flex-row sm:items-center sm:mt-0 sm:ps-5">
               <a className="text-lg font-bold text-DGXwhite cursor-pointer" onClick={() => setSelectedSection('all')} aria-current="page">All</a>
               <a className="text-lg font-bold text-DGXwhite cursor-pointer" onClick={() => setSelectedSection('top')}>Top Discussions</a>
               <a className="text-lg font-bold text-DGXwhite cursor-pointer" onClick={() => setSelectedSection('recent')}>Recent Discussions</a>
-            </div>
+            </div> */}
           </div>
           <button
             type="button"
@@ -412,17 +448,18 @@ const Discussion = () => {
           <div className="mb-8">
             <h2 className="text-2xl font-bold mb-4">Community Highlights</h2>
             <div className="space-y-4">
-              {hotTopics.map((topic, index) => (
+              {communityHighlights.map((topic, index) => (
                 <div
-                  key={index}
+                  key={topic.DiscussionID}
                   className="rounded-lg shadow-lg p-4 border hover:bg-DGXgreen/50 border-DGXblack transition-transform transform hover:scale-105 hover:shadow-xl"
+                  onClick={() => openModal(topic)}
                 >
                   <h3 className="text-xl font-semibold">
                     <a href={topic.link} className="text-DGXblack hover:underline">
-                      {topic.title}
+                      {topic.Title}
                     </a>
                   </h3>
-                  <p className="text-DGXblack mt-2">{topic.description}</p>
+                  <p className="text-DGXblack mt-2">{(topic.Content).substring(0,150)}</p>
                 </div>
               ))}
             </div>
@@ -433,11 +470,11 @@ const Discussion = () => {
             <div className="space-y-2">
               {topUsers.map((user, index) => (
                 <div
-                  key={index}
+                  key={user.userID}
                   className="flex justify-between items-center bg-DGXblue border border-gray-200 rounded-lg shadow-sm p-3 hover:shadow-xl hover:scale-105 transition-colors"
                 >
-                  <span className="font-medium text-white">{user.name}</span>
-                  <span className="text-white">{user.points} points</span>
+                  <span className="font-medium text-white">{user.userName}</span>
+                  <span className="text-white">{user.count} Post(s)</span>
                 </div>
               ))}
             </div>
@@ -451,21 +488,20 @@ const Discussion = () => {
               <form onSubmit={handleSubmit} className="border border-gray-300 rounded-lg p-4">
                 <h3 className="text-lg font-bold mb-4">Start a New Discussion</h3>
                 <div className="mb-4">
-                  <label className="block text-gray-700 font-bold mb-2" htmlFor="title">
-                    Title
-                  </label>
+                  <label className="block text-gray-700 font-bold mb-2" htmlFor="title">Title <span className="text-red-500">*</span></label>
                   <input
                     id="title"
                     type="text"
                     className="w-full px-3 py-2 border rounded-lg"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
+                    required
                   />
                 </div>
 
                 <div className="mb-4">
                   <label className="block text-gray-700 font-bold mb-2" htmlFor="content">
-                    Content
+                    Content <span className="text-red-500">*</span>
                   </label>
                   <textarea
                     id="content"
@@ -473,6 +509,7 @@ const Discussion = () => {
                     rows="4"
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
+                    required
                   />
                 </div>
 
@@ -579,9 +616,11 @@ const Discussion = () => {
                 </div>
               </form>
             )}
+            
+            <div className="two-h-screen no-scrollbar overflow-y-auto">
             {demoDiscussions.map((discussion, i) => (
               // <div>{discussion.Title}</div>
-              <div key={i} className="border border-gray-300 rounded-lg p-4 w-full max-w-screen-sm sm:max-w-screen-md md:max-w-screen-lg lg:max-w-screen-xl xl:max-w-screen-2xl">
+              <div key={i} className="shadow my-4 bo rder border-gray-300 rounded-lg p-4 w-full max-w-screen-sm sm:max-w-screen-md md:max-w-screen-lg lg:max-w-screen-xl xl:max-w-screen-2xl">
                 <div onClick={() => openModal(discussion)}>
                   <h3 className="text-lg font-bold cursor-pointer md:text-lg lg:text-xl xl:text-2xl">
                     {discussion.Title}
@@ -622,6 +661,7 @@ const Discussion = () => {
                 </div>
               </div>
             ))}
+            </div>
 
           </div>
         </section>
