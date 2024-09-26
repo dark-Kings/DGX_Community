@@ -12,6 +12,7 @@ import {
   validatePassword,
   validateRequired,
 } from "../utils/formValidation.js";
+import LoadPage from "./LoadPage.jsx";
 
 const ResetPassword = () => {
   const [loading, setLoading] = useState(false);
@@ -160,8 +161,7 @@ const ResetPassword = () => {
   };
 
   return loading ? (
-    <h1>Loading...</h1>
-  ) : (
+    < LoadPage/>  ) : (
     <div className="min-h-screen flex flex-col lg:flex-row items-center justify-center relative">
       <ToastContainer />
       <div className="w-full lg:w-1/2 min-h-screen py-20 px-8 lg:rounded-r-3xl bg-DGXblue flex items-center justify-center">

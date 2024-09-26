@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
 import generateCaptcha from '../utils/generateCaptcha.js';
 import ApiContext from '../context/ApiContext.jsx';
+import LoadPage from "./LoadPage.jsx";
 
 const VerifyEmail = () => {
 
@@ -120,7 +121,8 @@ const VerifyEmail = () => {
   };
 
   return (
-    loading ? <h1 className="flex items-center justify-center min-h-screen">Loading...</h1> : (
+    loading ? < LoadPage /> : (
+
       <div>
         <ToastContainer />
         <section className="h-screen">

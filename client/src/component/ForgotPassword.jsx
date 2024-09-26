@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import ApiContext from '../context/ApiContext.jsx';
 import { images } from '../constant/index.js'; // Adjust the path relative to the component file
+import LoadPage from './LoadPage.jsx';
 
 const ForgotPassword = () => {
   const [loading, setLoading] = useState(false)
@@ -72,7 +73,7 @@ const ForgotPassword = () => {
 
 
   return (
-    loading ? <h1>loading...</h1> : <div className="min-h-screen flex flex-col lg:flex-row items-center justify-center relative">
+    loading ? < LoadPage/> : <div className="min-h-screen flex flex-col lg:flex-row items-center justify-center relative">
       <ToastContainer />
       {/* Left side with form */}
       <div className="w-full lg:w-1/2 min-h-screen py-20 px-8 lg:rounded-r-3xl bg-DGXblue flex items-center justify-center">

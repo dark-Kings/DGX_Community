@@ -25,6 +25,7 @@ import EventWorkshopPage from './container/EventWorkshopPage.jsx';
 // import LoadPage from './component/LoadPage.jsx';
 import LoadPage from './component/LoadPage.jsx';
 import Calendar from './component/Calendar.jsx';
+import EventRegistrationPage from './component/EventRegistrationPage.jsx';
 import GeneralUserCalendar from './component/GeneralUserCalendar.jsx';
 import AdminDashboard from './Admin/AdminDashboard.jsx';
 import HomeAfterLoginComponent from './component/HomeAfterLoginComponent.jsx';
@@ -58,6 +59,7 @@ function App() {
             <Route path='/Survey' element={<Survey />} />
             {/* <Route path='/MyStoryboard' element={<MyStoryboard />} /> */}
             <Route path='/EventWorkshopPage' element={<EventWorkshopPage />} />
+            <Route path='/EventRegistrationPage' element={<EventRegistrationPage/>} />
             <Route path='/HomeAfterLoginComponent' element={<HomeAfterLoginComponent/>}/>
 
 

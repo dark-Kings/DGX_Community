@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from 'js-cookie';
 import ApiContext from '../context/ApiContext.jsx';
+import LoadPage from './LoadPage.jsx';
 import { validateRequired } from '../utils/formValidation.js';
 
 const SignIn = () => {
@@ -125,7 +126,7 @@ const SignIn = () => {
   };
 
   return (
-    loading ? <h1 className="flex items-center justify-center min-h-screen">Loading...</h1> :
+    loading ? < LoadPage/> :
       <div className="min-h-screen flex flex-col lg:flex-row items-center justify-center bg-gray-100">
         <ToastContainer />
         {/* Background image for large screens */}

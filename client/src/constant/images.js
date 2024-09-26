@@ -43,6 +43,8 @@ import rvce from '../assets/rvce.png'
 import utu from '../assets/utu.png'
 import BMS from '../assets/BMS.png'
 
+import aisummit from '../assets/aisummit.png'
+
 
 
 
@@ -91,6 +93,7 @@ export default {
 
     rvce,
     BMS,
-    utu
+    utu, 
+    aisummit
 
 }
