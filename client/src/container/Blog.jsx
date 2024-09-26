@@ -8,8 +8,25 @@ const BlogPage = () => {
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [pageSize, setPageSize] = useState(10);
     const [showAll, setShowAll] = useState(false);
-    const [selectedBlog, setSelectedBlog] = useState(null); // State to track selected blog for modal
-    const [isModalOpen, setIsModalOpen] = useState(false);  // State to track modal visibility
+    const [selectedBlog, setSelectedBlog] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    
+    // Carousel state for background images
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const images = [
+        "public/bg1.jpg",
+        "public/bg2.jpg",
+        "public/bg3.jpg",
+       
+    ];
+
+    // Carousel effect for the banner background
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+        }, 5000); // Change image every 5 seconds
+        return () => clearInterval(interval);
+    }, [images.length]);
 
     // Fetch blogs data
     useEffect(() => {
@@ -67,18 +84,14 @@ const BlogPage = () => {
 
         return (
             <div className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50">
-                {/* Full-screen container */}
                 <div className="bg-white p-8 rounded-lg w-full h-full max-w-full relative overflow-y-auto">
-                    {/* Close Button */}
                     <button className="text-black text-xl absolute top-4 right-4" onClick={closeModal}>X</button>
 
                     <div className="flex flex-col items-center h-full">
-                        {/* Image Section */}
                         <div className="w-full lg:w-1/2 mb-6">
                             <img className="w-full rounded" src={image} alt={title} />
                         </div>
 
-                        {/* Content Section */}
                         <div className="w-full lg:w-2/3 lg:px-10">
                             <h2 className="text-3xl font-bold mb-4 text-center">{title}</h2>
                             <p className="mb-2 text-gray-500 flex justify-center items-center gap-2">
@@ -96,17 +109,37 @@ const BlogPage = () => {
 
     return (
         <div>
-            {/* Page Header */}
-            <div className="py-40 bg-black text-center text-DGXgreen px-4">
-                <h1 className="text-5xl lg:text-7xl font-bold leading-snug mb-5">Welcome to Our Blog </h1>
-                <p className="text-gray-100 lg:w-3/5 mx-auto mb-5">Start your blog today and join a community of writters and readers who are passionate about sharing their stories and ideas. We offer everything you need to get started, from helpful tips and tutorials.</p>
-                <div className="font-medium hover:text-orange-500 inline-flex items-center gap-2">Learn More 🔗</div>
+            {/* Page Header with Image Carousel */}
+            <div
+                className="py-20 md:py-40 bg-black text-center text-DGXgreen px-4 relative"
+                style={{
+                    backgroundImage: `url(${images[currentImageIndex]})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    transition: 'background-image 1s ease-in-out',
+                }}
+            >
+                <div className="absolute inset-0 bg-black opacity-50"></div> {/* Dark Overlay */}
+                <div className="relative z-10">
+                    <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold leading-snug mb-5">
+                        Welcome to Our Blog
+                    </h1>
+                    <p className="text-gray-100 lg:w-3/5 mx-auto mb-5 text-sm md:text-base">
+                        Start your blog today and join a community of writers and readers who are passionate about
+                        sharing their stories and ideas. We offer everything you need to get started, from helpful tips
+                        and tutorials.
+                    </p>
+                    <div className="font-medium hover:text-orange-500 inline-flex items-center gap-2">
+                        Learn More 🔗
+                    </div>
+                </div>
             </div>
 
             {/* Category Buttons */}
+            <div className="flex justify-center items-center mt-8 flex-wrap gap-3">
             <div className="flex justify-center items-center mt-8 space-x-4 ">
                 <button
-                    className={`px-8 py-4 text-lg ${selectedCategory === null ? 'bg-DGXgreen text-black' : 'bg-DGXblue text-white'} rounded-lg`}
+                    className={`px-6 py-3 text-lg md:px-8 md:py-4 font-semibold ${selectedCategory === null ? 'bg-DGXgreen text-black' : 'bg-DGXblue text-white'} rounded-full transition-colors duration-300 ease-in-out hover:bg-DGXorange hover:text-white`}
                     onClick={() => handleCategorySelect(null)}
                 >
                     All
@@ -114,7 +147,7 @@ const BlogPage = () => {
                 {allCategories.map((category, index) => (
                     <button
                         key={index}
-                        className={`px-8 py-4 text-lg ${selectedCategory === category ? 'bg-DGXgreen text-black' : 'bg-DGXblue text-white'}  rounded-lg`}
+                        className={`px-6 py-3 text-lg md:px-8 md:py-4 font-semibold ${selectedCategory === category ? 'bg-DGXgreen text-black' : 'bg-DGXblue text-white'} rounded-full transition-colors duration-300 ease-in-out hover:bg-DGXorange hover:text-white`}
                         onClick={() => handleCategorySelect(category)}
                     >
                         {category}
@@ -123,8 +156,8 @@ const BlogPage = () => {
             </div>
 
             {/* Blogs List */}
-            <div className="max-w-7xl mx-auto mb-10 ">
-                <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-8 mt-20 transition-all duration-200">
+            <div className="max-w-7xl mx-auto mb-10 px-4 md:px-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mt-10 transition-all duration-200">
                     {blogs
                         .filter(blog => selectedCategory === null || blog.category === selectedCategory)
                         .slice(0, pageSize)
@@ -139,11 +172,11 @@ const BlogPage = () => {
                             onClick={() => {
                                 const filteredBlogs = blogs.filter(blog => selectedCategory === null || blog.category === selectedCategory);
                                 if (pageSize + 5 >= filteredBlogs.length) {
-                                    setShowAll(true);  // Hide the button after loading all blogs
+                                    setShowAll(true);
                                 }
                                 setPageSize(pageSize + 5);
                             }}
-                            className="px-8 py-4 text-lg bg-DGXblue text-white rounded-lg"
+                            className="px-6 py-2 md:px-8 md:py-4 text-sm md:text-lg bg-DGXblue text-white rounded-lg"
                         >
                             Show More
                         </button>
