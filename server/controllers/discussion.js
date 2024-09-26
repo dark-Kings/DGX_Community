@@ -102,6 +102,7 @@ export const getdiscussion = async (req, res) => {
 
     const userId = req.body.user;
     // console.log(userId)
+    console.log("TEstingssss");
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
