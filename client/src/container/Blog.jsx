@@ -102,7 +102,7 @@ const BlogPage = () => {
             </div>
 
             {/* Category Buttons */}
-            <div className="flex justify-center items-center mt-8 space-x-4">
+            <div className="flex justify-center items-center mt-8 space-x-4 ">
                 <button
                     className={`px-8 py-4 text-lg ${selectedCategory === null ? 'bg-DGXgreen text-black' : 'bg-DGXblue text-white'} rounded-lg`}
                     onClick={() => handleCategorySelect(null)}
@@ -121,7 +121,7 @@ const BlogPage = () => {
             </div>
 
             {/* Blogs List */}
-            <div className="max-w-7xl mx-auto">
+            <div className="max-w-7xl mx-auto mb-10">
                 <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-8 mt-20 transition-all duration-200">
                     {blogs
                         .filter(blog => selectedCategory === null || blog.category === selectedCategory)
