@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import Skeleton from 'react-loading-skeleton'; // Import Skeleton
+import 'react-loading-skeleton/dist/skeleton.css'; // Import Skeleton styles
 import { images } from '../constant/index.js'; // Make sure images are available
 
 const localizer = momentLocalizer(moment);
@@ -39,7 +41,20 @@ const dummyEvents = [
 
 const GeneralUserCalendar = ({ events = dummyEvents }) => {
   const [selectedEvent, setSelectedEvent] = useState(null);
-  
+  const [isLoading, setIsLoading] = useState(true); // Loading state
+
+  useEffect(() => {
+    // Simulating data fetching
+    const loadEvents = async () => {
+      setIsLoading(true);
+      // Simulate network delay
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      setIsLoading(false);
+    };
+    
+    loadEvents();
+  }, []);
+
   const handleSelectEvent = (event) => {
     setSelectedEvent(event);
     document.getElementById('event-detail').scrollIntoView({ behavior: 'smooth' });
@@ -68,16 +83,20 @@ const GeneralUserCalendar = ({ events = dummyEvents }) => {
         <h1 className="text-2xl font-bold mb-4">Our Event and Workshop Calendar</h1>
       </div>
 
-      <BigCalendar
-        localizer={localizer}
-        events={events}
-        startAccessor="start"
-        endAccessor="end"
-        style={{ height: 600 }}
-        className="bg-white rounded-lg border-2 border-DGXgreen shadow-lg p-5 mb-10 "
-        eventPropGetter={eventStyleGetter}
-        onSelectEvent={handleSelectEvent}
-      />
+      {isLoading ? (
+        <Skeleton height={600} className="bg-gray-200 rounded-lg mb-10" />
+      ) : (
+        <BigCalendar
+          localizer={localizer}
+          events={events}
+          startAccessor="start"
+          endAccessor="end"
+          style={{ height: 600 }}
+          className="bg-white rounded-lg border-2 border-DGXgreen shadow-lg p-5 mb-10"
+          eventPropGetter={eventStyleGetter}
+          onSelectEvent={handleSelectEvent}
+        />
+      )}
 
       {selectedEvent && (
         <div id="event-detail" className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">

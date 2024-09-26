@@ -137,57 +137,59 @@ const BlogPage = () => {
 
             {/* Category Buttons */}
             <div className="flex justify-center items-center mt-8 flex-wrap gap-3">
-            <div className="flex justify-center items-center mt-8 space-x-4 ">
-                <button
-                    className={`px-6 py-3 text-lg md:px-8 md:py-4 font-semibold ${selectedCategory === null ? 'bg-DGXgreen text-black' : 'bg-DGXblue text-white'} rounded-full transition-colors duration-300 ease-in-out hover:bg-DGXorange hover:text-white`}
-                    onClick={() => handleCategorySelect(null)}
-                >
-                    All
-                </button>
-                {allCategories.map((category, index) => (
+                <div className="flex justify-center items-center mt-8 space-x-4 ">
                     <button
-                        key={index}
-                        className={`px-6 py-3 text-lg md:px-8 md:py-4 font-semibold ${selectedCategory === category ? 'bg-DGXgreen text-black' : 'bg-DGXblue text-white'} rounded-full transition-colors duration-300 ease-in-out hover:bg-DGXorange hover:text-white`}
-                        onClick={() => handleCategorySelect(category)}
+                        className={`px-6 py-3 text-lg md:px-8 md:py-4 font-semibold ${selectedCategory === null ? 'bg-DGXgreen text-black' : 'bg-DGXblue text-white'} rounded-full transition-colors duration-300 ease-in-out hover:bg-DGXorange hover:text-white`}
+                        onClick={() => handleCategorySelect(null)}
                     >
-                        {category}
+                        All
                     </button>
-                ))}
-            </div>
-
-            {/* Blogs List */}
-            <div className="max-w-7xl mx-auto mb-10 px-4 md:px-8">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mt-10 transition-all duration-200">
-                    {blogs
-                        .filter(blog => selectedCategory === null || blog.category === selectedCategory)
-                        .slice(0, pageSize)
-                        .map((blog) => <Blog key={blog.id} blog={blog}></Blog>)
-                    }
+                    {allCategories.map((category, index) => (
+                        <button
+                            key={index}
+                            className={`px-6 py-3 text-lg md:px-8 md:py-4 font-semibold ${selectedCategory === category ? 'bg-DGXgreen text-black' : 'bg-DGXblue text-white'} rounded-full transition-colors duration-300 ease-in-out hover:bg-DGXorange hover:text-white`}
+                            onClick={() => handleCategorySelect(category)}
+                        >
+                            {category}
+                        </button>
+                    ))}
                 </div>
 
-                {/* Show More Button */}
-                {blogs.filter(blog => selectedCategory === null || blog.category === selectedCategory).length > pageSize && !showAll && (
-                    <div className="flex justify-center my-10">
-                        <button
-                            onClick={() => {
-                                const filteredBlogs = blogs.filter(blog => selectedCategory === null || blog.category === selectedCategory);
-                                if (pageSize + 5 >= filteredBlogs.length) {
-                                    setShowAll(true);
-                                }
-                                setPageSize(pageSize + 5);
-                            }}
-                            className="px-6 py-2 md:px-8 md:py-4 text-sm md:text-lg bg-DGXblue text-white rounded-lg"
-                        >
-                            Show More
-                        </button>
+                {/* Blogs List */}
+                <div className="max-w-7xl mx-auto mb-10 px-4 md:px-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mt-10 transition-all duration-200">
+                        {blogs
+                            .filter(blog => selectedCategory === null || blog.category === selectedCategory)
+                            .slice(0, pageSize)
+                            .map((blog) => <Blog key={blog.id} blog={blog}></Blog>)
+                        }
                     </div>
-                )}
-            </div>
 
-            {/* Modal */}
-            {isModalOpen && selectedBlog && <Modal blog={selectedBlog} />}
+                    {/* Show More Button */}
+                    {blogs.filter(blog => selectedCategory === null || blog.category === selectedCategory).length > pageSize && !showAll && (
+                        <div className="flex justify-center my-10">
+                            <button
+                                onClick={() => {
+                                    const filteredBlogs = blogs.filter(blog => selectedCategory === null || blog.category === selectedCategory);
+                                    if (pageSize + 5 >= filteredBlogs.length) {
+                                        setShowAll(true);
+                                    }
+                                    setPageSize(pageSize + 5);
+                                }}
+                                className="px-6 py-2 md:px-8 md:py-4 text-sm md:text-lg bg-DGXblue text-white rounded-lg"
+                            >
+                                Show More
+                            </button>
+                        </div>
+                    )}
+                </div>
+
+                {/* Modal */}
+                {isModalOpen && selectedBlog && <Modal blog={selectedBlog} />}
+            </div>
         </div>
     );
 };
+
 
 export default BlogPage;
