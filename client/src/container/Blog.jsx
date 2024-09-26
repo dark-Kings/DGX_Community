@@ -71,7 +71,7 @@ const BlogPage = () => {
                 <div className="bg-white p-8 rounded-lg w-full h-full max-w-full relative overflow-y-auto">
                     {/* Close Button */}
                     <button className="text-black text-xl absolute top-4 right-4" onClick={closeModal}>X</button>
-                    
+
                     <div className="flex flex-col items-center h-full">
                         {/* Image Section */}
                         <div className="w-full lg:w-1/2 mb-6">
@@ -97,8 +97,10 @@ const BlogPage = () => {
     return (
         <div>
             {/* Page Header */}
-            <div className="py-40 bg-black text-center text-white px-4">
-                <h1 className="text-5xl lg:text-7xl font-bold leading-snug mb-5">Blog Page</h1>
+            <div className="py-40 bg-black text-center text-DGXgreen px-4">
+                <h1 className="text-5xl lg:text-7xl font-bold leading-snug mb-5">Welcome to Our Blog </h1>
+                <p className="text-gray-100 lg:w-3/5 mx-auto mb-5">Start your blog today and join a community of writters and readers who are passionate about sharing their stories and ideas. We offer everything you need to get started, from helpful tips and tutorials.</p>
+                <div className="font-medium hover:text-orange-500 inline-flex items-center gap-2">Learn More 🔗</div>
             </div>
 
             {/* Category Buttons */}
@@ -121,7 +123,7 @@ const BlogPage = () => {
             </div>
 
             {/* Blogs List */}
-            <div className="max-w-7xl mx-auto mb-10">
+            <div className="max-w-7xl mx-auto mb-10 ">
                 <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-8 mt-20 transition-all duration-200">
                     {blogs
                         .filter(blog => selectedCategory === null || blog.category === selectedCategory)
