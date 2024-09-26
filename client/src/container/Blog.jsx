@@ -137,6 +137,7 @@ const BlogPage = () => {
 
             {/* Category Buttons */}
             <div className="flex justify-center items-center mt-8 flex-wrap gap-3">
+            <div className="flex justify-center items-center mt-8 space-x-4 ">
                 <button
                     className={`px-6 py-3 text-lg md:px-8 md:py-4 font-semibold ${selectedCategory === null ? 'bg-DGXgreen text-black' : 'bg-DGXblue text-white'} rounded-full transition-colors duration-300 ease-in-out hover:bg-DGXorange hover:text-white`}
                     onClick={() => handleCategorySelect(null)}

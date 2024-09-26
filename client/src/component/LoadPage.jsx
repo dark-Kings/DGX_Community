@@ -24,7 +24,7 @@ const LoadPage = () => {
     const interval = setInterval(() => {
       const randomIndex = Math.floor(Math.random() * messages.length);
       setMessage(messages[randomIndex]);
-    }, 3000);
+    }, 1000);
 
     return () => clearInterval(interval);
   }, [messages]);
