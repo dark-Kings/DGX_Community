@@ -97,13 +97,12 @@ const Home = () => {
                 className="relative py-14 sm:py-24 bg-cover bg-center"
                 style={{ backgroundImage: `url(${images.HeroImg})` }} >
                 <div className="absolute inset-0 bg-DGXblack opacity-50" ></div> {/* Overlay */}
-                <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+                {isLoggedIn ? <> 
+                    <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
                     <div className="mb-8 flex justify-center ">
-                        <p className="relative rounded-full px-4 py-1.5 text-DGXwhite leading-6  bg-DGXgreen bg-opacity-90 ring-1 ring-inset ring-[#111827]/10 hover:ring-[#111827]/20 hover:bg-DGXblue">
-                            <a href="/SignInn" target="_blank" className="font-semibold text-DGXwhite bd">
-                                <span className="absolute inset-0 "></span> Join Us Today <span>→</span>
-                            </a>
-                        </p>
+                        <h1 className="text-6xl font-mono px-4 py-1.5 text-DGXwhite">
+                            Welcome &ldquo;Name&rdquo;!! 
+                        </h1>
                     </div>
                     <div className="mx-auto max-w-2xl text-center">
                         <h1 className="text-4xl font-bold tracking-tight text-DGXwhite sm:text-6xl">
@@ -115,6 +114,28 @@ const Home = () => {
 
                     </div>
                 </div>
+                </>: 
+                <>
+                    <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+                        <div className="mb-8 flex justify-center ">
+                            <p className="relative rounded-full px-4 py-1.5 text-DGXwhite leading-6  bg-DGXgreen bg-opacity-90 ring-1 ring-inset ring-[#111827]/10 hover:ring-[#111827]/20 hover:bg-DGXblue">
+                                <a href="/SignInn" target="_blank" className="font-semibold text-DGXwhite bd">
+                                    <span className="absolute inset-0 "></span> Join Us Today <span>→</span>
+                                </a>
+                            </p>
+                        </div>
+                        <div className="mx-auto max-w-2xl text-center">
+                            <h1 className="text-4xl font-bold tracking-tight text-DGXwhite sm:text-6xl">
+                                DGX - COMMUNITY
+                            </h1>
+                            <p className="mt-6 text-lg leading-8 text-DGXwhite">
+                                Collaborate, Innovate, Celebrate: DGX Community Unites Creators
+                            </p>
+
+                        </div>
+                    </div>
+                </>}
+                
 
 
             </div>
