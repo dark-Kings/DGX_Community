@@ -1,16 +1,17 @@
-  import { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { toast } from 'react-toastify'; // Ensure you have react-toastify installed for notifications
 import ApiContext from '../../context/ApiContext'; // Import your context if needed
 
 const Discussions = () => {
   const { fetchData } = useContext(ApiContext); // Assuming you're using ApiContext
   const [discussions, setDiscussions] = useState([]);
+  const [users, setUsers] = useState([]); // State for users
   const [loading, setLoading] = useState(false); // Add loading state
 
   useEffect(() => {
     const fetchDiscussions = async () => {
       try {
-        const endpoint = "discussion/getdiscussion"; // Adjust port as necessary
+        const endpoint = "http://localhost:8000/discussion/getdiscussion"; // Adjust port as necessary
         const method = "POST";
         const headers = {
           'Content-Type': 'application/json',
@@ -51,8 +52,28 @@ const Discussions = () => {
       }
     };
 
+    // const fetchUsers = async () => {
+    //   try {
+    //     const endpoint = "user/users"; // Adjust your API endpoint for users
+    //     const method = "GET";
+    //     const headers = {
+    //       'Content-Type': 'application/json',
+    //     };
+
+    //     const result = await fetchData(endpoint, method, {}, headers);
+    //     if (result.success) {
+    //       setUsers(result.data); // Assuming result.data contains the user array
+    //     } else {
+    //       throw new Error(result.message || 'Failed to fetch user data');
+    //     }
+    //   } catch (error) {
+    //     toast.error(`Error fetching users: ${error.message}`);
+    //   }
+    // };
+
     fetchDiscussions();
-  }, []);
+    // fetchUsers();
+  }, [fetchData]);
 
   // Handle discussion approval
   const handleApprove = async (discussionId) => {
@@ -153,6 +174,7 @@ const Discussions = () => {
             discussions.map((discussion) => (
               <tr key={discussion.DiscussionID} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                 <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  {/* Display user ID from the discussions data */}
                   {discussion.UserID}
                 </th>
                 <td className="px-6 py-4">{discussion.DiscussionID}</td>

@@ -1,11 +1,11 @@
 import { useState, useContext, useEffect } from 'react';
-import { FaSearch, FaComment, FaWindowClose } from 'react-icons/fa';
+import { FaSearch, FaComment, FaWindowClose, FaTrophy } from 'react-icons/fa';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ApiContext from '../context/ApiContext.jsx';
 import DiscussionModal from '../component/DiscussionModal';
 import { compressImage } from '../utils/compressImage.js';
-import { AiFillLike, AiOutlineLike } from "react-icons/ai";
+import { AiFillLike, AiOutlineLike, AiOutlineComment } from "react-icons/ai";
 import { useCallback } from 'react';
 
 const Discussion = () => {
@@ -33,7 +33,7 @@ const Discussion = () => {
   const [communityHighlights, setCommunityHighlights] = useState([])
   const [topUsers, setTopUsers] = useState([])
 
-  const getCommunityHighlights = (discussions)=>{
+  const getCommunityHighlights = (discussions) => {
     const sortedDiscussions = discussions.sort((a, b) => b.comment.length - a.comment.length);
     return sortedDiscussions.slice(0, 5);
   }
@@ -123,7 +123,7 @@ const Discussion = () => {
     }
   }, [user, userToken, fetchData]);
 
-  
+
 
   const searchDiscussion = useCallback(async (searchTerm, userId) => {
     try {
@@ -133,7 +133,7 @@ const Discussion = () => {
       const headers = {
         'Content-Type': 'application/json',
       };
-  
+
       setLoading(true);
       const result = await fetchData(endpoint, method, body, headers);
       console.log("API Response:", result);
@@ -148,7 +148,7 @@ const Discussion = () => {
       toast.error(`Something went wrong: ${error.message}`);
     }
   }, [fetchData]);
-  
+
 
 
   const handleAddLike = async (id, userLike) => {
@@ -442,9 +442,13 @@ const Discussion = () => {
         />
       )}
       <div className="flex flex-col lg:flex-row w-full mx-auto bg-white rounded-md border border-gray-200 shadow-md mt-4 mb-4 p-4">
+
+
         <aside className="hidden lg:block lg:w-1/4 px-4">
           <div className="mb-8">
-            <h2 className="text-2xl font-bold mb-4">Community Highlights</h2>
+            <h2 className="text-2xl font-bold mb-4">
+              <AiOutlineComment className="inline-block mr-2" />Community Highlights
+            </h2>
             <div className="space-y-4">
               {communityHighlights.map((topic, index) => (
                 <div
@@ -457,14 +461,16 @@ const Discussion = () => {
                       {topic.Title}
                     </a>
                   </h3>
-                  <p className="text-DGXblack mt-2">{(topic.Content).substring(0,150)}</p>
+                  <p className="text-DGXblack mt-2">{(topic.Content).substring(0, 150)}</p>
                 </div>
               ))}
             </div>
           </div>
 
           <div>
-            <h2 className="text-2xl font-bold mb-4">Top Contributors</h2>
+            <h2 className="text-2xl font-bold mb-4">
+              <FaTrophy className="inline-block mr-2" />Top Contributors
+            </h2>
             <div className="space-y-2">
               {topUsers.map((user, index) => (
                 <div
@@ -478,6 +484,7 @@ const Discussion = () => {
             </div>
           </div>
         </aside>
+
 
         <section className="w-full lg:w-2/3 px-4">
           <h2 className="text-2xl font-bold mb-4">{selectedSection.charAt(0).toUpperCase() + selectedSection.slice(1)} Discussions</h2>
@@ -614,52 +621,62 @@ const Discussion = () => {
                 </div>
               </form>
             )}
-            
-            <div className="two-h-screen no-scrollbar overflow-y-auto">
-            {demoDiscussions.map((discussion, i) => (
-              // <div>{discussion.Title}</div>
-              <div key={i} className="shadow my-4 border border-gray-300 rounded-lg p-4 w-full max-w-screen-sm sm:max-w-screen-md md:max-w-screen-lg lg:max-w-screen-xl xl:max-w-screen-2xl">
-                <div onClick={() => openModal(discussion)}>
-                  <h3 className="text-lg font-bold cursor-pointer md:text-lg lg:text-xl xl:text-2xl">
-                    {discussion.Title}
-                  </h3>
-                  <p className="text-gray-600 text-sm md:text-base lg:text-lg xl:text-xl">
-                    {discussion.Content.length > 500 ? (<> {discussion.Content.substring(0, 497)} <span className='text-blue-700 cursor-pointer' onClick={() => { openModal(discussion) }}>...see more</span></>) : discussion.content}
-                  </p>
-                </div>
-                {discussion.Image && (
-                  <div className="mt-2">
-                    <img src={discussion.Image} alt="Discussion" className="max-h-40 w-auto object-cover" />
+
+            <div className="two-h-screen scrollbar scrollbar-thin  overflow-y-auto px-6">
+              {demoDiscussions.map((discussion, i) => (
+                <div
+                  key={i}
+                  className="relative shadow my-4 border border-gray-300 rounded-lg p-4 w-full max-w-screen-sm sm:max-w-screen-md md:max-w-screen-lg lg:max-w-screen-xl xl:max-w-screen-2xl transition-transform transform hover:scale-105 hover:shadow-lg hover:bg-gray-100 cursor-pointer focus-within:z-10 hover:z-10"
+                  onClick={() => openModal(discussion)} // Moved onClick to the entire div for easier interaction
+                >
+                  <div>
+                    <h3 className="text-lg font-bold md:text-lg lg:text-xl xl:text-2xl">
+                      {discussion.Title}
+                    </h3>
+                    <p className="text-gray-600 text-sm md:text-base lg:text-lg xl:text-xl">
+                      {discussion.Content.length > 500 ? (
+                        <>
+                          {discussion.Content.substring(0, 497)}
+                          <span className='text-blue-700 cursor-pointer' onClick={() => { openModal(discussion) }}>...see more</span>
+                        </>
+                      ) : discussion.Content}
+                    </p>
                   </div>
-                )}
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {discussion.Tag.split(',').filter(tag => tag).map((tag, tagIndex) => (
-                    <span key={tagIndex} className="bg-DGXgreen text-white rounded-full px-3 py-1 text-xs md:text-sm lg:text-base">
-                      {tag}
-                    </span>
-                  ))}
+                  {discussion.Image && (
+                    <div className="mt-2">
+                      <img src={discussion.Image} alt="Discussion" className="max-h-40 w-auto object-cover" />
+                    </div>
+                  )}
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {discussion.Tag.split(',').filter(tag => tag).map((tag, tagIndex) => (
+                      <span key={tagIndex} className="bg-DGXgreen text-white rounded-full px-3 py-1 text-xs md:text-sm lg:text-base">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {discussion.ResourceUrl.split(',').map((link, linkIndex) => (
+                      <a key={linkIndex} href={link} className="text-DGXgreen hover:underline text-xs md:text-sm lg:text-base">
+                        {link}
+                      </a>
+                    ))}
+                  </div>
+                  <div className="mt-4 flex items-center space-x-4">
+                    <button className="flex items-center text-sm md:text-base lg:text-lg" onClick={() => { handleAddLike(discussion.DiscussionID, discussion.userLike) }}>
+                      {discussion.userLike == 1 ? <AiFillLike /> : <AiOutlineLike />} {discussion.likeCount} Likes
+                    </button>
+                    <button
+                      className="flex items-center text-DGXgreen text-sm md:text-base lg:text-lg"
+                      onClick={() => handleComment(discussion)}
+                    >
+                      <FaComment className="mr-2" /> {discussion.comment.length} Comments
+                    </button>
+                  </div>
                 </div>
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {discussion.ResourceUrl.split(',').map((link, linkIndex) => (
-                    <a key={linkIndex} href={link} className="text-DGXgreen hover:underline text-xs md:text-sm lg:text-base">
-                      {link}
-                    </a>
-                  ))}
-                </div>
-                <div className="mt-4 flex items-center space-x-4">
-                  <button className="flex items-center  text-sm md:text-base lg:text-lg" onClick={() => { handleAddLike(discussion.DiscussionID, discussion.userLike) }}>
-                    {discussion.userLike == 1 ? <AiFillLike /> : <AiOutlineLike />}{discussion.likeCount} Likes
-                  </button>
-                  <button
-                    className="flex items-center text-DGXgreen text-sm md:text-base lg:text-lg"
-                    onClick={() => handleComment(discussion)}
-                  >
-                    <FaComment className="mr-2" /> {discussion.comment.length} Comments
-                  </button>
-                </div>
-              </div>
-            ))}
+              ))}
             </div>
+
+
 
           </div>
         </section>

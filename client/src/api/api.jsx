@@ -1,7 +1,7 @@
 // src/api/api.js
 
 // const BASE_URL = import.meta.env.VITE_API_BASEURL
-const BASE_URL = "http://192.168.119.47:8000/"
+const BASE_URL = "http://192.168.209.47:8000/"
 
 const apiRequest = async (endpoint, method = 'GET', body = {}, headers = { 'Content-Type': 'application/json' }) => {
     const url = `${BASE_URL}${endpoint}`;
