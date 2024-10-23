@@ -148,39 +148,6 @@ const BlogPage = () => {
                         </button>
                     ))}
                 </div>
-<<<<<<< HEAD
-            </div>
-
-            <div className="max-w-7xl mx-auto mb-10 px-4 md:px-8">
-                {loading ? ( // Show loading state
-                    <div className="text-center py-10">
-                        <p className="text-lg text-gray-600">Loading blogs...</p>
-                    </div>
-                ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mt-10 transition-all duration-200">
-                        {blogs
-                            .filter(blog => selectedCategory === null || blog.category === selectedCategory)
-                            .slice(0, pageSize)
-                            .map((blog) => <Blog key={blog.id} blog={blog} />)
-                        }
-                    </div>
-                )}
-
-                {blogs.filter(blog => selectedCategory === null || blog.category === selectedCategory).length > pageSize && !showAll && (
-                    <div className="flex justify-center my-10">
-                        <button
-                            onClick={() => {
-                                const filteredBlogs = blogs.filter(blog => selectedCategory === null || blog.category === selectedCategory);
-                                if (pageSize + 5 >= filteredBlogs.length) {
-                                    setShowAll(true);
-                                }
-                                setPageSize(pageSize + 5);
-                            }}
-                            className="px-6 py-2 md:px-8 md:py-4 text-sm md:text-lg bg-DGXblue text-white rounded-lg"
-                        >
-                            Show More
-                        </button>
-=======
 
                 {/* Blogs List */}
                 <div className="max-w-7xl mx-auto mb-10 px-4 md:px-8">
@@ -190,12 +157,8 @@ const BlogPage = () => {
                             .slice(0, pageSize)
                             .map((blog) => <Blog key={blog.id} blog={blog}></Blog>)
                         }
->>>>>>> e3f497dc13ec47a73f3a41c4d0e903991fe68e0f
                     </div>
 
-<<<<<<< HEAD
-            {isModalOpen && selectedBlog && <Modal blog={selectedBlog} />}
-=======
                     {/* Show More Button */}
                     {blogs.filter(blog => selectedCategory === null || blog.category === selectedCategory).length > pageSize && !showAll && (
                         <div className="flex justify-center my-10">
@@ -218,7 +181,6 @@ const BlogPage = () => {
                 {/* Modal */}
                 {isModalOpen && selectedBlog && <Modal blog={selectedBlog} />}
             </div>
->>>>>>> e3f497dc13ec47a73f3a41c4d0e903991fe68e0f
         </div>
     );
 };
