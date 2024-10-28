@@ -10,7 +10,7 @@ const BlogPage = () => {
     const [showAll, setShowAll] = useState(false);
     const [selectedBlog, setSelectedBlog] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    
+
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const images = [
         "public/bg1.jpg",
@@ -131,9 +131,9 @@ const BlogPage = () => {
             </div>
 
             <div className="flex justify-center items-center mt-8 flex-wrap gap-3">
-                <div className="flex justify-center items-center mt-8 space-x-4 ">
+                <div className="flex flex-wrap justify-center items-center mt-8 space-x-2 space-y-2 md:space-y-0">
                     <button
-                        className={`px-6 py-3 text-lg md:px-8 md:py-4 font-semibold ${selectedCategory === null ? 'bg-DGXgreen text-black' : 'bg-DGXblue text-white'} rounded-full transition-colors duration-300 ease-in-out hover:bg-DGXorange hover:text-white`}
+                        className={`px-6 py-2 md:px-6 md:py-3 lg:px-8 lg:py-4 text-sm md:text-lg font-semibold ${selectedCategory === null ? 'bg-DGXgreen text-black' : 'bg-DGXblue text-white'} rounded-full transition-colors duration-300 ease-in-out hover:bg-DGXorange hover:text-white`}
                         onClick={() => handleCategorySelect(null)}
                     >
                         All
@@ -141,13 +141,14 @@ const BlogPage = () => {
                     {allCategories.map((category, index) => (
                         <button
                             key={index}
-                            className={`px-6 py-3 text-lg md:px-8 md:py-4 font-semibold ${selectedCategory === category ? 'bg-DGXgreen text-black' : 'bg-DGXblue text-white'} rounded-full transition-colors duration-300 ease-in-out hover:bg-DGXorange hover:text-white`}
+                            className={`px-4 py-2 md:px-6 md:py-3 lg:px-8 lg:py-4 text-sm md:text-lg font-semibold ${selectedCategory === category ? 'bg-DGXgreen text-black' : 'bg-DGXblue text-white'} rounded-full transition-colors duration-300 ease-in-out hover:bg-DGXorange hover:text-white`}
                             onClick={() => handleCategorySelect(category)}
                         >
                             {category}
                         </button>
                     ))}
                 </div>
+
 
                 {/* Blogs List */}
                 <div className="max-w-7xl mx-auto mb-10 px-4 md:px-8">
