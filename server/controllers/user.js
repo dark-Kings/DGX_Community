@@ -267,6 +267,7 @@ export const login = async (req, res) => {
 
 
   const { email, password } = req.body;
+  console.log(req.body)
 
   try {
     connectToDatabase(async (err, conn) => {
@@ -447,49 +448,96 @@ export const getuser = async (req, res) => {
 };
 
 export const getAllUser = async (req, res) => {
-  
   let success = false;
 
-  try {
-    connectToDatabase(async (err, conn) => {
-      if (err) {
-        logError(err)
-        res.status(500).json({ success: false, data: err, message: "Failed to connect to database" });
-        return;
-      }
+  // Get the HTTP method (GET for fetching users, DELETE for deleting a user)
+  const method = req.method;
 
-      try {
-        const query = `SELECT UserID, Name, EmailId, CollegeName, MobileNumber, Category, Designation, ReferalNumberCount, ReferalNumber, ReferedBy,  FlagPasswordChange, AddOnDt FROM Community_User`;
-        const rows = await queryAsync(conn, query, [userId]);
+  // DELETE method to handle user deletion
+  if (method === "DELETE") {
+    const { userId } = req.body;
 
-        if (rows.length > 0) {
+    if (!userId) {
+      return res.status(400).json({ success: false, message: "User ID is required for deletion" });
+    }
 
-          success = true;
-          closeConnection();
-          const infoMessage = "User data"
-          logInfo(infoMessage)
-          res.status(200).json({ success, data: rows[0], message: infoMessage });
-          return
-        } else {
-          closeConnection();
-          const warningMessage = "User not found"
-          logWarning(warningMessage)
-          res.status(200).json({ success: false, data: {}, message: warningMessage });
-          return
+    try {
+      connectToDatabase(async (err, conn) => {
+        if (err) {
+          logError(err);
+          return res.status(500).json({ success: false, message: "Failed to connect to database" });
         }
-      } catch (queryErr) {
-        closeConnection();
-        logError(queryErr)
-        res.status(500).json({ success: false, data: queryErr, message: 'Something went wrong please try again' });
-        return
-      }
-    });
-  } catch (error) {
-    logError(queryErr)
-    return res.status(500).json({ success: false, data: {}, message: 'Something went wrong please try again' });
 
+        try {
+          const deleteQuery = `DELETE FROM Community_User WHERE UserID = ?`;
+          const result = await queryAsync(conn, deleteQuery, [userId]);
+
+          closeConnection();
+
+          if (result.affectedRows > 0) {
+            const successMessage = "User deleted successfully";
+            logInfo(successMessage);
+            return res.status(200).json({ success: true, message: successMessage });
+          } else {
+            const notFoundMessage = "User not found";
+            logWarning(notFoundMessage);
+            return res.status(404).json({ success: false, message: notFoundMessage });
+          }
+        } catch (deleteErr) {
+          closeConnection();
+          logError(deleteErr);
+          return res.status(500).json({ success: false, message: "Error deleting user" });
+        }
+      });
+    } catch (error) {
+      logError(error);
+      return res.status(500).json({ success: false, message: "Server error" });
+    }
+
+    // Return after handling DELETE method to prevent further execution
+    return;
+  }
+
+  // GET method to fetch all users
+  if (method === "GET") {
+    try {
+      connectToDatabase(async (err, conn) => {
+        if (err) {
+          logError(err);
+          return res.status(500).json({ success: false, data: err, message: "Failed to connect to database" });
+        }
+
+        try {
+          const query = `SELECT UserID, Name, EmailId, CollegeName, MobileNumber, Category, Designation, ReferalNumberCount, ReferalNumber, ReferedBy, FlagPasswordChange, AddOnDt FROM Community_User`;
+          const rows = await queryAsync(conn, query);
+
+          closeConnection();
+
+          if (rows.length > 0) {
+            success = true;
+            const infoMessage = "User data retrieved";
+            logInfo(infoMessage);
+            return res.status(200).json({ success, data: rows, message: infoMessage });
+          } else {
+            const warningMessage = "No users found";
+            logWarning(warningMessage);
+            return res.status(404).json({ success: false, data: {}, message: warningMessage });
+          }
+        } catch (queryErr) {
+          closeConnection();
+          logError(queryErr);
+          return res.status(500).json({ success: false, message: "Something went wrong with the query" });
+        }
+      });
+    } catch (error) {
+      logError(error);
+      return res.status(500).json({ success: false, message: "Server error" });
+    }
+  } else {
+    return res.status(405).json({ success: false, message: "Method not allowed" });
   }
 };
+
 
 //Route 5) Sending Invite to mail "/sendinvite" - Login required
 

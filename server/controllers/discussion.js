@@ -101,60 +101,55 @@ export const getdiscussion = async (req, res) => {
     let success = false;
 
     const userId = req.body.user;
-    // console.log(userId)
-    console.log("TEstingssss");
+    console.log("Testing User ID:", userId); // Added log for userId
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         const warningMessage = "Data is not in the right format";
-        logWarning(warningMessage); // Log the warning
+        logWarning(warningMessage);
         res.status(400).json({ success, data: errors.array(), message: warningMessage });
         return;
     }
 
     try {
-        // Connect to the database
         connectToDatabase(async (err, conn) => {
             if (err) {
                 const errorMessage = "Failed to connect to database";
-                logError(err); // Log the error
+                logError(err);
                 res.status(500).json({ success: false, data: err, message: errorMessage });
                 return;
             }
 
             try {
-                let rows = []
+                let rows = [];
                 if (userId !== null && userId !== undefined) {
-                    // console.log("Ho")
                     const query = `SELECT UserID, Name FROM Community_User WHERE isnull(delStatus,0) = 0 AND EmailId = ?`;
                     rows = await queryAsync(conn, query, [userId]);
+                    console.log("User Query Result:", rows); // Log the result of the user query
                 }
-                // console.log(rows)
+
                 if (rows.length === 0) {
                     rows.push({ UserID: null });
                 }
-                // console.log(rows[0].UserID);
-                // if (rows.length > 0) {
+
                 const discussionGetQuery = `SELECT DiscussionID, UserID, AuthAdd as UserName, Title, Content, Image, Tag, ResourceUrl, AddOnDt as timestamp FROM Community_Discussion WHERE ISNULL(delStatus, 0) = 0 AND Visibility = 'public' AND Reference = 0 ORDER BY AddOnDt DESC`;
                 const discussionGet = await queryAsync(conn, discussionGetQuery);
-                // console.log(discussionGet)
+                console.log("Discussion Get Result:", discussionGet); // Log discussionGet
+
                 const updatedDiscussions = [];
 
-                // Map over each discussion and fetch like count
                 for (const item of discussionGet) {
-                    // Query to get like count for each discussion
                     const likeCountQuery = `SELECT DiscussionID, UserID, Likes, AuthAdd as UserName FROM Community_Discussion WHERE ISNULL(delStatus, 0) = 0 AND Likes > 0 AND Reference = ?`;
                     const likeCountResult = await queryAsync(conn, likeCountQuery, [item.DiscussionID]);
+                    console.log("Like Count Result for Discussion:", item.DiscussionID, likeCountResult); // Log likeCountResult
 
                     const commentQuery = `SELECT DiscussionID, UserID, Comment, AuthAdd as UserName, AddOnDt as timestamp FROM Community_Discussion WHERE ISNULL(delStatus, 0) = 0 AND  Comment IS NOT NULL AND Reference = ? ORDER BY AddOnDt DESC`;
                     const commentResult = await queryAsync(conn, commentQuery, [item.DiscussionID]);
                     const commentsArray = Array.isArray(commentResult) ? commentResult : [];
+                    console.log("Comments Array for Discussion:", item.DiscussionID, commentsArray); // Log commentsArray
 
                     const commentsArrayUpdated = [];
-
                     let userLike = 0;
-
-                    // Check if `UserID` in `likeCountResult` matches `rows[0].UserId`
 
                     if (likeCountResult.some(likeItem => likeItem.UserID === rows[0].UserID && likeItem.Likes === 1)) {
                         userLike = 1;
@@ -162,7 +157,6 @@ export const getdiscussion = async (req, res) => {
 
                     if (commentsArray.length > 0) {
                         for (const comment of commentsArray) {
-                            // Reset the second-level comments array for each top-level comment
                             const commentsArrayUpdatedSecond = [];
 
                             const likeCountQuery = `SELECT DiscussionID, UserID, Likes, AuthAdd as UserName FROM Community_Discussion WHERE ISNULL(delStatus, 0) = 0 AND Likes > 0 AND Reference = ?`;
@@ -174,8 +168,6 @@ export const getdiscussion = async (req, res) => {
                             const secondLevelCommentsArray = Array.isArray(commentResult) ? commentResult : [];
 
                             let secondLevelUserLike = 0;
-
-                            // Check if `UserID` in `likeCountResult` matches `rows[0].UserId`
                             if (likeCountResult.some(likeItem => likeItem.UserID === rows[0].UserID && likeItem.Likes === 1)) {
                                 secondLevelUserLike = 1;
                             }
@@ -200,38 +192,29 @@ export const getdiscussion = async (req, res) => {
                     }
 
                     const likeCount = likeCountResult.length > 0 ? likeCountResult.length : 0;
-
-                    // Add like count to the discussion item
                     updatedDiscussions.push({ ...item, likeCount, userLike, comment: commentsArrayUpdated });
                 }
 
                 success = true;
-                closeConnection();
+                console.log("Updated Discussions Array:", updatedDiscussions); // Log final updatedDiscussions array
+
+                closeConnection(); // Close the connection after all operations
                 const infoMessage = "Discussion Get Successfully";
                 logInfo(infoMessage);
                 res.status(200).json({ success, data: { updatedDiscussions }, message: infoMessage });
-                return;
-                // } else {
-                //     closeConnection();
-                //     const warningMessage = "User not found";
-                //     logWarning(warningMessage);
-                //     res.status(200).json({ success: false, data: {}, message: warningMessage });
-                //     return;
-                // }
             }
             catch (queryErr) {
+                logError(queryErr);
                 closeConnection();
-                logError(queryErr)
                 res.status(500).json({ success: false, data: queryErr, message: 'Something went wrong please try again' });
-                return
             }
         });
     } catch (error) {
-        logError(error)
-        return res.status(500).json({ success: false, data: {}, message: 'Something went wrong please try again' });
-
+        logError(error);
+        res.status(500).json({ success: false, data: {}, message: 'Something went wrong please try again' });
     }
-}
+};
+
 
 
 

@@ -102,6 +102,7 @@ const SignIn = () => {
             draggable: true,
             theme: "light",
           });
+          console.log(data)
           setTimeout(() => {
             navigate('/');
           }, 3500);

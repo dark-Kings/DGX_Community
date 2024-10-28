@@ -1,63 +1,60 @@
 import { useEffect, useState } from "react";
 import { TbUserSquareRounded } from "react-icons/tb";
 
-// Main Blogs Component
 const BlogPage = () => {
     const [blogs, setBlogs] = useState([]);
+    const [loading, setLoading] = useState(true); // Added loading state
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [pageSize, setPageSize] = useState(10);
     const [showAll, setShowAll] = useState(false);
     const [selectedBlog, setSelectedBlog] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    
-    // Carousel state for background images
+
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const images = [
         "public/bg1.jpg",
         "public/bg2.jpg",
         "public/bg3.jpg",
-       
     ];
 
-    // Carousel effect for the banner background
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-        }, 5000); // Change image every 5 seconds
+        }, 5000);
         return () => clearInterval(interval);
     }, [images.length]);
 
-    // Fetch blogs data
     useEffect(() => {
         fetch('blogsData.json')
             .then(res => res.json())
-            .then(data => setBlogs(data))
-            .catch(error => console.error('Error fetching blogs:', error));
+            .then(data => {
+                setBlogs(data);
+                setLoading(false); // Set loading to false after data is fetched
+            })
+            .catch(error => {
+                console.error('Error fetching blogs:', error);
+                setLoading(false); // Ensure loading is false even on error
+            });
     }, []);
 
-    // Unique categories
     const allCategories = [...new Set(blogs.map(blog => blog.category))];
 
-    // Handle category selection
     const handleCategorySelect = (category) => {
         setSelectedCategory(category);
         setCurrentPage(1);
     };
 
-    // Open Modal with selected blog
     const openModal = (blog) => {
         setSelectedBlog(blog);
         setIsModalOpen(true);
     };
 
-    // Close Modal
     const closeModal = () => {
         setIsModalOpen(false);
         setSelectedBlog(null);
     };
 
-    // Blog Component (Nested)
     const Blog = ({ blog }) => {
         const { title, image, author, published_date } = blog || {};
 
@@ -78,7 +75,6 @@ const BlogPage = () => {
         );
     };
 
-    // Modal Component with full-screen view
     const Modal = ({ blog }) => {
         const { title, image, author, published_date, content } = blog || {};
 
@@ -109,7 +105,6 @@ const BlogPage = () => {
 
     return (
         <div>
-            {/* Page Header with Image Carousel */}
             <div
                 className="py-20 md:py-40 bg-black text-center text-DGXgreen px-4 relative"
                 style={{
@@ -119,7 +114,7 @@ const BlogPage = () => {
                     transition: 'background-image 1s ease-in-out',
                 }}
             >
-                <div className="absolute inset-0 bg-black opacity-50"></div> {/* Dark Overlay */}
+                <div className="absolute inset-0 bg-black opacity-50"></div>
                 <div className="relative z-10">
                     <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold leading-snug mb-5">
                         Welcome to Our Blog
@@ -135,11 +130,10 @@ const BlogPage = () => {
                 </div>
             </div>
 
-            {/* Category Buttons */}
             <div className="flex justify-center items-center mt-8 flex-wrap gap-3">
-                <div className="flex justify-center items-center mt-8 space-x-4 ">
+                <div className="flex flex-wrap justify-center items-center mt-8 space-x-2 space-y-2 md:space-y-0">
                     <button
-                        className={`px-6 py-3 text-lg md:px-8 md:py-4 font-semibold ${selectedCategory === null ? 'bg-DGXgreen text-black' : 'bg-DGXblue text-white'} rounded-full transition-colors duration-300 ease-in-out hover:bg-DGXorange hover:text-white`}
+                        className={`px-6 py-2 md:px-6 md:py-3 lg:px-8 lg:py-4 text-sm md:text-lg font-semibold ${selectedCategory === null ? 'bg-DGXgreen text-black' : 'bg-DGXblue text-white'} rounded-full transition-colors duration-300 ease-in-out hover:bg-DGXorange hover:text-white`}
                         onClick={() => handleCategorySelect(null)}
                     >
                         All
@@ -147,13 +141,14 @@ const BlogPage = () => {
                     {allCategories.map((category, index) => (
                         <button
                             key={index}
-                            className={`px-6 py-3 text-lg md:px-8 md:py-4 font-semibold ${selectedCategory === category ? 'bg-DGXgreen text-black' : 'bg-DGXblue text-white'} rounded-full transition-colors duration-300 ease-in-out hover:bg-DGXorange hover:text-white`}
+                            className={`px-4 py-2 md:px-6 md:py-3 lg:px-8 lg:py-4 text-sm md:text-lg font-semibold ${selectedCategory === category ? 'bg-DGXgreen text-black' : 'bg-DGXblue text-white'} rounded-full transition-colors duration-300 ease-in-out hover:bg-DGXorange hover:text-white`}
                             onClick={() => handleCategorySelect(category)}
                         >
                             {category}
                         </button>
                     ))}
                 </div>
+
 
                 {/* Blogs List */}
                 <div className="max-w-7xl mx-auto mb-10 px-4 md:px-8">

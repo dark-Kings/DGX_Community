@@ -56,7 +56,13 @@ const EventWorkshopPage = () => {
     { title: "NVIDIA CEO Jensen Huang and Lauren Goode at WIRED", image: images.Event1 },
   ];
 
-  const events = activeTab === "myCompany" ? myCompanyEvents : nvidiaEvents;
+  const oldEvents = [
+    { title: "Old Event 1", image: images.Event1 },
+    { title: "Old Event 2", image: images.Event2 },
+    { title: "Old Event 3", image: images.Event1 },
+  ];
+
+  const events = activeTab === "myCompany" ? myCompanyEvents : activeTab === "nvidia" ? nvidiaEvents : oldEvents;
 
   const handleTabChange = (tab) => {
     setIsAnimating(true);
@@ -97,7 +103,7 @@ const EventWorkshopPage = () => {
     <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
       <div className="relative isolate overflow-hidden bg-DGXwhite px-6 py-20 text-center sm:px-16 sm:shadow-sm">
         <p className="mx-auto max-w-2xl text-4xl font-bold tracking-tight text-[#111827] mb-10">
-          Find the Event or Workshop You Were Looking For...!
+          Explore Events and Workshops
         </p>
 
         <div className="mt-6 flex justify-center gap-6">
@@ -105,13 +111,19 @@ const EventWorkshopPage = () => {
             onClick={() => handleTabChange("myCompany")}
             className={`px-8 py-3 ${activeTab === "myCompany" ? 'bg-DGXgreen text-white' : 'bg-DGXwhite text-black'} border border-DGXgreen rounded-xl transition-all shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-DGXgreen`}
           >
-            My Company Events
+            GI India Events
           </button>
           <button
             onClick={() => handleTabChange("nvidia")}
             className={`px-8 py-3 ${activeTab === "nvidia" ? 'bg-DGXgreen text-white' : 'bg-DGXwhite text-black'} border border-DGXgreen rounded-xl transition-all shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-DGXgreen`}
           >
             NVIDIA Events
+          </button>
+          <button
+            onClick={() => handleTabChange("oldEvents")}
+            className={`px-8 py-3 ${activeTab === "oldEvents" ? 'bg-DGXgreen text-white' : 'bg-DGXwhite text-black'} border border-DGXgreen rounded-xl transition-all shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-DGXgreen`}
+          >
+            GI India Old Events
           </button>
         </div>
 
@@ -150,7 +162,7 @@ const EventWorkshopPage = () => {
                   <div className="flex justify-between mt-8">
                     <div className="flex gap-4">
                       <button className="px-6 py-2 bg-DGXgreen text-DGXwhite rounded-md hover:bg-green-600 transition">
-                        Enroll
+                        View Details
                       </button>
                     </div>
 
