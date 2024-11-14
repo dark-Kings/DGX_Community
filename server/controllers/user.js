@@ -1,11 +1,9 @@
 
 import { validationResult } from 'express-validator';
 import bcrypt from 'bcryptjs';
-
 import { connectToDatabase, closeConnection } from '../database/mySql.js';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv'
-
 import { generatePassword, referCodeGenerator, encrypt } from '../utility/index.js';
 import { queryAsync, mailSender, logError, logInfo, logWarning } from '../helper/index.js';
 
@@ -277,7 +275,7 @@ export const login = async (req, res) => {
       }
 
       try {
-        const query = "SELECT EmailId, Password, FlagPasswordChange FROM Community_User WHERE isnull(delStatus,0) = 0 AND EmailId = ?";
+        const query = "SELECT EmailId, Password, FlagPasswordChange, isAdmin FROM Community_User WHERE isnull(delStatus,0) = 0 AND EmailId = ?";
         const result = await queryAsync(conn, query, [email]);
 
         if (result.length === 0) {
@@ -296,7 +294,8 @@ export const login = async (req, res) => {
 
         const data = {
           user: {
-            id: result[0].EmailId
+            id: result[0].EmailId,
+            isAdmin: result[0].isAdmin
           }
         };
         const authtoken = jwt.sign(data, JWT_SECRET);
@@ -304,7 +303,12 @@ export const login = async (req, res) => {
         const infoMessage = "You login successfully"
         logInfo(infoMessage)
         closeConnection();
-        return res.status(200).json({ success: true, data: { authtoken, flag: result[0].FlagPasswordChange }, message: infoMessage });
+        return res.status(200).json({ 
+          success: true, 
+          data: { authtoken, 
+          flag: result[0].FlagPasswordChange ,
+          isAdmin: result[0].isAdmin},
+            message: infoMessage });
 
       } catch (queryErr) {
         logError(queryErr)
@@ -318,6 +322,77 @@ export const login = async (req, res) => {
     return res.status(500).json({ success: false, data: {}, message: 'Something went wrong please try again' });
   }
 };
+
+// export const login = async (req, res) => {
+//   let success = false;
+//   const errors = validationResult(req);
+//   if (!errors.isEmpty()) {
+//     const warningMessage = "Data is not in the right format";
+//     logWarning(warningMessage);
+//     return res.status(400).json({ success, data: errors.array(), message: warningMessage });
+//   }
+
+//   const { email, password } = req.body;
+//   console.log(req.body);
+
+//   try {
+//     connectToDatabase(async (err, conn) => {
+//       if (err) {
+//         logError(err);
+//         return res.status(500).json({ success: false, data: err, message: "Failed to connect to database" });
+//       }
+
+//       try {
+//         const query = "SELECT EmailId, Password, FlagPasswordChange, IsAdmin FROM Community_User WHERE isnull(delStatus,0) = 0 AND EmailId = ?";
+//         const result = await queryAsync(conn, query, [email]);
+
+//         if (result.length === 0) {
+//           const warningMessage = "Please try to login with correct credentials";
+//           logWarning(warningMessage);
+//           closeConnection();
+//           return res.status(200).json({ success: false, data: {}, message: warningMessage });
+//         }
+        
+//         const passwordCompare = await bcrypt.compare(password, result[0].Password);
+//         if (!passwordCompare) {
+//           const warningMessage = "Please try to login with correct credentials";
+//           logWarning(warningMessage);
+//           closeConnection();
+//           return res.status(200).json({ success: false, data: {}, message: warningMessage });
+//         }
+
+//         const data = {
+//           user: {
+//             id: result[0].EmailId,
+//             isAdmin: result[0].IsAdmin === 1  // Check if the user is an admin
+//           }
+//         };
+//         const authtoken = jwt.sign(data, JWT_SECRET);
+//         success = true;
+//         const infoMessage = result[0].IsAdmin === 1 ? "Admin login successful" : "User login successful";
+//         console.log("i am admin");
+//         logInfo(infoMessage);
+//         closeConnection();
+        
+//         return res.status(200).json({ 
+//           success: true, 
+//           data: { authtoken, flag: result[0].FlagPasswordChange, isAdmin: result[0].IsAdmin === 1 },
+//           message: infoMessage 
+//         });
+
+//       } catch (queryErr) {
+//         logError(queryErr);
+//         closeConnection();
+//         return res.status(500).json({ success: false, data: queryErr, message: 'Something went wrong please try again' });
+//       }
+//     });
+//   } catch (error) {
+//     logError(error);
+//     closeConnection();
+//     return res.status(500).json({ success: false, data: {}, message: 'Something went wrong please try again' });
+//   }
+// };
+
 
 
 //Route 3) To change the password of the user
@@ -415,7 +490,7 @@ export const getuser = async (req, res) => {
       }
 
       try {
-        const query = `SELECT UserID, Name, EmailId, CollegeName, MobileNumber, Category, Designation, ReferalNumberCount, ReferalNumber, ReferedBy,  FlagPasswordChange, AddOnDt FROM Community_User WHERE isnull(delStatus,0) = 0 AND EmailId = ?`;
+        const query = `SELECT UserID, Name, EmailId, CollegeName, MobileNumber, Category, Designation,isAdmin, ReferalNumberCount, ReferalNumber, ReferedBy,  FlagPasswordChange, AddOnDt FROM Community_User WHERE isnull(delStatus,0) = 0 AND EmailId = ?`;
         const rows = await queryAsync(conn, query, [userId]);
 
         if (rows.length > 0) {

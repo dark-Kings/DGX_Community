@@ -627,7 +627,7 @@ const Discussion = () => {
                 <div
                   key={i}
                   className="relative shadow my-4 border border-gray-300 rounded-lg p-4 w-full max-w-screen-sm sm:max-w-screen-md md:max-w-screen-lg lg:max-w-screen-xl xl:max-w-screen-2xl transition-transform transform hover:scale-105 hover:shadow-lg hover:bg-gray-100 cursor-pointer focus-within:z-10 hover:z-10"
-                  onClick={() => openModal(discussion)} // Moved onClick to the entire div for easier interaction
+                   // Moved onClick to the entire div for easier interaction
                 >
                   <div>
                     <h3 className="text-lg font-bold md:text-lg lg:text-xl xl:text-2xl">
@@ -643,18 +643,18 @@ const Discussion = () => {
                     </p>
                   </div>
                   {discussion.Image && (
-                    <div className="mt-2">
+                    <div className="mt-2" onClick={() => openModal(discussion)}>
                       <img src={discussion.Image} alt="Discussion" className="max-h-40 w-auto object-cover" />
                     </div>
                   )}
-                  <div className="mt-2 flex flex-wrap gap-2">
+                  <div className="mt-2 flex flex-wrap gap-2" onClick={() => openModal(discussion)}>
                     {discussion.Tag.split(',').filter(tag => tag).map((tag, tagIndex) => (
                       <span key={tagIndex} className="bg-DGXgreen text-white rounded-full px-3 py-1 text-xs md:text-sm lg:text-base">
                         {tag}
                       </span>
                     ))}
                   </div>
-                  <div className="mt-2 flex flex-wrap gap-2">
+                  <div className="mt-2 flex flex-wrap gap-2" onClick={() => openModal(discussion)}>
                     {discussion.ResourceUrl.split(',').map((link, linkIndex) => (
                       <a key={linkIndex} href={link} className="text-DGXgreen hover:underline text-xs md:text-sm lg:text-base">
                         {link}

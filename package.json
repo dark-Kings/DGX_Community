@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "react-big-calendar": "^1.13.1"
+    "react-big-calendar": "^1.13.1",
+    "react-quill": "^2.0.0"
   }
 }

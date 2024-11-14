@@ -45,6 +45,7 @@ const Calendar = () => {
     start: '',
     end: '',
     category: 'Select one',
+    companyCategory:'Select one',
     poster: null,
     venue: '',
     description: '',
@@ -60,6 +61,8 @@ const Calendar = () => {
   const startRef = useRef(null);
   const endRef = useRef(null);
   const categoryRef = useRef(null);
+  const companyCategoryRef = useRef(null);
+
   const venueRef = useRef(null);
   const hostRef = useRef(null);
   const descriptionRef = useRef(null);
@@ -92,6 +95,7 @@ const Calendar = () => {
     if (!newEvent.start) errors.start = 'Start date is required.';
     if (!newEvent.end) errors.end = 'End date is required.';
     if (newEvent.category === 'Select one') errors.category = 'Please select a category.';
+    if (newEvent.companyCategory === 'Select one') errors.companyCategory = 'Please select a category.';
     if (!newEvent.venue) errors.venue = 'Venue is required.';
     if (!newEvent.description) errors.description = 'Description is required.';
     if (!newEvent.host) errors.host = 'Host is required.';
@@ -107,6 +111,7 @@ const Calendar = () => {
         start: startRef,
         end: endRef,
         category: categoryRef,
+        companyCategory: companyCategoryRef,
         venue: venueRef,
         host: hostRef,
         description: descriptionRef,
@@ -145,6 +150,7 @@ const Calendar = () => {
       start: '',
       end: '',
       category: 'Select one',
+      companyCategory: 'companyCategory', 
       poster: null,
       venue: '',
       description: '',
@@ -255,6 +261,17 @@ const Calendar = () => {
               <option value="Select one">Select one</option>
               <option value="workshop">Workshop</option>
               <option value="event">Event</option>
+            </select>
+            <select
+              name="companyCategory"
+              value={newEvent.companyCategory}
+              onChange={handleChange}
+              className={`p-2 border border-gray-300 rounded mb-2 w-full ${errors.companyCategory ? 'border-red-500' : ''}`}
+              ref={companyCategoryRef}
+            >
+              <option value="Select one">Category</option>
+              <option value="workshop">Global Infoventures Event</option>
+              <option value="event">NVIDIA Event</option>
             </select>
             {errors.category && <p className="text-red-500 text-sm mb-2">{errors.category}</p>}
 
