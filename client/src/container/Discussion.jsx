@@ -7,11 +7,26 @@ import DiscussionModal from '../component/DiscussionModal';
 import { compressImage } from '../utils/compressImage.js';
 import { AiFillLike, AiOutlineLike, AiOutlineComment } from "react-icons/ai";
 import { useCallback } from 'react';
+import Skeleton from 'react-loading-skeleton'; // Import Skeleton
+import 'react-loading-skeleton/dist/skeleton.css'; // Import Skeleton styles
 
 const Discussion = () => {
   const { fetchData, userToken, user } = useContext(ApiContext);
   const [demoDiscussions, setDemoDiscussions] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // Loading state
+
+  useEffect(() => {
+    // Simulating data fetching
+    const loadEvents = async () => {
+      setIsLoading(true);
+      // Simulate network delay
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      setIsLoading(false);
+    };
+    
+    loadEvents();
+  }, []);
   const [likeCount, setLikeCount] = useState(0);
   const [commentCount, setCommentCount] = useState(0);
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -378,25 +393,34 @@ const Discussion = () => {
 
   return (
     <div>
+      
       <ToastContainer style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }} />
+      
       <header className="flex flex-wrap sm:justify-start sm:flex-nowrap w-full bg-DGXblue text-sm py-4">
         <nav className="max-w-[85rem] w-full mx-auto px-4 flex flex-wrap basis-full items-center justify-between" aria-label="Global">
-          <div className="sm:order-4 flex items-center w-full sm:w-auto mt-4 sm:mt-0 sm:ml-4">
-            <div className="relative w-full sm:w-64">
-              <input
-                type="text"
-                className="w-full py-2 pl-10 pr-4 bg-white border border-gray-200 rounded-lg shadow-sm text-gray-800 focus:border-DGXgreen focus:ring-DGXgreen"
-                placeholder="Search..."
-                value={searchQuery}
-                onChange={handleSearchChange} // Call this directly without the arrow function
-                onKeyDown={handleKeyDown}
+        <div className="sm:order-4 flex items-center w-full sm:w-auto mt-4 sm:mt-0 sm:ml-4">
+  {isLoading ? (
+    <Skeleton 
+      height="2.5rem" // Adjusted to match the height of the input element
+      className="w-full sm:w-64 bg-gray-500 rounded-lg mb-4" 
+    />
+  ) : (
+    <div className="relative w-full sm:w-64">
+      <input
+        type="text"
+        className="w-full py-2 pl-10 pr-4 bg-white border border-gray-200 rounded-lg shadow-sm text-gray-800 focus:border-DGXgreen focus:ring-DGXgreen"
+        placeholder="Search..."
+        value={searchQuery}
+        onChange={handleSearchChange} // Call this directly without the arrow function
+        onKeyDown={handleKeyDown}
+      />
+      <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+        <FaSearch className="text-gray-400" />
+      </div>
+    </div>
+  )}
+</div>
 
-              />
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <FaSearch className="text-gray-400" />
-              </div>
-            </div>
-          </div>
           <div className="sm:order-3 flex items-center gap-x-2">
             <button
               type="button"
@@ -423,13 +447,22 @@ const Discussion = () => {
               <a className="text-lg font-bold text-DGXwhite cursor-pointer" onClick={() => setSelectedSection('recent')}>Recent Discussions</a>
             </div> */}
           </div>
-          <button
-            type="button"
-            className="py-2 px-3 inline-flex items-center gap-x-2 text-lg font-bold rounded-lg bg-DGXgreen text-DGXwhite shadow-sm hover:bg-DGXblue hover:border-DGXgreen border border-DGXblue disabled:opacity-50 disabled:pointer-events-none"
-            onClick={() => { setIsFormOpen(true) }}
-          >
-            Start a New Topic +
-          </button>
+          {isLoading ? (
+              <Skeleton 
+                height="2.5rem" // Adjusted to match the height of the input element
+                width={200}
+                className="w-full sm:w-64 bg-lime-500 rounded-lg mb-4" 
+              />
+            ) : (
+              <button
+                      type="button"
+                      className="py-2 px-3 inline-flex items-center gap-x-2 text-lg font-bold rounded-lg bg-DGXgreen text-DGXwhite shadow-sm hover:bg-DGXblue hover:border-DGXgreen border border-DGXblue disabled:opacity-50 disabled:pointer-events-none"
+                      onClick={() => { setIsFormOpen(true) }}
+                    >
+                      Start a New Topic +
+                    </button>
+            )}
+          
         </nav>
       </header>
       {modalIsOpen && selectedDiscussion && (
@@ -445,26 +478,41 @@ const Discussion = () => {
 
 
         <aside className="hidden lg:block lg:w-1/4 px-4">
+        
           <div className="mb-8">
             <h2 className="text-2xl font-bold mb-4">
               <AiOutlineComment className="inline-block mr-2" />Community Highlights
             </h2>
+            
             <div className="space-y-4">
-              {communityHighlights.map((topic, index) => (
-                <div
-                  key={topic.DiscussionID}
-                  className="rounded-lg shadow-lg p-4 border hover:bg-DGXgreen/50 border-DGXblack transition-transform transform hover:scale-105 hover:shadow-xl"
-                  onClick={() => openModal(topic)}
-                >
-                  <h3 className="text-xl font-semibold">
-                    <a href={topic.link} className="text-DGXblack hover:underline">
-                      {topic.Title}
-                    </a>
-                  </h3>
-                  <p className="text-DGXblack mt-2">{(topic.Content).substring(0, 150)}</p>
-                </div>
-              ))}
-            </div>
+                {isLoading ? (
+                  // Display Skeleton loaders in place of the actual content
+                  Array.from({ length: 5 }).map((_, index) => (
+                    <Skeleton
+                      key={index}
+                      height="8.5rem" // Adjust height as needed to mimic the card's height
+                      className="w-full bg-gray-300 rounded-lg mb-4"
+                    />
+                  ))
+                ) : (
+                  // Display actual content when loading is complete
+                  communityHighlights.map((topic) => (
+                    <div
+                      key={topic.DiscussionID}
+                      className="rounded-lg shadow-lg p-4 border hover:bg-DGXgreen/50 border-DGXblack transition-transform transform hover:scale-105 hover:shadow-xl"
+                      onClick={() => openModal(topic)}
+                    >
+                      <h3 className="text-xl font-semibold">
+                        <a href={topic.link} className="text-DGXblack hover:underline">
+                          {topic.Title}
+                        </a>
+                      </h3>
+                      <p className="text-DGXblack mt-2">{(topic.Content).substring(0, 150)}</p>
+                    </div>
+                  ))
+                )}
+              </div>
+
           </div>
 
           <div>
@@ -472,15 +520,26 @@ const Discussion = () => {
               <FaTrophy className="inline-block mr-2" />Top Contributors
             </h2>
             <div className="space-y-2">
-              {topUsers.map((user, index) => (
-                <div
-                  key={user.userID}
-                  className="flex justify-between items-center bg-DGXblue border border-gray-200 rounded-lg shadow-sm p-3 hover:shadow-xl hover:scale-105 transition-colors"
-                >
-                  <span className="font-medium text-white">{user.userName}</span>
-                  <span className="text-white">{user.count} Post(s)</span>
-                </div>
-              ))}
+              {isLoading ? (
+                Array.from({length: 5}).map((_, index) => (
+                  <Skeleton
+                  key={index}
+                  height="2.5rem"
+                  className="w-full bg-gray-300 rounded-lg mb-4"
+                  />
+                ))
+              ) : (
+                topUsers.map((user, index) => (
+                  <div
+                    key={user.userID}
+                    className="flex justify-between items-center bg-DGXblue border border-gray-200 rounded-lg shadow-sm p-3 hover:shadow-xl hover:scale-105 transition-colors"
+                  >
+                    <span className="font-medium text-white">{user.userName}</span>
+                    <span className="text-white">{user.count} Post(s)</span>
+                  </div>
+                ))
+              )}
+              
             </div>
           </div>
         </aside>
@@ -621,13 +680,33 @@ const Discussion = () => {
                 </div>
               </form>
             )}
-
+                
             <div className="two-h-screen scrollbar scrollbar-thin  overflow-y-auto px-6">
-              {demoDiscussions.map((discussion, i) => (
+            {isLoading ? (
+              // Display a skeleton for each item based on the length of demoDiscussions
+              demoDiscussions.map((_, index) => (
+                <div 
+                  key={index}
+                  className="relative shadow my-4 border border-gray-300 rounded-lg p-4 w-full max-w-screen-sm sm:max-w-screen-md md:max-w-screen-lg lg:max-w-screen-xl xl:max-w-screen-2xl bg-gray-200 animate-pulse"
+                >
+                  <div className="h-10 bg-gray-300 rounded w-3/4 mb-2"></div>
+                  <div className="h-24 bg-gray-300 rounded w-full mb-2"></div>
+                  <div className="h-40 w-60 bg-gray-300 rounded mb-2"></div>
+                  <div className="flex gap-2">
+                    {Array.from({ length: 3 }).map((_, tagIndex) => (
+                      <span key={tagIndex} className="h-8 w-20 bg-gray-300 rounded"></span>
+                    ))}
+                  </div>
+                  <div className="mt-4 h-5 bg-gray-300 rounded w-1/2"></div>
+                  <div className="mt-4 h-8 bg-gray-300 rounded w-52"></div>
+                </div>
+              ))
+            ) : (
+              demoDiscussions.map((discussion, i) => (
                 <div
                   key={i}
                   className="relative shadow my-4 border border-gray-300 rounded-lg p-4 w-full max-w-screen-sm sm:max-w-screen-md md:max-w-screen-lg lg:max-w-screen-xl xl:max-w-screen-2xl transition-transform transform hover:scale-105 hover:shadow-lg hover:bg-gray-100 cursor-pointer focus-within:z-10 hover:z-10"
-                  onClick={() => openModal(discussion)} // Moved onClick to the entire div for easier interaction
+                  onClick={() => openModal(discussion)}
                 >
                   <div>
                     <h3 className="text-lg font-bold md:text-lg lg:text-xl xl:text-2xl">
@@ -673,7 +752,10 @@ const Discussion = () => {
                     </button>
                   </div>
                 </div>
-              ))}
+              ))
+            )}
+
+
             </div>
 
 
