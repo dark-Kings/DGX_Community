@@ -456,7 +456,7 @@ const Discussion = () => {
             ) : (
               <button
                       type="button"
-                      className="py-2 px-3 inline-flex items-center gap-x-2 text-lg font-bold rounded-lg bg-DGXgreen text-DGXwhite shadow-sm hover:bg-DGXblue hover:border-DGXgreen border border-DGXblue disabled:opacity-50 disabled:pointer-events-none"
+                      className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-bold rounded-lg bg-DGXgreen text-DGXwhite shadow-sm hover:bg-DGXblue hover:border-DGXgreen border border-DGXblue disabled:opacity-50 disabled:pointer-events-none"
                       onClick={() => { setIsFormOpen(true) }}
                     >
                       Start a New Topic +
@@ -480,7 +480,7 @@ const Discussion = () => {
         <aside className="hidden lg:block lg:w-1/4 px-4">
         
           <div className="mb-8">
-            <h2 className="text-2xl font-bold mb-4">
+            <h2 className="sm:text-sm md:text-base lg:text-base font-bold mb-4">
               <AiOutlineComment className="inline-block mr-2" />Community Highlights
             </h2>
             
@@ -516,7 +516,7 @@ const Discussion = () => {
           </div>
 
           <div>
-            <h2 className="text-2xl font-bold mb-4">
+            <h2 className="sm:text-sm md:text-base lg:text-base font-bold mb-4">
               <FaTrophy className="inline-block mr-2" />Top Contributors
             </h2>
             <div className="space-y-2">
@@ -546,7 +546,7 @@ const Discussion = () => {
 
 
         <section className="w-full lg:w-2/3 px-4">
-          <h2 className="text-2xl font-bold mb-4">{selectedSection.charAt(0).toUpperCase() + selectedSection.slice(1)} Discussions</h2>
+          <h2 className="sm:text-sm md:text-base lg:text-lg font-bold mb-4">{selectedSection.charAt(0).toUpperCase() + selectedSection.slice(1)} Discussions</h2>
           <div className="flex flex-col space-y-4">
             {isFormOpen && (
               <form onSubmit={handleSubmit} className="border border-gray-300 rounded-lg p-4">
@@ -762,51 +762,58 @@ const Discussion = () => {
 
           </div>
         </section>
-
-        <div className="lg:hidden mt-8">
-          <button
-            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="bg-DGXblue text-white py-2 px-4 rounded-lg w-full"
-          >
-            {isDropdownOpen ? 'Hide' : 'Show'} Community Highlights and Top Contributors
-          </button>
-          {isDropdownOpen && (
-            <aside className="mt-4 px-4">
-              <div className="mb-8">
-                <h2 className="text-2xl font-bold mb-4">Community Highlights</h2>
-                <div className="space-y-4">
-                  {hotTopics.map((topic, index) => (
-                    <div
-                      key={index}
-                      className="rounded-lg shadow-lg p-4 border border-DGXblack hover:bg-DGXgreen/50 transition-transform transform hover:scale-105 hover:shadow-xl"
-                    >
-                      <h3 className="text-xl font-semibold">
-                        <a href={topic.link} className="text-DGXblack hover:underline">
-                          {topic.title}
-                        </a>
-                      </h3>
-                      <p className="text-DGXblack mt-2">{topic.description}</p>
-                    </div>
-                  ))}
+        {isLoading ? (
+                  <Skeleton
+                  height="2.5rem"
+                  className="w-full bg-gray-300 rounded-lg mb-4"
+                  />
+              ) : (
+                  <div className="lg:hidden mt-8">
+                  <button
+                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                    className="bg-DGXblue text-white py-2 px-4 rounded-lg w-full"
+                  >
+                    {isDropdownOpen ? 'Hide' : 'Show'} Community Highlights and Top Contributors
+                  </button>
+                  {isDropdownOpen && (
+                    <aside className="mt-4 px-4">
+                      <div className="mb-8">
+                        <h2 className="text-2xl font-bold mb-4">Community Highlights</h2>
+                        <div className="space-y-4">
+                          {hotTopics.map((topic, index) => (
+                            <div
+                              key={index}
+                              className="rounded-lg shadow-lg p-4 border border-DGXblack hover:bg-DGXgreen/50 transition-transform transform hover:scale-105 hover:shadow-xl"
+                            >
+                              <h3 className="text-xl font-semibold">
+                                <a href={topic.link} className="text-DGXblack hover:underline">
+                                  {topic.title}
+                                </a>
+                              </h3>
+                              <p className="text-DGXblack mt-2">{topic.description}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      <div>
+                        <h2 className="text-2xl font-bold mb-4">Top Contributors</h2>
+                        <div className="space-y-2">
+                          {topUsers.map((user, index) => (
+                            <div
+                              key={index}
+                              className="flex justify-between items-center bg-DGXblue border border-gray-200 rounded-lg shadow-sm p-3 hover:shadow-xl hover:scale-105 transition-colors"
+                            >
+                              <span className="font-medium text-white">{user.name}</span>
+                              <span className="text-white">{user.points} points</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </aside>
+                  )}
                 </div>
-              </div>
-              <div>
-                <h2 className="text-2xl font-bold mb-4">Top Contributors</h2>
-                <div className="space-y-2">
-                  {topUsers.map((user, index) => (
-                    <div
-                      key={index}
-                      className="flex justify-between items-center bg-DGXblue border border-gray-200 rounded-lg shadow-sm p-3 hover:shadow-xl hover:scale-105 transition-colors"
-                    >
-                      <span className="font-medium text-white">{user.name}</span>
-                      <span className="text-white">{user.points} points</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </aside>
-          )}
-        </div>
+              )}
+       
       </div>
     </div>
   );

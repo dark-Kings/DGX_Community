@@ -3,16 +3,17 @@ import { IoCloudUpload } from "react-icons/io5";
 import { FaLock } from "react-icons/fa6";
 import { RiCalendarEventFill } from "react-icons/ri";
 
-import { images } from '../constant';
+// import { images } from '../constant';
 
 
 
 const HomeAfterLoginComponent = () => {
 
     const images = [
-        'https://tailwindui.com/img/component-images/dark-project-app-screenshot.png',
-        'https://tailwindui.com/img/component-images/dark-project-app-screenshot.png', // Add more image URLs
-        // Add more images here
+        'https://i.imgur.com/FFQKx5h.jpeg',
+        'https://i.imgur.com/8Iy60sf.png',
+        'https://i.imgur.com/7AubC7P.png',
+       
     ];
 
     const stats = [
@@ -66,7 +67,7 @@ const HomeAfterLoginComponent = () => {
                     <div className="lg:col-span-2 lg:col-start-1 lg:row-start-1 lg:mx-auto lg:grid lg:w-full lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
                         <div className="lg:pr-4">
                             <div className="lg:max-w-lg">
-                                <p className="text-base font-semibold leading-7 text-indigo-600">Explore What’s Next in AI With the Best of NVIDIA DGX</p>
+                                <p className="text-base font-semibold leading-7 text-indigo-600">Explore What&apos;s Next in AI With the Best of NVIDIA DGX</p>
                                 <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Artificial Intelligence</h1>
                                 <p className="mt-6 text-xl leading-8 text-gray-700">
                                     Aliquet nec orci mattis amet quisque ullamcorper neque, nibh sem. At arcu, sit dui mi, nibh dui, diam

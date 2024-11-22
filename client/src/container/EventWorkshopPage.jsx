@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { images } from '../constant/index.js';
 import GeneralUserCalendar from "../component/GeneralUserCalendar.jsx";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShare } from '@fortawesome/free-solid-svg-icons';
+import { faShare, faBars } from '@fortawesome/free-solid-svg-icons';
 
 // CardContainer Component
 const CardContainer = ({ children, className, containerClassName }) => {
@@ -43,6 +43,7 @@ const EventWorkshopPage = () => {
   const [activeTab, setActiveTab] = useState("myCompany");
   const [isAnimating, setIsAnimating] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // Control for loader
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const myCompanyEvents = [
     { title: "Company Workshop: AI & Robotics", image: images.Event1 },
@@ -106,7 +107,8 @@ const EventWorkshopPage = () => {
           Explore Events and Workshops
         </p>
 
-        <div className="mt-6 flex justify-center gap-6">
+        {/* Large Screen Tabs */}
+        <div className="hidden sm:flex justify-center gap-6">
           <button
             onClick={() => handleTabChange("myCompany")}
             className={`px-8 py-3 ${activeTab === "myCompany" ? 'bg-DGXgreen text-white' : 'bg-DGXwhite text-black'} border border-DGXgreen rounded-xl transition-all shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-DGXgreen`}
@@ -126,6 +128,38 @@ const EventWorkshopPage = () => {
             GI India Old Events
           </button>
         </div>
+
+        {/* Small Screen Menu */}
+        <div className="sm:hidden flex justify-center">
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="bg-DGXgreen text-white px-4 py-2 rounded-md shadow-md hover:shadow-lg transition"
+          >
+            <FontAwesomeIcon icon={faBars} /> Menu
+          </button>
+        </div>
+        {menuOpen && (
+          <div className="mt-4 bg-DGXwhite border border-DGXgreen rounded-md shadow-lg text-center">
+            <button
+              onClick={() => handleTabChange("myCompany")}
+              className={`block w-full py-2 ${activeTab === "myCompany" ? 'bg-DGXgreen text-white' : 'text-black'} border-b`}
+            >
+              GI India Events
+            </button>
+            <button
+              onClick={() => handleTabChange("nvidia")}
+              className={`block w-full py-2 ${activeTab === "nvidia" ? 'bg-DGXgreen text-white' : 'text-black'} border-b`}
+            >
+              NVIDIA Events
+            </button>
+            <button
+              onClick={() => handleTabChange("oldEvents")}
+              className={`block w-full py-2 ${activeTab === "oldEvents" ? 'bg-DGXgreen text-white' : 'text-black'}`}
+            >
+              GI India Old Events
+            </button>
+          </div>
+        )}
 
         <div className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8 transition-opacity duration-300 ease-in-out ${isAnimating ? 'opacity-0' : 'opacity-100'}`}>
           {/* Show skeleton loader if loading */}
