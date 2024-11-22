@@ -33,6 +33,8 @@ import HomeAfterLoginComponent from './component/HomeAfterLoginComponent.jsx';
 
 
 
+
+
 function App() {
   return (
     <>
@@ -60,7 +62,7 @@ function App() {
             {/* <Route path='/MyStoryboard' element={<MyStoryboard />} /> */}
             <Route path='/EventWorkshopPage' element={<EventWorkshopPage />} />
             <Route path='/EventRegistrationPage' element={<EventRegistrationPage/>} />
-            <Route path='/HomeAfterLoginComponent' element={<HomeAfterLoginComponent/>}/>
+            <Route path='/HomeAfterLoginComponent' element={<HomeAfterLoginComponent/>}/> 
 
 
             {  /*-----------ADMIN----------- */}

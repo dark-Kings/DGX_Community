@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 // import { FaThumbsUp, FaComment } from "react-icons/fa";
 import { AiFillLike, AiOutlineLike } from "react-icons/ai"
 // import { images } from "../constant/index.js";

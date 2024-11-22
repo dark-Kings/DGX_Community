@@ -1,43 +1,21 @@
-import React from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
-import { Link } from 'react-router-dom';
+// import React from "react";
 
-
-// Fix for the default icon issue
-import markerIcon from 'leaflet/dist/images/marker-icon.png';
-import markerShadow from 'leaflet/dist/images/marker-shadow.png';
-import markerRetina from 'leaflet/dist/images/marker-icon-2x.png';
-
-let DefaultIcon = L.icon({
-  iconUrl: markerIcon,
-  shadowUrl: markerShadow,
-  iconRetinaUrl: markerRetina,
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41]
-});
-
-L.Marker.prototype.options.icon = DefaultIcon;
-
-const Map = () => {
-  const position = [28.627365973357556, 77.37671296798807]; // Coordinates for Sector 63, Noida
-
+const GoogleIframe = () => {
   return (
-    <MapContainer center={position} zoom={15} style={{ width: '100%', height: '400px' }}>
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      />
-      <Marker position={position}>
-        <Popup>
-          Global Infoventures Pvt. Ltd.<br />H-65 Sector 63, Noida
-        </Popup>
-      </Marker>
-    </MapContainer>
+    <div style={{ width: "100%", height: "400px" }}>
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.087171674819!2d77.37414877616469!3d28.62714937566778!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce542aa429ff5%3A0xe9ff04abfd54f721!2sGlobal%20Infoventures%20Pvt.%20Ltd.%20-%20University%20ERP%2C%20College%20ERP%2C%20Institute%20%2F%20School%20ERP!5e0!3m2!1sen!2sin!4v1732270468809!5m2!1sen!2sin"
+        style={{
+          border: "0",
+          width: "100%",
+          height: "100%",
+        }}
+        allowFullScreen=""
+        loading="lazy"
+        title="Google Map"
+      ></iframe>
+    </div>
   );
 };
 
-export default Map;
+export default GoogleIframe;

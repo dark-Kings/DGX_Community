@@ -11,16 +11,7 @@ const ContactUs = () => {
 
     return (
         <div className="flex justify-center items-center">
-            <section className="m-12 w-full max-w-7xl">
-                {/* Map Section */}
-                <div id="map" className="relative h-[300px] w-full overflow-hidden bg-cover bg-no-repeat rounded-lg border border-DGXgreen shadow-md">
-                    {loading ? (
-                        <div className="w-full h-full bg-DGXblue/50 animate-pulse" />
-                    ) : (
-                        <Map className="w-full h-full" />
-                    )}
-                </div>
-
+            <section className="w-full max-w-7xl mb-8">
                 {/* Contact Form and Info Section */}
                 <div className="container px-8 md:px-12 mt-12">
                     <div className="block rounded-lg border border-DGXgreen shadow-md px-8 py-12 md:py-16 md:px-12">
@@ -64,7 +55,7 @@ const ContactUs = () => {
                             </div>
 
                             {/* Contact Information */}
-                            <div className="w-full md:w-1/2 lg:w-7/12 md:px-3 lg:px-6">
+                            <div className="w-full md:w-1/2 lg:w-7/12 md:px-3 lg:px-3">
                                 {loading ? (
                                     <div className="space-y-7 animate-pulse">
                                         <div className="h-12 bg-DGXblue/45 rounded"></div>
@@ -89,6 +80,14 @@ const ContactUs = () => {
                                 )}
                             </div>
                         </div>
+                        {/* Map Section */}
+                        <div id="map" className="mt-8 relative h-[400px] w-full overflow-hidden bg-cover bg-no-repeat rounded-lg border border-DGXgreen shadow-xl">
+                                {loading ? (
+                                    <div className="w-full h-full bg-DGXblue/50 animate-pulse" />
+                                ) : (
+                                    <Map className="w-full h-full" />
+                                )}
+                            </div>
                     </div>
                 </div>
             </section>

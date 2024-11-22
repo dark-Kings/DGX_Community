@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { FaSearch, FaComment, FaWindowClose, FaTrophy } from 'react-icons/fa';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

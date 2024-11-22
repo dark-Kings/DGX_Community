@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import UserProfileChart from './UserProfileChart';
 import { FaFacebook, FaTwitter, FaLinkedin, FaGithub, FaUsers, FaPoll } from 'react-icons/fa';
 import { GoCommentDiscussion } from "react-icons/go";

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const Notfound = () => {
     const [digits, setDigits] = useState(['0', '0', '0']);
