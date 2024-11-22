@@ -546,7 +546,8 @@ const Discussion = () => {
 
 
         <section className="w-full lg:w-2/3 px-4">
-          <h2 className="sm:text-sm md:text-base lg:text-lg font-bold mb-4">{selectedSection.charAt(0).toUpperCase() + selectedSection.slice(1)} Discussions</h2>
+          {/* All Discussions */}
+          <h2 className="sm:text-sm md:text-base lg:text-lg font-bold mb-4">{selectedSection.charAt(0).toUpperCase() + selectedSection.slice(1)} Discussions</h2> 
           <div className="flex flex-col space-y-4">
             {isFormOpen && (
               <form onSubmit={handleSubmit} className="border border-gray-300 rounded-lg p-4">

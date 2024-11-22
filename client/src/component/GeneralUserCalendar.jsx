@@ -71,8 +71,8 @@ const GeneralUserCalendar = ({ events = dummyEvents }) => {
         alignItems: 'center',
         justifyContent: 'center',
         height: '100%',
-        fontSize: '0.85rem',
-        padding: '0.5rem',
+        fontSize: '0.75rem',
+        padding: '0.2rem',
       },
     };
   };
@@ -80,7 +80,7 @@ const GeneralUserCalendar = ({ events = dummyEvents }) => {
   return (
     <div className="container mx-auto mt-10">
       <div className="mb-5">
-        <h1 className="text-2xl font-bold mb-4">Our Event and Workshop Calendar</h1>
+        <h1 className=" flex items-center justify-center text-2xl font-bold mb-4">Our Event and Workshop Calendar</h1>
       </div>
 
       {isLoading ? (
@@ -91,8 +91,8 @@ const GeneralUserCalendar = ({ events = dummyEvents }) => {
           events={events}
           startAccessor="start"
           endAccessor="end"
-          style={{ height: 600 }}
-          className="bg-white rounded-lg border-2 border-DGXgreen shadow-lg p-5 mb-10"
+          style={{ height: 600}}
+          className="bg-white rounded-lg border-2 border-DGXgreen shadow-lg p-5 mb-10 text-sm "
           eventPropGetter={eventStyleGetter}
           onSelectEvent={handleSelectEvent}
         />

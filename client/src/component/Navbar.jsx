@@ -58,8 +58,8 @@ const Navbar = () => {
                         <Link
                         key={i}
                         className={clsx(
-                            // Default: hidden on small screens (xs to sm) and shown on larger screens
-                            'hidden sm:block text-DGXblue text-xl transition-all duration-300 ease-in-out relative after:content-[""] after:absolute after:left-0 after:-bottom-1 after:h-1 after:w-full after:bg-DGXblue after:scale-x-0 after:transition-transform after:duration-300',
+                            // Default: hidden on small screens (xs to md) and shown on larger screens
+                            'hidden md:block text-DGXblue text-sm transition-all duration-300 ease-in-out relative after:content-[""] after:absolute after:left-0 after:-bottom-1 after:h-1 after:w-full after:bg-DGXblue after:scale-x-0 after:transition-transform after:duration-300',
                             
                             // Responsive breakpoints (only shown on lg and up)
                             'md:text-xs lg:text-base xl:text-base 2xl:text-lg',
