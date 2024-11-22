@@ -69,7 +69,7 @@ const ContactUs = () => {
                                             { title: 'Address', content: 'Global Infoventures Pvt. Ltd. H-65 Sector 63, Noida' },
                                             { title: 'Email', content: 'info@giindia.com' },
                                             { title: 'Contact No', content: '+91 9876543210' },
-                                            { title: 'Working hours', content: 'Mon - Fri: 10:00 AM - 07:00 PM' }
+                                            { title: 'Working hours', content: 'Mon - Fri: 10:00 AM - 06:00 PM' }
                                         ].map((info, idx) => (
                                             <div key={idx}>
                                                 <h2 className="text-lg font-bold text-primary">{info.title}</h2>
