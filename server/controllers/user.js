@@ -681,7 +681,7 @@ export const passwordRecovery = async (req, res) => {
             const htmlContent = `Hello,<br/><br/>
             
             It looks like you’ve requested to reset your password for the DGX Community. Don’t worry, we’ve got you covered! Just click the button below to create a new password:<br/><br/>
-            
+
             <a href="${registrationLink}" style="padding: 10px 20px; background-color: #007BFF; color: #fff; text-decoration: none; border-radius: 5px;">Reset Your Password</a><br/><br/>
             
             If you didn’t request a password reset, no problem—just ignore this email. Your account is still secure.<br/><br/>
