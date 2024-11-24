@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import UserProfileChart from './UserProfileChart';
-import { FaFacebook, FaTwitter, FaLinkedin, FaGithub, FaUsers, FaPoll } from 'react-icons/fa';
+import { FaFacebook, FaTwitter, FaLinkedin, FaGithub, FaEdit, FaUsers, FaPoll } from 'react-icons/fa';
 import { GoCommentDiscussion } from "react-icons/go";
 import { FaArrowTrendDown, FaArrowTrendUp, FaEllipsisVertical } from "react-icons/fa6";
 import { images } from '../constant/index.js';
@@ -33,6 +33,19 @@ const UserProfile = () => {
 
     // console.log(user, userToken)
     // const [userData, setUserData] = useState({});
+
+
+    // State to hold the uploaded background image
+    const [backgroundImage, setBackgroundImage] = useState(images.NvidiaBackground);
+
+    // Handle image upload
+    const handleImageChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const imageUrl = URL.createObjectURL(file);
+            setBackgroundImage(imageUrl);
+        }
+    };
 
     useEffect(() => {
         if (userToken != null && user != null && userToken != undefined && user != undefined) {
@@ -150,8 +163,28 @@ const UserProfile = () => {
                         <div className="w-full h-[250px] rounded-t-lg border border-t-0 border-l-0 border-r-0 border-b-DGXgreen border-b-4">
                             <img src={images.NvidiaBackground} className="w-full h-full rounded-tl-lg rounded-tr-lg" alt="Profile background" />
                         </div>
+
                         <div className="flex flex-col items-center -mt-20">
-                            <img src="https://vojislavd.com/ta-template-demo/assets/img/profile.jpg" className="w-40 border-4 border-DGXgreen  rounded-full" alt="Profile" />
+
+                            <div className="w-40 border-4 border-DGXgreen  rounded-full">
+                                <img src={backgroundImage} className='rounded-full' alt="Profile" />
+
+
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    className="absolute inset-0 opacity-0 cursor-pointer"
+                                    onChange={handleImageChange}
+                                    title="Click to change background image"
+                                />
+
+                            </div>
+                            <div>
+                                <FaEdit className="text-DGXblack text-3xl" />
+                            </div>
+
+
+
                             <div className="flex items-center space-x-2 mt-2">
                                 <p className="text-2xl">{user.Name}</p>
                                 <span className="bg-[#2563eb] rounded-full p-1" title="Verified">

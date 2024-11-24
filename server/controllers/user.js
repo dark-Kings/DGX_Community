@@ -1,11 +1,9 @@
 
 import { validationResult } from 'express-validator';
 import bcrypt from 'bcryptjs';
-
 import { connectToDatabase, closeConnection } from '../database/mySql.js';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv'
-
 import { generatePassword, referCodeGenerator, encrypt } from '../utility/index.js';
 import { queryAsync, mailSender, logError, logInfo, logWarning } from '../helper/index.js';
 
@@ -267,6 +265,7 @@ export const login = async (req, res) => {
 
 
   const { email, password } = req.body;
+  console.log(req.body)
 
   try {
     connectToDatabase(async (err, conn) => {
@@ -276,7 +275,7 @@ export const login = async (req, res) => {
       }
 
       try {
-        const query = "SELECT EmailId, Password, FlagPasswordChange FROM Community_User WHERE isnull(delStatus,0) = 0 AND EmailId = ?";
+        const query = "SELECT EmailId, Password, FlagPasswordChange, isAdmin FROM Community_User WHERE isnull(delStatus,0) = 0 AND EmailId = ?";
         const result = await queryAsync(conn, query, [email]);
 
         if (result.length === 0) {
@@ -295,7 +294,8 @@ export const login = async (req, res) => {
 
         const data = {
           user: {
-            id: result[0].EmailId
+            id: result[0].EmailId,
+            isAdmin: result[0].isAdmin
           }
         };
         const authtoken = jwt.sign(data, JWT_SECRET);
@@ -303,7 +303,12 @@ export const login = async (req, res) => {
         const infoMessage = "You login successfully"
         logInfo(infoMessage)
         closeConnection();
-        return res.status(200).json({ success: true, data: { authtoken, flag: result[0].FlagPasswordChange }, message: infoMessage });
+        return res.status(200).json({ 
+          success: true, 
+          data: { authtoken, 
+          flag: result[0].FlagPasswordChange ,
+          isAdmin: result[0].isAdmin},
+            message: infoMessage });
 
       } catch (queryErr) {
         logError(queryErr)
@@ -317,6 +322,77 @@ export const login = async (req, res) => {
     return res.status(500).json({ success: false, data: {}, message: 'Something went wrong please try again' });
   }
 };
+
+// export const login = async (req, res) => {
+//   let success = false;
+//   const errors = validationResult(req);
+//   if (!errors.isEmpty()) {
+//     const warningMessage = "Data is not in the right format";
+//     logWarning(warningMessage);
+//     return res.status(400).json({ success, data: errors.array(), message: warningMessage });
+//   }
+
+//   const { email, password } = req.body;
+//   console.log(req.body);
+
+//   try {
+//     connectToDatabase(async (err, conn) => {
+//       if (err) {
+//         logError(err);
+//         return res.status(500).json({ success: false, data: err, message: "Failed to connect to database" });
+//       }
+
+//       try {
+//         const query = "SELECT EmailId, Password, FlagPasswordChange, IsAdmin FROM Community_User WHERE isnull(delStatus,0) = 0 AND EmailId = ?";
+//         const result = await queryAsync(conn, query, [email]);
+
+//         if (result.length === 0) {
+//           const warningMessage = "Please try to login with correct credentials";
+//           logWarning(warningMessage);
+//           closeConnection();
+//           return res.status(200).json({ success: false, data: {}, message: warningMessage });
+//         }
+        
+//         const passwordCompare = await bcrypt.compare(password, result[0].Password);
+//         if (!passwordCompare) {
+//           const warningMessage = "Please try to login with correct credentials";
+//           logWarning(warningMessage);
+//           closeConnection();
+//           return res.status(200).json({ success: false, data: {}, message: warningMessage });
+//         }
+
+//         const data = {
+//           user: {
+//             id: result[0].EmailId,
+//             isAdmin: result[0].IsAdmin === 1  // Check if the user is an admin
+//           }
+//         };
+//         const authtoken = jwt.sign(data, JWT_SECRET);
+//         success = true;
+//         const infoMessage = result[0].IsAdmin === 1 ? "Admin login successful" : "User login successful";
+//         console.log("i am admin");
+//         logInfo(infoMessage);
+//         closeConnection();
+        
+//         return res.status(200).json({ 
+//           success: true, 
+//           data: { authtoken, flag: result[0].FlagPasswordChange, isAdmin: result[0].IsAdmin === 1 },
+//           message: infoMessage 
+//         });
+
+//       } catch (queryErr) {
+//         logError(queryErr);
+//         closeConnection();
+//         return res.status(500).json({ success: false, data: queryErr, message: 'Something went wrong please try again' });
+//       }
+//     });
+//   } catch (error) {
+//     logError(error);
+//     closeConnection();
+//     return res.status(500).json({ success: false, data: {}, message: 'Something went wrong please try again' });
+//   }
+// };
+
 
 
 //Route 3) To change the password of the user
@@ -414,7 +490,7 @@ export const getuser = async (req, res) => {
       }
 
       try {
-        const query = `SELECT UserID, Name, EmailId, CollegeName, MobileNumber, Category, Designation, ReferalNumberCount, ReferalNumber, ReferedBy,  FlagPasswordChange, AddOnDt FROM Community_User WHERE isnull(delStatus,0) = 0 AND EmailId = ?`;
+        const query = `SELECT UserID, Name, EmailId, CollegeName, MobileNumber, Category, Designation,isAdmin, ReferalNumberCount, ReferalNumber, ReferedBy,  FlagPasswordChange, AddOnDt FROM Community_User WHERE isnull(delStatus,0) = 0 AND EmailId = ?`;
         const rows = await queryAsync(conn, query, [userId]);
 
         if (rows.length > 0) {
@@ -445,50 +521,98 @@ export const getuser = async (req, res) => {
 
   }
 };
+
 export const getAllUser = async (req, res) => {
-  
   let success = false;
 
-  try {
-    connectToDatabase(async (err, conn) => {
-      if (err) {
-        logError(err)
-        res.status(500).json({ success: false, data: err, message: "Failed to connect to database" });
-        return;
-      }
+  // Get the HTTP method (GET for fetching users, DELETE for deleting a user)
+  const method = req.method;
 
-      try {
-        const query = `SELECT UserID, Name, EmailId, CollegeName, MobileNumber, Category, Designation, ReferalNumberCount, ReferalNumber, ReferedBy,  FlagPasswordChange, AddOnDt FROM Community_User`;
-        const rows = await queryAsync(conn, query, [userId]);
+  // DELETE method to handle user deletion
+  if (method === "DELETE") {
+    const { userId } = req.body;
 
-        if (rows.length > 0) {
+    if (!userId) {
+      return res.status(400).json({ success: false, message: "User ID is required for deletion" });
+    }
 
-          success = true;
-          closeConnection();
-          const infoMessage = "User data"
-          logInfo(infoMessage)
-          res.status(200).json({ success, data: rows[0], message: infoMessage });
-          return
-        } else {
-          closeConnection();
-          const warningMessage = "User not found"
-          logWarning(warningMessage)
-          res.status(200).json({ success: false, data: {}, message: warningMessage });
-          return
+    try {
+      connectToDatabase(async (err, conn) => {
+        if (err) {
+          logError(err);
+          return res.status(500).json({ success: false, message: "Failed to connect to database" });
         }
-      } catch (queryErr) {
-        closeConnection();
-        logError(queryErr)
-        res.status(500).json({ success: false, data: queryErr, message: 'Something went wrong please try again' });
-        return
-      }
-    });
-  } catch (error) {
-    logError(queryErr)
-    return res.status(500).json({ success: false, data: {}, message: 'Something went wrong please try again' });
 
+        try {
+          const deleteQuery = `DELETE FROM Community_User WHERE UserID = ?`;
+          const result = await queryAsync(conn, deleteQuery, [userId]);
+
+          closeConnection();
+
+          if (result.affectedRows > 0) {
+            const successMessage = "User deleted successfully";
+            logInfo(successMessage);
+            return res.status(200).json({ success: true, message: successMessage });
+          } else {
+            const notFoundMessage = "User not found";
+            logWarning(notFoundMessage);
+            return res.status(404).json({ success: false, message: notFoundMessage });
+          }
+        } catch (deleteErr) {
+          closeConnection();
+          logError(deleteErr);
+          return res.status(500).json({ success: false, message: "Error deleting user" });
+        }
+      });
+    } catch (error) {
+      logError(error);
+      return res.status(500).json({ success: false, message: "Server error" });
+    }
+
+    // Return after handling DELETE method to prevent further execution
+    return;
+  }
+
+  // GET method to fetch all users
+  if (method === "GET") {
+    try {
+      connectToDatabase(async (err, conn) => {
+        if (err) {
+          logError(err);
+          return res.status(500).json({ success: false, data: err, message: "Failed to connect to database" });
+        }
+
+        try {
+          const query = `SELECT UserID, Name, EmailId, CollegeName, MobileNumber, Category, Designation, ReferalNumberCount, ReferalNumber, ReferedBy, FlagPasswordChange, AddOnDt FROM Community_User`;
+          const rows = await queryAsync(conn, query);
+
+          closeConnection();
+
+          if (rows.length > 0) {
+            success = true;
+            const infoMessage = "User data retrieved";
+            logInfo(infoMessage);
+            return res.status(200).json({ success, data: rows, message: infoMessage });
+          } else {
+            const warningMessage = "No users found";
+            logWarning(warningMessage);
+            return res.status(404).json({ success: false, data: {}, message: warningMessage });
+          }
+        } catch (queryErr) {
+          closeConnection();
+          logError(queryErr);
+          return res.status(500).json({ success: false, message: "Something went wrong with the query" });
+        }
+      });
+    } catch (error) {
+      logError(error);
+      return res.status(500).json({ success: false, message: "Server error" });
+    }
+  } else {
+    return res.status(405).json({ success: false, message: "Method not allowed" });
   }
 };
+
 
 //Route 5) Sending Invite to mail "/sendinvite" - Login required
 
@@ -523,12 +647,30 @@ export const sendInvite = async (req, res) => {
           const email = await encrypt(req.body.email)
           const refercode = await encrypt(rows[0].ReferalNumber)
 
-          const registrationLink = `${baseLink}Register/?email=${email}&refercode=${refercode}`
+          const registrationLink = `${baseLink}Register/?email=${email}&refercode=${refercode}`;
 
-          const message = `Welcome to DGX Community, Your Registration link is given bellow:
-                            ${registrationLink}`
-          const htmlContent = `Welcome to DGX Community, Your Registration link is given bellow:<br/>
-                              <a href=${registrationLink}>${registrationLink}</a>`
+          const message = `Welcome to the DGX Community!
+
+          We're excited to have you join us. To complete your registration, please click the link below:
+
+          Complete your registration: ${registrationLink}
+
+          If you didn't sign up for the DGX Community, feel free to ignore this email.
+
+          Best regards,
+          The DGX Community Team`;
+
+          const htmlContent = `Welcome to the DGX Community!<br/><br/>
+
+          We're excited to have you join us. To complete your registration, please click the button below:<br/><br/>
+
+          <a href="${registrationLink}" style="padding: 10px 20px; background-color: #28a745; color: #fff; text-decoration: none; border-radius: 5px;">Complete Your Registration</a><br/><br/>
+
+          If you didn't sign up for the DGX Community, feel free to ignore this email.<br/><br/>
+
+          Best regards,<br/>
+          The DGX Community Team`;
+
           closeConnection();
           const mailsent = await mailSender(req.body.email, message, htmlContent)
           if (mailsent.success) {
@@ -600,10 +742,28 @@ export const passwordRecovery = async (req, res) => {
 
             const registrationLink = `${baseLink}ResetPassword/?email=${email}&signature=${signature}`
 
-            const message = `Welcome to DGX Community, Your Password Reset link is given bellow:
-                              ${registrationLink}`
-            const htmlContent = `Welcome to DGX Community, Your Password Reset link is given bellow:<br/>
-                                <a href=${registrationLink}>${registrationLink}</a>`
+            const message = `Hello,
+
+            It looks like you’ve requested to reset your password for the DGX Community. Don’t worry, we’ve got you covered! Just click the link below to create a new password:
+            
+            Reset your password: ${registrationLink}
+            
+            If you didn’t request a password reset, no problem—just ignore this email. Your account is still secure.
+            
+            Best regards,
+            The DGX Community Team`;
+            
+            const htmlContent = `Hello,<br/><br/>
+            
+            It looks like you’ve requested to reset your password for the DGX Community. Don’t worry, we’ve got you covered! Just click the button below to create a new password:<br/><br/>
+            
+            <a href="${registrationLink}" style="padding: 10px 20px; background-color: #007BFF; color: #fff; text-decoration: none; border-radius: 5px;">Reset Your Password</a><br/><br/>
+            
+            If you didn’t request a password reset, no problem—just ignore this email. Your account is still secure.<br/><br/>
+            
+            Best regards,<br/>
+            The DGX Community Team`;
+            
             closeConnection();
             const mailsent = await mailSender(req.body.email, message, htmlContent)
             if (mailsent.success) {

@@ -8,6 +8,7 @@ import ApiContext from '../context/ApiContext.jsx';
 import { FaEye } from "react-icons/fa";
 import { FaEyeLowVision } from "react-icons/fa6";
 import { images } from "../constant/index.js";
+import LoadPage from './LoadPage.jsx';
 
 const ChangePassword = () => {
     const { fetchData, userToken, setUserToken } = useContext(ApiContext);
@@ -125,7 +126,7 @@ const ChangePassword = () => {
     };
 
     return (
-        loading ? <h1>loading...</h1> : <section className="h-screen">
+        loading ? < LoadPage/> : <section className="h-screen">
             <ToastContainer />
             <div className="h-full">
                 <div className="flex h-full flex-wrap md:w-250 items-center justify-center lg:justify-between">

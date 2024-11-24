@@ -97,24 +97,45 @@ const Home = () => {
                 className="relative py-14 sm:py-24 bg-cover bg-center"
                 style={{ backgroundImage: `url(${images.HeroImg})` }} >
                 <div className="absolute inset-0 bg-DGXblack opacity-50" ></div> {/* Overlay */}
-                <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
-                    <div className="mb-8 flex justify-center ">
-                        <p className="relative rounded-full px-4 py-1.5 text-DGXwhite leading-6  bg-DGXgreen bg-opacity-90 ring-1 ring-inset ring-[#111827]/10 hover:ring-[#111827]/20 hover:bg-DGXblue">
-                            <a href="/SignInn" target="_blank" className="font-semibold text-DGXwhite bd">
-                                <span className="absolute inset-0 "></span> Join Us Today <span>→</span>
-                            </a>
-                        </p>
-                    </div>
-                    <div className="mx-auto max-w-2xl text-center">
-                        <h1 className="text-4xl font-bold tracking-tight text-DGXwhite sm:text-6xl">
-                            DGX - COMMUNITY
-                        </h1>
-                        <p className="mt-6 text-lg leading-8 text-DGXwhite">
-                            Collaborate, Innovate, Celebrate: DGX Community Unites Creators
-                        </p>
+                {isLoggedIn ? <>
+                    <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+                        <div className="mb-8 flex justify-center ">
+                            <h1 className="text-6xl font-mono px-4 py-1.5 text-DGXwhite">
+                                Welcome &ldquo;Name&rdquo;!!
+                            </h1>
+                        </div>
+                        <div className="mx-auto max-w-2xl text-center">
+                            <h1 className="text-4xl font-bold tracking-tight text-DGXwhite sm:text-6xl">
+                                DGX - COMMUNITY
+                            </h1>
+                            <p className="mt-6 text-lg leading-8 text-DGXwhite">
+                                Connect, Innovate, Automate: DGX Community Elevates AI Development
+                            </p>
 
+                        </div>
                     </div>
-                </div>
+                </> :
+                    <>
+                        <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+                            <div className="mb-8 flex justify-center ">
+                                <p className="relative rounded-full px-4 py-1.5 text-DGXwhite leading-6  bg-DGXgreen bg-opacity-90 ring-1 ring-inset ring-[#111827]/10 hover:ring-[#111827]/20 hover:bg-DGXblue">
+                                    <a href="/SignInn" target="_blank" className="font-semibold text-DGXwhite bd">
+                                        <span className="absolute inset-0 "></span> Join Us Today <span>→</span>
+                                    </a>
+                                </p>
+                            </div>
+                            <div className="mx-auto max-w-2xl text-center">
+                                <h1 className="text-4xl font-bold tracking-tight text-DGXwhite sm:text-6xl">
+                                    DGX - COMMUNITY
+                                </h1>
+                                <p className="mt-6 text-lg leading-8 text-DGXwhite">
+                                    Connect, Innovate, Automate: DGX Community Elevates AI Development
+                                </p>
+
+                            </div>
+                        </div>
+                    </>}
+
 
 
             </div>
@@ -122,78 +143,21 @@ const Home = () => {
             {isLoggedIn ? <><HomeAfterLoginComponent /> </> : <>
                 <section className="bg-[#f5f5f5]">
                     <div className="grid grid-cols-1 lg:grid-cols-2 items-center justify-items-center gap-4 bg-DGXblue p-4">
-                        {/* Text and Links Section */}
-                        {/* <div className="flex flex-col justify-center items-center p-4">
-                            <h1 className="text-xl md:text-4xl lg:text-5xl font-bold mb-4 text-DGXwhite text-center">
-                                Join the Innovations
-                            </h1>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full p-8">
-                                Event and Workshop
-                                <div className="flex flex-col justify-center items-center relative group">
-                                    <p
-                                        onClick={handleRedirect}
-                                        className="text-base sm:text-lg md:text-xl lg:text-2xl text-DGXwhite hover:text-DGXgreen transition-colors duration-300 cursor-pointer"
-                                    >
-                                        Event and Workshop
-                                    </p>
-                                    <div className="absolute bottom-full mb-2 hidden group-hover:flex flex-col items-center">
-                                        <div className="relative z-10 p-2 text-xs md:text-sm leading-none text-DGXwhite whitespace-no-wrap bg-DGXblack shadow-lg rounded-md">
-                                            Check it Out
-                                        </div>
-                                        <div className="w-3 h-3 -mt-1 rotate-45 bg-DGXblack"></div>
-                                    </div>
-                                </div>
-                                Community Ranking
-                                <div className="flex flex-col justify-center items-center relative group p-6">
-                                    <p className="text-base sm:text-lg md:text-xl lg:text-2xl  text-DGXwhite hover:text-DGXgreen transition-colors duration-300 cursor-pointer">
-                                        Community Ranking
-                                    </p>
-                                    <div className="absolute bottom-full  hidden group-hover:flex flex-col items-center">
-                                        <div className="relative z-8  text-xs md:text-sm leading-none text-DGXwhite whitespace-no-wrap bg-DGXblack shadow-lg rounded-md">
-                                            Wait for the next update
-                                        </div>
-                                        <div className="w-2 h-2 -mt-1 rotate-45 bg-DGXblack"></div>
-                                    </div>
-                                </div>
-                                Survey and Quizzes
-                                <div className="flex flex-col justify-center items-center relative group p-6">
-                                    <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-DGXwhite hover:text-DGXgreen">
-                                        Survey and Quizzes
-                                    </p>
-                                    <div className="absolute bottom-full mb-2 hidden group-hover:flex flex-col items-center">
-                                        <div className="relative z-4 p-2 text-xs md:text-sm leading-none text-DGXwhite whitespace-no-wrap bg-DGXblack shadow-lg rounded-md">
-                                            Wait for the next update
-                                        </div>
-                                        <div className="w-3 h-3 -mt-1 rotate-45 bg-DGXblack"></div>
-                                    </div>
-                                </div>
-                                Discussion Platform
-                                <div className="flex flex-col justify-center items-center relative group ">
-                                    <p
-                                        onClick={handleRedirect01}
-                                        className="text-base sm:text-lg md:text-xl lg:text-2xl text-DGXwhite hover:text-DGXgreen transition-colors duration-300 cursor-pointer"
-                                    >
-                                        Discussion Platform
-                                    </p>
-                                    <div className="absolute bottom-full mb-2 hidden group-hover:flex flex-col items-center">
-                                        <div className="relative z-10 p-2 text-xs md:text-sm leading-none text-DGXwhite whitespace-no-wrap bg-DGXblack shadow-lg rounded-md">
-                                            Be A Part Now
-                                        </div>
-                                        <div className="w-3 h-3 -mt-1 rotate-45 bg-DGXblack"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> */}
+                      
                         <div className="flex flex-col justify-center items-center bg-DGXblue     opacity-100 w-full h-full p-4 md:p-6 lg:p-10">
                             <div className="text-center">
-                                <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-DGXwhite">Welcome!</h1>
+                                <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-DGXwhite">Welcome to the DGX Community!
+
+                                </h1>
+                                <h2 className='text-DGXwhite font-bold'>Your Hub for Innovation, Collaboration, and Learning</h2>
                                 <p className="mt-4 text-sm sm:text-base md:text-lg lg:text-xl leading-6 text-DGXwhite">
-                                    Hi! Are you a student, researcher, or developer looking to showcase your achievements, access certificates, and collaborate on projects? Join our DGX Community! Connect with like-minded individuals, share your accomplishments, and work on exciting projects together. Let&apos;s build a supportive and engaging space for learning and collaboration. See you there!
+                                    We’re thrilled to have you here! Explore our community platform where students, researchers, and professionals come together to share knowledge, stay updated on the latest in AI and ML, and connect with like-minded individuals.
+
                                 </p>
                             </div>
                         </div>
                         {/* Image and Text Section */}
-                        
+
                     </div>
                 </section>
 
@@ -302,66 +266,73 @@ const Home = () => {
             </div>
 
             <div className="bg-white py-24 sm:py-32">
-    <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <h1 className="text-center text-2xl font-bold leading-8 text-DGXblue">
-            NVIDIA DGX systems are at the forefront of AI research and innovation. Trusted by the world’s most innovative universities and corporations, DGX provides the computational power needed to tackle the most complex AI challenges. Whether advancing research in academic institutions or driving breakthroughs in industry, DGX stands as the premier choice for those leading the charge in artificial intelligence.
-        </h1>
-        <div className="mx-auto mt-10 flex flex-wrap gap-10 items-center justify-center">
-  <div className="flex justify-center items-center w-full sm:w-auto">
-    <img
-      alt="Transistor"
-      src={images.ABESIT}
-      className="w-44 h-24 object-contain"
-    />
-  </div>
-  <div className="flex justify-center items-center w-full sm:w-auto">
-    <img
-      alt="Reform"
-      src={images.KIET}
-      className="w-44 h-24 object-contain"
-    />
-  </div>
-  <div className="flex justify-center items-center w-full sm:w-auto">
-    <img
-      alt="SavvyCal"
-      src={images.glogo}
-      className="w-44 h-24 object-contain"
-    />
-  </div>
-  <div className="flex justify-center items-center w-full sm:w-auto">
-    <img
-      alt="Tuple"
-      src={images.SHARDA}
-      className="w-44 h-24 object-contain"
-    />
-  </div>
-  <div className="flex justify-center items-center w-full sm:w-auto">
-    <img
-      alt="utu"
-      src={images.utu}
-      className="w-44 h-24 object-contain"
-    />
-  </div>
-  <div className="flex justify-center items-center w-full sm:w-auto">
-    <img
-      alt="rvce"
-      src={images.rvce}
-      className="w-44 h-24 object-contain"
-    />
-  </div>
-  <div className="flex justify-center items-center w-full sm:w-auto">
-    <img
-      alt="BMS"
-      src={images.BMS}
-      className="w-44 h-24 object-contain"
-    />
-  </div>
-</div>
+                <div className="mx-auto max-w-7xl px-6 lg:px-8">
+                    <h1 className="text-center text-2xl font-bold leading-8 text-DGXblue">
+                        NVIDIA DGX systems are at the forefront of AI research and innovation. Trusted by the world’s most innovative universities and corporations, DGX provides the computational power needed to tackle the most complex AI challenges. Whether advancing research in academic institutions or driving breakthroughs in industry, DGX stands as the premier choice for those leading the charge in artificial intelligence.
+                    </h1>
+                    <div className="mx-auto mt-10 flex flex-wrap gap-10 items-center justify-center">
+                        <div className="flex justify-center items-center w-full sm:w-auto">
+                            <img
+                                alt="Transistor"
+                                src={images.ABESIT}
+                                className="w-44 h-24 object-contain"
+                            />
+                        </div>
+                        <div className="flex justify-center items-center w-full sm:w-auto">
+                            <img
+                                alt="Reform"
+                                src={images.KIET}
+                                className="w-44 h-24 object-contain"
+                            />
+                        </div>
+                        <div className="flex justify-center items-center w-full sm:w-auto">
+                            <img
+                                alt="SavvyCal"
+                                src={images.glogo}
+                                className="w-44 h-24 object-contain"
+                            />
+                        </div>
+                        <div className="flex justify-center items-center w-full sm:w-auto">
+                            <img
+                                alt="Tuple"
+                                src={images.SHARDA}
+                                className="w-44 h-24 object-contain"
+                            />
+                        </div>
+                        <div className="flex justify-center items-center w-full sm:w-auto">
+                            <img
+                                alt="utu"
+                                src={images.utu}
+                                className="w-44 h-24 object-contain"
+                            />
+                        </div>
+                        <div className="flex justify-center items-center w-full sm:w-auto">
+                            <img
+                                alt="rvce"
+                                src={images.rvce}
+                                className="w-44 h-24 object-contain"
+                            />
+                        </div>
+                        <div className="flex justify-center items-center w-full sm:w-auto">
+                            <img
+                                alt="glbajaj"
+                                src={images.GLBAJAJ}
+                                className="w-44 h-24 object-contain"
+                            />
+                        </div>
+                        <div className="flex justify-center items-center w-full sm:w-auto">
+                            <img
+                                alt="BMS"
+                                src={images.BMS}
+                                className="w-44 h-24 object-contain"
+                            />
+                        </div>
+                    </div>
 
 
 
-    </div>
-</div>
+                </div>
+            </div>
 
 
             {/* <div className="relative flex justify-center items-center w-full h-screen bg-[#2e6d8e] p-8">

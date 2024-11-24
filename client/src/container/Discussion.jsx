@@ -1,15 +1,16 @@
 import { useState, useContext, useEffect } from 'react';
-import { FaSearch, FaComment, FaWindowClose } from 'react-icons/fa';
+import { FaSearch, FaComment, FaWindowClose, FaTrophy } from 'react-icons/fa';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ApiContext from '../context/ApiContext.jsx';
 import DiscussionModal from '../component/DiscussionModal';
-import { compressImage } from '../utils/compressImage.js'
-import { AiFillLike, AiOutlineLike } from "react-icons/ai"
+import { compressImage } from '../utils/compressImage.js';
+import { AiFillLike, AiOutlineLike, AiOutlineComment } from "react-icons/ai";
+import { useCallback } from 'react';
 
 const Discussion = () => {
   const { fetchData, userToken, user } = useContext(ApiContext);
-  const [demoDiscussions, setDemoDiscussions] = useState([])
+  const [demoDiscussions, setDemoDiscussions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [commentCount, setCommentCount] = useState(0);
@@ -29,6 +30,35 @@ const Discussion = () => {
   const [privacy, setPrivacy] = useState('private');
   const [selectedDiscussion, setSelectedDiscussion] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [communityHighlights, setCommunityHighlights] = useState([])
+  const [topUsers, setTopUsers] = useState([])
+
+  const getCommunityHighlights = (discussions) => {
+    const sortedDiscussions = discussions.sort((a, b) => b.comment.length - a.comment.length);
+    return sortedDiscussions.slice(0, 5);
+  }
+
+  const getTopUsersByDiscussions = (discussions) => {
+    const userDiscussionCount = {};
+
+    discussions.forEach(discussion => {
+      const { UserID, UserName } = discussion;
+
+      if (userDiscussionCount[UserID]) {
+        userDiscussionCount[UserID].count++;
+      } else {
+        userDiscussionCount[UserID] = { userName: UserName, count: 1 };
+      }
+    });
+
+    const usersArray = Object.keys(userDiscussionCount).map(UserID => ({
+      userID: UserID,
+      userName: userDiscussionCount[UserID].userName,
+      count: userDiscussionCount[UserID].count
+    }));
+
+    return usersArray.sort((a, b) => b.count - a.count).slice(0, 5);
+  };
 
   useEffect(() => {
     try {
@@ -49,18 +79,22 @@ const Discussion = () => {
               if (result && result.data) {
                 return result.data;
               } else {
-                return
-                // throw new Error("Invalid data format");
+                // return
+                throw new Error("Invalid data format");
               }
             })
             .then(data => {
               if (data && data.updatedDiscussions) {
                 setDemoDiscussions(data.updatedDiscussions);
+                const highlights = getCommunityHighlights(data.updatedDiscussions);
+                setCommunityHighlights(highlights)
+                const users = getTopUsersByDiscussions(data.updatedDiscussions);
+                setTopUsers(users)
               } else {
-                return
-                // throw new Error("Missing updatedDiscussions in response data");
+                // return
+                throw new Error("Missing updatedDiscussions in response data");
               }
-              setLoading(false); // Ensure loading is turned off after data is fetched
+              setLoading(false);
             })
             .catch(error => {
               setLoading(false);
@@ -87,12 +121,38 @@ const Discussion = () => {
     } catch (error) {
       console.log(error)
     }
-
   }, [user, userToken, fetchData]);
+
+
+
+  const searchDiscussion = useCallback(async (searchTerm, userId) => {
+    try {
+      const body = { searchTerm, userId }; // Match the backend expected structure
+      const endpoint = "discussion/searchdiscussion";
+      const method = "POST";
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+
+      setLoading(true);
+      const result = await fetchData(endpoint, method, body, headers);
+      console.log("API Response:", result);
+      if (result && result.data && result.data.updatedDiscussions) {
+        setDemoDiscussions(result.data.updatedDiscussions);
+      } else {
+        toast.error("No discussions found.");
+      }
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      toast.error(`Something went wrong: ${error.message}`);
+    }
+  }, [fetchData]);
+
+
 
   const handleAddLike = async (id, userLike) => {
     // console.log(id, userLike)
-
     if (userToken) {
       const endpoint = "discussion/discussionpost";
       const method = "POST";
@@ -109,6 +169,7 @@ const Discussion = () => {
       try {
         const data = await fetchData(endpoint, method, body, headers)
         if (!data.success) {
+          // console.log(data)
           console.log("Error occured while liking the post")
         } else if (data.success) {
           // console.log(data);
@@ -116,7 +177,8 @@ const Discussion = () => {
             item.DiscussionID === id ? { ...item, userLike: like, likeCount: like === 1 ? item.likeCount + 1 : item.likeCount - 1 } : item
           );
           setDemoDiscussions(updatedData)
-          // console.log(updatedData)
+          console.log(updatedData)
+          console.log(demoDiscussions)
         }
       } catch (error) {
         console.log(error);
@@ -129,16 +191,16 @@ const Discussion = () => {
     { title: "NVIDIA-H100: Performance Unleashed", link: "#", description: "Discuss the performance of the NVIDIA-H100 GPU. Share your experiences, benchmarks, and use cases to help others understand its capabilities and benefits." },
     { title: "NVIDIA Ecosystem", link: "#", description: "Engage with other community members to discuss how various NVIDIA tools and platforms integrate with each other. Share tips, tricks, and best practices for maximizing the NVIDIA ecosystem." },
     { title: "Success Stories with NVIDIA-H100", link: "#", description: "Exchange stories and insights about how the NVIDIA-H100 is being utilized in different industries. Discuss successful projects and explore innovative applications of this powerful GPU." },
-    { title: "Future of GPU Technology", link: "#", description: "Speculate on the future of GPU technology and NVIDIA’s role in it. What advancements do you anticipate, and how do you see them shaping the tech landscape?" }
+    { title: "Future of GPU Technology", link: "#", description: "Speculate on the future of GPU technology and NVIDIA's role in it. What advancements do you anticipate, and how do you see them shaping the tech landscape?" }
   ];
 
-  const topUsers = [
-    { name: "User 1", points: 1200 },
-    { name: "User 2", points: 1100 },
-    { name: "User 3", points: 1050 },
-    { name: "User 4", points: 1020 },
-    { name: "User 5", points: 980 }
-  ];
+  // const topUsers = [
+  //   { name: "User 1", points: 1200 },
+  //   { name: "User 2", points: 1100 },
+  //   { name: "User 3", points: 1050 },
+  //   { name: "User 4", points: 1020 },
+  //   { name: "User 5", points: 980 }
+  // ];
 
   const toggleNav = () => setIsNavOpen(!isNavOpen);
   const handleLike = () => setLikeCount(likeCount + 1);
@@ -302,8 +364,17 @@ const Discussion = () => {
     setIsFormOpen(false);
   };
 
-  // console.log(demoDiscussions);
+  console.log(demoDiscussions);
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
 
+  const handleKeyDown = async (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault(); // Prevent default form submission
+      await searchDiscussion(searchQuery); // Trigger the search
+    }
+  };
 
   return (
     <div>
@@ -317,7 +388,9 @@ const Discussion = () => {
                 className="w-full py-2 pl-10 pr-4 bg-white border border-gray-200 rounded-lg shadow-sm text-gray-800 focus:border-DGXgreen focus:ring-DGXgreen"
                 placeholder="Search..."
                 value={searchQuery}
-                onChange={() => { setSearchQuery(e.target.value) }}
+                onChange={handleSearchChange} // Call this directly without the arrow function
+                onKeyDown={handleKeyDown}
+
               />
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <FaSearch className="text-gray-400" />
@@ -344,11 +417,11 @@ const Discussion = () => {
             </button>
           </div>
           <div id="navbar-alignment" className={`${isNavOpen ? 'block' : 'hidden'} hs-collapse overflow-hidden transition-all duration-300 basis-full grow sm:grow-0 sm:basis-auto sm:block sm:order-2`}>
-            <div className="flex flex-col gap-6 mt-5 sm:flex-row sm:items-center sm:mt-0 sm:ps-5">
+            {/* <div className="flex flex-col gap-6 mt-5 sm:flex-row sm:items-center sm:mt-0 sm:ps-5">
               <a className="text-lg font-bold text-DGXwhite cursor-pointer" onClick={() => setSelectedSection('all')} aria-current="page">All</a>
               <a className="text-lg font-bold text-DGXwhite cursor-pointer" onClick={() => setSelectedSection('top')}>Top Discussions</a>
               <a className="text-lg font-bold text-DGXwhite cursor-pointer" onClick={() => setSelectedSection('recent')}>Recent Discussions</a>
-            </div>
+            </div> */}
           </div>
           <button
             type="button"
@@ -369,41 +442,49 @@ const Discussion = () => {
         />
       )}
       <div className="flex flex-col lg:flex-row w-full mx-auto bg-white rounded-md border border-gray-200 shadow-md mt-4 mb-4 p-4">
+
+
         <aside className="hidden lg:block lg:w-1/4 px-4">
           <div className="mb-8">
-            <h2 className="text-2xl font-bold mb-4">Community Highlights</h2>
+            <h2 className="text-2xl font-bold mb-4">
+              <AiOutlineComment className="inline-block mr-2" />Community Highlights
+            </h2>
             <div className="space-y-4">
-              {hotTopics.map((topic, index) => (
+              {communityHighlights.map((topic, index) => (
                 <div
-                  key={index}
+                  key={topic.DiscussionID}
                   className="rounded-lg shadow-lg p-4 border hover:bg-DGXgreen/50 border-DGXblack transition-transform transform hover:scale-105 hover:shadow-xl"
+                  onClick={() => openModal(topic)}
                 >
                   <h3 className="text-xl font-semibold">
                     <a href={topic.link} className="text-DGXblack hover:underline">
-                      {topic.title}
+                      {topic.Title}
                     </a>
                   </h3>
-                  <p className="text-DGXblack mt-2">{topic.description}</p>
+                  <p className="text-DGXblack mt-2">{(topic.Content).substring(0, 150)}</p>
                 </div>
               ))}
             </div>
           </div>
 
           <div>
-            <h2 className="text-2xl font-bold mb-4">Top Contributors</h2>
+            <h2 className="text-2xl font-bold mb-4">
+              <FaTrophy className="inline-block mr-2" />Top Contributors
+            </h2>
             <div className="space-y-2">
               {topUsers.map((user, index) => (
                 <div
-                  key={index}
+                  key={user.userID}
                   className="flex justify-between items-center bg-DGXblue border border-gray-200 rounded-lg shadow-sm p-3 hover:shadow-xl hover:scale-105 transition-colors"
                 >
-                  <span className="font-medium text-white">{user.name}</span>
-                  <span className="text-white">{user.points} points</span>
+                  <span className="font-medium text-white">{user.userName}</span>
+                  <span className="text-white">{user.count} Post(s)</span>
                 </div>
               ))}
             </div>
           </div>
         </aside>
+
 
         <section className="w-full lg:w-2/3 px-4">
           <h2 className="text-2xl font-bold mb-4">{selectedSection.charAt(0).toUpperCase() + selectedSection.slice(1)} Discussions</h2>
@@ -412,21 +493,20 @@ const Discussion = () => {
               <form onSubmit={handleSubmit} className="border border-gray-300 rounded-lg p-4">
                 <h3 className="text-lg font-bold mb-4">Start a New Discussion</h3>
                 <div className="mb-4">
-                  <label className="block text-gray-700 font-bold mb-2" htmlFor="title">
-                    Title
-                  </label>
+                  <label className="block text-gray-700 font-bold mb-2" htmlFor="title">Title <span className="text-red-500">*</span></label>
                   <input
                     id="title"
                     type="text"
                     className="w-full px-3 py-2 border rounded-lg"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
+                    required
                   />
                 </div>
 
                 <div className="mb-4">
                   <label className="block text-gray-700 font-bold mb-2" htmlFor="content">
-                    Content
+                    Content <span className="text-red-500">*</span>
                   </label>
                   <textarea
                     id="content"
@@ -434,6 +514,7 @@ const Discussion = () => {
                     rows="4"
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
+                    required
                   />
                 </div>
 
@@ -540,49 +621,62 @@ const Discussion = () => {
                 </div>
               </form>
             )}
-            {demoDiscussions.map((discussion, i) => (
-              // <div>{discussion.Title}</div>
-              <div key={i} className="border border-gray-300 rounded-lg p-4 w-full max-w-screen-sm sm:max-w-screen-md md:max-w-screen-lg lg:max-w-screen-xl xl:max-w-screen-2xl">
-                <div onClick={() => openModal(discussion)}>
-                  <h3 className="text-lg font-bold cursor-pointer md:text-lg lg:text-xl xl:text-2xl">
-                    {discussion.Title}
-                  </h3>
-                  <p className="text-gray-600 text-sm md:text-base lg:text-lg xl:text-xl">
-                    {discussion.Content.length > 500 ? (<> {discussion.Content.substring(0, 497)} <span className='text-blue-700 cursor-pointer' onClick={() => { openModal(discussion) }}>...see more</span></>) : discussion.content}
-                  </p>
-                </div>
-                {discussion.Image && (
-                  <div className="mt-2">
-                    <img src={discussion.Image} alt="Discussion" className="max-h-40 w-auto object-cover" />
+
+            <div className="two-h-screen scrollbar scrollbar-thin  overflow-y-auto px-6">
+              {demoDiscussions.map((discussion, i) => (
+                <div
+                  key={i}
+                  className="relative shadow my-4 border border-gray-300 rounded-lg p-4 w-full max-w-screen-sm sm:max-w-screen-md md:max-w-screen-lg lg:max-w-screen-xl xl:max-w-screen-2xl transition-transform transform hover:scale-105 hover:shadow-lg hover:bg-gray-100 cursor-pointer focus-within:z-10 hover:z-10"
+                // Moved onClick to the entire div for easier interaction
+                >
+                  <div>
+                    <h3 className="text-lg font-bold md:text-lg lg:text-xl xl:text-2xl">
+                      {discussion.Title}
+                    </h3>
+                    <p className="text-gray-600 text-sm md:text-base lg:text-lg xl:text-xl">
+                      {discussion.Content.length > 500 ? (
+                        <>
+                          {discussion.Content.substring(0, 497)}
+                          <span className='text-blue-700 cursor-pointer' onClick={() => { openModal(discussion) }}>...see more</span>
+                        </>
+                      ) : discussion.Content}
+                    </p>
                   </div>
-                )}
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {discussion.Tag.split(',').filter(tag => tag).map((tag, tagIndex) => (
-                    <span key={tagIndex} className="bg-DGXgreen text-white rounded-full px-3 py-1 text-xs md:text-sm lg:text-base">
-                      {tag}
-                    </span>
-                  ))}
+                  {discussion.Image && (
+                    <div className="mt-2" onClick={() => openModal(discussion)}>
+                      <img src={discussion.Image} alt="Discussion" className="max-h-40 w-auto object-cover" />
+                    </div>
+                  )}
+                  <div className="mt-2 flex flex-wrap gap-2" onClick={() => openModal(discussion)}>
+                    {discussion.Tag.split(',').filter(tag => tag).map((tag, tagIndex) => (
+                      <span key={tagIndex} className="bg-DGXgreen text-white rounded-full px-3 py-1 text-xs md:text-sm lg:text-base">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="mt-2 flex flex-wrap gap-2" onClick={() => openModal(discussion)}>
+                    {discussion.ResourceUrl.split(',').map((link, linkIndex) => (
+                      <a key={linkIndex} href={link} className="text-DGXgreen hover:underline text-xs md:text-sm lg:text-base">
+                        {link}
+                      </a>
+                    ))}
+                  </div>
+                  <div className="mt-4 flex items-center space-x-4">
+                    <button className="flex items-center text-sm md:text-base lg:text-lg" onClick={() => { handleAddLike(discussion.DiscussionID, discussion.userLike) }}>
+                      {discussion.userLike == 1 ? <AiFillLike /> : <AiOutlineLike />} {discussion.likeCount} Likes
+                    </button>
+                    <button
+                      className="flex items-center text-DGXgreen text-sm md:text-base lg:text-lg"
+                      onClick={() => handleComment(discussion)}
+                    >
+                      <FaComment className="mr-2" /> {discussion.comment.length} Comments
+                    </button>
+                  </div>
                 </div>
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {discussion.ResourceUrl.split(',').map((link, linkIndex) => (
-                    <a key={linkIndex} href={link} className="text-DGXgreen hover:underline text-xs md:text-sm lg:text-base">
-                      {link}
-                    </a>
-                  ))}
-                </div>
-                <div className="mt-4 flex items-center space-x-4">
-                  <button className="flex items-center  text-sm md:text-base lg:text-lg" onClick={() => { handleAddLike(discussion.DiscussionID, discussion.userLike) }}>
-                    {discussion.userLike == 1 ? <AiFillLike /> : <AiOutlineLike />}{discussion.likeCount} Likes
-                  </button>
-                  <button
-                    className="flex items-center text-DGXgreen text-sm md:text-base lg:text-lg"
-                    onClick={() => handleComment(discussion)}
-                  >
-                    <FaComment className="mr-2" /> {discussion.comment.length} Comments
-                  </button>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
+
+
 
           </div>
         </section>

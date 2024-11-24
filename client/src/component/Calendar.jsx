@@ -45,6 +45,7 @@ const Calendar = () => {
     start: '',
     end: '',
     category: 'Select one',
+    companyCategory:'Select one',
     poster: null,
     venue: '',
     description: '',
@@ -60,6 +61,8 @@ const Calendar = () => {
   const startRef = useRef(null);
   const endRef = useRef(null);
   const categoryRef = useRef(null);
+  const companyCategoryRef = useRef(null);
+
   const venueRef = useRef(null);
   const hostRef = useRef(null);
   const descriptionRef = useRef(null);
@@ -92,6 +95,7 @@ const Calendar = () => {
     if (!newEvent.start) errors.start = 'Start date is required.';
     if (!newEvent.end) errors.end = 'End date is required.';
     if (newEvent.category === 'Select one') errors.category = 'Please select a category.';
+    if (newEvent.companyCategory === 'Select one') errors.companyCategory = 'Please select a category.';
     if (!newEvent.venue) errors.venue = 'Venue is required.';
     if (!newEvent.description) errors.description = 'Description is required.';
     if (!newEvent.host) errors.host = 'Host is required.';
@@ -107,6 +111,7 @@ const Calendar = () => {
         start: startRef,
         end: endRef,
         category: categoryRef,
+        companyCategory: companyCategoryRef,
         venue: venueRef,
         host: hostRef,
         description: descriptionRef,
@@ -145,6 +150,7 @@ const Calendar = () => {
       start: '',
       end: '',
       category: 'Select one',
+      companyCategory: 'companyCategory', 
       poster: null,
       venue: '',
       description: '',
@@ -222,7 +228,7 @@ const Calendar = () => {
               ref={titleRef}
             />
             {errors.title && <p className="text-red-500 text-sm mb-2">{errors.title}</p>}
-            
+
             <input
               type="datetime-local"
               name="start"
@@ -233,7 +239,7 @@ const Calendar = () => {
               ref={startRef}
             />
             {errors.start && <p className="text-red-500 text-sm mb-2">{errors.start}</p>}
-            
+
             <input
               type="datetime-local"
               name="end"
@@ -244,7 +250,7 @@ const Calendar = () => {
               ref={endRef}
             />
             {errors.end && <p className="text-red-500 text-sm mb-2">{errors.end}</p>}
-            
+
             <select
               name="category"
               value={newEvent.category}
@@ -256,8 +262,19 @@ const Calendar = () => {
               <option value="workshop">Workshop</option>
               <option value="event">Event</option>
             </select>
+            <select
+              name="companyCategory"
+              value={newEvent.companyCategory}
+              onChange={handleChange}
+              className={`p-2 border border-gray-300 rounded mb-2 w-full ${errors.companyCategory ? 'border-red-500' : ''}`}
+              ref={companyCategoryRef}
+            >
+              <option value="Select one">Category</option>
+              <option value="workshop">Global Infoventures Event</option>
+              <option value="event">NVIDIA Event</option>
+            </select>
             {errors.category && <p className="text-red-500 text-sm mb-2">{errors.category}</p>}
-            
+
             <input
               type="text"
               name="venue"
@@ -268,7 +285,7 @@ const Calendar = () => {
               ref={venueRef}
             />
             {errors.venue && <p className="text-red-500 text-sm mb-2">{errors.venue}</p>}
-            
+
             <input
               type="text"
               name="host"
@@ -279,7 +296,7 @@ const Calendar = () => {
               ref={hostRef}
             />
             {errors.host && <p className="text-red-500 text-sm mb-2">{errors.host}</p>}
-            
+
             <input
               type="text"
               name="registerLink"
@@ -290,7 +307,7 @@ const Calendar = () => {
               ref={registerLinkRef}
             />
             {errors.registerLink && <p className="text-red-500 text-sm mb-2">{errors.registerLink}</p>}
-            
+
             <input
               type="file"
               ref={fileInputRef}
@@ -304,7 +321,7 @@ const Calendar = () => {
                 className="w-32 h-32 object-cover mb-2"
               />
             )}
-            
+
             <ReactQuill
               value={newEvent.description}
               onChange={handleDescriptionChange}
@@ -313,9 +330,9 @@ const Calendar = () => {
               modules={{
                 toolbar: [
                   ['bold', 'italic', 'underline', 'strike'], // toggled buttons
-                  [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                  [{ 'script': 'sub'}, { 'script': 'super' }], // superscript/subscript
-                  [{ 'indent': '-1'}, { 'indent': '+1' }], // outdent/indent
+                  [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                  [{ 'script': 'sub' }, { 'script': 'super' }], // superscript/subscript
+                  [{ 'indent': '-1' }, { 'indent': '+1' }], // outdent/indent
                   [{ 'direction': 'rtl' }], // text direction
                   [{ 'size': ['small', false, 'large', 'huge'] }], // custom dropdown
                   [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
@@ -334,7 +351,7 @@ const Calendar = () => {
               ]}
             />
             {errors.description && <p className="text-red-500 text-sm mb-2">{errors.description}</p>}
-            
+
             <div className="flex justify-end">
               <button
                 onClick={handleCloseModal}
@@ -353,7 +370,7 @@ const Calendar = () => {
         </div>
       )}
 
-{selectedEvent && (
+      {selectedEvent && (
         <div id="event-detail" className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50">
           <div className="bg-white shadow-lg p-5 max-w-3xl w-full max-h-[90vh] overflow-y-auto z-50">
             <h2 className="text-4xl font-bold mb-10 flex justify-center">Event Details</h2>
