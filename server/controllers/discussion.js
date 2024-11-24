@@ -101,7 +101,7 @@ export const getdiscussion = async (req, res) => {
     let success = false;
 
     const userId = req.body.user;
-    console.log("Testing User ID:", userId); // Added log for userId
+    // console.log("Testing User ID:", userId); // Added log for userId
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -125,7 +125,7 @@ export const getdiscussion = async (req, res) => {
                 if (userId !== null && userId !== undefined) {
                     const query = `SELECT UserID, Name FROM Community_User WHERE isnull(delStatus,0) = 0 AND EmailId = ?`;
                     rows = await queryAsync(conn, query, [userId]);
-                    console.log("User Query Result:", rows); // Log the result of the user query
+                    // console.log("User Query Result:", rows); // Log the result of the user query
                 }
 
                 if (rows.length === 0) {
@@ -134,19 +134,19 @@ export const getdiscussion = async (req, res) => {
 
                 const discussionGetQuery = `SELECT DiscussionID, UserID, AuthAdd as UserName, Title, Content, Image, Tag, ResourceUrl, AddOnDt as timestamp FROM Community_Discussion WHERE ISNULL(delStatus, 0) = 0 AND Visibility = 'public' AND Reference = 0 ORDER BY AddOnDt DESC`;
                 const discussionGet = await queryAsync(conn, discussionGetQuery);
-                console.log("Discussion Get Result:", discussionGet); // Log discussionGet
+                // console.log("Discussion Get Result:", discussionGet); // Log discussionGet
 
                 const updatedDiscussions = [];
 
                 for (const item of discussionGet) {
                     const likeCountQuery = `SELECT DiscussionID, UserID, Likes, AuthAdd as UserName FROM Community_Discussion WHERE ISNULL(delStatus, 0) = 0 AND Likes > 0 AND Reference = ?`;
                     const likeCountResult = await queryAsync(conn, likeCountQuery, [item.DiscussionID]);
-                    console.log("Like Count Result for Discussion:", item.DiscussionID, likeCountResult); // Log likeCountResult
+                    // console.log("Like Count Result for Discussion:", item.DiscussionID, likeCountResult); // Log likeCountResult
 
                     const commentQuery = `SELECT DiscussionID, UserID, Comment, AuthAdd as UserName, AddOnDt as timestamp FROM Community_Discussion WHERE ISNULL(delStatus, 0) = 0 AND  Comment IS NOT NULL AND Reference = ? ORDER BY AddOnDt DESC`;
                     const commentResult = await queryAsync(conn, commentQuery, [item.DiscussionID]);
                     const commentsArray = Array.isArray(commentResult) ? commentResult : [];
-                    console.log("Comments Array for Discussion:", item.DiscussionID, commentsArray); // Log commentsArray
+                    // console.log("Comments Array for Discussion:", item.DiscussionID, commentsArray); // Log commentsArray
 
                     const commentsArrayUpdated = [];
                     let userLike = 0;
@@ -196,7 +196,7 @@ export const getdiscussion = async (req, res) => {
                 }
 
                 success = true;
-                console.log("Updated Discussions Array:", updatedDiscussions); // Log final updatedDiscussions array
+                // console.log("Updated Discussions Array:", updatedDiscussions); // Log final updatedDiscussions array
 
                 closeConnection(); // Close the connection after all operations
                 const infoMessage = "Discussion Get Successfully";
@@ -228,7 +228,7 @@ export const searchdiscussion = async (req, res) => {
         return res.status(400).json({ success: false, message: "Search term is required." });
     }
 
-    console.log("Search Term:", searchTerm, "User ID:", userId);
+    // console.log("Search Term:", searchTerm, "User ID:", userId);
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

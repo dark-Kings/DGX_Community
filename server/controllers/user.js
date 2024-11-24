@@ -265,7 +265,7 @@ export const login = async (req, res) => {
 
 
   const { email, password } = req.body;
-  console.log(req.body)
+  // console.log(req.body)
 
   try {
     connectToDatabase(async (err, conn) => {
@@ -303,12 +303,15 @@ export const login = async (req, res) => {
         const infoMessage = "You login successfully"
         logInfo(infoMessage)
         closeConnection();
-        return res.status(200).json({ 
-          success: true, 
-          data: { authtoken, 
-          flag: result[0].FlagPasswordChange ,
-          isAdmin: result[0].isAdmin},
-            message: infoMessage });
+        return res.status(200).json({
+          success: true,
+          data: {
+            authtoken,
+            flag: result[0].FlagPasswordChange,
+            isAdmin: result[0].isAdmin
+          },
+          message: infoMessage
+        });
 
       } catch (queryErr) {
         logError(queryErr)
@@ -352,7 +355,7 @@ export const login = async (req, res) => {
 //           closeConnection();
 //           return res.status(200).json({ success: false, data: {}, message: warningMessage });
 //         }
-        
+
 //         const passwordCompare = await bcrypt.compare(password, result[0].Password);
 //         if (!passwordCompare) {
 //           const warningMessage = "Please try to login with correct credentials";
@@ -373,7 +376,7 @@ export const login = async (req, res) => {
 //         console.log("i am admin");
 //         logInfo(infoMessage);
 //         closeConnection();
-        
+
 //         return res.status(200).json({ 
 //           success: true, 
 //           data: { authtoken, flag: result[0].FlagPasswordChange, isAdmin: result[0].IsAdmin === 1 },
@@ -752,7 +755,7 @@ export const passwordRecovery = async (req, res) => {
             
             Best regards,
             The DGX Community Team`;
-            
+
             const htmlContent = `Hello,<br/><br/>
             
             It looks like you’ve requested to reset your password for the DGX Community. Don’t worry, we’ve got you covered! Just click the button below to create a new password:<br/><br/>
@@ -763,7 +766,7 @@ export const passwordRecovery = async (req, res) => {
             
             Best regards,<br/>
             The DGX Community Team`;
-            
+
             closeConnection();
             const mailsent = await mailSender(req.body.email, message, htmlContent)
             if (mailsent.success) {

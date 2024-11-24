@@ -7,7 +7,7 @@ dotenv.config();
 
 export const addEvent = async (req, res) => {
   let success = false;
-
+  console.log("hi")
   // Extract user ID from the authenticated request (assuming it's added by authentication middleware)
   const userId = req.user.id;
 
