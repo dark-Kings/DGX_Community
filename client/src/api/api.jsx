@@ -5,7 +5,7 @@ const BASE_URL = import.meta.env.VITE_API_BASEURL
 
 const apiRequest = async (endpoint, method = 'GET', body = {}, headers = { 'Content-Type': 'application/json' }) => {
     const url = `${BASE_URL}${endpoint}`;
-    console.log(url);
+    // console.log(url);
     const options = {
         method,
         headers,
@@ -14,6 +14,8 @@ const apiRequest = async (endpoint, method = 'GET', body = {}, headers = { 'Cont
 
     try {
         const response = await fetch(url, options);
+        console.log(response);
+        
         if (!response.ok) {
             const errorDetails = await response.text();
             console.log("Details", errorDetails);

@@ -7,13 +7,14 @@ dotenv.config();
 
 export const addEvent = async (req, res) => {
   let success = false;
-  console.log("hi")
+
   // Extract user ID from the authenticated request (assuming it's added by authentication middleware)
   const userId = req.user.id;
 
   // Validate request data
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
+
     const warningMessage = "Data is not in the right format";
     logWarning(warningMessage); // Log the warning
     res.status(400).json({ success, data: errors.array(), message: warningMessage });
@@ -21,7 +22,10 @@ export const addEvent = async (req, res) => {
   }
 
   try {
+
     // Destructure form data
+    // console.log("hi",req.body)
+    // let data = JSON.parse(req.body)
     let {
       title,
       start,
@@ -35,6 +39,7 @@ export const addEvent = async (req, res) => {
       description
     } = req.body;
 
+    // console.log(title,start,end,category,companyCategory,venue,host,registerLink,description)
     // Set defaults if necessary
     title = title ?? null;
     start = start ?? null;
@@ -56,21 +61,23 @@ export const addEvent = async (req, res) => {
       }
 
       try {
-        // Query to get user details
-        const userQuery = `SELECT UserID, Name FROM Community_User WHERE isnull(delStatus,0) = 0 AND UserID = ?`;
-        const rows = await queryAsync(conn, userQuery, [userId]);
+        const query = `SELECT UserID, Name FROM Community_User WHERE isnull(delStatus,0) = 0 AND EmailId = ?`;
+
+        const rows = await queryAsync(conn, query, [userId]);
 
         if (rows.length > 0) {
+          console.log("yaha hu bss ek kadam door bss thoda or");
           // Insert event into the Events table
           const insertEventQuery = `
-            INSERT INTO Events 
-            (UserID, Title, StartDate, EndDate, Category, CompanyCategory, Venue, Host, RegisterLink, Poster, Description, AuthAdd, AddOnDt, delStatus) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), 0);
+            INSERT INTO Community_Event 
+            (EventTitle, StartDate, EndDate, EventType, Category, Venue, Host, RegistrationLink, EventImage, EventDescription, AuthAdd, AddOnDt, delStatus) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), 0);
           `;
+
+          console.log(category);
 
           // Insert event details
           const insertEvent = await queryAsync(conn, insertEventQuery, [
-            rows[0].UserID,
             title,
             start,
             end,
@@ -84,8 +91,9 @@ export const addEvent = async (req, res) => {
             rows[0].Name // AuthAdd (user who added the event)
           ]);
 
+          console.log("last hai", insertEvent);
           // Fetch last inserted event ID
-          const lastInsertedIdQuery = `SELECT TOP 1 EventID FROM Events WHERE ISNULL(delStatus, 0) = 0 ORDER BY EventID DESC;`;
+          const lastInsertedIdQuery = `SELECT TOP 1 EventID FROM Community_Event WHERE ISNULL(delStatus, 0) = 0 ORDER BY EventID DESC;`;
           const lastInsertedId = await queryAsync(conn, lastInsertedIdQuery);
 
           success = true;
@@ -117,3 +125,73 @@ export const addEvent = async (req, res) => {
     res.status(500).json({ success: false, data: {}, message: 'Something went wrong, please try again' });
   }
 };
+
+
+export const getEvent = async (req, res) => {
+  let success = false;
+
+  const userId = req.body.user;
+  // console.log("Testing User ID:", userId); // Added log for userId
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const warningMessage = "Data is not in the right format";
+    logWarning(warningMessage);
+    res.status(400).json({ success, data: errors.array(), message: warningMessage });
+    return;
+  }
+
+  try {
+    connectToDatabase(async (err, conn) => {
+      if (err) {
+        const errorMessage = "Failed to connect to database";
+        logError(err);
+        res.status(500).json({ success: false, data: err, message: errorMessage });
+        return;
+      }
+      try {
+        let rows = [];
+        if (userId !== null && userId !== undefined) {
+          const query = `SELECT UserID, Name FROM Community_User WHERE isnull(delStatus,0) = 0 AND EmailId = ?`;
+          rows = await queryAsync(conn, query, [userId]);
+          // console.log("User Query Result:", rows); // Log the result of the user query
+        }
+
+        if (rows.length === 0) {
+          rows.push({ UserID: null });
+        }
+
+        const EventWorkshopGetQuery = `SELECT EventID, EventTitle, AuthAdd as UserName, StartDate, EndDate, EventType, Venue, RegistrationLink, EventDescription, Category, AddOnDt as timestamp, EventImage FROM Community_Event WHERE ISNULL(delStatus, 0) = 0  ORDER BY AddOnDt DESC`;
+        const EventWorkshopGet = await queryAsync(conn, EventWorkshopGetQuery);
+        // console.log("Discussion Get Result:", discussionGet); // Log discussionGet
+
+        const updatedEvent = [];
+
+        // for (const item of EventWorkshopGet) {
+        //      let isOwner=0;
+        //      if(item.UserName==)
+
+        // }
+
+        success = true;
+        // console.log("Updated Discussions Array:", updatedEvent); // Log final updatedEvent array
+
+        closeConnection(); // Close the connection after all operations
+        const infoMessage = "Event and Workshop Got Successfully";
+        logInfo(infoMessage);
+        res.status(200).json({ success, data: { EventWorkshopGet }, message: infoMessage });
+      }
+      catch (queryErr) {
+        logError(queryErr);
+        closeConnection();
+        res.status(500).json({ success: false, data: queryErr, message: 'Something went wrong please try again' });
+      }
+    })
+
+
+  }
+  catch (error) {
+    logError(error);
+    res.status(500).json({ success: false, data: {}, message: 'Something went wrong please try again' });
+  }
+}
