@@ -116,7 +116,7 @@ const Discussion = () => {
             item.DiscussionID === id ? { ...item, userLike: like, likeCount: like === 1 ? item.likeCount + 1 : item.likeCount - 1 } : item
           );
           setDemoDiscussions(updatedData)
-          console.log(updatedData)
+          // console.log(updatedData)
         }
       } catch (error) {
         console.log(error);
