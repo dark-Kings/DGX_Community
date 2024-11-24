@@ -6,6 +6,6 @@ import { addEvent } from "../controllers/eventandworkshop.js"; // Import your ad
 const router = express.Router();
 
 // Route for adding a new event
-router.post('/add', fetchUser, addEvent); // The fetchUser middleware can be used if you need to authenticate the user.
+router.post('/addEvent', fetchUser, addEvent); // The fetchUser middleware can be used if you need to authenticate the user.
 
-export default router;
+export default router; 
