@@ -1,10 +1,13 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { images } from '../constant/index.js';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // import styles for ReactQuill
+import ApiContext from '../context/ApiContext.jsx';
+import { compressImage } from '../utils/compressImage.js';
+
 
 const localizer = momentLocalizer(moment);
 
@@ -14,29 +17,30 @@ const eventColors = {
 };
 
 const Calendar = () => {
+  const { fetchData, userToken } = useContext(ApiContext)
   const [events, setEvents] = useState([
-    {
-      title: 'Workshop on DGX H100',
-      start: new Date(),
-      end: new Date(new Date().getTime() + 3600000), // 1 hour later
-      category: 'workshop',
-      poster: images.Event1, // Add poster URL
-      venue: 'Room 101',
-      description: '<p>An in-depth workshop on DGX H100 technology.</p>',
-      host: 'John Doe',
-      registerLink: 'https://example.com/register', // Add register link here
-    },
-    {
-      title: 'DGX Server Maintenance',
-      start: new Date(new Date().getTime() + 86400000), // 1 day later
-      end: new Date(new Date().getTime() + 86400000 + 3600000), // 1 hour later
-      category: 'event',
-      poster: images.Event5, // Add poster URL
-      venue: 'Server Room',
-      description: '<p>Scheduled maintenance for DGX servers.</p>',
-      host: 'Jane Smith',
-      registerLink: '', // Empty if no registration link
-    },
+    // {
+    //   title: 'Workshop on DGX H100',
+    //   start: new Date(),
+    //   end: new Date(new Date().getTime() + 3600000), // 1 hour later
+    //   category: 'workshop',
+    //   poster: images.Event1, // Add poster URL
+    //   venue: 'Room 101',
+    //   description: '<p>An in-depth workshop on DGX H100 technology.</p>',
+    //   host: 'John Doe',
+    //   registerLink: 'https://example.com/register', // Add register link here
+    // },
+    // {
+    //   title: 'DGX Server Maintenance',
+    //   start: new Date(new Date().getTime() + 86400000), // 1 day later
+    //   end: new Date(new Date().getTime() + 86400000 + 3600000), // 1 hour later
+    //   category: 'event',
+    //   poster: images.Event5, // Add poster URL
+    //   venue: 'Server Room',
+    //   description: '<p>Scheduled maintenance for DGX servers.</p>',
+    //   host: 'Jane Smith',
+    //   registerLink: '', // Empty if no registration link
+    // },
   ]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -45,6 +49,7 @@ const Calendar = () => {
     start: '',
     end: '',
     category: 'Select one',
+    companyCategory: 'Select one',
     poster: null,
     venue: '',
     description: '',
@@ -60,6 +65,8 @@ const Calendar = () => {
   const startRef = useRef(null);
   const endRef = useRef(null);
   const categoryRef = useRef(null);
+  const companyCategoryRef = useRef(null);
+
   const venueRef = useRef(null);
   const hostRef = useRef(null);
   const descriptionRef = useRef(null);
@@ -85,18 +92,87 @@ const Calendar = () => {
     setNewEvent({ ...newEvent, description: value });
   };
 
-  const handleSubmit = () => {
+  // const handleSubmit = () => {
+  //   const errors = {};
+
+  //   if (!newEvent.title) errors.title = 'Event title is required.';
+  //   if (!newEvent.start) errors.start = 'Start date is required.';
+  //   if (!newEvent.end) errors.end = 'End date is required.';
+  //   if (newEvent.category === 'Select one') errors.category = 'Please select a category.';
+  //   if (newEvent.companyCategory === 'Select one') errors.companyCategory = 'Please select a category.';
+  //   if (!newEvent.venue) errors.venue = 'Venue is required.';
+  //   if (!newEvent.description) errors.description = 'Description is required.';
+  //   if (!newEvent.host) errors.host = 'Host is required.';
+  //   if (!newEvent.registerLink) errors.registerLink = 'Register link is required.';
+
+  //   if (Object.keys(errors).length > 0) {
+  //     setErrors(errors);
+
+  //     // Focus on the first input with an error
+  //     const firstErrorField = Object.keys(errors)[0];
+  //     const refMap = {
+  //       title: titleRef,
+  //       start: startRef,
+  //       end: endRef,
+  //       category: categoryRef,
+  //       companyCategory: companyCategoryRef,
+  //       venue: venueRef,
+  //       host: hostRef,
+  //       description: descriptionRef,
+  //       registerLink: registerLinkRef, // Add ref for register link
+  //     };
+  //     const element = refMap[firstErrorField].current;
+  //     if (element) {
+  //       element.focus();
+  //       element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  //     }
+
+  //     return;
+  //   }
+
+  //   setEvents([
+  //     ...events,
+  //     {
+  //       ...newEvent,
+  //       start: new Date(newEvent.start),
+  //       end: new Date(newEvent.end),
+  //     },
+  //   ]);
+
+  //   resetForm();
+  //   setIsModalOpen(false);
+  // };
+
+  // Full handleSubmit code including all logic:
+
+  const handleImageChange = async (e) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      if (file) {
+
+        const compressedFile = await compressImage(file);
+        setNewEvent({ ...newEvent, [poster]: compressedFile });
+
+        // setSelectedImage(compressedFile);
+      }
+    }
+  };
+
+  const handleSubmit = async () => {
     const errors = {};
 
+    // Validate form fields
     if (!newEvent.title) errors.title = 'Event title is required.';
     if (!newEvent.start) errors.start = 'Start date is required.';
     if (!newEvent.end) errors.end = 'End date is required.';
     if (newEvent.category === 'Select one') errors.category = 'Please select a category.';
+    if (newEvent.companyCategory === 'Select one') errors.companyCategory = 'Please select a company category.';
     if (!newEvent.venue) errors.venue = 'Venue is required.';
     if (!newEvent.description) errors.description = 'Description is required.';
     if (!newEvent.host) errors.host = 'Host is required.';
     if (!newEvent.registerLink) errors.registerLink = 'Register link is required.';
 
+    // Check for errors
     if (Object.keys(errors).length > 0) {
       setErrors(errors);
 
@@ -107,10 +183,11 @@ const Calendar = () => {
         start: startRef,
         end: endRef,
         category: categoryRef,
+        companyCategory: companyCategoryRef,
         venue: venueRef,
         host: hostRef,
         description: descriptionRef,
-        registerLink: registerLinkRef, // Add ref for register link
+        registerLink: registerLinkRef,
       };
       const element = refMap[firstErrorField].current;
       if (element) {
@@ -121,17 +198,68 @@ const Calendar = () => {
       return;
     }
 
-    setEvents([
-      ...events,
-      {
-        ...newEvent,
-        start: new Date(newEvent.start),
-        end: new Date(newEvent.end),
-      },
-    ]);
+    // Make API call to add the event using fetchData
+    const endpoint = 'eventandworkshop/addEvent';
+    const method = 'POST';
+    const headers = {
+      'Content-Type': 'application/json',
+      'auth-token': userToken
+    };
+    const body = {
+      title: newEvent.title,
+      start: newEvent.start,
+      end: newEvent.end,
+      category: newEvent.category,
+      companyCategory: newEvent.companyCategory,
+      venue: newEvent.venue,
+      host: newEvent.host,
+      registerLink: newEvent.registerLink,
+      poster: newEvent.poster, // Ensure you handle the poster appropriately
+      description: newEvent.description,
+    };
+    // console.log(body)
 
-    resetForm();
-    setIsModalOpen(false);
+
+
+
+    // const body = JSON.stringify({
+    //   title: newEvent.title,
+    //   start: newEvent.start,
+    //   end: newEvent.end,
+    //   category: newEvent.category,
+    //   companyCategory: newEvent.companyCategory,
+    //   venue: newEvent.venue,
+    //   host: newEvent.host,
+    //   registerLink: newEvent.registerLink,
+    //   poster: newEvent.poster, // Ensure you handle the poster appropriately
+    //   description: newEvent.description,
+    // });
+
+
+    try {
+      const data = await fetchData(endpoint, method, body, headers);
+      if (data.success) {
+        // Handle successful response
+        setEvents([
+          ...events,
+          {
+            ...newEvent,
+            start: new Date(newEvent.start),
+            end: new Date(newEvent.end),
+          },
+        ]);
+        resetForm();
+        setIsModalOpen(false);
+        console.log('Event added successfully!', data.message);
+      } else {
+        // Handle unsuccessful response from server
+        console.error(`Server Error: ${data.message}`);
+        alert(`Error: ${data.message}`);
+      }
+    } catch (error) {
+      console.error('Error adding event:', error);
+      // alert('An error occurred while adding the event. Please try again.');
+    }
   };
 
   const handleCloseModal = () => {
@@ -145,6 +273,7 @@ const Calendar = () => {
       start: '',
       end: '',
       category: 'Select one',
+      companyCategory: 'companyCategory',
       poster: null,
       venue: '',
       description: '',
@@ -224,7 +353,7 @@ const Calendar = () => {
             {errors.title && <p className="text-red-500 text-sm mb-2">{errors.title}</p>}
 
             <input
-              type="datetime-local"
+              type="date"
               name="start"
               placeholder="Start Date"
               value={newEvent.start}
@@ -235,7 +364,7 @@ const Calendar = () => {
             {errors.start && <p className="text-red-500 text-sm mb-2">{errors.start}</p>}
 
             <input
-              type="datetime-local"
+              type="date"
               name="end"
               placeholder="End Date"
               value={newEvent.end}
@@ -255,6 +384,17 @@ const Calendar = () => {
               <option value="Select one">Select one</option>
               <option value="workshop">Workshop</option>
               <option value="event">Event</option>
+            </select>
+            <select
+              name="companyCategory"
+              value={newEvent.companyCategory}
+              onChange={handleChange}
+              className={`p-2 border border-gray-300 rounded mb-2 w-full ${errors.companyCategory ? 'border-red-500' : ''}`}
+              ref={companyCategoryRef}
+            >
+              <option value="Select one">Category</option>
+              <option value="workshop">Global Infoventures Event</option>
+              <option value="event">NVIDIA Event</option>
             </select>
             {errors.category && <p className="text-red-500 text-sm mb-2">{errors.category}</p>}
 
@@ -299,6 +439,7 @@ const Calendar = () => {
             />
             {newEvent.poster && (
               <img
+                onChange={handleImageChange}
                 src={newEvent.poster}
                 alt="Event Poster"
                 className="w-32 h-32 object-cover mb-2"

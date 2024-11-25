@@ -17,6 +17,8 @@ const Navbar = () => {
     useEffect(() => {
         if (userToken && user) {
             setIsLoggedIn(true);
+            console.log(user);
+            
         } else {
             setIsLoggedIn(false);
         }
@@ -126,9 +128,9 @@ const Navbar = () => {
                                             <Link to="/UserProfile" className='block px-4 py-2 text-gray-800 hover:bg-gray-200' onClick={toggleDropdown}>
                                                 Profile
                                             </Link>
-                                            <Link to="/AdminDashboard" className='block px-4 py-2 text-gray-800 hover:bg-gray-200' onClick={toggleDropdown}>
+                                            {user.isAdmin && <Link to="/AdminDashboard" className='block px-4 py-2 text-gray-800 hover:bg-gray-200' onClick={toggleDropdown}>
                                                 Admin Profile
-                                            </Link>
+                                            </Link>}
                                             <button
                                                 onClick={handleLogout}
                                                 className='block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200'

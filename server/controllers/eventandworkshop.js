@@ -1,4 +1,3 @@
-import express from 'express';
 import { body, validationResult } from 'express-validator';
 import { connectToDatabase, closeConnection } from '../database/mySql.js';
 import dotenv from 'dotenv';
@@ -6,98 +5,193 @@ import { queryAsync, logError, logInfo, logWarning } from '../helper/index.js';
 
 dotenv.config();
 
-const router = express.Router();
+export const addEvent = async (req, res) => {
+  let success = false;
 
-// POST: Add a new event
-router.post('/add', [
-    body('eventTitle').notEmpty().withMessage('Event title is required'),
-    body('startDate').isDate().withMessage('Valid start date is required'),
-    body('endDate').isDate().withMessage('Valid end date is required'),
-    body('eventType').notEmpty().withMessage('Event type is required'),
-    body('venue').notEmpty().withMessage('Venue is required'),
-    body('host').notEmpty().withMessage('Host is required'),
-    body('registrationLink').optional().isURL().withMessage('Valid registration link is required'),
-    body('eventDescription').optional().isString(),
-], async (req, res) => {
-    let success = false;
-    
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        const warningMessage = "Data is not in the right format";
-        logWarning(warningMessage);
-        return res.status(400).json({ success, data: errors.array(), message: warningMessage });
-    }
+  // Extract user ID from the authenticated request (assuming it's added by authentication middleware)
+  const userId = req.user.id;
 
-    try {
-        const { eventTitle, startDate, endDate, eventType, venue, host, registrationLink, eventDescription } = req.body;
+  // Validate request data
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
 
-        connectToDatabase(async (err, conn) => {
-            if (err) {
-                const errorMessage = "Failed to connect to database";
-                logError(err);
-                return res.status(500).json({ success: false, data: err, message: errorMessage });
-            }
+    const warningMessage = "Data is not in the right format";
+    logWarning(warningMessage); // Log the warning
+    res.status(400).json({ success, data: errors.array(), message: warningMessage });
+    return;
+  }
 
-            try {
-                const query = `
-                    INSERT INTO Community_Event 
-                    (EventTitle, StartDate, EndDate, EventType, Venue, Host, RegistrationLink, EventDescription, AddOnDt, delStatus) 
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), 0);
-                `;
-                await queryAsync(conn, query, [eventTitle, startDate, endDate, eventType, venue, host, registrationLink, eventDescription]);
-                
-                success = true;
-                const infoMessage = "Event added successfully";
-                logInfo(infoMessage);
-                res.status(200).json({ success, message: infoMessage });
-            } catch (queryErr) {
-                logError(queryErr);
-                res.status(500).json({ success: false, data: queryErr, message: 'Something went wrong, please try again' });
-            } finally {
-                closeConnection(); // Ensure connection is closed
-            }
-        });
-    } catch (error) {
-        logError(error);
-        res.status(500).json({ success: false, data: {}, message: 'Something went wrong, please try again' });
-    }
-});
+  try {
 
-// GET: Retrieve events
-router.get('/get', async (req, res) => {
-    let success = false;
+    // Destructure form data
+    // console.log("hi",req.body)
+    // let data = JSON.parse(req.body)
+    let {
+      title,
+      start,
+      end,
+      category,
+      companyCategory,
+      venue,
+      host,
+      registerLink,
+      poster,
+      description
+    } = req.body;
 
-    try {
-        connectToDatabase(async (err, conn) => {
-            if (err) {
-                const errorMessage = "Failed to connect to database";
-                logError(err);
-                return res.status(500).json({ success: false, data: err, message: errorMessage });
-            }
+    // console.log(title,start,end,category,companyCategory,venue,host,registerLink,description)
+    // Set defaults if necessary
+    title = title ?? null;
+    start = start ?? null;
+    end = end ?? null;
+    category = category ?? null;
+    companyCategory = companyCategory ?? null;
+    venue = venue ?? null;
+    host = host ?? null;
+    registerLink = registerLink ?? null;
+    description = description ?? null;
 
-            try {
-                const query = `
-                    SELECT EventID, EventTitle, StartDate, EndDate, EventType, Venue, Host, RegistrationLink, EventDescription, AddOnDt 
-                    FROM Community_Event 
-                    WHERE ISNULL(delStatus, 0) = 0 
-                    ORDER BY StartDate DESC;
-                `;
-                const events = await queryAsync(conn, query);
+    // Connect to the database
+    connectToDatabase(async (err, conn) => {
+      if (err) {
+        const errorMessage = "Failed to connect to database";
+        logError(err); // Log the error
+        res.status(500).json({ success: false, data: err, message: errorMessage });
+        return;
+      }
 
-                success = true;
-                logInfo("Events retrieved successfully");
-                res.status(200).json({ success, data: events, message: "Events retrieved successfully" });
-            } catch (queryErr) {
-                logError(queryErr);
-                res.status(500).json({ success: false, data: queryErr, message: 'Something went wrong, please try again' });
-            } finally {
-                closeConnection(); // Ensure connection is closed
-            }
-        });
-    } catch (error) {
-        logError(error);
-        res.status(500).json({ success: false, data: {}, message: 'Something went wrong, please try again' });
-    }
-});
+      try {
+        const query = `SELECT UserID, Name FROM Community_User WHERE isnull(delStatus,0) = 0 AND EmailId = ?`;
 
-export default router;
+        const rows = await queryAsync(conn, query, [userId]);
+
+        if (rows.length > 0) {
+          console.log("yaha hu bss ek kadam door bss thoda or");
+          // Insert event into the Events table
+          const insertEventQuery = `
+            INSERT INTO Community_Event 
+            (EventTitle, StartDate, EndDate, EventType, Category, Venue, Host, RegistrationLink, EventImage, EventDescription, AuthAdd, AddOnDt, delStatus) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), 0);
+          `;
+
+          console.log(category);
+
+          // Insert event details
+          const insertEvent = await queryAsync(conn, insertEventQuery, [
+            title,
+            start,
+            end,
+            category,
+            companyCategory,
+            venue,
+            host,
+            registerLink,
+            poster, // You may need to handle file upload separately, storing the file URL or path
+            description,
+            rows[0].Name // AuthAdd (user who added the event)
+          ]);
+
+          console.log("last hai", insertEvent);
+          // Fetch last inserted event ID
+          const lastInsertedIdQuery = `SELECT TOP 1 EventID FROM Community_Event WHERE ISNULL(delStatus, 0) = 0 ORDER BY EventID DESC;`;
+          const lastInsertedId = await queryAsync(conn, lastInsertedIdQuery);
+
+          success = true;
+          closeConnection();
+
+          const infoMessage = "Event added successfully!";
+          logInfo(infoMessage);
+
+          // Send success response
+          res.status(200).json({
+            success,
+            data: { eventId: lastInsertedId[0].EventID },
+            message: infoMessage
+          });
+        } else {
+          closeConnection();
+          const warningMessage = "User not found, please login first.";
+          logWarning(warningMessage);
+          res.status(400).json({ success: false, data: {}, message: warningMessage });
+        }
+      } catch (queryErr) {
+        closeConnection();
+        logError(queryErr);
+        res.status(500).json({ success: false, data: queryErr, message: 'Something went wrong, please try again' });
+      }
+    });
+  } catch (error) {
+    logError(error);
+    res.status(500).json({ success: false, data: {}, message: 'Something went wrong, please try again' });
+  }
+};
+
+
+export const getEvent = async (req, res) => {
+  let success = false;
+
+  const userId = req.body.user;
+  // console.log("Testing User ID:", userId); // Added log for userId
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const warningMessage = "Data is not in the right format";
+    logWarning(warningMessage);
+    res.status(400).json({ success, data: errors.array(), message: warningMessage });
+    return;
+  }
+
+  try {
+    connectToDatabase(async (err, conn) => {
+      if (err) {
+        const errorMessage = "Failed to connect to database";
+        logError(err);
+        res.status(500).json({ success: false, data: err, message: errorMessage });
+        return;
+      }
+      try {
+        let rows = [];
+        if (userId !== null && userId !== undefined) {
+          const query = `SELECT UserID, Name FROM Community_User WHERE isnull(delStatus,0) = 0 AND EmailId = ?`;
+          rows = await queryAsync(conn, query, [userId]);
+          // console.log("User Query Result:", rows); // Log the result of the user query
+        }
+
+        if (rows.length === 0) {
+          rows.push({ UserID: null });
+        }
+
+        const EventWorkshopGetQuery = `SELECT EventID, EventTitle, AuthAdd as UserName, StartDate, EndDate, EventType, Venue, RegistrationLink, EventDescription, Category, AddOnDt as timestamp, EventImage FROM Community_Event WHERE ISNULL(delStatus, 0) = 0  ORDER BY AddOnDt DESC`;
+        const EventWorkshopGet = await queryAsync(conn, EventWorkshopGetQuery);
+        // console.log("Discussion Get Result:", discussionGet); // Log discussionGet
+
+        const updatedEvent = [];
+
+        // for (const item of EventWorkshopGet) {
+        //      let isOwner=0;
+        //      if(item.UserName==)
+
+        // }
+
+        success = true;
+        // console.log("Updated Discussions Array:", updatedEvent); // Log final updatedEvent array
+
+        closeConnection(); // Close the connection after all operations
+        const infoMessage = "Event and Workshop Got Successfully";
+        logInfo(infoMessage);
+        res.status(200).json({ success, data: { EventWorkshopGet }, message: infoMessage });
+      }
+      catch (queryErr) {
+        logError(queryErr);
+        closeConnection();
+        res.status(500).json({ success: false, data: queryErr, message: 'Something went wrong please try again' });
+      }
+    })
+
+
+  }
+  catch (error) {
+    logError(error);
+    res.status(500).json({ success: false, data: {}, message: 'Something went wrong please try again' });
+  }
+}
