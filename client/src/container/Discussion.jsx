@@ -401,8 +401,8 @@ const Discussion = () => {
         <div className="sm:order-4 flex items-center w-full sm:w-auto mt-4 sm:mt-0 sm:ml-4">
   {isLoading ? (
     <Skeleton 
-      height="2.5rem" // Adjusted to match the height of the input element
-      className="w-full sm:w-64 bg-gray-500 rounded-lg mb-4" 
+      height="2.16rem" // Adjusted to match the height of the input element
+      className="w-full sm:w-64 bg-gray-500 rounded-lg mb-1" 
     />
   ) : (
     <div className="relative w-full sm:w-64">
@@ -449,9 +449,9 @@ const Discussion = () => {
           </div>
           {isLoading ? (
               <Skeleton 
-                height="2.5rem" // Adjusted to match the height of the input element
+                height="2.16srem" // Adjusted to match the height of the input element
                 width={200}
-                className="w-full sm:w-64 bg-lime-500 rounded-lg mb-4" 
+                className="w-full sm:w-64 bg-lime-500 rounded-lg mb-1" 
               />
             ) : (
               <button
@@ -480,7 +480,7 @@ const Discussion = () => {
         <aside className="hidden lg:block lg:w-1/4 px-4">
         
           <div className="mb-8">
-            <h2 className="sm:text-sm md:text-base lg:text-base font-bold mb-4">
+            <h2 className="sm:text-sm md:text-base lg:text-lg font-bold mb-4">
               <AiOutlineComment className="inline-block mr-2" />Community Highlights
             </h2>
             
@@ -516,7 +516,7 @@ const Discussion = () => {
           </div>
 
           <div>
-            <h2 className="sm:text-sm md:text-base lg:text-base font-bold mb-4">
+            <h2 className="sm:text-sm md:text-base lg:text-lg font-bold mb-4">
               <FaTrophy className="inline-block mr-2" />Top Contributors
             </h2>
             <div className="space-y-2">
