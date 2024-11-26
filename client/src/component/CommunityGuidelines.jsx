@@ -46,8 +46,9 @@
         <div className="flex flex-wrap items-center mb-20">
           <div className="w-full md:w-1/2 p-2">
             <p className="text-lg w-full text-justify font-medium text-[#0c4a6e]">
-              Welcome to the DGX Community, a vibrant hub where professionals and enthusiasts unite to share insights, stay informed, learn new skills, and cultivate meaningful connections.
-              <br></br> For further details, please refer to this document .The community guidelines of our DGX Community platform are designed to foster a collaborative, respectful, and innovative environment. These guidelines cover both technical and non-technical aspects of platform usage, ensuring responsible AI development, ethical data sharing, and optimized DGX machine performance. By promoting professional conduct, data privacy, and open collaboration, our guidelines aim to empower users to share knowledge, troubleshoot issues, and contribute meaningfully while maintaining a secure and inclusive community space.
+            Welcome to the DGX Community! This policy outlines the principles and expectations that guide our vibrant ecosystem of professionals and enthusiasts.
+              <br></br> 
+                Our mission is to foster a collaborative, innovative, and respectful environment where members can share insights, learn new skills, and build meaningful connections. To ensure the success of our community, we&apos;ve established the following guidelines and policies.
             </p>
           </div>
           <div className="w-full md:w-1/2 p-2">
@@ -212,6 +213,7 @@
           <section id="no-spamming-or-self-promotion-details" className="mb-8">
             <h2 className="text-2xl text-DGXblack mt-8 text-center font-bold">No Spamming or Self-Promotion</h2>
             <p className="text-[#374151] mt-4">
+            <h3><b>Overview: </b></h3>
               To maintain a focused and valuable community, avoid spamming and self-promotion:
               <ul className="list-disc pl-5 text-[#374151]">
                 <li className="mb-2">

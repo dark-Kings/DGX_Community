@@ -78,7 +78,7 @@ const Home = () => {
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentIndex((prevIndex) => (prevIndex === slides.length - 1 ? 0 : prevIndex + 1));
-        }, 2000); // Change slide every 3 seconds
+        }, 2000); // Change slide every 2 seconds
 
         return () => clearInterval(interval);
     }, [slides.length]);
@@ -146,10 +146,9 @@ const Home = () => {
             </div>
 
             {isLoggedIn ? <><HomeAfterLoginComponent /> </> : <>
-                <section className="bg-[#f5f5f5]">
+                <section className="bg-white">
                     <div className="grid grid-cols-1 lg:grid-cols-2 items-center justify-items-center gap-4 bg-DGXblue p-4">
-                      
-                        <div className="flex flex-col justify-center items-center bg-DGXblue     opacity-100 w-full h-full p-4 md:p-6 lg:p-10">
+                        <div className="flex flex-col justify-center items-center bg-DGXblue opacity-100 w-full h-full p-4 md:p-6 lg:p-10">
                             <div className="text-center">
                                 <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-DGXwhite">Welcome to the DGX Community!
 
@@ -162,12 +161,11 @@ const Home = () => {
                             </div>
                         </div>
                         {/* Image and Text Section */}
-                        
-
+                      <img src={images.GIF} alt='gif' className='rounded-lg shadow-md shadow-slate-400 ' />
                     </div>
                 </section>
 
-                <section className="bg-[#f5f5f5]">
+                <section className="bg-white">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-4 lg:p-8">
                         {/* Text and Button Section */}
                         <div className="flex flex-col justify-center items-center lg:items-start text-center lg:text-left">
@@ -197,7 +195,7 @@ const Home = () => {
                             </div>
                             <button
                                 type="button"
-                                className="absolute top-1/2 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none transform -translate-y-1/2"
+                                className="absolute top-1/2 left-0 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none transform -translate-y-1/2"
                                 onClick={prevSlide}
                             >
                                 <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-DGXwhite/30 group-hover:bg-DGXwhite/50">

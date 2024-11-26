@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Map from '../constant/Map.jsx';
 
+
 const ContactUs = () => {
     const [loading, setLoading] = useState(true);
 
@@ -17,7 +18,7 @@ const ContactUs = () => {
                     <div className="block rounded-lg border border-DGXgreen shadow-md px-8 py-12 md:py-16 md:px-12">
                         <div className="flex flex-wrap">
                             {/* Contact Form */}
-                            <div className="w-full md:w-1/2 lg:w-5/12 md:px-3 lg:px-6 mb-12">
+                            <div className="w-full md:w-1/2 lg:w-1/2 md:px-3 lg:px-6 mb-12">
                                 {loading ? (
                                     <div className="space-y-5 animate-pulse">
                                         <div className="h-10 bg-DGXblue/45 rounded"></div>
@@ -55,16 +56,16 @@ const ContactUs = () => {
                             </div>
 
                             {/* Contact Information */}
-                            <div className="w-full md:w-1/2 lg:w-7/12 md:px-3 lg:px-3">
+                            <div className="w-full md:w-1/2 lg:w-1/2 md:px-3 lg:px-3">
                                 {loading ? (
                                     <div className="space-y-7 animate-pulse">
-                                        <div className="h-12 bg-DGXblue/45 rounded"></div>
-                                        <div className="h-12 bg-DGXblue/45 rounded"></div>
-                                        <div className="h-12 bg-DGXblue/45 rounded"></div>
-                                        <div className="h-12 bg-DGXblue/45 rounded"></div>
+                                        <div className="h-10 bg-DGXblue/45 rounded"></div>
+                                        <div className="h-10 bg-DGXblue/45 rounded"></div>
+                                        <div className="h-10 bg-DGXblue/45 rounded"></div>
+                                        <div className="h-10 bg-DGXblue/45 rounded"></div>
                                     </div>
                                 ) : (
-                                    <div className="space-y-7">
+                                    <div className="space-y-7 ">
                                         {[
                                             { title: 'Address', content: 'Global Infoventures Pvt. Ltd. H-65 Sector 63, Noida' },
                                             { title: 'Email', content: 'info@giindia.com' },
@@ -72,8 +73,8 @@ const ContactUs = () => {
                                             { title: 'Working hours', content: 'Mon - Fri: 10:00 AM - 06:00 PM' }
                                         ].map((info, idx) => (
                                             <div key={idx}>
-                                                <h2 className="text-lg font-bold text-primary">{info.title}</h2>
-                                                <p className="text-neutral-500">{info.content}</p>
+                                                <h2 className="md:text-base font-bold text-primary ">{info.title}</h2>
+                                                <p className="text-neutral-500 text-sm md:text-sm">{info.content}</p>
                                             </div>
                                         ))}
                                     </div>

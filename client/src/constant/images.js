@@ -46,6 +46,8 @@ import BMS from '../assets/BMS.png'
 import aisummit from '../assets/aisummit.png'
 import Design from '../assets/Design.png'
 
+import GIF from '../assets/gif.gif'
+
 
 
 
@@ -96,6 +98,7 @@ export default {
     BMS,
     utu, 
     aisummit,
-    Design
+    Design,
+    GIF
 
 }

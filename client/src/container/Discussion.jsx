@@ -397,31 +397,32 @@ const Discussion = () => {
       <ToastContainer style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }} />
       
       <header className="flex flex-wrap sm:justify-start sm:flex-nowrap w-full bg-DGXblue text-sm py-4">
-        <nav className="max-w-[85rem] w-full mx-auto px-4 flex flex-wrap basis-full items-center justify-between" aria-label="Global">
-        <div className="sm:order-4 flex items-center w-full sm:w-auto mt-4 sm:mt-0 sm:ml-4">
-  {isLoading ? (
-    <Skeleton 
-      height="2.16rem" // Adjusted to match the height of the input element
-      className="w-full sm:w-64 bg-gray-500 rounded-lg mb-1" 
-    />
-  ) : (
-    <div className="relative w-full sm:w-64">
-      <input
-        type="text"
-        className="w-full py-2 pl-10 pr-4 bg-white border border-gray-200 rounded-lg shadow-sm text-gray-800 focus:border-DGXgreen focus:ring-DGXgreen"
-        placeholder="Search..."
-        value={searchQuery}
-        onChange={handleSearchChange} // Call this directly without the arrow function
-        onKeyDown={handleKeyDown}
-      />
-      <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-        <FaSearch className="text-gray-400" />
-      </div>
-    </div>
-  )}
-</div>
+        <nav className="max-w-[85rem] w-full mx-auto px-4 flex flex-wrap basis-full items-center justify-between " aria-label="Global">
+        <div className="sm:order-4 flex items-center w-full sm:w-auto mt-0 sm:mt-0 sm:ml-4 ">
+              {isLoading ? (
+                <Skeleton 
+                  height="2.16rem" // Adjusted to match the height of the input element
+                  width={250} // Adjusted to match the width of the input element
+                  className="w-full sm:w-1/2 bg-gray-500 rounded-lg mb-1" 
+                />
+              ) : (
+                <div className="relative w-full sm:w-64 mb-2">
+                  <input
+                    type="text"
+                    className="w-full py-2 pl-10 pr-4 bg-white border border-gray-200 rounded-lg shadow-sm text-gray-800 focus:border-DGXgreen focus:ring-DGXgreen"
+                    placeholder="Search..."
+                    value={searchQuery}
+                    onChange={handleSearchChange} // Call this directly without the arrow function
+                    onKeyDown={handleKeyDown}
+                  />
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <FaSearch className="text-gray-400" />
+                  </div>
+                </div>
+              )}
+            </div>
 
-          <div className="sm:order-3 flex items-center gap-x-2">
+          {/* <div className="sm:order-3 flex items-center gap-x-2">
             <button
               type="button"
               className="sm:hidden hs-collapse-toggle p-2.5 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
@@ -439,7 +440,7 @@ const Discussion = () => {
                 <path d="m6 6 12 12" />
               </svg>
             </button>
-          </div>
+          </div> */}
           <div id="navbar-alignment" className={`${isNavOpen ? 'block' : 'hidden'} hs-collapse overflow-hidden transition-all duration-300 basis-full grow sm:grow-0 sm:basis-auto sm:block sm:order-2`}>
             {/* <div className="flex flex-col gap-6 mt-5 sm:flex-row sm:items-center sm:mt-0 sm:ps-5">
               <a className="text-lg font-bold text-DGXwhite cursor-pointer" onClick={() => setSelectedSection('all')} aria-current="page">All</a>
@@ -449,14 +450,14 @@ const Discussion = () => {
           </div>
           {isLoading ? (
               <Skeleton 
-                height="2.16srem" // Adjusted to match the height of the input element
-                width={200}
-                className="w-full sm:w-64 bg-lime-500 rounded-lg mb-1" 
+                height={35} // Adjusted to match the height of the input element
+                width={150}
+                className="w-full xs:w-full sm:w-64 bg-lime-500 rounded-lg mb-1 sm:mt-4" 
               />
             ) : (
               <button
                       type="button"
-                      className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-bold rounded-lg bg-DGXgreen text-DGXwhite shadow-sm hover:bg-DGXblue hover:border-DGXgreen border border-DGXblue disabled:opacity-50 disabled:pointer-events-none"
+                      className="py-2 xs:w-full px-3 inline-flex items-center gap-x-2 text-sm font-bold rounded-lg bg-DGXgreen text-DGXwhite shadow-sm hover:bg-DGXblue hover:border-DGXgreen border border-DGXblue disabled:opacity-50 disabled:pointer-events-none"
                       onClick={() => { setIsFormOpen(true) }}
                     >
                       Start a New Topic +
@@ -695,7 +696,7 @@ const Discussion = () => {
                   <div className="h-40 w-60 bg-gray-300 rounded mb-2"></div>
                   <div className="flex gap-2">
                     {Array.from({ length: 3 }).map((_, tagIndex) => (
-                      <span key={tagIndex} className="h-8 w-20 bg-gray-300 rounded"></span>
+                      <span key={tagIndex} className="h-8 w-20 bg-gray-300 rounded" ></span>
                     ))}
                   </div>
                   <div className="mt-4 h-5 bg-gray-300 rounded w-1/2"></div>

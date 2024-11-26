@@ -83,15 +83,15 @@ const Navbar = () => {
 
 
                 <div className={clsx('fixed h-full w-screen lg:hidden bg-DGXblack/50 backdrop-blur-sm top-0 right-0 -translate-x-full transition-all z-10', isSideMenuOpen && 'translate-x-0')}>
-                    <section className='text-DGXwhite bg-DGXblue flex flex-col absolute left-0 top-0 h-screen p-8 gap-8 z-50 w-60'>
-                        <IoMdCloseCircleOutline onClick={() => setMenu(false)} className='mt-0 mb-5 text-xl cursor-pointer' />
+                    <section className='text-DGXwhite bg-DGXblue flex flex-col absolute left-0 top-0 h-screen p-8 gap-8 z-50 w-72'>
+                        <IoMdCloseCircleOutline onClick={() => setMenu(false)} className='mt-0 mb-5 text-2xl cursor-pointer hover:text-DGXgreen hover:text-3xl' />
                         {navLinks.map((d, i) => (
                             <Link
                                 key={i}
                                 className={clsx(
-                                    'font-bold text-base transition duration-300 ease-in-out relative after:content-[""] after:absolute after:left-0 after:-bottom-1 after:h-1 after:w-full after:bg-DGXblue after:scale-x-0 after:transition-transform after:duration-300',
+                                    'font-bold  transition duration-300 ease-in-out relative after:content-[""] after:absolute after:left-0 after:-bottom-1 after:h-1 after:w-full after:bg-DGXblue after:scale-x-0 after:transition-transform after:duration-300',
                                     location.pathname === d.to && 'after:scale-x-100', // Active state for side menu animation
-                                    // 'hover:text-DGXgreen'
+                                    'hover:text-DGXgreen hover:text-lg'
                                 )}
                                 to={d.to}
                                 onClick={() => setMenu(false)}
