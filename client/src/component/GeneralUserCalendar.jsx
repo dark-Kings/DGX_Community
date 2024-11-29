@@ -51,7 +51,7 @@ const GeneralUserCalendar = ({ events = dummyEvents }) => {
       await new Promise((resolve) => setTimeout(resolve, 2000));
       setIsLoading(false);
     };
-    
+
     loadEvents();
   }, []);
 
@@ -91,7 +91,7 @@ const GeneralUserCalendar = ({ events = dummyEvents }) => {
           events={events}
           startAccessor="start"
           endAccessor="end"
-          style={{ height: 600}}
+          style={{ height: 600 }}
           className="bg-white rounded-lg border-2 border-DGXgreen shadow-lg p-5 mb-10 text-sm "
           eventPropGetter={eventStyleGetter}
           onSelectEvent={handleSelectEvent}

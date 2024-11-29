@@ -7,6 +7,8 @@ import ApiContext from '../context/ApiContext.jsx';
 // import MyStoryboard from '../component/MyStoryboard.jsx';
 import HomeAfterLoginComponent from '../component/HomeAfterLoginComponent.jsx';
 import { TextParallax } from '../component/TextParallax.jsx'; // Adjust the path as needed
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -16,17 +18,26 @@ import { TextParallax } from '../component/TextParallax.jsx'; // Adjust the path
 const Home = () => {
 
     const [currentIndex, setCurrentIndex] = useState(0);
-    const { userToken } = useContext(ApiContext);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const { user, userToken, setUserToken } = useContext(ApiContext);
     useEffect(() => {
-        if (userToken != null && userToken != undefined) {
-            setIsLoggedIn(true)
+        if (userToken && user) {
+            setIsLoggedIn(true);
+            console.log(user);
+
+        } else {
+            setIsLoggedIn(false);
         }
-        else {
-            setIsLoggedIn(false)
-        }
-    }, [userToken])
+    }, [user, userToken]);
+
+    const handleLogout = () => {
+        toggleDropdown();
+        Cookies.remove('userToken');
+        setUserToken(null);
+        navigate('/');
+    };
+
     const people = [
         {
             name: 'Ashiwini Thakur',
@@ -94,7 +105,7 @@ const Home = () => {
             prevIndex === slides.length - 1 ? 0 : prevIndex + 1
         );
     };
-    
+
 
     return (
         <div>
@@ -103,29 +114,31 @@ const Home = () => {
                 style={{ backgroundImage: `url(${images.HeroImg})` }} >
                 <div className="absolute inset-0 bg-DGXblack opacity-50" ></div> {/* Overlay */}
                 {isLoggedIn ? <>
-                    <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
-                        <div className="mb-8 flex justify-center ">
-                            <h1 className="text-6xl font-mono px-4 py-1.5 text-DGXwhite">
-                                Welcome &ldquo;Name&rdquo;!!
-                            </h1>
-                        </div>
-                        <div className="mx-auto max-w-2xl text-center">
-                            <h1 className="text-4xl font-bold tracking-tight text-DGXwhite sm:text-6xl">
-                                DGX - COMMUNITY
-                            </h1>
-                            <p className="mt-6 text-lg leading-8 text-DGXwhite">
-                               words[ Connect, Innovate, Automate]: DGX Community Elevates AI Development
-                            </p>
-
+                    <div className="relative flex items-center justify-center px-6 lg:px-8">
+                        <div className="text-center">
+                            <div className="mb-8 flex justify-center">
+                                <h1 className="text-6xl font-mono px-4 py-1.5 text-DGXwhite">
+                                    Welcome {user.Name.toUpperCase()}
+                                </h1>
+                            </div>
+                            <div className="mx-auto max-w-2xl">
+                                <h1 className="text-4xl font-bold tracking-tight text-DGXwhite sm:text-4xl">
+                                    DGX - COMMUNITY
+                                </h1>
+                                <p className="mt-6 text-lg leading-8 text-DGXwhite">
+                                    <i>Connect, Innovate, Automate</i>: DGX Community Elevates AI Development
+                                </p>
+                            </div>
                         </div>
                     </div>
+
                 </> :
                     <>
                         <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
                             <div className="mb-8 flex justify-center ">
-                                <p className="relative rounded-full px-4 py-1.5 text-DGXwhite leading-6  bg-DGXgreen bg-opacity-90 ring-1 ring-inset ring-[#111827]/10 hover:ring-[#111827]/20 hover:bg-DGXblue">
+                                <p className="relative rounded-full px-4 py-1.5 text-DGXwhite leading-6  bg-DGXgreen ring-1 ring-inset ring-[#111827]/10 hover:ring-[#111827]/20 hover:bg-DGXblue">
                                     <a href="/SignInn" target="_blank" className="font-semibold text-DGXwhite bd">
-                                        <span className="absolute inset-0 "></span> Join Us Today <span>→</span>
+                                        <span className="absolute inset-0 "></span> Join Us Today <span><FontAwesomeIcon icon={faArrowRight} /></span>
                                     </a>
                                 </p>
                             </div>
@@ -134,15 +147,12 @@ const Home = () => {
                                     DGX - COMMUNITY
                                 </h1>
                                 <p className="mt-6 text-lg leading-8 text-DGXwhite">
-                                    Connect, Innovate, Automate: DGX Community Elevates AI Development
+                                    <i>Connect, Innovate, Automate</i>: DGX Community Elevates AI Development
                                 </p>
 
                             </div>
                         </div>
                     </>}
-
-
-
             </div>
 
             {isLoggedIn ? <><HomeAfterLoginComponent /> </> : <>
@@ -161,7 +171,8 @@ const Home = () => {
                             </div>
                         </div>
                         {/* Image and Text Section */}
-                      <img src={images.GIF} alt='gif' className='rounded-lg shadow-md shadow-slate-400 ' />
+                        <img src={images.GIF} alt='gif' className='rounded-lg shadow-md shadow-slate-400 ' />
+
                     </div>
                 </section>
 
@@ -182,7 +193,7 @@ const Home = () => {
                             </button>
                         </div>
                         {/* Carousel Section */}
-                        <div className="relative w-full h-64 lg:h-[500px] rounded-lg overflow-hidden">
+                        <div className="relative w-full h-64 md:h-[500px] lg:h-[500px] rounded-lg overflow-hidden">
                             <div className="relative h-full">
                                 {slides.map((slide, index) => (
                                     <div
@@ -243,17 +254,19 @@ const Home = () => {
                             </button>
                         </div>
                     </div>
-                </section> </>}
-                <TextParallax />
+                </section> <TextParallax />
+            </>
+            }
+
             <div className="bg-DGXgray/50 py-24 sm:py-32 ">
                 <div className="mx-auto grid max-w-7xl gap-x-8 gap-y-20 px-6 lg:px-8 xl:grid-cols-3">
                     <div className="max-w-2xl">
                         <h2 className="text-3xl font-bold tracking-tight text-[#111827] sm:text-4xl">Meet our leadership</h2>
-                        <p className="mt-6 text-lg leading-8 text-[#4b5563]">
-                            &quot;Our leaders harness the NVIDIA DGX system to drive AI innovation and achieve exceptional results. Explore the future of AI with their visionary guidance.&quot;
+                        <p className="mt-6 text-justify text-lg leading-8 text-[#4b5563]">
+                            &quot;Our leaders are shaping the future with unparalleled expertise, harnessing the revolutionary NVIDIA DGX system to drive groundbreaking advancements in AI. With their visionary guidance, we&apos;re achieving extraordinary milestones, pushing the boundaries of what&apos;s possible, and paving the way for a smarter, more innovative tomorrow. Discover the future of AI with us!&quot;
                         </p>
                     </div>
-                    <ul role="list" className="grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 xl:col-span-2">
+                    <ul role="list" className="p-6 grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 xl:col-span-2">
                         {people.map((person) => (
                             <li key={person.name}>
                                 <div className="flex items-center gap-x-6">
@@ -272,7 +285,7 @@ const Home = () => {
             <div className="bg-white py-24 sm:py-32">
                 <div className="mx-auto max-w-7xl px-6 lg:px-8">
                     <h1 className="text-center text-2xl font-bold leading-8 text-DGXblue">
-                        NVIDIA DGX systems are at the forefront of AI research and innovation. Trusted by the world’s most innovative universities and corporations, DGX provides the computational power needed to tackle the most complex AI challenges. Whether advancing research in academic institutions or driving breakthroughs in industry, DGX stands as the premier choice for those leading the charge in artificial intelligence.
+                        NVIDIA DGX systems are at the forefront of AI research and innovation. Trusted by the world&apos;s most innovative universities and corporations, DGX provides the computational power needed to tackle the most complex AI challenges. Whether advancing research in academic institutions or driving breakthroughs in industry, DGX stands as the premier choice for those leading the charge in artificial intelligence.
                     </h1>
                     <div className="mx-auto mt-10 flex flex-wrap gap-10 items-center justify-center">
                         <div className="flex justify-center items-center w-full sm:w-auto">
@@ -332,9 +345,6 @@ const Home = () => {
                             />
                         </div>
                     </div>
-
-
-
                 </div>
             </div>
 

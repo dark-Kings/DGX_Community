@@ -14,12 +14,6 @@ import Cookies from 'js-cookie';
 import ApiContext from '../context/ApiContext.jsx';
 import { ToastContainer, toast, } from "react-toastify";
 
-
-
-
-
-
-
 const UserProfile = () => {
     const [showEmailInput, setShowEmailInput] = useState(false);
     const [activeTab, setActiveTab] = useState('profile');
@@ -33,7 +27,6 @@ const UserProfile = () => {
 
     // console.log(user, userToken)
     // const [userData, setUserData] = useState({});
-
 
     // State to hold the uploaded background image
     const [backgroundImage, setBackgroundImage] = useState(images.NvidiaBackground);
@@ -81,11 +74,7 @@ const UserProfile = () => {
             setEmailError('');
             setEmailSubmitted(true);
             // Add your email submission logic here
-
-
             const endpoint = "user/sendinvite";
-
-
             const method = "POST"
             const body = {
                 "email": email
@@ -123,7 +112,6 @@ const UserProfile = () => {
                         progress: undefined,
                         theme: "light",
                     });
-
                 }
             } catch (error) {
                 setLoading(false)
@@ -148,9 +136,7 @@ const UserProfile = () => {
         setUserToken(null)
         navigate('/')
     }
-
     // const [openSettings, setOpenSettings] = useState(false);
-
     // const handleSettingsToggle = () => {
     //     setOpenSettings(!openSettings);
     // };
@@ -163,13 +149,9 @@ const UserProfile = () => {
                         <div className="w-full h-[250px] rounded-t-lg border border-t-0 border-l-0 border-r-0 border-b-DGXgreen border-b-4">
                             <img src={images.NvidiaBackground} className="w-full h-full rounded-tl-lg rounded-tr-lg" alt="Profile background" />
                         </div>
-
                         <div className="flex flex-col items-center -mt-20">
-
                             <div className="w-40 border-4 border-DGXgreen  rounded-full">
                                 <img src={backgroundImage} className='rounded-full' alt="Profile" />
-
-
                                 <input
                                     type="file"
                                     accept="image/*"
@@ -177,14 +159,10 @@ const UserProfile = () => {
                                     onChange={handleImageChange}
                                     title="Click to change background image"
                                 />
-
                             </div>
                             <div>
                                 <FaEdit className="text-DGXblack text-3xl" />
                             </div>
-
-
-
                             <div className="flex items-center space-x-2 mt-2">
                                 <p className="text-2xl">{user.Name}</p>
                                 <span className="bg-[#2563eb] rounded-full p-1" title="Verified">
@@ -221,7 +199,6 @@ const UserProfile = () => {
                                         <SlLogout className='mr-4 text-2xl' />
                                         <li className={`text-lg ${activeTab === 'logout' ? 'text-DGXblue font-bold' : ''}`}>Logout</li>
                                     </div>
-
                                 </ul>
                             </div>
                             <div className="flex-1 bg-DGXwhite rounded-lg shadow-xl p-4 md:p-8 border border-DGXgreen">
@@ -256,7 +233,7 @@ const UserProfile = () => {
                                         <span className="text-DGXgray">{user.ReferalNumberCount}</span>
                                     </li> : <></>}
                                     {/* <li className="flex items-center justify-center border-b py-2 space-x-2">
-                                        
+                                     
                                         <a href="#" title="Facebook"><FaFacebook className="w-5 h-5" /></a>
                                         <a href="#" title="Twitter"><FaTwitter className="w-5 h-5" /></a>
                                         <a href="#" title="LinkedIn"><FaLinkedin className="w-5 h-5" /></a>
@@ -292,7 +269,6 @@ const UserProfile = () => {
                                 {emailError && <p className="text-red-500 mt-2">{emailError}</p>}
                                 {emailSubmitted && !emailError && <p className="text-green-500 mt-2">Refered successfully!</p>}
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -420,7 +396,6 @@ const UserProfile = () => {
                                         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
                                     </div>
                                 </a>
-
                                 <a href="#" className="border-DGXgreen shadow-xl flex flex-col items-center bg-white border rounded-lg  md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 m-2">
                                     <img className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="/docs/images/blog/image-4.jpg" alt="" />
                                     <div className="flex flex-col justify-between p-4 leading-normal">
@@ -428,7 +403,6 @@ const UserProfile = () => {
                                         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
                                     </div>
                                 </a>
-
                                 <a href="#" className="border-DGXgreen shadow-xl flex flex-col items-center bg-white border rounded-lg  md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 m-2">
                                     <img className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="/docs/images/blog/image-4.jpg" alt="" />
                                     <div className="flex flex-col justify-between p-4 leading-normal">
@@ -436,7 +410,6 @@ const UserProfile = () => {
                                         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
                                     </div>
                                 </a>
-
                                 <a href="#" className="border-DGXgreen shadow-xl flex flex-col items-center bg-white border rounded-lg  md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 m-2">
                                     <img className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="/docs/images/blog/image-4.jpg" alt="" />
                                     <div className="flex flex-col justify-between p-4 leading-normal">
@@ -444,7 +417,6 @@ const UserProfile = () => {
                                         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
                                     </div>
                                 </a>
-
                             </div>
                         </div>
                     )}

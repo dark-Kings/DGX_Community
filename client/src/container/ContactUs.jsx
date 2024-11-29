@@ -83,12 +83,12 @@ const ContactUs = () => {
                         </div>
                         {/* Map Section */}
                         <div id="map" className="mt-8 relative h-[400px] w-full overflow-hidden bg-cover bg-no-repeat rounded-lg border border-DGXgreen shadow-xl">
-                                {loading ? (
-                                    <div className="w-full h-full bg-DGXblue/50 animate-pulse" />
-                                ) : (
-                                    <Map className="w-full h-full" />
-                                )}
-                            </div>
+                            {loading ? (
+                                <div className="w-full h-full bg-DGXblue/50 animate-pulse" />
+                            ) : (
+                                <Map className="w-full h-full" />
+                            )}
+                        </div>
                     </div>
                 </div>
             </section>

@@ -86,7 +86,7 @@ const BlogPage = () => {
             <div className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50">
                 <div className="bg-white p-8 rounded-lg w-full h-full max-w-full relative overflow-y-auto">
                     <button className="text-black text-2xl absolute top-2 right-3" onClick={closeModal}><FontAwesomeIcon icon={faXmark} /></button>
-                    <div className="flex flex-col items-center h-full">
+                    <div className="flex flex-col items-center h-full p-10">
                         <div className="w-full lg:w-1/2 mb-6">
                             <img className="w-full rounded" src={image} alt={title} />
                         </div>
@@ -99,6 +99,13 @@ const BlogPage = () => {
                             <p className="mb-4 text-sm text-gray-500 text-center">Published: {published_date}</p>
                             <p className="text-lg text-justify">{content}</p>
                         </div>
+                        {/* Close button at the end */}
+                        <button
+                            className="m-6 bg-DGXblue text-white px-6 py-2 rounded-lg hover:bg-red-600"
+                            onClick={closeModal}
+                        >
+                            Close
+                        </button>
                     </div>
                 </div>
             </div>
@@ -170,7 +177,7 @@ const BlogPage = () => {
                                     }
                                     setPageSize(pageSize + 5);
                                 }}
-                                className="px-6 py-2 md:px-8 md:py-4 text-sm md:text-lg bg-DGXblue text-white rounded-lg"
+                                className="px-6 py-2 md:px-8 md:py-4 text-sm md:text-lg bg-DGXblue text-white rounded-lg hover:bg-DGXgreen"
                             >
                                 Show More
                             </button>

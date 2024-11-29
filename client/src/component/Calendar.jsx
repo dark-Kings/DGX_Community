@@ -2,9 +2,9 @@ import React, { useState, useRef, useContext } from 'react';
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { images } from '../constant/index.js';
+// import { images } from '../constant/index.js';
 import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css'; // import styles for ReactQuill
+import 'quill/dist/quill.snow.css';
 import ApiContext from '../context/ApiContext.jsx';
 import { compressImage } from '../utils/compressImage.js';
 

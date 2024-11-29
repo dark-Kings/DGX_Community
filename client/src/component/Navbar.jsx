@@ -6,6 +6,9 @@ import { IoMdCloseCircleOutline } from "react-icons/io";
 import clsx from 'clsx';
 import ApiContext from '../context/ApiContext.jsx';
 import Cookies from 'js-cookie';
+import { faHome, faComments, faCalendar, faBlog, faEnvelope, faBook } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 
 const Navbar = () => {
     const [isSideMenuOpen, setMenu] = useState(false);
@@ -18,7 +21,7 @@ const Navbar = () => {
         if (userToken && user) {
             setIsLoggedIn(true);
             console.log(user);
-            
+
         } else {
             setIsLoggedIn(false);
         }
@@ -37,65 +40,71 @@ const Navbar = () => {
         navigate('/');
     };
 
+
     const navLinks = [
-        { label: 'Home', to: "/" },
-        { label: 'Discussions', to: '/Discussion' },
-        { label: 'Event and Workshop', to: '/EventWorkshopPage' },
-        { label: 'Blog', to: '/Blog' },
-        { label: 'Contact Us', to: '/ContactUs' },
-        { label: 'Community Guidelines', to: '/CommunityGuidelines' }
+        { label: 'Home', to: "/", icon: faHome },
+        { label: 'Discussions', to: '/Discussion', icon: faComments },
+        { label: 'Event and Workshop', to: '/EventWorkshopPage', icon: faCalendar },
+        { label: 'Blog', to: '/Blog', icon: faBlog },
+        { label: 'Contact Us', to: '/ContactUs', icon: faEnvelope },
+        { label: 'Community Guidelines', to: '/CommunityGuidelines', icon: faBook }
     ];
+
 
     return (
         <main>
-            <nav className='flex justify-between items-center p-1 h-8 md:h-8 lg:h-10 xl:h-10'>
+            <nav className='flex justify-between items-center h-14 md:h-10 lg:h-12 xl:h-14'>
                 <section>
                     <Link to="/" className="flex items-center space-x-0 rtl:space-x-reverse">
                         <AiOutlineMenu onClick={() => setMenu(true)} className='text-3xl cursor-pointer md:hidden' />
-                        <img src={images.nvidiaPartner} className="h-7 md:h-8 lg:h-10 xl:h-10 items-center" alt="NVIDIA Partner Logo" />
+                        <img src={images.nvidiaPP} className="h-10 md:h-10 lg:h-12 xl:h-14 items-center" alt="NVIDIA Preferred Partner Logo" />
                     </Link>
                 </section>
-                <div className="flex items-center justify-center font-bold space-x-6">
+                <div className="flex items-center justify-center font-bold xl:space-x-9 2xl:space-x-10 lg:space-x-5 md:space-x-3">
                     {navLinks.map((d, i) => (
                         <Link
-                        key={i}
-                        className={clsx(
-                            // Default: hidden on small screens (xs to md) and shown on larger screens
-                            'hidden md:block text-DGXblue text-sm transition-all duration-300 ease-in-out relative after:content-[""] after:absolute after:left-0 after:-bottom-1 after:h-1 after:w-full after:bg-DGXblue after:scale-x-0 after:transition-transform after:duration-300',
-                            
-                            // Responsive breakpoints (only shown on lg and up)
-                            'md:text-xs lg:text-base xl:text-base 2xl:text-lg',
+                            key={i}
+                            className={clsx(
+                                // Default: hidden on small screens (xs to md) and shown on larger screens
+                                'hidden md:block text-DGXblue text-sm transition-all duration-300 ease-in-out relative after:content-[""] after:absolute after:left-0 after:-bottom-1 after:h-1 after:w-full after:bg-DGXblue after:scale-x-0 after:transition-transform after:duration-300',
 
-                            'md:m-1 lg:m-2 xl:m-2 2xl:m-4',
-                            
-                            // Active state animation
-                            location.pathname === d.to && 'after:scale-x-100', 
-                            
-                            // Hover state
-                            'hover:text-DGXgreen hover:font-black'
-                        )}
-                        to={d.to}
+                                // Responsive breakpoints (only shown on lg and up)
+                                'md:text-[13px] lg:text-base xl:text-xl 2xl:text-xl',
+
+                                'md:m-1 lg:m-2 xl:m-2 2xl:m-4',
+
+                                // Active state animation
+                                location.pathname === d.to && 'after:scale-x-100',
+
+                                // Hover state
+                                'hover:text-DGXgreen hover:font-black'
+                            )}
+                            to={d.to}
                         >
-                        {d.label}
+                            {d.label}
                         </Link>
                     ))}
-                    </div>
+                </div>
 
 
                 <div className={clsx('fixed h-full w-screen lg:hidden bg-DGXblack/50 backdrop-blur-sm top-0 right-0 -translate-x-full transition-all z-10', isSideMenuOpen && 'translate-x-0')}>
-                    <section className='text-DGXwhite bg-DGXblue flex flex-col absolute left-0 top-0 h-screen p-8 gap-8 z-50 w-72'>
-                        <IoMdCloseCircleOutline onClick={() => setMenu(false)} className='mt-0 mb-5 text-2xl cursor-pointer hover:text-DGXgreen hover:text-3xl' />
+                    <section className="text-DGXwhite bg-DGXblue flex flex-col absolute left-0 top-0 h-screen p-8 gap-8 z-50 w-72">
+                        <IoMdCloseCircleOutline
+                            onClick={() => setMenu(false)}
+                            className="mt-0 mb-5 text-2xl cursor-pointer hover:text-DGXgreen hover:text-3xl"
+                        />
                         {navLinks.map((d, i) => (
                             <Link
                                 key={i}
                                 className={clsx(
-                                    'font-bold  transition duration-300 ease-in-out relative after:content-[""] after:absolute after:left-0 after:-bottom-1 after:h-1 after:w-full after:bg-DGXblue after:scale-x-0 after:transition-transform after:duration-300',
+                                    'font-bold flex items-center gap-4 transition duration-300 ease-in-out relative after:content-[""] after:absolute after:left-0 after:-bottom-1 after:h-1 after:w-full after:bg-DGXblue after:scale-x-0 after:transition-transform after:duration-300',
                                     location.pathname === d.to && 'after:scale-x-100', // Active state for side menu animation
                                     'hover:text-DGXgreen hover:text-lg'
                                 )}
                                 to={d.to}
                                 onClick={() => setMenu(false)}
                             >
+                                <FontAwesomeIcon icon={d.icon} className="text-xl" />
                                 {d.label}
                             </Link>
                         ))}
@@ -107,7 +116,7 @@ const Navbar = () => {
                         <Link to="/SignInn">
                             <button
                                 type="button"
-                                className="text-white bg-DGXgreen focus:ring-4 flex items-center justify-center focus:outline-none focus:ring-DGXgreen font-medium rounded-md h-7 md:h-7 lg:h-8 xl:h-9 text-sm md:text-sm  lg:text-base xl:text-lg 2xl:text-xl px-6 py-3 text-center hover:bg-DGXblue transition duration-300"
+                                className="text-white bg-DGXgreen focus:ring-4 flex items-center justify-center focus:outline-none focus:ring-DGXgreen font-medium rounded-md h-8 md:h-9 lg:h-10 xl:h-12 text-sm md:text-base  lg:text-lg xl:text-xl 2xl:text-2xl px-6 py-3 text-center hover:bg-DGXblue transition duration-300"
                             >
                                 Login
                             </button>
@@ -118,7 +127,7 @@ const Navbar = () => {
                             <img
                                 src={images.robot}  // Add the user's image URL here
                                 alt="User"
-                                className='h-12 w-12 rounded-full border-2 cursor-pointer'
+                                className='h-12 md:h-10 md:w-10 w-12 rounded-full border-2 cursor-pointer'
                                 onClick={toggleDropdown}
                             />
                             {isDropdownOpen && (

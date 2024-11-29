@@ -19,7 +19,7 @@ const EventRegistrationForm = () => {
     privacyConsented: false,
     otherIdProof: '', // State for "Other" ID proof
   });
-  
+
   const [errors, setErrors] = useState({});
 
   const handlePhoneChange = (value) => {

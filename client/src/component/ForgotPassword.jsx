@@ -73,13 +73,13 @@ const ForgotPassword = () => {
 
 
   return (
-    loading ? < LoadPage/> : <div className="min-h-screen flex flex-col lg:flex-row items-center justify-center relative">
+    loading ? < LoadPage /> : <div className="min-h-screen flex flex-col lg:flex-row items-center justify-center relative">
       <ToastContainer />
       {/* Left side with form */}
-      <div className="w-full lg:w-1/2 min-h-screen py-20 px-8 lg:rounded-r-3xl bg-DGXblue flex items-center justify-center">
+      <div className="w-full lg:w-1/2 min-h-screen py-20 px-8 lg:rounded-r-full bg-DGXblue flex items-center justify-center">
         <div className="w-full max-w-md">
           <div className="rounded-xl mx-auto shadow-lg overflow-hidden bg-DGXwhite shadow-DGXgreen p-8">
-            <h1 className="text-DGXblue text-3xl mb-6 font-bold text-center">Forgot Password</h1>
+            <h1 className="text-DGXblue text-3xl mb-10 font-bold text-center">Forgot Password</h1>
 
             <form onSubmit={handleSubmit} className="w-full">
               <div className="mb-4">
@@ -93,7 +93,7 @@ const ForgotPassword = () => {
                 />
               </div>
               <div>
-                <button type="submit" className="w-full text-lg bg-DGXgreen hover:bg-[#1d4ed8] rounded-full py-3 text-center font-medium text-DGXwhite">
+                <button type="submit" className="w-full text-lg bg-DGXgreen hover:bg-DGXblue rounded-full py-3 text-center font-medium text-DGXwhite">
                   Verify Email
                 </button>
               </div>

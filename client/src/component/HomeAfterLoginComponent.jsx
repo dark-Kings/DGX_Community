@@ -13,7 +13,7 @@ const HomeAfterLoginComponent = () => {
         'https://i.imgur.com/FFQKx5h.jpeg',
         'https://i.imgur.com/8Iy60sf.png',
         'https://i.imgur.com/7AubC7P.png',
-       
+
     ];
 
     const stats = [
@@ -36,6 +36,56 @@ const HomeAfterLoginComponent = () => {
 
     return (
         <>
+            {/* Welcome Section
+            <section className="bg-white shadow-lg rounded-lg p-6 mb-6">
+                <div className="mt-4 flex gap-4">
+                    <a href="/discussion" className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">
+                        Start Discussion
+                    </a>
+                    <a href="/EventWorkshopPage" className="bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700">
+                        Join Event
+                    </a>
+                    <a href="/blog" className="bg-gray-600 text-white py-2 px-4 rounded hover:bg-gray-700">
+                        Blog
+                    </a>
+                </div>
+
+            </section> */}
+
+            {/* Dashboard Highlights */}
+            <section className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                {/* Upcoming Events */}
+                <div className="bg-white shadow-lg rounded-lg p-6">
+                    <h2 className="text-xl font-semibold text-gray-800 mb-4">Upcoming Events</h2>
+                    <ul className="space-y-4">
+                        <li className="flex justify-between items-center">
+                            <div>
+                                <p className="text-gray-700 font-medium">Event 1: AI Workshop</p>
+                                <p className="text-gray-500 text-sm">Dec 1, 2024 | 10:00 AM</p>
+                            </div>
+                            <button className="text-blue-600 font-medium hover:underline">Join</button>
+                        </li>
+                        <li className="flex justify-between items-center">
+                            <div>
+                                <p className="text-gray-700 font-medium">Event 2: Community Meetup</p>
+                                <p className="text-gray-500 text-sm">Dec 5, 2024 | 3:00 PM</p>
+                            </div>
+                            <button className="text-blue-600 font-medium hover:underline">Join</button>
+                        </li>
+                    </ul>
+                </div>
+
+                {/* Recent Activity */}
+                <div className="bg-white shadow-lg rounded-lg p-6">
+                    <h2 className="text-xl font-semibold text-gray-800 mb-4">Recent Activity</h2>
+                    <ul className="space-y-4">
+                        <li className="text-gray-700">You commented on *"How to optimize DGX workflows"*.</li>
+                        <li className="text-gray-700">You joined the event *"AI in Healthcare"*.</li>
+                        <li className="text-gray-700">Your post *"NVIDIA DGX H100 benchmarks"* received 12 likes.</li>
+                    </ul>
+                </div>
+            </section>
+         
             <div className="relative isolate overflow-hidden bg-white px-6 py-24 sm:py-32 lg:overflow-visible lg:px-0">
                 <div className="absolute inset-0 -z-10 overflow-hidden">
                     <svg
@@ -77,9 +127,9 @@ const HomeAfterLoginComponent = () => {
                         </div>
                     </div>
 
-
-                    <div className="-ml-12 -mt-12 p-12 lg:sticky lg:top-4 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:overflow-hidden">
-                        <div className="overflow-hidden">
+                    <div className="flex items-center justify-center lg:p-10 lg:sticky lg:top-4 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:overflow-hidden">
+                        <div className="relative w-full overflow-hidden">
+                            {/* Image container */}
                             <div
                                 className="flex transition-transform duration-500"
                                 style={{ transform: `translateX(-${currentSlide * 100}%)` }}
@@ -94,21 +144,22 @@ const HomeAfterLoginComponent = () => {
                                     </div>
                                 ))}
                             </div>
-                        </div>
-                        <button
-                            onClick={prevSlide}
-                            className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-gray-700 text-white p-2 rounded-full"
-                        >
-                            &lt;
-                        </button>
-                        <button
-                            onClick={nextSlide}
-                            className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-gray-700 text-white p-2 rounded-full"
-                        >
-                            &gt;
-                        </button>
-                    </div>
 
+                            {/* Next and Previous buttons */}
+                            <button
+                                onClick={prevSlide}
+                                className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-gray-700 text-white p-2 rounded-full z-10"
+                            >
+                                &lt;
+                            </button>
+                            <button
+                                onClick={nextSlide}
+                                className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-gray-700 text-white p-2 rounded-full z-10"
+                            >
+                                &gt;
+                            </button>
+                        </div>
+                    </div>
 
 
                     <div className="lg:col-span-2 lg:col-start-1 lg:row-start-2 lg:mx-auto lg:grid lg:w-full lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
@@ -161,6 +212,7 @@ const HomeAfterLoginComponent = () => {
                     </div>
                 </div>
             </div>
+
 
 
             <div className="bg-white py-24 sm:py-32">
