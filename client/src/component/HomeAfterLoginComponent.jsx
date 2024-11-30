@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import quotes from '../json/quotes.json'
+
 import { IoCloudUpload } from "react-icons/io5";
 import { FaLock } from "react-icons/fa6";
 import { RiCalendarEventFill } from "react-icons/ri";
@@ -8,6 +10,9 @@ import { RiCalendarEventFill } from "react-icons/ri";
 
 
 const HomeAfterLoginComponent = () => {
+    const [quote, setQuote] = useState('');
+    const [author, setAuthor] = useState("");
+    const [loading, setLoading] = useState(true);
 
     const images = [
         'https://i.imgur.com/FFQKx5h.jpeg',
@@ -32,6 +37,23 @@ const HomeAfterLoginComponent = () => {
     const nextSlide = () => {
         setCurrentSlide((prev) => (prev < images.length - 1 ? prev + 1 : 0));
     };
+    // Function to get a random quote
+    const getRandomQuote = () => {
+        const randomIndex = Math.floor(Math.random() * quotes.length); // Get a random index
+        return quotes[randomIndex];
+    };
+
+    // Set quote when component mounts
+    useEffect(() => {
+        const randomQuote = getRandomQuote(); // Get a random quote on component load
+        setQuote(randomQuote.quote);
+        setAuthor(randomQuote.author);
+        setLoading(false);
+    }, []);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
 
     return (
@@ -75,17 +97,17 @@ const HomeAfterLoginComponent = () => {
                     </ul>
                 </div>
 
-                {/* Recent Activity */}
+                {/* Quote of the Day */}
                 <div className="bg-white shadow-lg rounded-lg p-6">
-                    <h2 className="text-xl font-semibold text-gray-800 mb-4">Recent Activity</h2>
-                    <ul className="space-y-4">
-                        <li className="text-gray-700">You commented on *"How to optimize DGX workflows"*.</li>
-                        <li className="text-gray-700">You joined the event *"AI in Healthcare"*.</li>
-                        <li className="text-gray-700">Your post *"NVIDIA DGX H100 benchmarks"* received 12 likes.</li>
-                    </ul>
+                    <div className="mt-6">
+                        <h2 className="text-xl font-bold">Quote of the Day:</h2>
+                        <blockquote className="italic mt-4">"{quote}"</blockquote>
+                        <p className="mt-2 text-right">- {author}</p>
+                    </div>
                 </div>
+
             </section>
-         
+
             <div className="relative isolate overflow-hidden bg-white px-6 py-24 sm:py-32 lg:overflow-visible lg:px-0">
                 <div className="absolute inset-0 -z-10 overflow-hidden">
                     <svg
