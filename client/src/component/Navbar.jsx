@@ -17,8 +17,6 @@ const Navbar = () => {
     useEffect(() => {
         if (userToken && user) {
             setIsLoggedIn(true);
-            console.log(user);
-            
         } else {
             setIsLoggedIn(false);
         }

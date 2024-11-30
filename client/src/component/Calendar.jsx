@@ -1,48 +1,25 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useRef } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { images } from '../constant/index.js';
+// import { images } from '../constant/index.js';
 import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css'; // import styles for ReactQuill
+import 'react-quill/dist/quill.snow.css';
+// import ApiContext from '../context/ApiContext.jsx';
 import ApiContext from '../context/ApiContext.jsx';
 import { compressImage } from '../utils/compressImage.js';
 
 
-const localizer = momentLocalizer(moment);
 
 const eventColors = {
-  workshop: '#013D54', // DGXblue
-  event: '#76B900',    // DGXgreen
+  workshop: '#013D54', 
+  event: '#76B900',    
 };
-
-const Calendar = () => {
-  const { fetchData, userToken } = useContext(ApiContext)
-  const [events, setEvents] = useState([
-    // {
-    //   title: 'Workshop on DGX H100',
-    //   start: new Date(),
-    //   end: new Date(new Date().getTime() + 3600000), // 1 hour later
-    //   category: 'workshop',
-    //   poster: images.Event1, // Add poster URL
-    //   venue: 'Room 101',
-    //   description: '<p>An in-depth workshop on DGX H100 technology.</p>',
-    //   host: 'John Doe',
-    //   registerLink: 'https://example.com/register', // Add register link here
-    // },
-    // {
-    //   title: 'DGX Server Maintenance',
-    //   start: new Date(new Date().getTime() + 86400000), // 1 day later
-    //   end: new Date(new Date().getTime() + 86400000 + 3600000), // 1 hour later
-    //   category: 'event',
-    //   poster: images.Event5, // Add poster URL
-    //   venue: 'Server Room',
-    //   description: '<p>Scheduled maintenance for DGX servers.</p>',
-    //   host: 'Jane Smith',
-    //   registerLink: '', // Empty if no registration link
-    // },
-  ]);
-
+const EventTable = () => {
+  const localizer = momentLocalizer(moment);
+  const { fetchData, userToken,user } = useContext(ApiContext);      
+  const [events, setEvents] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newEvent, setNewEvent] = useState({
     title: '',
@@ -56,6 +33,7 @@ const Calendar = () => {
     host: '',
     registerLink: '', // Add registerLink to state
   });
+
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [errors, setErrors] = useState({});
   const fileInputRef = useRef(null);
@@ -66,11 +44,10 @@ const Calendar = () => {
   const endRef = useRef(null);
   const categoryRef = useRef(null);
   const companyCategoryRef = useRef(null);
-
   const venueRef = useRef(null);
   const hostRef = useRef(null);
   const descriptionRef = useRef(null);
-  const registerLinkRef = useRef(null); // Add ref for register link
+  const registerLinkRef = useRef(null);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -92,71 +69,18 @@ const Calendar = () => {
     setNewEvent({ ...newEvent, description: value });
   };
 
-  // const handleSubmit = () => {
-  //   const errors = {};
-
-  //   if (!newEvent.title) errors.title = 'Event title is required.';
-  //   if (!newEvent.start) errors.start = 'Start date is required.';
-  //   if (!newEvent.end) errors.end = 'End date is required.';
-  //   if (newEvent.category === 'Select one') errors.category = 'Please select a category.';
-  //   if (newEvent.companyCategory === 'Select one') errors.companyCategory = 'Please select a category.';
-  //   if (!newEvent.venue) errors.venue = 'Venue is required.';
-  //   if (!newEvent.description) errors.description = 'Description is required.';
-  //   if (!newEvent.host) errors.host = 'Host is required.';
-  //   if (!newEvent.registerLink) errors.registerLink = 'Register link is required.';
-
-  //   if (Object.keys(errors).length > 0) {
-  //     setErrors(errors);
-
-  //     // Focus on the first input with an error
-  //     const firstErrorField = Object.keys(errors)[0];
-  //     const refMap = {
-  //       title: titleRef,
-  //       start: startRef,
-  //       end: endRef,
-  //       category: categoryRef,
-  //       companyCategory: companyCategoryRef,
-  //       venue: venueRef,
-  //       host: hostRef,
-  //       description: descriptionRef,
-  //       registerLink: registerLinkRef, // Add ref for register link
-  //     };
-  //     const element = refMap[firstErrorField].current;
-  //     if (element) {
-  //       element.focus();
-  //       element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  //     }
-
-  //     return;
-  //   }
-
-  //   setEvents([
-  //     ...events,
-  //     {
-  //       ...newEvent,
-  //       start: new Date(newEvent.start),
-  //       end: new Date(newEvent.end),
-  //     },
-  //   ]);
-
-  //   resetForm();
-  //   setIsModalOpen(false);
-  // };
-
-  // Full handleSubmit code including all logic:
-
+ 
   const handleImageChange = async (e) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       if (file) {
-
         const compressedFile = await compressImage(file);
         setNewEvent({ ...newEvent, [poster]: compressedFile });
-
-        // setSelectedImage(compressedFile);
       }
     }
   };
+
+
 
   const handleSubmit = async () => {
     const errors = {};
@@ -175,8 +99,6 @@ const Calendar = () => {
     // Check for errors
     if (Object.keys(errors).length > 0) {
       setErrors(errors);
-
-      // Focus on the first input with an error
       const firstErrorField = Object.keys(errors)[0];
       const refMap = {
         title: titleRef,
@@ -194,11 +116,9 @@ const Calendar = () => {
         element.focus();
         element.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
-
       return;
     }
 
-    // Make API call to add the event using fetchData
     const endpoint = 'eventandworkshop/addEvent';
     const method = 'POST';
     const headers = {
@@ -217,29 +137,11 @@ const Calendar = () => {
       poster: newEvent.poster, // Ensure you handle the poster appropriately
       description: newEvent.description,
     };
-    // console.log(body)
-
-
-
-
-    // const body = JSON.stringify({
-    //   title: newEvent.title,
-    //   start: newEvent.start,
-    //   end: newEvent.end,
-    //   category: newEvent.category,
-    //   companyCategory: newEvent.companyCategory,
-    //   venue: newEvent.venue,
-    //   host: newEvent.host,
-    //   registerLink: newEvent.registerLink,
-    //   poster: newEvent.poster, // Ensure you handle the poster appropriately
-    //   description: newEvent.description,
-    // });
-
+    
 
     try {
       const data = await fetchData(endpoint, method, body, headers);
       if (data.success) {
-        // Handle successful response
         setEvents([
           ...events,
           {
@@ -252,7 +154,6 @@ const Calendar = () => {
         setIsModalOpen(false);
         console.log('Event added successfully!', data.message);
       } else {
-        // Handle unsuccessful response from server
         console.error(`Server Error: ${data.message}`);
         alert(`Error: ${data.message}`);
       }
@@ -273,7 +174,7 @@ const Calendar = () => {
       start: '',
       end: '',
       category: 'Select one',
-      companyCategory: 'companyCategory',
+      companyCategory: 'Select one',
       poster: null,
       venue: '',
       description: '',
@@ -286,31 +187,11 @@ const Calendar = () => {
     }
   };
 
-  const handleSelectEvent = (event) => {
-    console.log('Events Data:', events);
-    setSelectedEvent(event);
-    document.getElementById('event-detail').scrollIntoView({ behavior: 'smooth' });
-  };
-
-  const eventStyleGetter = (event) => {
-    const backgroundColor = eventColors[event.category] || '#C0C0C0'; // Default color
-    return {
-      style: {
-        backgroundColor,
-        color: 'white',
-        borderRadius: '5px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100%',
-        fontSize: '0.85rem',
-        padding: '0.5rem',
-      },
-    };
-  };
 
   return (
-    <div className="container mx-auto mt-10">
+
+ 
+<div className="container mx-auto mt-10">
       <div>
         <h1 className='flex justify-center items-center font-bold text-3xl mb-10'>Events and Workshops Calendar</h1>
         <p className="mt-1 flex text-md justify-center items-center font-normal text-gray-500 dark:text-gray-400">Browse and manage discussions in the DGX community.</p>
@@ -323,18 +204,6 @@ const Calendar = () => {
         >
           Add Event
         </button>
-      </div>
-      <div className={`transition-opacity ${isModalOpen ? 'pointer-events-none opacity-50' : ''}`}>
-        <BigCalendar
-          localizer={localizer}
-          events={events}
-          startAccessor="start"
-          endAccessor="end"
-          style={{ height: 600, zIndex: 1 }} // Ensure calendar is behind the modal
-          className="bg-white rounded-lg border-2 border-DGXgreen shadow-lg p-5 mb-10"
-          eventPropGetter={eventStyleGetter}
-          onSelectEvent={handleSelectEvent}
-        />
       </div>
 
       {isModalOpen && (
@@ -393,8 +262,8 @@ const Calendar = () => {
               ref={companyCategoryRef}
             >
               <option value="Select one">Category</option>
-              <option value="workshop">Global Infoventures Event</option>
-              <option value="event">NVIDIA Event</option>
+              <option value="giEvent">Global Infoventures Event</option>
+              <option value="nvidiaEvent">NVIDIA Event</option>
             </select>
             {errors.category && <p className="text-red-500 text-sm mb-2">{errors.category}</p>}
 
@@ -494,54 +363,9 @@ const Calendar = () => {
         </div>
       )}
 
-      {selectedEvent && (
-        <div id="event-detail" className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50">
-          <div className="bg-white shadow-lg p-5 max-w-3xl w-full max-h-[90vh] overflow-y-auto z-50">
-            <h2 className="text-4xl font-bold mb-10 flex justify-center">Event Details</h2>
-            <div className="mb-4">
-              <strong className='text-xl underline'>Title:</strong> <span>{selectedEvent.title}</span>
-            </div>
-            <div className="mb-4">
-              <strong className='text-xl underline'>Date & Time:</strong> <span>{moment(selectedEvent.start).format('MMMM D, YYYY h:mm A')} - {moment(selectedEvent.end).format('h:mm A')}</span>
-            </div>
-            <div className="mb-4">
-              <strong className='text-xl underline'>Category:</strong> <span>{selectedEvent.category}</span>
-            </div>
-            <div className="mb-4">
-              <strong className='text-xl underline'>Venue:</strong> <span>{selectedEvent.venue}</span>
-            </div>
-            <div className="mb-4">
-              <strong className='text-xl underline'>Description:</strong> <div dangerouslySetInnerHTML={{ __html: selectedEvent.description }} />
-            </div>
-            <div className="mb-4">
-              <strong className='text-xl underline'>Host:</strong> <span>{selectedEvent.host}</span>
-            </div>
-            {selectedEvent.poster && (
-              <img src={selectedEvent.poster} alt="Event Poster" className="mb-4 w-full max-w-3xl object-cover border-2 rounded-lg border-DGXgreen" />
-            )}
-            <div className="flex justify-center gap-4 mt-4">
-              {selectedEvent.registerLink && (
-                <a
-                  href={selectedEvent.registerLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-DGXblue text-white p-2 rounded"
-                >
-                  Register Here
-                </a>
-              )}
-              <button
-                onClick={() => setSelectedEvent(null)}
-                className="bg-DGXblue text-white p-2 rounded"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
+  
   );
 };
 
-export default Calendar;
+export default EventTable;

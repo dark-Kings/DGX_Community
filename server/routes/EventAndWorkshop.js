@@ -7,6 +7,6 @@ const router = express.Router();
 
 // Route for adding a new event
 router.post('/addEvent', fetchUser, addEvent); // The fetchUser middleware can be used if you need to authenticate the user.
-router.post('/getEvent', getEvent); // The fetchUser middleware can be used if you need to authenticate the user.
+router.get('/getEvent', getEvent); // The fetchUser middleware can be used if you need to authenticate the user.
 
 export default router; 

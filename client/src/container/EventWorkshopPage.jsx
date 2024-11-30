@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { images } from '../constant/index.js';
 import GeneralUserCalendar from "../component/GeneralUserCalendar.jsx";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faShare } from '@fortawesome/free-solid-svg-icons';
+import ApiContext from "../context/ApiContext.jsx";
 
 // CardContainer Component
 const CardContainer = ({ children, className, containerClassName }) => {
@@ -43,6 +44,8 @@ const EventWorkshopPage = () => {
   const [activeTab, setActiveTab] = useState("myCompany");
   const [isAnimating, setIsAnimating] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // Control for loader
+  const { fetchData } = useContext(ApiContext);
+  const [dbevents, setDbvents] = useState([]);
 
   const myCompanyEvents = [
     { title: "Company Workshop: AI & Robotics", image: images.Event1 },
@@ -90,13 +93,25 @@ const EventWorkshopPage = () => {
     }
   };
 
-  // Simulate loading delay (e.g., slow network or data fetching)
   useEffect(() => {
-    const loadingTimer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000); // Loader will show for 2 seconds before loading content
+    const fetchEventData = async () => {
+      const endpoint = 'eventandworkshop/getEvent'
+      const method = "POST";
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      const eventData = await fetchData(endpoint);
+      setDbvents(eventData.data)
+      console.log('Log from event data', eventData.data);
 
-    return () => clearTimeout(loadingTimer); // Clean up the timer
+      const loadingTimer = setTimeout(() => {
+        setIsLoading(false);
+      }, 2000); // Loader will show for 2 seconds before loading content
+
+      return () => clearTimeout(loadingTimer); // Clean up the timer
+    };
+
+    fetchEventData();
   }, []);
 
   return (
@@ -183,7 +198,7 @@ const EventWorkshopPage = () => {
         </div>
       </div>
 
-      <GeneralUserCalendar />
+      <GeneralUserCalendar events={dbevents}/>
     </div>
   );
 };
