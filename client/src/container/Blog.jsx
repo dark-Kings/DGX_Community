@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TbUserSquareRounded } from "react-icons/tb";
 
 const BlogPage = () => {
@@ -130,10 +130,10 @@ const BlogPage = () => {
                 </div>
             </div>
 
-            <div className="flex justify-center items-center mt-8 flex-wrap gap-3">
-                <div className="flex flex-wrap justify-center items-center mt-8 space-x-2 space-y-2 md:space-y-0">
+            <div className="flex justify-center items-center flex-wrap gap-3">
+                <div className="flex flex-wrap justify-center items-center p-4 space-x-2 space-y-2 md:space-y-2">
                     <button
-                        className={`px-6 py-2 md:px-6 md:py-3 lg:px-8 lg:py-4 text-sm md:text-lg font-semibold ${selectedCategory === null ? 'bg-DGXgreen text-black' : 'bg-DGXblue text-white'} rounded-full transition-colors duration-300 ease-in-out hover:bg-DGXorange hover:text-white`}
+                        className={`flex items-center justify-center px-4 py-2 md:px-6 md:py-3 lg:px-8 lg:py-4 text-sm h-8 font-semibold ${selectedCategory === null ? 'bg-DGXgreen text-black' : 'bg-DGXblue text-white'} rounded-full transition-colors duration-300 ease-in-out hover:bg-DGXorange hover:text-white`}
                         onClick={() => handleCategorySelect(null)}
                     >
                         All
@@ -141,7 +141,7 @@ const BlogPage = () => {
                     {allCategories.map((category, index) => (
                         <button
                             key={index}
-                            className={`px-4 py-2 md:px-6 md:py-3 lg:px-8 lg:py-4 text-sm md:text-lg font-semibold ${selectedCategory === category ? 'bg-DGXgreen text-black' : 'bg-DGXblue text-white'} rounded-full transition-colors duration-300 ease-in-out hover:bg-DGXorange hover:text-white`}
+                            className={`flex items-center justify-center  px-4 py-2 md:px-6 md:py-3 lg:px-8 lg:py-4 h-8 text-sm font-semibold ${selectedCategory === category ? 'bg-DGXgreen text-black' : 'bg-DGXblue text-white'} rounded-full transition-colors duration-300 ease-in-out hover:bg-DGXorange hover:text-white`}
                             onClick={() => handleCategorySelect(category)}
                         >
                             {category}

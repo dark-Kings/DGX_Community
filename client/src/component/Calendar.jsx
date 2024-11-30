@@ -18,7 +18,7 @@ const eventColors = {
 };
 const EventTable = () => {
   const localizer = momentLocalizer(moment);
-  const { fetchData, userToken,user } = useContext(ApiContext);      
+  const { fetchData, userToken} = useContext(ApiContext);      
   const [events, setEvents] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newEvent, setNewEvent] = useState({

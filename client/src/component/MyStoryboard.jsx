@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaThumbsUp, FaComment, FaTrash, FaEdit } from 'react-icons/fa';
 import { images } from '../constant/index.js';
 

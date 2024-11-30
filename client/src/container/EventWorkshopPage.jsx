@@ -95,25 +95,23 @@ const EventWorkshopPage = () => {
 
   useEffect(() => {
     const fetchEventData = async () => {
-      const endpoint = 'eventandworkshop/getEvent'
-      const method = "POST";
-      const headers = {
-        'Content-Type': 'application/json',
-      };
-      const eventData = await fetchData(endpoint);
-      setDbvents(eventData.data)
-      console.log('Log from event data', eventData.data);
-
-      const loadingTimer = setTimeout(() => {
+      try {
+        const endpoint = 'eventandworkshop/getEvent';
+        const eventData = await fetchData(endpoint);
+        console.log(eventData)
+        // Assuming the event data is nested in `data`
+        setDbvents(eventData.data);
+  
+        // Stop loading after successful fetch
         setIsLoading(false);
-      }, 2000); // Loader will show for 2 seconds before loading content
-
-      return () => clearTimeout(loadingTimer); // Clean up the timer
+      } catch (error) {
+        console.error('Error fetching event data:', error);
+        setIsLoading(false); // Ensure loader stops even if there's an error
+      }
     };
-
+  
     fetchEventData();
   }, []);
-
   return (
     <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
       <div className="relative isolate overflow-hidden bg-DGXwhite px-6 py-20 text-center sm:px-16 sm:shadow-sm">

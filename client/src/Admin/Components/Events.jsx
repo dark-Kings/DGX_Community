@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import GeneralUserCalendar from '../../component/GeneralUserCalendar'
 import ApiContext from '../../context/ApiContext';
-import EventTable from './EventTable';
+import EventTable from '../../component/Calendar';
 
 
 const Events = () => {
@@ -17,6 +17,7 @@ const Events = () => {
   }, []);
   return (
     <>
+    
       <EventTable />
       <GeneralUserCalendar events={events} />
     </>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -27,8 +27,8 @@ const GeneralUserCalendar = ({ events }) => {
     loadEvents();
   }, []);
 
-  const handleSelectEvent = (event) => {
-    setSelectedEvent(event);
+  const handleSelectEvent = (events) => {
+    setSelectedEvent(events);
     document.getElementById('event-detail').scrollIntoView({ behavior: 'smooth' });
   };
 
@@ -36,6 +36,7 @@ const GeneralUserCalendar = ({ events }) => {
     const backgroundColor = eventColors[event.Category] || '#C0C0C0'; // Default color
     return {
       style: {
+        
         backgroundColor,
         color: 'white',
         borderRadius: '5px',
@@ -43,8 +44,8 @@ const GeneralUserCalendar = ({ events }) => {
         alignItems: 'center',
         justifyContent: 'center',
         height: '100%',
-        fontSize: '0.85rem',
-        padding: '0.5rem',
+        fontSize: '0.75rem',
+        padding: '0.2rem',
       },
     };
   };
@@ -53,7 +54,7 @@ const GeneralUserCalendar = ({ events }) => {
   return (
     <div className="container mx-auto mt-10">
       <div className="mb-5">
-        <h1 className="text-2xl font-bold mb-4">Our Event and Workshop Calendar</h1>
+        <h1 className=" flex items-center justify-center text-2xl font-bold mb-4">Our Event and Workshop Calendar</h1>
       </div>
 
       {isLoading ? (

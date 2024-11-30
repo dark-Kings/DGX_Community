@@ -1,10 +1,14 @@
+import React from 'react';
 // import { Link } from 'react-router-dom';
 import { images } from '../constant/index.js';
 import { useNavigate } from 'react-router-dom';
 import { useState, useContext, useEffect } from 'react';
 import ApiContext from '../context/ApiContext.jsx';
-import MyStoryboard from '../component/MyStoryboard.jsx';
+// import MyStoryboard from '../component/MyStoryboard.jsx';
 import HomeAfterLoginComponent from '../component/HomeAfterLoginComponent.jsx';
+import { TextParallax } from '../component/TextParallax.jsx'; // Adjust the path as needed
+
+
 
 
 
@@ -90,6 +94,7 @@ const Home = () => {
             prevIndex === slides.length - 1 ? 0 : prevIndex + 1
         );
     };
+    
 
     return (
         <div>
@@ -109,7 +114,7 @@ const Home = () => {
                                 DGX - COMMUNITY
                             </h1>
                             <p className="mt-6 text-lg leading-8 text-DGXwhite">
-                                Connect, Innovate, Automate: DGX Community Elevates AI Development
+                               words[ Connect, Innovate, Automate]: DGX Community Elevates AI Development
                             </p>
 
                         </div>
@@ -151,12 +156,13 @@ const Home = () => {
                                 </h1>
                                 <h2 className='text-DGXwhite font-bold'>Your Hub for Innovation, Collaboration, and Learning</h2>
                                 <p className="mt-4 text-sm sm:text-base md:text-lg lg:text-xl leading-6 text-DGXwhite">
-                                    We’re thrilled to have you here! Explore our community platform where students, researchers, and professionals come together to share knowledge, stay updated on the latest in AI and ML, and connect with like-minded individuals.
+                                    We&apos;re thrilled to have you here! Explore our community platform where students, researchers, and professionals come together to share knowledge, stay updated on the latest in AI and ML, and connect with like-minded individuals.
 
                                 </p>
                             </div>
                         </div>
                         {/* Image and Text Section */}
+                        
 
                     </div>
                 </section>
@@ -240,7 +246,7 @@ const Home = () => {
                         </div>
                     </div>
                 </section> </>}
-
+                <TextParallax />
             <div className="bg-DGXgray/50 py-24 sm:py-32 ">
                 <div className="mx-auto grid max-w-7xl gap-x-8 gap-y-20 px-6 lg:px-8 xl:grid-cols-3">
                     <div className="max-w-2xl">
