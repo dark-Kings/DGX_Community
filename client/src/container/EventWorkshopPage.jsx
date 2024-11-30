@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { images } from '../constant/index.js';
 import GeneralUserCalendar from "../component/GeneralUserCalendar.jsx";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShare, faBars } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp, faShare } from '@fortawesome/free-solid-svg-icons';
+import ApiContext from "../context/ApiContext.jsx";
 
 // CardContainer Component
 const CardContainer = ({ children, className, containerClassName }) => {
@@ -43,7 +44,8 @@ const EventWorkshopPage = () => {
   const [activeTab, setActiveTab] = useState("myCompany");
   const [isAnimating, setIsAnimating] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // Control for loader
-  const [menuOpen, setMenuOpen] = useState(false);
+  const { fetchData } = useContext(ApiContext);
+  const [dbevents, setDbvents] = useState([]);
 
   const myCompanyEvents = [
     { title: "Company Workshop: AI & Robotics", image: images.Event1 },
@@ -91,15 +93,25 @@ const EventWorkshopPage = () => {
     }
   };
 
-  // Simulate loading delay (e.g., slow network or data fetching)
   useEffect(() => {
-    const loadingTimer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000); // Loader will show for 2 seconds before loading content
-
-    return () => clearTimeout(loadingTimer); // Clean up the timer
+    const fetchEventData = async () => {
+      try {
+        const endpoint = 'eventandworkshop/getEvent';
+        const eventData = await fetchData(endpoint);
+        console.log(eventData)
+        // Assuming the event data is nested in `data`
+        setDbvents(eventData.data);
+  
+        // Stop loading after successful fetch
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Error fetching event data:', error);
+        setIsLoading(false); // Ensure loader stops even if there's an error
+      }
+    };
+  
+    fetchEventData();
   }, []);
-
   return (
     <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
       <div className="relative isolate overflow-hidden bg-DGXwhite px-6 py-20 text-center sm:px-16 sm:shadow-sm">
@@ -107,8 +119,7 @@ const EventWorkshopPage = () => {
           Explore Events and Workshops
         </p>
 
-        {/* Large Screen Tabs */}
-        <div className="hidden sm:flex justify-center gap-6">
+        <div className="mt-6 flex justify-center gap-6">
           <button
             onClick={() => handleTabChange("myCompany")}
             className={`px-8 py-3 ${activeTab === "myCompany" ? 'bg-DGXgreen text-white' : 'bg-DGXwhite text-black'} border border-DGXgreen rounded-xl transition-all shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-DGXgreen`}
@@ -128,38 +139,6 @@ const EventWorkshopPage = () => {
             GI India Old Events
           </button>
         </div>
-
-        {/* Small Screen Menu */}
-        <div className="sm:hidden flex justify-center">
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="bg-DGXgreen text-white px-4 py-2 rounded-md shadow-md hover:shadow-lg transition"
-          >
-            <FontAwesomeIcon icon={faBars} /> Menu
-          </button>
-        </div>
-        {menuOpen && (
-          <div className="mt-4 bg-DGXwhite border border-DGXgreen rounded-md shadow-lg text-center">
-            <button
-              onClick={() => handleTabChange("myCompany")}
-              className={`block w-full py-2 ${activeTab === "myCompany" ? 'bg-DGXgreen text-white' : 'text-black'} border-b`}
-            >
-              GI India Events
-            </button>
-            <button
-              onClick={() => handleTabChange("nvidia")}
-              className={`block w-full py-2 ${activeTab === "nvidia" ? 'bg-DGXgreen text-white' : 'text-black'} border-b`}
-            >
-              NVIDIA Events
-            </button>
-            <button
-              onClick={() => handleTabChange("oldEvents")}
-              className={`block w-full py-2 ${activeTab === "oldEvents" ? 'bg-DGXgreen text-white' : 'text-black'}`}
-            >
-              GI India Old Events
-            </button>
-          </div>
-        )}
 
         <div className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8 transition-opacity duration-300 ease-in-out ${isAnimating ? 'opacity-0' : 'opacity-100'}`}>
           {/* Show skeleton loader if loading */}
@@ -217,7 +196,7 @@ const EventWorkshopPage = () => {
         </div>
       </div>
 
-      <GeneralUserCalendar />
+      <GeneralUserCalendar events={dbevents}/>
     </div>
   );
 };

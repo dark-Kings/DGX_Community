@@ -155,7 +155,7 @@ const UserProfile = () => {
                                 <input
                                     type="file"
                                     accept="image/*"
-                                    className="absolute inset-0 opacity-0 cursor-pointer"
+                                    className="absolute  opacity-0 cursor-pointer"
                                     onChange={handleImageChange}
                                     title="Click to change background image"
                                 />
