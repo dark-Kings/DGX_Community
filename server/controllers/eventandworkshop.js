@@ -163,15 +163,8 @@ export const getEvent = async (req, res) => {
 
         const EventWorkshopGetQuery = `SELECT EventID, EventTitle, AuthAdd as UserName, StartDate, EndDate, EventType, Venue, RegistrationLink, EventDescription, Category, AddOnDt as timestamp, EventImage FROM Community_Event WHERE ISNULL(delStatus, 0) = 0  ORDER BY AddOnDt DESC`;
         const EventWorkshopGet = await queryAsync(conn, EventWorkshopGetQuery);
-        // console.log("Discussion Get Result:", discussionGet); // Log discussionGet
 
-        const updatedEvent = [];
 
-        // for (const item of EventWorkshopGet) {
-        //      let isOwner=0;
-        //      if(item.UserName==)
-
-        // }
 
         success = true;
         // console.log("Updated Discussions Array:", updatedEvent); // Log final updatedEvent array
