@@ -1,5 +1,5 @@
-import { useState, useContext } from "react";
-import { FaThumbsUp, FaComment } from "react-icons/fa";
+import React, { useState, useContext } from "react";
+// import { FaThumbsUp, FaComment } from "react-icons/fa";
 import { AiFillLike, AiOutlineLike } from "react-icons/ai"
 // import { images } from "../constant/index.js";
 import ApiContext from '../context/ApiContext.jsx';
@@ -18,7 +18,7 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
 
   const [loading, setLoading] = useState(false);
 
- 
+
   const handleAddComment = async (id) => {
     if (userToken) {
       const endpoint = "discussion/discussionpost";
@@ -118,7 +118,7 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
 
   const handleAddReply = async (commentIndex, replyText, id) => {
     console.log("Posting reply:", { id, replyText });
-  
+
     if (userToken) {
       const endpoint = "discussion/discussionpost";
       const method = "POST";
@@ -131,11 +131,11 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
         comment: replyText,
       };
       setLoading(true);
-  
+
       try {
         const data = await fetchData(endpoint, method, body, headers);
         console.log("API Response:", data);
-  
+
         if (!data.success) {
           setLoading(false);
           toast.error(`Error in posting reply: ${data.message}`, {
@@ -150,7 +150,7 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
           });
           return;
         }
-  
+
         const newReplyObj = {
           Comment: replyText,
           DiscussionID: id,
@@ -161,9 +161,9 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
           userLike: 0,
           comment: [],
         };
-  
+
         console.log("New Reply Object:", newReplyObj);
-  
+
         // Find the correct discussion in demoDiscussions
         const updatedDemoDiscussions = demoDiscussions.map((discussionItem) => {
           if (discussionItem.DiscussionID === discussion.DiscussionID) {
@@ -176,7 +176,7 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
               }
               return comment;
             });
-  
+
             return {
               ...discussionItem,
               comment: updatedComments, // Update the discussion comments with modified replies
@@ -184,15 +184,15 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
           }
           return discussionItem;
         });
-  
+
         console.log("Updated demoDiscussions Array:", updatedDemoDiscussions);
-  
+
         setDemoDiscussions(updatedDemoDiscussions);
         setReplyTexts((prevState) => ({
           ...prevState,
           [commentIndex]: "",
         }));
-  
+
         setLoading(false);
         toast.success("Reply Posted Successfully", {
           position: "top-center",
@@ -219,7 +219,7 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
         });
       }
     }
-  
+
     if (replyText.trim() !== "") {
       setReplyTexts((prevState) => ({
         ...prevState,
@@ -227,7 +227,7 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
       }));
     }
   };
-  
+
 
   // const handleAddLike = async (id, userLike) => {
   //   // console.log(id, userLike)
@@ -264,7 +264,7 @@ const DiscussionModal = ({ isOpen, onRequestClose, discussion }) => {
   //   }
   // };
   // const handleAddLike = () => setLikeCount(likeCount + 1);
-  
+
 
 
 

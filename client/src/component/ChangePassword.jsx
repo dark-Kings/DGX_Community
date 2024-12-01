@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { validatePassword } from "../utils/formValidation.js";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -126,7 +126,7 @@ const ChangePassword = () => {
     };
 
     return (
-        loading ? < LoadPage/> : <section className="h-screen">
+        loading ? < LoadPage /> : <section className="h-screen">
             <ToastContainer />
             <div className="h-full">
                 <div className="flex h-full flex-wrap md:w-250 items-center justify-center lg:justify-between">

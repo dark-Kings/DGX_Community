@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { images } from "../constant/index.js";
 import { IoRefreshCircleSharp } from "react-icons/io5";
 import { ToastContainer, toast } from 'react-toastify';
@@ -147,7 +147,7 @@ const VerifyEmail = () => {
                     <div className="relative mb-6">
                       <input
                         type="email"
-                        className="peer block w-full rounded border border-DGXgreen bg-transparent px-3 py-2 leading-5 outline-none transition-all duration-200 ease-linear focus:placeholder-opacity-100 peer-focus:text-primary peer-placeholder-shown:placeholder-opacity-0"
+                        className="peer block w-full rounded border border-DGXgreen bg-transparent px-3 py-2 leading-5 outline-none transition-all duration-200 ease-linear placeholder-transparent focus:placeholder-opacity-100"
                         id="email"
                         value={email}
                         onChange={handleChangeEmail}
@@ -165,7 +165,7 @@ const VerifyEmail = () => {
                     <div className="relative mb-6">
                       <input
                         type="text"
-                        className="peer block w-full rounded border border-DGXgreen bg-transparent px-3 py-2 leading-5 outline-none transition-all duration-200 ease-linear focus:placeholder-opacity-100 peer-focus:text-primary peer-placeholder-shown:placeholder-opacity-0"
+                        className="peer block w-full rounded border border-DGXgreen bg-transparent px-3 py-2 leading-5 outline-none transition-all duration-200 ease-linear placeholder-transparent focus:placeholder-opacity-100"
                         id="userCaptcha"
                         value={userCaptcha}
                         onChange={(e) => setUserCaptcha(e.target.value)}
@@ -189,17 +189,17 @@ const VerifyEmail = () => {
                       </div>
                       <button
                         type="button"
-                        className="text-blue hover:text-blue-700 border border-DGXblue border-double bg-DGXgreen ml-3"
+                        className="text-white hover:text-DGXgreen hover:border-DGXgreen border-DGXblue border-2 bg-DGXgreen ml-3 rounded-md hover:bg-white "
                         onClick={refreshCaptcha}
                       >
-                        <IoRefreshCircleSharp className="text-3xl" />
+                        <IoRefreshCircleSharp className="text-4xl" />
                       </button>
                     </div>
 
                     <div className="text-center lg:text-left">
                       <button
                         type="submit"
-                        className="inline-block w-full rounded bg-DGXgreen px-7 pb-2 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2"
+                        className="mt-5 inline-block w-full rounded bg-DGXgreen px-7 pb-2 pt-3 text-sm font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 hover:bg-DGXblue "
                       >
                         Verify
                       </button>

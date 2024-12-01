@@ -1,5 +1,10 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TbUserSquareRounded } from "react-icons/tb";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+
+
+
 
 const BlogPage = () => {
     const [blogs, setBlogs] = useState([]);
@@ -18,12 +23,12 @@ const BlogPage = () => {
         "public/bg3.jpg",
     ];
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-        }, 5000);
-        return () => clearInterval(interval);
-    }, [images.length]);
+    // useEffect(() => {
+    //     const interval = setInterval(() => {
+    //         setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+    //     },5000);
+    //     return () => clearInterval(interval);
+    // }, [images.length]);
 
     useEffect(() => {
         fetch('blogsData.json')
@@ -77,17 +82,14 @@ const BlogPage = () => {
 
     const Modal = ({ blog }) => {
         const { title, image, author, published_date, content } = blog || {};
-
         return (
             <div className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50">
                 <div className="bg-white p-8 rounded-lg w-full h-full max-w-full relative overflow-y-auto">
-                    <button className="text-black text-xl absolute top-4 right-4" onClick={closeModal}>X</button>
-
-                    <div className="flex flex-col items-center h-full">
+                    <button className="text-black text-2xl absolute top-2 right-3" onClick={closeModal}><FontAwesomeIcon icon={faXmark} /></button>
+                    <div className="flex flex-col items-center h-full p-10">
                         <div className="w-full lg:w-1/2 mb-6">
                             <img className="w-full rounded" src={image} alt={title} />
                         </div>
-
                         <div className="w-full lg:w-2/3 lg:px-10">
                             <h2 className="text-3xl font-bold mb-4 text-center">{title}</h2>
                             <p className="mb-2 text-gray-500 flex justify-center items-center gap-2">
@@ -97,6 +99,13 @@ const BlogPage = () => {
                             <p className="mb-4 text-sm text-gray-500 text-center">Published: {published_date}</p>
                             <p className="text-lg text-justify">{content}</p>
                         </div>
+                        {/* Close button at the end */}
+                        <button
+                            className="m-6 bg-DGXblue text-white px-6 py-2 rounded-lg hover:bg-red-600"
+                            onClick={closeModal}
+                        >
+                            Close
+                        </button>
                     </div>
                 </div>
             </div>
@@ -124,16 +133,13 @@ const BlogPage = () => {
                         sharing their stories and ideas. We offer everything you need to get started, from helpful tips
                         and tutorials.
                     </p>
-                    <div className="font-medium hover:text-orange-500 inline-flex items-center gap-2">
-                        Learn More 🔗
-                    </div>
                 </div>
             </div>
 
-            <div className="flex justify-center items-center mt-8 flex-wrap gap-3">
-                <div className="flex flex-wrap justify-center items-center mt-8 space-x-2 space-y-2 md:space-y-0">
+            <div className="flex justify-center items-center flex-wrap gap-3">
+                <div className=" flex items-center justify-center flex-wrap p-4 space-x-2 space-y-2" >
                     <button
-                        className={`px-6 py-2 md:px-6 md:py-3 lg:px-8 lg:py-4 text-sm md:text-lg font-semibold ${selectedCategory === null ? 'bg-DGXgreen text-black' : 'bg-DGXblue text-white'} rounded-full transition-colors duration-300 ease-in-out hover:bg-DGXorange hover:text-white`}
+                        className={`flex items-center justify-center px-4 py-2 md:px-6 md:py-3 lg:px-8 lg:py-4 text-sm h-8 font-semibold ${selectedCategory === null ? 'bg-DGXgreen text-black' : 'bg-DGXblue text-white'} rounded-full transition-colors duration-300 ease-in-out hover:bg-DGXgreen hover:text-white`}
                         onClick={() => handleCategorySelect(null)}
                     >
                         All
@@ -141,7 +147,7 @@ const BlogPage = () => {
                     {allCategories.map((category, index) => (
                         <button
                             key={index}
-                            className={`px-4 py-2 md:px-6 md:py-3 lg:px-8 lg:py-4 text-sm md:text-lg font-semibold ${selectedCategory === category ? 'bg-DGXgreen text-black' : 'bg-DGXblue text-white'} rounded-full transition-colors duration-300 ease-in-out hover:bg-DGXorange hover:text-white`}
+                            className={`flex items-center justify-center px-4 py-2 md:px-6 md:py-3 lg:px-8 lg:py-4 h-8 text-sm font-semibold ${selectedCategory === category ? 'bg-DGXgreen text-black' : 'bg-DGXblue text-white'} rounded-full transition-colors duration-300 ease-in-out hover:bg-DGXgreen hover:text-white`}
                             onClick={() => handleCategorySelect(category)}
                         >
                             {category}
@@ -171,7 +177,7 @@ const BlogPage = () => {
                                     }
                                     setPageSize(pageSize + 5);
                                 }}
-                                className="px-6 py-2 md:px-8 md:py-4 text-sm md:text-lg bg-DGXblue text-white rounded-lg"
+                                className="px-6 py-2 md:px-8 md:py-4 text-sm md:text-lg bg-DGXblue text-white rounded-lg hover:bg-DGXgreen"
                             >
                                 Show More
                             </button>

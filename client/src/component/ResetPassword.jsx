@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
@@ -161,7 +161,7 @@ const ResetPassword = () => {
   };
 
   return loading ? (
-    < LoadPage/>  ) : (
+    < LoadPage />) : (
     <div className="min-h-screen flex flex-col lg:flex-row items-center justify-center relative">
       <ToastContainer />
       <div className="w-full lg:w-1/2 min-h-screen py-20 px-8 lg:rounded-r-3xl bg-DGXblue flex items-center justify-center">
@@ -194,9 +194,8 @@ const ResetPassword = () => {
                   id="confirmPassword"
                   type={showConfirmPassword ? "text" : "password"}
                   placeholder="Confirm Password"
-                  className={`border border-DGXgreen py-2 px-3 w-full rounded pr-10 ${
-                    passwordsMatch ? "" : "border-[#ef4444]"
-                  }`}
+                  className={`border border-DGXgreen py-2 px-3 w-full rounded pr-10 ${passwordsMatch ? "" : "border-[#ef4444]"
+                    }`}
                   value={confirmPassword}
                   onChange={handleConfirmPassword}
                 />

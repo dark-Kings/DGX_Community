@@ -129,18 +129,6 @@ export const addEvent = async (req, res) => {
 
 export const getEvent = async (req, res) => {
   let success = false;
-
-  const userId = req.body.user;
-  // console.log("Testing User ID:", userId); // Added log for userId
-
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    const warningMessage = "Data is not in the right format";
-    logWarning(warningMessage);
-    res.status(400).json({ success, data: errors.array(), message: warningMessage });
-    return;
-  }
-
   try {
     connectToDatabase(async (err, conn) => {
       if (err) {
@@ -150,29 +138,13 @@ export const getEvent = async (req, res) => {
         return;
       }
       try {
-        let rows = [];
-        if (userId !== null && userId !== undefined) {
-          const query = `SELECT UserID, Name FROM Community_User WHERE isnull(delStatus,0) = 0 AND EmailId = ?`;
-          rows = await queryAsync(conn, query, [userId]);
-          // console.log("User Query Result:", rows); // Log the result of the user query
-        }
-
-        if (rows.length === 0) {
-          rows.push({ UserID: null });
-        }
-
         const EventWorkshopGetQuery = `SELECT EventID, EventTitle, AuthAdd as UserName, StartDate, EndDate, EventType, Venue, RegistrationLink, EventDescription, Category, AddOnDt as timestamp, EventImage FROM Community_Event WHERE ISNULL(delStatus, 0) = 0  ORDER BY AddOnDt DESC`;
         const EventWorkshopGet = await queryAsync(conn, EventWorkshopGetQuery);
-
-
-
         success = true;
-        // console.log("Updated Discussions Array:", updatedEvent); // Log final updatedEvent array
-
-        closeConnection(); // Close the connection after all operations
+        closeConnection();
         const infoMessage = "Event and Workshop Got Successfully";
         logInfo(infoMessage);
-        res.status(200).json({ success, data: { EventWorkshopGet }, message: infoMessage });
+        res.status(200).json({ success, data: EventWorkshopGet, message: infoMessage });
       }
       catch (queryErr) {
         logError(queryErr);
@@ -180,11 +152,9 @@ export const getEvent = async (req, res) => {
         res.status(500).json({ success: false, data: queryErr, message: 'Something went wrong please try again' });
       }
     })
-
-
   }
   catch (error) {
     logError(error);
     res.status(500).json({ success: false, data: {}, message: 'Something went wrong please try again' });
   }
-}
+} 

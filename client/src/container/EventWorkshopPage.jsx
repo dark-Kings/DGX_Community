@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { images } from '../constant/index.js';
 import GeneralUserCalendar from "../component/GeneralUserCalendar.jsx";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faShare } from '@fortawesome/free-solid-svg-icons';
+import ApiContext from "../context/ApiContext.jsx";
 
 // CardContainer Component
 const CardContainer = ({ children, className, containerClassName }) => {
@@ -43,6 +44,8 @@ const EventWorkshopPage = () => {
   const [activeTab, setActiveTab] = useState("myCompany");
   const [isAnimating, setIsAnimating] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // Control for loader
+  const { fetchData } = useContext(ApiContext);
+  const [dbevents, setDbvents] = useState([]);
 
   const myCompanyEvents = [
     { title: "Company Workshop: AI & Robotics", image: images.Event1 },
@@ -90,15 +93,25 @@ const EventWorkshopPage = () => {
     }
   };
 
-  // Simulate loading delay (e.g., slow network or data fetching)
   useEffect(() => {
-    const loadingTimer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000); // Loader will show for 2 seconds before loading content
-
-    return () => clearTimeout(loadingTimer); // Clean up the timer
+    const fetchEventData = async () => {
+      try {
+        const endpoint = 'eventandworkshop/getEvent';
+        const eventData = await fetchData(endpoint);
+        console.log(eventData)
+        // Assuming the event data is nested in `data`
+        setDbvents(eventData.data);
+  
+        // Stop loading after successful fetch
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Error fetching event data:', error);
+        setIsLoading(false); // Ensure loader stops even if there's an error
+      }
+    };
+  
+    fetchEventData();
   }, []);
-
   return (
     <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
       <div className="relative isolate overflow-hidden bg-DGXwhite px-6 py-20 text-center sm:px-16 sm:shadow-sm">
@@ -183,7 +196,7 @@ const EventWorkshopPage = () => {
         </div>
       </div>
 
-      <GeneralUserCalendar />
+      <GeneralUserCalendar events={dbevents}/>
     </div>
   );
 };

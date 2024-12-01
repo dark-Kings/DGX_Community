@@ -1,5 +1,5 @@
 
-import nvidiaPartner from '../assets/nvidiaPartner.jpg';
+import nvidiaPP from '../assets/nvidiapp.png';
 import verifyImg from '../assets/verifyImg.png';
 import Refresh from '../assets/Refresh.png';
 import robo from '../assets/robo.png'
@@ -37,13 +37,16 @@ import Event6 from '../assets/Event6.jpeg'
 import Certificate1 from '../assets/Certificate1.png'
 import Certificate2 from '../assets/Certificate2.png'
 
-import glogo from '../assets/glogo.png' 
+import glogo from '../assets/glogo.png'
 import gilogowhite from '../assets/gilogowhite.png'
 import rvce from '../assets/rvce.png'
 import utu from '../assets/utu.png'
 import BMS from '../assets/BMS.png'
 
 import aisummit from '../assets/aisummit.png'
+import Design from '../assets/Design.png'
+
+import GIF from '../assets/gif.gif'
 
 
 
@@ -52,7 +55,7 @@ import aisummit from '../assets/aisummit.png'
 
 
 export default {
-    nvidiaPartner,
+    nvidiaPP,
     verifyImg,
     Refresh,
     robo,
@@ -84,7 +87,7 @@ export default {
     Event4,
     Event5,
     Event6,
-    
+
     Certificate1,
     Certificate2,
 
@@ -93,7 +96,9 @@ export default {
 
     rvce,
     BMS,
-    utu, 
-    aisummit
+    utu,
+    aisummit,
+    Design,
+    GIF
 
 }

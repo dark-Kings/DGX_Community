@@ -13,11 +13,11 @@ const ApiProvider = ({ children }) => {
     try {
       const result = await apiRequest(endpoint, method, body, headers);
       console.log(result);
-      
+
       return result;
     } catch (error) {
       // console.log("This is some error: ", error);
-      
+
       console.error("Error fetching data:", error);
     }
   };

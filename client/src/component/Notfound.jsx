@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const Notfound = () => {
     const [digits, setDigits] = useState(['0', '0', '0']);
@@ -45,14 +45,14 @@ const Notfound = () => {
             </div>
             <p className="text-xl sm:text-2xl mt-4 text-center">Oops! Page Not Found</p>
             <div className="mt-8 flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
-                <button 
+                <button
                     className="px-4 py-2 bg-DGXgreen text-DGXwhite font-semibold rounded hover:bg-[#15803d] transition duration-300"
                     onClick={() => window.history.back()}
                 >
                     Go Back
                 </button>
-                <a 
-                    href="/" 
+                <a
+                    href="/"
                     className="px-4 py-2 bg-DGXblue text-DGXwhite font-semibold rounded hover:bg-[#1d4ed8] transition duration-300"
                 >
                     Home

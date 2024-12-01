@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { FaSearch, FaComment, FaWindowClose, FaTrophy } from 'react-icons/fa';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -7,11 +7,26 @@ import DiscussionModal from '../component/DiscussionModal';
 import { compressImage } from '../utils/compressImage.js';
 import { AiFillLike, AiOutlineLike, AiOutlineComment } from "react-icons/ai";
 import { useCallback } from 'react';
+import Skeleton from 'react-loading-skeleton'; // Import Skeleton
+import 'react-loading-skeleton/dist/skeleton.css'; // Import Skeleton styles
 
 const Discussion = () => {
   const { fetchData, userToken, user } = useContext(ApiContext);
   const [demoDiscussions, setDemoDiscussions] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // Loading state
+
+  useEffect(() => {
+    // Simulating data fetching
+    const loadEvents = async () => {
+      setIsLoading(true);
+      // Simulate network delay
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      setIsLoading(false);
+    };
+
+    loadEvents();
+  }, []);
   const [likeCount, setLikeCount] = useState(0);
   const [commentCount, setCommentCount] = useState(0);
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -378,26 +393,36 @@ const Discussion = () => {
 
   return (
     <div>
-      <ToastContainer style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }} />
-      <header className="flex flex-wrap sm:justify-start sm:flex-nowrap w-full bg-DGXblue text-sm py-4">
-        <nav className="max-w-[85rem] w-full mx-auto px-4 flex flex-wrap basis-full items-center justify-between" aria-label="Global">
-          <div className="sm:order-4 flex items-center w-full sm:w-auto mt-4 sm:mt-0 sm:ml-4">
-            <div className="relative w-full sm:w-64">
-              <input
-                type="text"
-                className="w-full py-2 pl-10 pr-4 bg-white border border-gray-200 rounded-lg shadow-sm text-gray-800 focus:border-DGXgreen focus:ring-DGXgreen"
-                placeholder="Search..."
-                value={searchQuery}
-                onChange={handleSearchChange} // Call this directly without the arrow function
-                onKeyDown={handleKeyDown}
 
+      <ToastContainer style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }} />
+
+      <header className="flex flex-wrap sm:justify-start sm:flex-nowrap w-full bg-DGXblue text-sm py-4">
+        <nav className="max-w-[85rem] w-full mx-auto px-4 flex flex-wrap basis-full items-center justify-between " aria-label="Global">
+          <div className="sm:order-4 flex items-center w-full sm:w-auto mt-0 sm:mt-0 sm:ml-4 ">
+            {isLoading ? (
+              <Skeleton
+                height="2.16rem" // Adjusted to match the height of the input element
+                width={250} // Adjusted to match the width of the input element
+                className="w-full sm:w-1/2 bg-gray-500 rounded-lg mb-1"
               />
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <FaSearch className="text-gray-400" />
+            ) : (
+              <div className="relative w-full sm:w-64 mb-2">
+                <input
+                  type="text"
+                  className="w-full py-2 pl-10 pr-4 bg-white border border-gray-200 rounded-lg shadow-sm text-gray-800 focus:border-DGXgreen focus:ring-DGXgreen"
+                  placeholder="Search..."
+                  value={searchQuery}
+                  onChange={handleSearchChange} // Call this directly without the arrow function
+                  onKeyDown={handleKeyDown}
+                />
+                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                  <FaSearch className="text-gray-400" />
+                </div>
               </div>
-            </div>
+            )}
           </div>
-          <div className="sm:order-3 flex items-center gap-x-2">
+
+          {/* <div className="sm:order-3 flex items-center gap-x-2">
             <button
               type="button"
               className="sm:hidden hs-collapse-toggle p-2.5 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
@@ -415,7 +440,7 @@ const Discussion = () => {
                 <path d="m6 6 12 12" />
               </svg>
             </button>
-          </div>
+          </div> */}
           <div id="navbar-alignment" className={`${isNavOpen ? 'block' : 'hidden'} hs-collapse overflow-hidden transition-all duration-300 basis-full grow sm:grow-0 sm:basis-auto sm:block sm:order-2`}>
             {/* <div className="flex flex-col gap-6 mt-5 sm:flex-row sm:items-center sm:mt-0 sm:ps-5">
               <a className="text-lg font-bold text-DGXwhite cursor-pointer" onClick={() => setSelectedSection('all')} aria-current="page">All</a>
@@ -423,13 +448,22 @@ const Discussion = () => {
               <a className="text-lg font-bold text-DGXwhite cursor-pointer" onClick={() => setSelectedSection('recent')}>Recent Discussions</a>
             </div> */}
           </div>
-          <button
-            type="button"
-            className="py-2 px-3 inline-flex items-center gap-x-2 text-lg font-bold rounded-lg bg-DGXgreen text-DGXwhite shadow-sm hover:bg-DGXblue hover:border-DGXgreen border border-DGXblue disabled:opacity-50 disabled:pointer-events-none"
-            onClick={() => { setIsFormOpen(true) }}
-          >
-            Start a New Topic +
-          </button>
+          {isLoading ? (
+            <Skeleton
+              height={35} // Adjusted to match the height of the input element
+              width={150}
+              className="w-full xs:w-full sm:w-64 bg-lime-500 rounded-lg mb-1 sm:mt-4"
+            />
+          ) : (
+            <button
+              type="button"
+              className="py-2 xs:w-full px-3 gap-x-2 text-sm font-bold rounded-lg bg-DGXgreen text-DGXwhite shadow-sm hover:bg-DGXblue hover:border-DGXgreen border border-DGXblue disabled:opacity-50 disabled:pointer-events-none"
+              onClick={() => { setIsFormOpen(true) }}
+            >
+              Start a New Topic +
+            </button>
+          )}
+
         </nav>
       </header>
       {modalIsOpen && selectedDiscussion && (
@@ -445,49 +479,76 @@ const Discussion = () => {
 
 
         <aside className="hidden lg:block lg:w-1/4 px-4">
+
           <div className="mb-8">
-            <h2 className="text-2xl font-bold mb-4">
+            <h2 className="sm:text-sm md:text-base lg:text-lg font-bold mb-4">
               <AiOutlineComment className="inline-block mr-2" />Community Highlights
             </h2>
+
             <div className="space-y-4">
-              {communityHighlights.map((topic, index) => (
-                <div
-                  key={topic.DiscussionID}
-                  className="rounded-lg shadow-lg p-4 border hover:bg-DGXgreen/50 border-DGXblack transition-transform transform hover:scale-105 hover:shadow-xl"
-                  onClick={() => openModal(topic)}
-                >
-                  <h3 className="text-xl font-semibold">
-                    <a href={topic.link} className="text-DGXblack hover:underline">
-                      {topic.Title}
-                    </a>
-                  </h3>
-                  <p className="text-DGXblack mt-2">{(topic.Content).substring(0, 150)}</p>
-                </div>
-              ))}
+              {isLoading ? (
+                // Display Skeleton loaders in place of the actual content
+                Array.from({ length: 5 }).map((_, index) => (
+                  <Skeleton
+                    key={index}
+                    height="8.5rem" // Adjust height as needed to mimic the card's height
+                    className="w-full bg-gray-300 rounded-lg mb-4"
+                  />
+                ))
+              ) : (
+                // Display actual content when loading is complete
+                communityHighlights.map((topic) => (
+                  <div
+                    key={topic.DiscussionID}
+                    className="rounded-lg shadow-lg p-4 border hover:bg-DGXgreen/50 border-DGXblack transition-transform transform hover:scale-105 hover:shadow-xl"
+                    onClick={() => openModal(topic)}
+                  >
+                    <h3 className="text-xl font-semibold">
+                      <a href={topic.link} className="text-DGXblack hover:underline">
+                        {topic.Title}
+                      </a>
+                    </h3>
+                    <p className="text-DGXblack mt-2">{(topic.Content).substring(0, 150)}</p>
+                  </div>
+                ))
+              )}
             </div>
+
           </div>
 
           <div>
-            <h2 className="text-2xl font-bold mb-4">
+            <h2 className="sm:text-sm md:text-base lg:text-lg font-bold mb-4">
               <FaTrophy className="inline-block mr-2" />Top Contributors
             </h2>
             <div className="space-y-2">
-              {topUsers.map((user, index) => (
-                <div
-                  key={user.userID}
-                  className="flex justify-between items-center bg-DGXblue border border-gray-200 rounded-lg shadow-sm p-3 hover:shadow-xl hover:scale-105 transition-colors"
-                >
-                  <span className="font-medium text-white">{user.userName}</span>
-                  <span className="text-white">{user.count} Post(s)</span>
-                </div>
-              ))}
+              {isLoading ? (
+                Array.from({ length: 5 }).map((_, index) => (
+                  <Skeleton
+                    key={index}
+                    height="2.5rem"
+                    className="w-full bg-gray-300 rounded-lg mb-4"
+                  />
+                ))
+              ) : (
+                topUsers.map((user, index) => (
+                  <div
+                    key={user.userID}
+                    className="flex justify-between items-center bg-DGXblue border border-gray-200 rounded-lg shadow-sm p-3 hover:shadow-xl hover:scale-105 transition-colors"
+                  >
+                    <span className="font-medium text-white">{user.userName}</span>
+                    <span className="text-white">{user.count} Post(s)</span>
+                  </div>
+                ))
+              )}
+
             </div>
           </div>
         </aside>
 
 
         <section className="w-full lg:w-2/3 px-4">
-          <h2 className="text-2xl font-bold mb-4">{selectedSection.charAt(0).toUpperCase() + selectedSection.slice(1)} Discussions</h2>
+          {/* All Discussions */}
+          <h2 className="sm:text-sm md:text-base lg:text-lg font-bold mb-4">{selectedSection.charAt(0).toUpperCase() + selectedSection.slice(1)} Discussions</h2>
           <div className="flex flex-col space-y-4">
             {isFormOpen && (
               <form onSubmit={handleSubmit} className="border border-gray-300 rounded-lg p-4">
@@ -623,108 +684,138 @@ const Discussion = () => {
             )}
 
             <div className="two-h-screen scrollbar scrollbar-thin  overflow-y-auto px-6">
-              {demoDiscussions.map((discussion, i) => (
-                <div
-                  key={i}
-                  className="relative shadow my-4 border border-gray-300 rounded-lg p-4 w-full max-w-screen-sm sm:max-w-screen-md md:max-w-screen-lg lg:max-w-screen-xl xl:max-w-screen-2xl transition-transform transform hover:scale-105 hover:shadow-lg hover:bg-gray-100 cursor-pointer focus-within:z-10 hover:z-10"
-                // Moved onClick to the entire div for easier interaction
-                >
-                  <div>
-                    <h3 className="text-lg font-bold md:text-lg lg:text-xl xl:text-2xl">
-                      {discussion.Title}
-                    </h3>
-                    <p className="text-gray-600 text-sm md:text-base lg:text-lg xl:text-xl">
-                      {discussion.Content.length > 500 ? (
-                        <>
-                          {discussion.Content.substring(0, 497)}
-                          <span className='text-blue-700 cursor-pointer' onClick={() => { openModal(discussion) }}>...see more</span>
-                        </>
-                      ) : discussion.Content}
-                    </p>
-                  </div>
-                  {discussion.Image && (
-                    <div className="mt-2" onClick={() => openModal(discussion)}>
-                      <img src={discussion.Image} alt="Discussion" className="max-h-40 w-auto object-cover" />
+              {isLoading ? (
+                // Display a skeleton for each item based on the length of demoDiscussions
+                demoDiscussions.map((_, index) => (
+                  <div
+                    key={index}
+                    className="relative shadow my-4 border border-gray-300 rounded-lg p-4 w-full max-w-screen-sm sm:max-w-screen-md md:max-w-screen-lg lg:max-w-screen-xl xl:max-w-screen-2xl bg-gray-200 animate-pulse"
+                  >
+                    <div className="h-10 bg-gray-300 rounded w-3/4 mb-2"></div>
+                    <div className="h-24 bg-gray-300 rounded w-full mb-2"></div>
+                    <div className="h-40 w-60 bg-gray-300 rounded mb-2"></div>
+                    <div className="flex gap-2">
+                      {Array.from({ length: 3 }).map((_, tagIndex) => (
+                        <span key={tagIndex} className="h-8 w-20 bg-gray-300 rounded" ></span>
+                      ))}
                     </div>
-                  )}
-                  <div className="mt-2 flex flex-wrap gap-2" onClick={() => openModal(discussion)}>
-                    {discussion.Tag.split(',').filter(tag => tag).map((tag, tagIndex) => (
-                      <span key={tagIndex} className="bg-DGXgreen text-white rounded-full px-3 py-1 text-xs md:text-sm lg:text-base">
-                        {tag}
-                      </span>
-                    ))}
+                    <div className="mt-4 h-5 bg-gray-300 rounded w-1/2"></div>
+                    <div className="mt-4 h-8 bg-gray-300 rounded w-52"></div>
                   </div>
-                  <div className="mt-2 flex flex-wrap gap-2" onClick={() => openModal(discussion)}>
-                    {discussion.ResourceUrl.split(',').map((link, linkIndex) => (
-                      <a key={linkIndex} href={link} className="text-DGXgreen hover:underline text-xs md:text-sm lg:text-base">
-                        {link}
-                      </a>
-                    ))}
+                ))
+              ) : (
+                demoDiscussions.map((discussion, i) => (
+                  <div
+                    key={i}
+                    className="relative shadow my-4 border border-gray-300 rounded-lg p-4 w-full max-w-screen-sm sm:max-w-screen-md md:max-w-screen-lg lg:max-w-screen-xl xl:max-w-screen-2xl transition-transform transform hover:scale-105 hover:shadow-lg hover:bg-gray-100 cursor-pointer focus-within:z-10 hover:z-10"
+                  // Moved onClick to the entire div for easier interaction
+                  >
+                    <div>
+                      <h3 className="text-lg font-bold md:text-lg lg:text-xl xl:text-2xl">
+                        {discussion.Title}
+                      </h3>
+                      <p className="text-gray-600 text-sm md:text-base lg:text-lg xl:text-xl">
+                        {discussion.Content.length > 500 ? (
+                          <>
+                            {discussion.Content.substring(0, 497)}
+                            <span className='text-blue-700 cursor-pointer' onClick={() => { openModal(discussion) }}>...see more</span>
+                          </>
+                        ) : discussion.Content}
+                      </p>
+                    </div>
+                    {discussion.Image && (
+                      <div className="mt-2" onClick={() => openModal(discussion)}>
+                        <img src={discussion.Image} alt="Discussion" className="max-h-40 w-auto object-cover" />
+                      </div>
+                    )}
+                    <div className="mt-2 flex flex-wrap gap-2" onClick={() => openModal(discussion)}>
+                      {discussion.Tag.split(',').filter(tag => tag).map((tag, tagIndex) => (
+                        <span key={tagIndex} className="bg-DGXgreen text-white rounded-full px-3 py-1 text-xs md:text-sm lg:text-base">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="mt-2 flex flex-wrap gap-2" onClick={() => openModal(discussion)}>
+                      {discussion.ResourceUrl.split(',').map((link, linkIndex) => (
+                        <a key={linkIndex} href={link} className="text-DGXgreen hover:underline text-xs md:text-sm lg:text-base">
+                          {link}
+                        </a>
+                      ))}
+                    </div>
+                    <div className="mt-4 flex items-center space-x-4">
+                      <button className="flex items-center text-sm md:text-base lg:text-lg" onClick={() => { handleAddLike(discussion.DiscussionID, discussion.userLike) }}>
+                        {discussion.userLike == 1 ? <AiFillLike /> : <AiOutlineLike />} {discussion.likeCount} Likes
+                      </button>
+                      <button
+                        className="flex items-center text-DGXgreen text-sm md:text-base lg:text-lg"
+                        onClick={() => handleComment(discussion)}
+                      >
+                        <FaComment className="mr-2" /> {discussion.comment.length} Comments
+                      </button>
+                    </div>
                   </div>
-                  <div className="mt-4 flex items-center space-x-4">
-                    <button className="flex items-center text-sm md:text-base lg:text-lg" onClick={() => { handleAddLike(discussion.DiscussionID, discussion.userLike) }}>
-                      {discussion.userLike == 1 ? <AiFillLike /> : <AiOutlineLike />} {discussion.likeCount} Likes
-                    </button>
-                    <button
-                      className="flex items-center text-DGXgreen text-sm md:text-base lg:text-lg"
-                      onClick={() => handleComment(discussion)}
-                    >
-                      <FaComment className="mr-2" /> {discussion.comment.length} Comments
-                    </button>
-                  </div>
-                </div>
-              ))}
+                ))
+              )}
+
+
             </div>
 
 
 
           </div>
         </section>
+        {isLoading ? (
+          <Skeleton
+            height="2.5rem"
+            className="w-full bg-gray-300 rounded-lg mb-4"
+          />
+        ) : (
+          <div className="lg:hidden mt-8">
+            <button
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className="bg-DGXblue text-white py-2 px-4 rounded-lg w-full"
+            >
+              {isDropdownOpen ? 'Hide' : 'Show'} Community Highlights and Top Contributors
+            </button>
+            {isDropdownOpen && (
+              <aside className="mt-4 px-4">
+                <div className="mb-8">
+                  <h2 className="text-2xl font-bold mb-4">Community Highlights</h2>
+                  <div className="space-y-4">
+                    {hotTopics.map((topic, index) => (
+                      <div
+                        key={index}
+                        className="rounded-lg shadow-lg p-4 border border-DGXblack hover:bg-DGXgreen/50 transition-transform transform hover:scale-105 hover:shadow-xl"
+                      >
+                        <h3 className="text-xl font-semibold">
+                          <a href={topic.link} className="text-DGXblack hover:underline">
+                            {topic.title}
+                          </a>
+                        </h3>
+                        <p className="text-DGXblack mt-2">{topic.description}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <h2 className="text-2xl font-bold mb-4">Top Contributors</h2>
+                  <div className="space-y-2">
+                    {topUsers.map((user, index) => (
+                      <div
+                        key={index}
+                        className="flex justify-between items-center bg-DGXblue border border-gray-200 rounded-lg shadow-sm p-3 hover:shadow-xl hover:scale-105 transition-colors"
+                      >
+                        <span className="font-medium text-white">{user.name}</span>
+                        <span className="text-white">{user.points} points</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </aside>
+            )}
+          </div>
+        )}
 
-        <div className="lg:hidden mt-8">
-          <button
-            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="bg-DGXblue text-white py-2 px-4 rounded-lg w-full"
-          >
-            {isDropdownOpen ? 'Hide' : 'Show'} Community Highlights and Top Contributors
-          </button>
-          {isDropdownOpen && (
-            <aside className="mt-4 px-4">
-              <div className="mb-8">
-                <h2 className="text-2xl font-bold mb-4">Community Highlights</h2>
-                <div className="space-y-4">
-                  {hotTopics.map((topic, index) => (
-                    <div
-                      key={index}
-                      className="rounded-lg shadow-lg p-4 border border-DGXblack hover:bg-DGXgreen/50 transition-transform transform hover:scale-105 hover:shadow-xl"
-                    >
-                      <h3 className="text-xl font-semibold">
-                        <a href={topic.link} className="text-DGXblack hover:underline">
-                          {topic.title}
-                        </a>
-                      </h3>
-                      <p className="text-DGXblack mt-2">{topic.description}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div>
-                <h2 className="text-2xl font-bold mb-4">Top Contributors</h2>
-                <div className="space-y-2">
-                  {topUsers.map((user, index) => (
-                    <div
-                      key={index}
-                      className="flex justify-between items-center bg-DGXblue border border-gray-200 rounded-lg shadow-sm p-3 hover:shadow-xl hover:scale-105 transition-colors"
-                    >
-                      <span className="font-medium text-white">{user.name}</span>
-                      <span className="text-white">{user.points} points</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </aside>
-          )}
-        </div>
       </div>
     </div>
   );

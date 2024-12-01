@@ -99,10 +99,7 @@ export const discussionpost = async (req, res) => {
 
 export const getdiscussion = async (req, res) => {
     let success = false;
-
     const userId = req.body.user;
-    // console.log("Testing User ID:", userId); // Added log for userId
-
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         const warningMessage = "Data is not in the right format";
