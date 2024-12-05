@@ -14,12 +14,12 @@ import { compressImage } from '../utils/compressImage.js';
 
 
 const eventColors = {
-  workshop: '#013D54', 
-  event: '#76B900',    
+  workshop: '#013D54',
+  event: '#76B900',
 };
 const EventTable = () => {
   const localizer = momentLocalizer(moment);
-  const { fetchData, userToken} = useContext(ApiContext);      
+  const { fetchData, userToken } = useContext(ApiContext);
   const [events, setEvents] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newEvent, setNewEvent] = useState({
@@ -70,7 +70,7 @@ const EventTable = () => {
     setNewEvent({ ...newEvent, description: value });
   };
 
- 
+
   const handleImageChange = async (e) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
@@ -80,8 +80,6 @@ const EventTable = () => {
       }
     }
   };
-
-
 
   const handleSubmit = async () => {
     const errors = {};
@@ -138,7 +136,7 @@ const EventTable = () => {
       poster: newEvent.poster, // Ensure you handle the poster appropriately
       description: newEvent.description,
     };
-    
+
 
     try {
       const data = await fetchData(endpoint, method, body, headers);
@@ -191,8 +189,8 @@ const EventTable = () => {
 
   return (
 
- 
-<div className="container mx-auto mt-10">
+
+    <div className="container mx-auto mt-10">
       <div>
         <h1 className='flex justify-center items-center font-bold text-3xl mb-10'>Events and Workshops Calendar</h1>
         <p className="mt-1 flex text-md justify-center items-center font-normal text-gray-500 dark:text-gray-400">Browse and manage discussions in the DGX community.</p>
@@ -365,7 +363,7 @@ const EventTable = () => {
       )}
 
     </div>
-  
+
   );
 };
 
