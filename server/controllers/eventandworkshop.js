@@ -158,3 +158,4 @@ export const getEvent = async (req, res) => {
     res.status(500).json({ success: false, data: {}, message: 'Something went wrong please try again' });
   }
 } 
+

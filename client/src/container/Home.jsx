@@ -11,11 +11,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import LogoMarquee from '../component/LogoMarquee.jsx';
 
-
-
-
-
-
 const Home = () => {
 
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -99,11 +94,11 @@ const Home = () => {
 
     const [currentIndexUS, setCurrentIndexUS] = useState(0);
 
-    // Automatic slider functionality
+    // Automatic slider functionality for 
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentIndexUS((prevIndex) => (prevIndex === usSlides.length - 1 ? 0 : prevIndex + 1));
-        }, 3000); // Change slide every 3 seconds for usSlides
+        }, 3000); 
 
         return () => clearInterval(interval);
     }, [usSlides.length]);
@@ -112,7 +107,7 @@ const Home = () => {
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentIndex((prevIndex) => (prevIndex === slides.length - 1 ? 0 : prevIndex + 1));
-        }, 3000); // Change slide every 2 seconds
+        }, 3000);
 
         return () => clearInterval(interval);
     }, [slides.length]);
@@ -384,10 +379,11 @@ const Home = () => {
                     <h1 className="text-center text-2xl font-bold leading-8 text-DGXblue">
                         NVIDIA DGX systems are at the forefront of AI research and innovation. Trusted by the world&apos;s most innovative universities and corporations, DGX provides the computational power needed to tackle the most complex AI challenges. Whether advancing research in academic institutions or driving breakthroughs in industry, DGX stands as the premier choice for those leading the charge in artificial intelligence.
                     </h1>
-                    <div className="mt-10 flex items-center justify-center">
+                    
+                </div>
+                <div className="mt-10 flex items-center justify-center">
                         <LogoMarquee />
                     </div>
-                </div>
             </div>
 
 
