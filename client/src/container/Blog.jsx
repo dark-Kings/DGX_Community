@@ -87,7 +87,7 @@ const BlogPage = () => {
                             <p className="text-lg text-justify">{content}</p>
                             
                         </div>
-                        {/* Close button at the end */}
+                
                         <div>
                             <button
                                 className="m-6 bg-DGXblue text-white px-6 py-2 rounded-lg hover:bg-red-"

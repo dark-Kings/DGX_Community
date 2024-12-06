@@ -49,7 +49,7 @@ const LogoMarquee = () => {
             <img
               src={logo}
               alt={`Logo ${index + 1}`}
-              className="ml-12 h-16 sm:h-16 md:h-16 lg:h-20 xl:h-20 2xl:h-24 w-auto"
+              className="ml-12 h-16 sm:h-16 md:h-20 lg:h-20 xl:h-20 2xl:h-24 w-auto"
               srcSet={`${logo} 1x, ${logo}?w=500 2x`}
               sizes="(max-width: 640px) 80vw, (max-width: 768px) 60vw, (max-width: 1024px) 50vw, 40vw"
             />
